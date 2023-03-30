@@ -1,10 +1,10 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=10;
+L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600,3200,6400];
+Nval=[50,100,200,400];
 step=[];
 dif_norm=[];
 dif_bilinear=[];
@@ -22,7 +22,7 @@ for N=Nval
     Alog=LoglapRigidity(L,N);
     mass = MassMatrix(xi,h);
 
-    tabname="file"+num2str(N)+"_lambda10.txt";
+    tabname="./datos_sim/file"+num2str(N)+".txt";
 
     T=readtable(tabname);
     T=table2array(T);
