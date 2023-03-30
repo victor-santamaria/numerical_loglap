@@ -1,0 +1,1846 @@
+\documentclass[11 pt]{article}  
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{upref,amsthm,amsxtra,exscale}
+\usepackage{stmaryrd}
+\usepackage{cite}
+\usepackage[colorlinks=true,urlcolor=blue,
+citecolor=red,linkcolor=blue,linktocpage,pdfpagelabels,
+bookmarksnumbered,bookmarksopen]{hyperref}
+
+\input fig4tex.tex
+
+
+\newcommand\blue[1]{{\color{blue}\textbf{#1}}}
+
+\newcommand\inter[1]{\llbracket #1\rrbracket}
+
+
+
+\usepackage{fullpage}
+
+\usepackage{subcaption}
+\usepackage{caption}
+\usepackage{cleveref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\numberwithin{equation}{section}
+
+\usepackage{enumitem}
+
+\def\N{\mathbb{N}}
+
+\def\r{\mathbb{R}}
+\def\diam{\operatorname{diam}}
+\def\dist{\operatorname{dist}}
+\def\rn{\mathbb{R}^N}
+\def\rt{\mathbb{R}^3}
+\def\z{\mathbb{Z}}
+\def\zn{\mathbb{Z}^N}
+\def\n{\mathbb{N}}
+\def\cc{\mathbb{C}}
+\def\eps{\varepsilon}
+\def\rh{\rightharpoonup}
+\def\io{\int_{\Omega}}
+\def\irn{\int_{\r^N}}
+\def\irt{\int_{\rt}}
+\def\vp{\varphi}
+\def\tilde{\widetilde}
+\def\cD{\mathcal{D}}
+\def\cI{\mathcal{I}}
+\def\cJ{\mathcal{J}}
+\def\cM{\mathcal{M}}
+\def\cN{\mathcal{N}}
+\def\cO{\mathcal{O}}
+\def\cU{\mathcal{U}}
+\def\cV{\mathcal{V}}
+\def\cW{\mathcal{W}}
+
+\newcommand{\norm}[2]{{\left\|#1\right\|}_{#2}}
+\newcommand{\fl}[2]{(-d_x^2)^{#1}#2}
+\newcommand{\rfl}[2]{A^{#1}_{\Omega}#2}
+\newcommand{\hp}[1]{\hphantom{#1}}
+\newcommand{\cns}{c_{N,s}}
+\newcommand{\ccs}{c_{1,s}}
+\newcommand{\ffl}[2]{(-d_x^{\,2})^{#1}#2}
+\newcommand{\flh}[2]{\frac{1}{\Gamma(-s)}\int_0^{+\infty}\Big(e^{t\Delta}#2 - #2\Big)\frac{dt}{t^{1+#1}}}
+\newcommand{\kernel}[1]{|x-y|^{#1}}
+\newcommand{\dkj}{\delta_{kj}}
+\newcommand{\intr}[1]{\underset{#1}{\int}}
+\newcommand{\Do}[1]{D_{#1}}
+\newcommand{\Hs}{H^s_0(\Omega)}
+\newcommand{\ue}[1]{#1^{\,\varepsilon}}
+\newcommand{\xHdot}[1]{\dot{H}^{#1}}
+\newcommand{\ha}[2]{\mathbf{H}_{#1}^{#2}}
+\newcommand{\lhi}{\mathcal{L}_i^h}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\TT}{\mathbf{T}}
+\newcommand\mesh{\mathfrak{M}}
+
+
+\newcommand{\weH}[1]{\mathbb H^{#1}(\Omega;\ell)}
+
+
+%Alberto's defs
+\def\R{\mathbb{R}}
+\def\S{\mathbb{S}}
+\def\cP{\mathcal{P}}
+\def\cM{\mathcal{M}}
+\def\cL{\mathcal{L}}
+\def\mH{\mathbb{H}}
+\def\cE{\mathcal{E}}
+\def\cC{\mathcal{C}}
+\def\cH{\mathcal{H}}
+\def\weakto{\rightharpoonup}
+\def\d{\textnormal{d}}
+
+
+\def\sideremark#1{\ifvmode\leavevmode\fi\vadjust{\vbox to0pt{\vss% the remark
+ \hbox to 0pt{\hskip\hsize\hskip1em%                          will appear only
+ \vbox{\hsize2.1cm\tiny\raggedright\pretolerance10000%          on the side
+  \noindent #1\hfill}\hss}\vbox to15pt{\vfil}\vss}}}%
+\newcommand{\edz}[1]{\sideremark{#1}}
+    
+    \usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\newcommand{\B}[1]{{\color{red} #1}}  %for paper content
+\newcommand{\Bc}[1]{{\color{red}\textbf{#1}}}  %for comments
+
+\newcommand{\weakly}{\rightharpoonup}
+
+\title{FEM for 1D-problems involving the logarithmic Laplacian: error estimates and numerical implementation}
+
+\begin{document}
+
+\maketitle
+
+
+
+
+\section{Notation}
+
+\subsection{Log-Hölder moduli of continuity}
+
+We use that $\ell$ satisfies the following property. Its proof, among many other properties for this modulus of continuity are included in the appendix.
+
+\begin{lemma}[Semi-homogeneity]\label{prop1}
+There is $c>0$ such that 
+\[
+\ell(\lambda)\leq c\frac{\ell(\lambda r)}{\ell(r)}\,\qquad \text{ for all }r,\lambda >0.
+\]
+\end{lemma}
+
+For $\alpha\in(0,1]$, $\ell^\alpha$ is also modulus of continuity with properties similar to those we have already mentioned for $\ell$ (monotonicity, concavity, semi-homogeneity, etc.).
+
+\begin{definition}
+Let $\Omega\subset\subset\R^n$ open and $d(x):=\dist(x,\partial\Omega)$. Given $\alpha,\beta\geq 0$ we construct the semi-norms
+\begin{align*}
+&[u]_{\mathcal L^\alpha(\Omega)} := \sup_{\substack{x,y\in \Omega\\x\neq y}}\frac{|u(x)-u(y)|}{\ell^\alpha(|x-y|)}, \\
+&[u]^{(0)}_{\mathcal L^\alpha(\Omega)} := \sup_{\substack{x,y \in \Omega\\x\neq y}} \ell^{\alpha}(\min\{d(x),d(y)\})\frac{|u(x)-u(y)|}{\ell^\alpha(|x-y|)},% \qquad d:= \min(d_1,d_2), \ d_i := \dist(x_i,\partial \Omega),
+\end{align*}
+and the norms
+\begin{align*}
+&\|u\|_{\mathcal L^\alpha(\Omega)} := \|u\|_{L^\infty(\Omega)} + [u]_{\mathcal L^{\alpha}(\Omega)},\\
+&\|u\|^{(0)}_{\mathcal L^\alpha(\Omega)} := \sup_{x\in\Omega} |u(x)| + [u]^{(0)}_{\mathcal L^\alpha(\Omega)}.%, \qquad d := \dist(x,\p\W).
+\end{align*}
+We also define the Banach space
+\begin{align*}
+\mathcal L^\alpha(\Omega):=\{u:\Omega\to\R\::\: \|u\|_{\cL^\alpha(\Omega)}<\infty\}
+\end{align*}
+ \end{definition}
+
+
+\section{Variational setting}
+Let $L>0$, $\Omega:=(0,L)$, $B_1(\Omega):=(-1,L+1)$. For $u\in \mH(\Omega)$, we have that
+\begin{align*}
+    \|u\|^2_{\mathbb H(\Omega)}&=\int_{\R}\int_{B_1(x)}\frac{|u(x)-u(y)|^2}{|x-y|}\, dy\, dx\\
+    &=\int_{B_1(\Omega)}\int_{B_1(x)}\frac{|u(x)-u(y)|^2}{|x-y|}\, dy\, dx\\
+    &=\int_\Omega\int_\Omega \frac{|u(x)-u(y)|^2}{|x-y|}\, dy\, dx+\int_{\Omega}h_\Omega(x)u(x)^2\, dx,
+\end{align*}
+where
+\begin{align*}
+    h_\Omega(x):=\left(\int_{B_1(x)\backslash \Omega}|x-y|^{-1}\, dy - \int_{\Omega\backslash B_1(x)}|x-y|^{-1}\, dy\right).
+\end{align*}
+%If $\Omega=(0,b)$ with $b\in(0,1)$, then
+%\begin{align*}
+%    h_\Omega(x)=-\ln(x(b-x)),\qquad x\in(0,b).
+%\end{align*}
+
+\begin{definition}\label{def:l_rho}
+Let us fix
+\begin{align}\label{ell:def}
+\ell(\rho) = |\ln(\min(\rho_0,\rho))|^{-1}, \qquad\rho_0:=0.1.     
+\end{align}
+where the truncation guarantees that $\ell$ is a modulus of continuity. That is to say that $\ell$ is a non-decreasing, concave function over the interval $(0,\infty)$, taking values in $(0,1]$, and with the limit $\ell(0) := \lim_{r\to0^+}\ell(r)=0$.
+\end{definition}
+
+
+For any $\beta>0$, we denote by $\weH{\beta}$
+%
+\begin{align}\notag
+    \weH{\beta}&=\left\{ u\in L^2(\Omega): \int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell(|x-y|)^{\beta}}dydx<+\infty \right. \\
+    &\hspace{3 cm}\left. \textnormal{and} \int_{\Omega}|u(x)|^2\ell^{-\beta}(\delta(x))dx <+\infty\right\}.
+\end{align}
+
+\begin{equation}\label{eq:bilinear_E}
+    \cE(u,v)=\frac{1}{2}\iint_{x,y\in\R\atop |x-y|\leq 1}\frac{(u(x)-u(y))(v(x)-v(y))}{|x-y|}dx dy,
+\end{equation}
+
+\begin{align}\label{eq:bilinear_B}
+    B(u,v)=-\iint_{x,y\in\R\atop |x-y|\geq 1}\frac{u(x)\,v(y)}{|x-y|}dx dy+\rho_1\int_{\R}u v dx, \quad \rho_1=2\ln 2+\psi(1/2)-\gamma, \quad \gamma:=-\Gamma^\prime(1).
+\end{align}
+
+\begin{align*}
+\cE_L(u,v)=\cE(u,v)+B(u,v).
+\end{align*}
+
+
+Given $\alpha\in(0,1)$, let 
+%
+\begin{align}
+    \mathcal X^\alpha(\Omega)&:=\left\{u:\mathbb R\to \mathbb R:\|u\|_{X^\alpha(\Omega)}<+\infty \;\textnormal{ and $u=0$ in }\; \R\setminus \Omega\right\}, \\
+    \mathcal Y(\Omega)&:=\{f:\Omega\to \mathbb R:\|f\|_{\mathcal Y(\Omega)}<+\infty\},
+\end{align}
+%
+where 
+%
+\begin{align}
+    \|u\|_{\mathcal X^\alpha(\Omega)}&:=\sup_{x,y\in\mathbb R \atop x\neq y}\frac{|u(x)-u(y)|}{\ell^{\alpha}(|x-y|)}+\sup_{x,y\in\Omega \atop x\neq y}\ell^{1+\alpha}(d(x,y))\frac{|u(x)-u(y)|}{\ell^{1+\alpha}(|x-y|)}, \\
+    \|f\|_{\mathcal Y(\Omega)}&:=\|f\|_{L^\infty(\Omega)}+\sup_{x,y\in\Omega \atop x\neq y}\ell^{2}(d(x,y))\frac{|u(x)-u(y)|}{\ell(|x-y  |)}, \\
+    d(x)&:=\dist(x,\partial \Omega), \quad d(x,y)=\min(d(x),d(y)).
+\end{align}
+%
+
+We have the following result (see \cite[Theorem 1.1]{CS22}).
+
+\begin{theorem}\label{eq:regularity}
+    Let $\Omega$ be a bounded open set of $\mathbb R$. Then, there exists $\alpha\in(0,1)$ only depending on $\Omega$ such that exactly one of the following holds:
+    \begin{enumerate}[label=\roman*)]
+        \item For every $f\in\mathcal Y(\Omega)$ there exists a unique classical solution $u\in\mathcal X^{\alpha}(\Omega)$ of
+        %
+        \begin{equation}\label{eq:log_problem}
+            L_{\Delta} u = f \;\textnormal{ in }\; \Omega, \quad u=0 \;\textnormal{ on } \R\setminus \Omega.
+        \end{equation}
+        %
+        Moreover, 
+        %
+        \begin{equation}\label{eq:regularity_classical}
+            \|u\|_{\mathcal X^{\alpha}(\Omega)}\leq C\|f\|_{\mathcal Y(\Omega)}
+        \end{equation}
+        %
+        for some constant $C>0$ only depending on $\Omega$.
+        %
+        \item There is a non-trivial classical solution $u\in X^{\alpha}(\Omega)$ of $L_{\Delta} u=0$.
+    \end{enumerate}
+\end{theorem}
+
+\section{Localization of the $\mathbb{H}$-norm in 1-d}
+
+In the following, $C$ denotes possibly different positive constants that are independent of the parameter $h$ and $\inter{a,b}:=[a,b]\cap\mathbb{N}$ for any real numbers $a<b$. 
+
+Let $\Omega=(0,L)$, $h=\frac{L}{N+1}$, and define the points $x_i:=ih$, so that
+%
+\begin{align}
+0=x_0<x_1<\ldots<x_{N+1}=L.
+\end{align}
+We define $\Omega_i:=(x_{i},x_{i+1})$ for $i\in\inter{0,N}$ and we note that $\overline{\Omega}=\overline{\cup_{i\in\inter{0,N}}\Omega_i}$. For any $R>0$, we also define $B_{R}(\Omega):=\{x\in\R:\dist(x,\Omega)<R\}=(-R,L+R)$.
+
+Unlike the usual fractional norm, we note that the $\mathbb H$-norm only has a finite range of interaction, indeed
+%
+\begin{align}\label{eq:norm_R_bound}
+    \|u\|^2_{\mathbb H(\Omega)} &=\int_{B_1(\Omega)}\int_{B_1(x)}\frac{|u(x)-u(y)|^2}{|x-y|}\, dy\, dx
+\end{align}
+%
+because if $\dist(x,\Omega)>1$ and $|x-y|<1$, then $y\not\in \Omega$.
+
+\begin{lemma}\label{lem:localization_enorm}
+Let $L>0$ be fixed and $N\in\mathbb N^*$ be large enough such that $h\in(0,\frac{1}{2})$. Then, there exists $C>0$ only depending on $L$ such that for any $u\in \mathbb{H}(\Omega)$, we have
+   %
+   \begin{align}\notag
+    \|u\|^2_{\mathbb H(\Omega)} &\leq \sum_{i\in\inter{0,N}}\int_{\Omega_i}\int_{S_i}\frac{|u(x)-u(y)|^2}{|x-y|}dy\,dx+C\ell^{-1}(h)\sum_{i\in\inter{0,N}}\int_{\Omega_i}|u(x)|^2\,dx\\
+    &\quad +C\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(\delta(x))\,dx,
+\end{align}
+%
+where $\ell(\cdot)$ as in \Cref{def:l_rho} and
+%
+\begin{align}\label{eq:def_Si}
+    S_i:=\bigcup_{j\in\inter{0,N}\,:\,\overline{\Omega_j}\cap \overline{\Omega_i}\neq \emptyset}\Omega_j, \quad i\in\inter{0,N};
+\end{align}
+%
+in particular,
+\begin{align*}
+S_0=(0,x_2)=(0,2h),\ S_{N}=(x_{N-1},x_{N+1})=(L-2h,L),\ S_{i}=(x_{i-1},x_{i+2})=(x_i-h,x_i+2h)
+\end{align*}
+for $i\in \inter{0,N-1}$.
+\end{lemma}
+%
+
+\begin{proof}
+We note that for $x\in B_1(\Omega)$, $B_1(x)\subset B_2(\Omega)$, therefore
+%
+\begin{align}\notag
+    \|u\|^2&\leq \int_{B_2(\Omega)}\int_{B_2(\Omega)}\frac{|u(x)-u(y)|^2}{|x-y|}dy\, dx\\ \notag
+    &=\int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|}dy\,dx+2\int_{\Omega}|u(x)|^2\int_{B_2(\Omega)\setminus B_h(\Omega)}\frac{1}{|x-y|}dy\,dx \\ \label{eq:part_init}
+    &\quad +2\int_{\Omega}|u(x)|^2\int_{B_h(\Omega)\setminus \Omega}\frac{1}{|x-y|}dy\,dx =: I_1+2I_2+2I_3,
+\end{align}
+%
+where we have used that $u=0$ in $\R\setminus \Omega$. 
+
+We proceed to estimate each $I_i$. For $I_1$, we see that  
+%
+\begin{equation}
+    I_1=\sum_{i\in\inter{0,N}}\left(\int_{\Omega_i}\int_{S_i}\frac{|u(x)-u(y)|^2}{|x-y|}\,dy\,dx+\int_{\Omega_i}\int_{D_i}\frac{|u(x)-u(y)|^2}{|x-y|}\,dy\,dx\right)
+\end{equation}
+%
+where $D_i=\Omega\setminus S_i$. We will keep the first integrals as they are. For the second ones, we have by triangle inequality
+%
+\begin{align}\notag
+    \int_{\Omega_i}&\int_{D_i} \frac{|u(x)-u(y)|^2}{|x-y|}dy\,dx \\
+    &\leq 2\int_{\Omega_i}|u(x)|^2\int_{D_i}|x-y|^{-1}dy\,dx+2\int_{D_i}|u(y)|^2\int_{\Omega_i}|x-y|^{-1}dx\,dy=:2J_{i,1}+2J_{i,2}.
+\end{align}
+%
+Following \cite[Prop. 1.2.24]{Bor17}, it is not difficult to see that $\sum_{i}{J_{i,1}}=\sum_{i}{J_{i,2}}$. Hence,
+%
+\begin{align}\label{eq:est_I1}
+    I_1\leq \sum_{i\in\inter{0,N}}\left(\int_{\Omega_i}\int_{S_i}\frac{|u(x)-u(y)|^2}{|x-y|^N}dy\,dx+4 J_{i,1}\right).
+\end{align}
+%
+To bound $J_{i,1}$, note that
+%
+\begin{align}\notag
+    J_{i,1}&\leq \int_{\Omega_i}|u(x)|^2\int_{B_{L}(x)\setminus B_{\frac{h}{2}}(x)}|x-y|^{-1}dy\,dx \\\label{eq:est_Ij1}
+    &\leq \int_{\Omega_i}|u(x)|^2\int_{\frac{h}{2}}^{L}\rho^{-1}d\rho\,dx=\left(-\log\left(\tfrac{h}{2L}\right)\right)\int_{\Omega_i}|u(x)|^2\,dx\leq C\ell^{-1} (h)\int_{\Omega_i}|u(x)|^2\,dx
+\end{align}
+%
+for some $C>0$ independent of $h$ depending on $\Omega$ and where we have used that $h\in(0,1/2)$ in the last inequality. Thus, we have proved that
+%
+\begin{equation}\label{eq:est_I1_final}
+    I_1\leq \sum_{i\in\inter{0,N}}\left(\int_{\Omega_i}\int_{S_i}\frac{|u(x)-u(y)|^2}{|x-y|^N}dy\,dx + C\ell^{-1}(h)\int_{\Omega_i}|u(x)|^2\,dx\right).
+\end{equation}
+%
+
+For $I_2$, we see that it can be written as
+%
+\begin{equation}
+    I_2=\sum_{i\in\inter{0,N}}\int_{\Omega_i}|u(x)|^2\int_{B_2(\Omega)\setminus B_{h}(\Omega)}|x-y|^{-1}dy\,dx
+\end{equation}
+%
+Since $\dist(\Omega_i,B_2(\Omega)\setminus B_h(\Omega))>h$ for all $i\in\inter{0,N}$, we can argue as we did for \eqref{eq:est_Ij1} to obtain 
+%
+\begin{align}\label{eq:est_I2}
+    I_2\leq C^\prime\ell^{-1}(h)\sum_{i\in\inter{0,N}}\int_{\Omega_i}|u(x)|^2\,dx
+\end{align}
+%
+for some $C^\prime>0$ only depending on $\Omega$.
+
+To estimate $I_3$, we begin by writing
+%
+\begin{align}\label{eq:est_I3_init}
+    I_3=H_0+H_N+\sum_{i\in\inter{1,N-1}}H_i.
+\end{align}
+%
+where $H_i=\int_{\Omega_i}|u(x)|^2\int_{B_h(\Omega)\setminus \Omega}|x-y|^{-1}dy\,dx$ for $i\in\inter{0,N}$. Note that for $i\in\inter{1,N-1}$, we have that $\dist(\Omega_i,B_h(\Omega)\setminus\Omega)>h$ so the second sum of \eqref{eq:est_I3_init} can be estimated as we did for $I_2$. On the other hand, for indices $i\in\{0,N\}$, we have that for some $R>0$ large enough
+%
+\begin{align*}
+    H_i&\leq \int_{\Omega_i}|u(x)|^2\int_{B_R(0)\setminus B_{\delta(x)}(x)}|x-y|^{-1}dy\,dx \\
+    &\leq \int_{\Omega_i}|u(x)|^2\left(-\log\left(\tfrac{\delta(x)}{R}\right)\right)\,dx \leq C \int_{\Omega_i}|u(x)|^2\ell^{-1}(\delta(x))\,dx
+\end{align*}
+%
+where $C>0$ only depends on $\Omega$. Therefore,
+%
+\begin{align}\label{eq:est_I3}
+    I_3\leq C \sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(\delta(x))\,dx + C\ell^{-1}(h)\sum_{\in\inter{1,N-1}}\int_{\Omega_i}|u(x)|^2\,dx
+\end{align}
+%
+Finally, putting together \eqref{eq:est_I1_final}, \eqref{eq:est_I2}, and \eqref{eq:est_I3} gives the desired result. 
+%
+\end{proof}
+
+\section{The discrete space $\mathcal V_h$}
+
+We recall that $\overline{\Omega}=\overline{\cup_{i\in\inter{0,N}}\Omega_i}$ where $\Omega_i=(x_i,x_{i+1})$ for $i\in\inter{0,N}$. We consider the discrete space
+%
+\begin{equation}
+    \mathcal V_h=\{v\in \mathcal C^0(\R): v=0 \textnormal{ in } \R\setminus \Omega, \;\; v|_{\Omega_i}\in \mathcal P_1, \;\;  i\in\inter{0,N}\}
+\end{equation}
+%
+where $\mathcal P_1$ is the space of polynomials of degree less or equal than one. 
+
+Let $(\varphi_i)_{i\in\inter{0,N+1}}$ be the basis of shape functions $\varphi_i$ with compact support in each interval $[x_{i-1},x_{i+1}]$ defined as
+%
+\begin{align}\label{eq:def_basis}
+    \textnormal{for $i\in\inter{1,N}$}:\quad \varphi_i(x)=\begin{cases}
+        \displaystyle \frac{x-x_{i-1}}{h} &x\in[x_{i-1},x_i], \\
+        \displaystyle \frac{x_{i+1}-x}{h} &x\in [x_i,x_{i+1}], \\
+        0 &\textnormal{elsewhere}
+    \end{cases}, \quad\textnormal{such that}\quad \varphi_i(x_j)=\delta_{ji}.
+\end{align}
+and
+%
+\begin{align}\label{eq:def_basis_ext}
+    \varphi_0(x)=2\begin{cases}
+        \displaystyle \frac{x_{1}-x}{h} &x\in [x_0,x_{1}], \\
+        0 &\textnormal{elsewhere},
+    \end{cases} \qquad \varphi_{N+1}(x)=2\begin{cases}
+        \displaystyle \frac{x-x_{N}}{h} &x\in[x_{N},x_{N+1}], \\
+        0 &\textnormal{elsewhere.}
+    \end{cases}
+\end{align}
+%
+Given a function $v$, we define the interpolator of $v$ as
+%
+\begin{equation}\label{eq:interpolator}
+I_h v(x)=\sum_{k\in\inter{0,N+1}}a_k \varphi_k(x)
+\end{equation}
+where
+%
+\begin{equation}\label{eq:def_coeff_ak}
+  a_k:=\frac{1}{h}\int_{\Omega}v(x)\varphi_k(x)\,dx  
+\end{equation}
+%
+Clearly, $I_h v\in\mathcal V_h$. Note that this definition is particularly useful since $v\in\mathbb H(\Omega)$ is not necessarily continuous at the grid points $x_i$. 
+
+Observe that $\varphi_0$ and $\varphi_{N+1}$ have a factor 2.  This allows to have the property that $I_h 1 = 1$ in $\Omega$.
+
+%
+\begin{lemma}\label{lem:bounds_aks}
+Let $v\in \mathbb H(\Omega)$ and $a_k$ as in \eqref{eq:def_coeff_ak}. T
+here is $C>0$ independent of $h$ such that
+%
+\begin{equation}\label{eq:est_ak_H}
+    |a_k|\leq C h^{-1/2} |v|_{L^2(S_k)}, \quad\forall k\in\inter{0,N+1}
+\end{equation}
+%
+with $S_k$ as defined in \eqref{eq:def_Si} and \blue{where $S_{N+1}:=S_N$}. If in addition, $v\in L^\infty(\Omega)$, we have
+\begin{equation}\label{eq:est_ak_Linf}
+    |a_k|\leq C |v|_{L^\infty(\Omega)}, \quad\forall k\in\inter{0,N+1}.
+\end{equation}
+\end{lemma}
+%
+\begin{proof}
+Let $k\in\inter{0,N+1}$ and $v\in\mathbb H(\Omega)$ be an arbitrary given function. We have that
+%
+\begin{equation}
+    |a_k|\leq \frac{1}{h}\int_{\Omega}|v||\varphi_k|dx.
+\end{equation}
+%
+Note that $\textnormal{supp}\,\varphi_k\subset S_k$ for each $k\in\inter{0,N+1}$, \blue{where by convenience we have defined $S_{N+1}:=S_N$}. Using H\"older's inequality,
+%
+\begin{equation}
+    |a_k|\leq h^{-1}|v|_{L^1(S_k)}\leq \sqrt{3}h^{-1/2}|v|_{L^2(S_k)}
+\end{equation}
+%
+where we have used the fact that $|\varphi_k|_{L^\infty(\Omega)}=1$ for all $k\in\inter{0,N+1}$. Note that the right-hand side of the previous expression is finite since $\mathbb H(\Omega)\hookrightarrow L^2(\Omega)$. This proves \eqref{eq:est_ak_H}. 
+
+To prove \eqref{eq:est_ak_Linf}, we use again that $|\varphi_k|_{L^\infty(\Omega)}=1$ for all $k\in\inter{0,N+1}$ to get
+%
+\begin{equation}
+    |a_k|\leq \frac{1}{h}|v|_{L^\infty(\Omega)}\int_{S_k}|\varphi_k| dx \leq C|v|_{L^\infty(\Omega)}.
+\end{equation}
+%
+This ends the proof.
+\end{proof}
+
+\begin{lemma}\label{lem:poincare_type}
+Let $U\subset \R$ be an open bounded interval and for any $v\in C_c^\infty(U)$ we write $\overline v=\frac{1}{|U|}\int_{U}v$. Then,
+%
+\begin{equation}
+    |v-\overline{v}|_{L^2(U)}^2\leq |v'|_{L^\infty(U)}|U|^3
+\end{equation}
+%
+\end{lemma}
+%
+\begin{proof}
+By definition and using Jensen's inequality we have
+%
+\begin{align}
+    \int_{U}|v(x)-\overline{v}|^2dx=\frac{1}{|U|^2}\int_{U}\left|\int_{U}(v(x)-v(y))dy\right|^2dx \leq \frac{1}{|U|}\int_{U}\int_{U}|v(x)-v(y)|^2dy dx
+\end{align}
+%
+whence
+%
+\begin{equation}
+    \int_{U}|v(x)-\overline{v}|^2dx \leq \int_{U}\int_{U}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx.
+\end{equation}
+%
+By mean value theorem
+%
+\begin{equation}
+    \int_{U}|v(x)-\overline{v}|^2dx 
+    \leq |v'|_{L^\infty(U)}\int_{U}\int_{U}|x-y|dy dx
+    \leq |v'|_{L^\infty(U)}|U|^3,
+\end{equation}
+%
+since $|x-y|\leq |U|$ for all $x,y\in U$.
+\end{proof}
+
+\begin{lemma}\label{lem:inter_l_infty}
+    Let $v\in C_c^\infty(\Omega)$. Then, $|I_h v|_{L^\infty(\Omega)}\leq C|v|_{L^\infty(\Omega)}$ for some $C>0$ uniform with respect to $h$.
+\end{lemma}
+%
+\begin{proof}
+Let $x\in \Omega$ be arbitrary. From definition \eqref{eq:interpolator} and estimate \eqref{eq:est_ak_Linf} we readily have
+%
+\begin{align*}
+    |I_h v(x)|=\left|\sum_{k\in\inter{0,N+1}}a_k \varphi_k(x)\right| \leq C|v|_{L^\infty(\Omega)}\sum_{k\in\inter{0,N+1}}\varphi_k(x).
+\end{align*}
+%
+By the definition of the basis functions, we note that 
+%
+\begin{equation}\label{eq:basis_uno}
+    \sum_{k\in\inter{0,N+1}}\varphi_k(x)\leq 2 \quad \textnormal{ for any $x\in\Omega$}.
+\end{equation}
+The result then follows. 
+\end{proof}
+
+\blue{Modificar la notación de este lema, posiblemente cambien algunas cosas abajo pero es solo cuestión de notación}
+
+\begin{lemma}\label{lem:loc_norm_interp}
+Let $i\in\inter{0,N}$, $v\in \mathbb H(\Omega)$, and $a_k$ as in \eqref{eq:def_coeff_ak}.  There is $C>0$ independent of $h$ such that
+%
+\begin{enumerate}[label=\upshape(\roman*)]
+\item $\displaystyle \int_{\Omega_i}\int_{S_i}\frac{|I_hv(x)-I_hv(y)|^2}{|x-y|}dy dx\leq Ch\sum_{k\in \inter{i-1,i+2}} a_k^2$,
+\item  $\displaystyle |I_h u|^2_{L^2(\Omega_i)}\leq Ch\sum_{k\in \inter{i-1,i+1}} a_k^2$,
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+Let $I_i:=\{j\in\inter{0,N+1}:\varphi_j(x)-\varphi_j(y) \neq 0 \ \textnormal{for $x\in \Omega_i$ and $y\in S_i$}\}=\inter{i-1,i+2}$ and  $I^\prime_i:=\{j\in\inter{0,N+1}:\varphi_j(x)\neq 0 \ \textnormal{for $x\in \Omega_i$}\}=\inter{i-1,i+1}$ \blue{Me parece que solo es $\inter{i,i+1}$}. We begin by proving item (i). Given $i\in\inter{0,N}$, let $x\in \Omega_i$ and $y\in S_i$ such that $x\neq y$.  From definitions \eqref{eq:def_basis} and \eqref{eq:interpolator} it can be readily seen that
+%
+\begin{equation}\label{a1}
+    I_hv(x)-I_hv(y)=\sum_{k\in I_i} a_k(\varphi_k(x)-\varphi_k(y)).
+\end{equation}
+%
+Since $I_i$ has \blue{at most} 4 elements, squaring both sides of \eqref{a1} and using triangle inequality,
+%
+\begin{equation}\label{eq:est_interp_1}
+    \int_{\Omega_i}\int_{S_i}\frac{|I_hv(x)- I_hv(y)|^2}{|x-y|} dy dx \leq C \sum_{k\in I_i} a_k^2\int_{\Omega_i}\int_{S_i} \frac{|\varphi_k(x)- \varphi_k(y)|^2}{|x-y|} dy dx.
+\end{equation}
+%
+
+Noting that the functions $\varphi_k$ are Lipschitz continuous and verify that $|\varphi_k^\prime|\leq C/h$ for all $k\in\inter{0,N+1}$, we can use the mean value theorem to deduce
+%
+\begin{equation}\label{eq:est_interp_2}
+    \int_{\Omega_i}\int_{S_i}\frac{|\varphi_k(x)-\varphi_k(y)|^2}{|x-y|}dy dx \leq \frac{C}{h^2}\int_{\Omega_i}\int_{S_i}|x-y|dy dx \leq Ch,
+\end{equation}
+%
+since $|x-y|\leq 2h$ for all $x\in \Omega_i$ and $y\in S_i$. Combining \eqref{eq:est_interp_1} and \eqref{eq:est_interp_2} yields (i). For (ii), note that
+\begin{align*}
+|I_h u|^2_{L^2(\Omega_i)}
+\leq \sum_{k\in \inter{i-1,i+1}}|a_k|^2\int_{\Omega_i}\varphi_k(x)^2\, dx
+\leq \sum_{k\in \inter{i-1,i+1}}|a_k|^2|\Omega_i|=h\sum_{k\in \inter{i-1,i+1}}|a_k|^2.
+\end{align*}
+%
+\end{proof}
+
+
+
+\begin{lemma}\label{lem:stab_dif_interp}
+Let $i\in\inter{0,N}$ and $v\in C_c^\infty(\Omega)$. There is $C>0$ independent of $h$ such that
+\begin{align}\label{eq:approxim_estimate}
+    \int_{\Omega_i}\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|}dy dx \leq C h^3. 
+\end{align}
+\end{lemma}
+%
+\begin{proof}
+Let $i\in\inter{0,N}$, $v\in C_c^\infty(\Omega)$, and $\overline {v}:=\frac{1}{5h}\int_{x_i-2h}^{x_i+3h}v\,dx$.
+By \eqref{eq:basis_uno}, $v-I_h v=v-\overline{v}+I_h(\overline v - v)$, thus
+%
+\begin{align}\notag
+    \int_{\Omega_i}&\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|} dy dx \\ \notag
+    &\leq 2\int_{\Omega_i}\int_{S_i}\frac{|(v-\overline{v})(x)-(v-\overline{v})(y)|^2}{|x-y|}dy dx + 2 \int_{\Omega_i}\int_{S_i}\frac{|I_h(\overline v-{v})(x)-I_h(\overline v-{v})(y)|^2}{|x-y|}dy dx \\ \label{eq:est_dif_inter_1}
+    &=:2J_1+2J_2.
+\end{align}
+%
+
+Using that $\overline v$ is a constant function, we can use mean value theorem to bound $J_1$ as
+%
+\begin{equation}\label{eq:est_J1}
+    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C \int_{S_i}\int_{S_i}|x-y|dy dx \leq Ch^3,
+\end{equation}
+since $|x-y|\leq 3h$ for $x,y\in S_i$.
+
+On the other hand, we can use item (i) of \Cref{lem:loc_norm_interp} to $J_2$ and obtain
+%
+\begin{equation}\label{eq:est_J2}
+    J_2 \leq Ch\sum_{k\in I_i} b_k^2,
+\end{equation}
+%
+where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and $I_i=\{j\in\inter{0,N}:\varphi_j(x)-\varphi_j(y) \neq 0 \ \textnormal{for $x\in \Omega_i$ and $y\in S_i$}\}=\inter{i-1,i+2}$. Since $|\varphi_k|\leq 1$, 
+\begin{equation}\label{abk}
+    |b_k|^2
+    \leq \frac{1}{h^2}\left(\int_{S_k} |v-\overline v|dx\right)^2
+    \leq \frac{C}{h}\int_{S_k}|v-\overline{v}|^2\, dx
+    \leq \frac{C}{h}\int_{x_i-2h}^{x_i+3h}|v-\overline{v}|^2\, dx
+\end{equation}
+for $k\in I_i.$ Using \Cref{lem:poincare_type}, we can estimate the right-hand side of the above expression and obtain
+%
+\begin{equation}\label{eq:est_bks}
+    |b_k|^2\leq Ch^2.
+\end{equation}
+%
+Collecting estimates \eqref{eq:est_dif_inter_1}--\eqref{eq:est_bks} gives the desired result. This ends the proof. 
+\end{proof}
+
+\begin{remark}\label{rem:l2_stability}
+By making minor adjustments to the proof of  \Cref{lem:stab_dif_interp}, we can use item (ii) of \Cref{lem:loc_norm_interp} to obtain the following $L^2$-stability estimate, for $i\in\inter{0,N}$,
+%
+\begin{equation*}
+    |v-I_hv|_{L^2(\Omega_i)} \leq C h^3, \quad  v\in C_c^\infty(\Omega).
+\end{equation*}
+Indeed, let $i\in\inter{0,N}$, $U=({x_i-2h},{x_{i}+2h})$, and $\overline{v}:=\frac{1}{U}\int_U v\, dx$; then, by Lemmas \ref{lem:poincare_type} and \ref{lem:loc_norm_interp},
+\begin{align}
+|v-I_hv|^2_{L^2(\Omega_i)}
+\leq C|v-\overline{v}|_{L^2(\Omega_i)}^2 +|I_h(v-\overline{v})|^2_{L^2(\Omega_i)}
+\leq Ch^3+Ch\sum_{k\in \inter{i-1,i+1}}a_k^2,\label{a2}
+\end{align}
+where $a_k=\frac{1}{h}\int_{x_{k-1}}^{x_{k+1}} (v-\overline{v})\varphi_k\, dx$ and $|a_k|\leq \frac{1}{h}\int_{x_i-2h}^{x_{i}+2h}|v-\overline{v}|\, dx$. By Lemma \ref{lem:poincare_type},
+\begin{equation}
+    |v-\overline{v}|_{L^2(U)}^2\leq Ch^3.
+\end{equation}
+The claim now follows from \eqref{a2}.
+\end{remark}
+
+\begin{proposition}\label{eq:estab_H_c_infty}
+For any $\alpha>0$, there exists $h_0>0$ only depending on $\alpha$ such that for any $h<h_0$ and any $v\in C_c^\infty(\Omega)$ we have
+%
+\begin{equation}\label{eq:rate_H_c_infty}
+    \|v-I_h v\|_{\mathbb H(\Omega)}\leq C\ell^\alpha(h).
+\end{equation}
+%
+\end{proposition}
+
+\begin{proof}
+Combining \eqref{eq:approxim_estimate} and \Cref{rem:l2_stability} with \Cref{lem:localization_enorm} we obtain
+%
+\begin{align*}
+    \|v-I_h v\|_{\mathbb H(\Omega)}&\leq  C h^3(N+1)+Ch^3(N+1)\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(\delta(x))\,dx \\
+    &\leq Ch^2+Ch^2\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(\delta(x))\,dx
+\end{align*}
+since $h=\frac{L}{N+1}$. Since $v\in C_c^\infty(\Omega)$, a direct computation and \Cref{lem:inter_l_infty} yield
+%
+\begin{align*}
+    \|v-I_h v\|_{\mathbb H(\Omega)} &\leq Ch^2+Ch^2\ell^{-1}(h)+C\left(\|v\|_{L^\infty(\Omega)}^2+\|I_hv\|^2_{L^\infty(\Omega)}\right)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1}(\delta(x))\,dx \\
+    & \leq Ch^2+Ch^2\ell^{-1}(h)+C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1-\alpha}(\delta(x))\,dx.
+\end{align*}
+%
+Using \blue{Lema integrabilidad $\ell$} and since $h\leq \ell^{\frac{1+\alpha}{2}}(h)$ for any $h\leq h_0$ for some $h_0>0$ only depending on $\alpha$, we obtain 
+%
+\begin{align*}
+    \|v-I_h v\|_{\mathbb H(\Omega)}
+    & \leq C\ell^{1+\alpha}(h)+C\ell^{\alpha}(h)\leq C \ell^{\alpha}(h),
+\end{align*}
+which is the desired result.
+\end{proof}
+
+\begin{remark}
+We shall note that even if the previous result is valid for any $\alpha>0$, there is a trade-off between the rate of convergence \eqref{eq:rate_H_c_infty} and the smallness of the parameter $h_0$. Indeed, the bigger $\alpha$ is, the smaller $h_0$ is. For instance, for $\alpha=1$, $h_0=(\log(2)+\log(5))^{-1}\approx 0.4342$ while for $\alpha=9$, $h_0\approx 3\times 10^{-6}$. Note however that the decay rate \eqref{eq:rate_H_c_infty} would still be logarithmic and there is not really much improvement in the speed of convergence.  
+\end{remark}
+
+We are in position to prove the main result of this section.
+
+\begin{theorem}\label{density:thm}
+    For any $v\in\mathbb H(\Omega)$ there exists $v_h\in\mathcal V_h$ such that $\|v-v_h\|_{\mathbb H(\Omega)}\to 0$ as $h\to 0$. 
+\end{theorem}
+
+\begin{proof}
+%
+From the definition of $\mathbb H(\Omega)$, it is clear that Lipschitz continuous functions which are zero on $\R\setminus \Omega$ belong to $\mathbb H(\Omega)$, hence $\mathcal V_h$ is a subspace of $\mathbb H(\Omega)$.
+
+By Hilbert projection theorem, for every $v\in\mathbb H(\Omega)$ there exists a unique element $v_h\in\mathcal \mathcal V_h$ such that
+%
+\begin{equation}\label{eq:prop_infimo}
+    \|v-v_h\|_{\mathbb H(\Omega)}=\inf_{w\in\mathcal V_h}\|v-w\|_{\mathbb H(\Omega)}. 
+\end{equation}
+%
+Actually, $v_h=\Pi_h v$ where $\Pi_h$ is the orthogonal projection from $\mathbb H(\Omega)$ onto $\mathcal V_h$. Additionally, $\|\Pi_h\|_*=1$ where $\|\Pi_h\|_*:=\sup\{\|\Pi_hv\|_{\mathbb H(\Omega)}: v\in\mathbb{H},\;\; \|v\|_{\mathbb H(\Omega)}\leq 1\}$.
+
+Let $\epsilon>0$. We recall that $C_c^\infty(\Omega)$ is dense in $\mathbb H(\Omega)$. Thus, for every $v\in\mathbb H(\Omega)$ there exists $w\in C_c^\infty(\Omega)$ such that 
+%
+\begin{equation}\label{eq:density}
+    \|v-w\|_{\mathbb H(\Omega)}<\epsilon/3.
+\end{equation}
+%
+By triangle inequality, we have
+%
+\begin{align}
+    \|v-v_h\|_{\mathbb H(\Omega)}&\leq \|v-w\|_{\mathbb H(\Omega)}+\|w-\Pi_h w\|_{\mathbb H(\Omega)}+\|\Pi_h w-\Pi_h v\|_{\mathbb H(\Omega)} \\
+    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)}. 
+\end{align}
+%
+where we have used that $\|\Pi_h\|_*=1$ and property \eqref{eq:prop_infimo}. Lastly, using \Cref{eq:estab_H_c_infty} with $h>0$ small enough, $\|w-I_hw\|_{\mathbb H(\Omega)}\leq \epsilon/3$ and therefore $\|v-v_h\|_{\mathbb H(\Omega)}\leq \epsilon$. This yields the claim.
+\end{proof}
+
+
+\section{Quasi-interpolation estimates}
+
+\begin{lemma}\label{lem:poincare_type_weight}
+Let $\alpha>0$, $U\subset \R$ be an open bounded interval, $v\in \mathbb H^{\alpha}(U;\ell)$, and $\overline v=\frac{1}{|U|}\int_{U}v\, dx$, then,
+%
+\begin{equation}
+    |v-\overline{v}|_{L^2(U)}^2\leq \ell^{\alpha}(|U|)\int_{U}\int_{U}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
+\end{equation}
+%
+\end{lemma}
+%
+\begin{proof}
+By Jensen's inequality,
+%
+\begin{align*}
+    \int_{U}|v(x)-\overline{v}|^2dx
+    &=\frac{1}{|U|^2}\int_{U}\left|\int_{U}(v(x)-v(y))dy\right|^2dx \leq \frac{1}{|U|}\int_{U}\int_{U}|v(x)-v(y)|^2dy dx\\
+&\leq \int_{U}\int_{U}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq \ell^{\alpha}(|U|)\int_{U}\int_{U}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
+\end{align*}
+%
+This ends the proof. 
+\end{proof}
+
+
+
+\begin{lemma}\label{lem:stab_dif_interp_weight}
+Let $\alpha>0$, $i\in\inter{0,N}$, $v\in \weH{\alpha}$, then
+\begin{align}
+    \int_{\Omega_i}\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|}dy dx &\leq C  \ell^{\alpha}(h)\int_{T_i}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx, \label{eq:approxim_estimate_weight}\\
+    |v-I_h v|_{L^2(\Omega_i)}^2&\leq C\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx,\label{a4}
+\end{align}
+where $T_i:=S_{i-1}\cup S_{i+1}$ \blue{and $S_{i}=\emptyset$ if $i=-1$ or $i={N+1}$}.
+\end{lemma}
+%
+\begin{proof}
+Let $\overline{v}:=\frac{1}{5h}\int_{T_{i}} v\, dx$. Note that $v-I_h v=v-\overline{v}+I_h(\overline v - v)$, thus
+%
+\begin{align}\notag
+    \int_{\Omega_i}&\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|} dy dx \\ \notag
+    &\leq 2\int_{\Omega_i}\int_{S_i}\frac{|(v-\overline{v})(x)-(v-\overline{v})(y)|^2}{|x-y|}dy dx + 2 \int_{\Omega_i}\int_{S_i}\frac{|I_h(\overline v-{v})(x)-I_h(\overline v-{v})(y)|^2}{|x-y|}dy dx \\ \label{eq:est_dif_inter_1_weight}
+    &:=2J_1+2J_2.
+\end{align}
+%
+Using that $\overline v$ is a constant function, we can readily estimate $J_1$ as
+%
+\begin{equation}\label{eq:est_J1_weight}
+    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C\ell^{\alpha}(h)\int_{T_i}\int_{T_i}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
+\end{equation}
+
+On the other hand, we can apply \Cref{lem:loc_norm_interp} to $J_2$ and obtain
+%
+\begin{equation}\label{eq:est_J2_weight}
+    J_2 \leq Ch\sum_{k\in \inter{i-1,i+2}} b_k^2
+\end{equation}
+%
+where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$. As in \eqref{abk}, for every $k\in \inter{i-1,i+2}$,
+\begin{align*}
+    |b_k|^2\leq \frac{C}{h}\int_{T_{i}}|v-\overline{v}|^2\, dx,
+\end{align*}
+because the support of $\varphi_k$ is in $T_{i}$ for all $k\in \inter{i-1,i+2}$. Using \Cref{lem:poincare_type_weight}, we can estimate the right-hand side of the above expression and obtain
+%
+\begin{equation}\label{eq:est_bks_weight}
+    |b_k|^2\leq Ch^{-1}\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx\qquad \text{for all $k\in \inter{i-1,i+2}$}.
+\end{equation}
+%
+Collecting estimates \eqref{eq:est_dif_inter_1_weight}--\eqref{eq:est_bks_weight} yields \eqref{eq:approxim_estimate_weight}. 
+
+Finally, for \eqref{a4}, by \Cref{lem:poincare_type_weight}, item (ii) of \Cref{lem:loc_norm_interp}, and \eqref{eq:est_bks_weight}, 
+\begin{align*}
+    |v-I_h v|_{L^2(\Omega_i)}^2&\leq 2|v-\overline{v}|_{L^2(\Omega_i)}^2+2|I_h(\overline{v}-v)|_{L^2(\Omega_i)}^2\leq C\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
+\end{align*}
+\end{proof}
+
+
+\begin{proposition}
+Let $\alpha>0$ and $u\in\weH{1+\alpha}$, then
+\begin{align}\label{eq:interp_final}
+    \|u-I_hu\|^2_{\mathbb H(\Omega)}&\leq C\ell^{\alpha}(h) \|u\|^2_{\weH{1+\alpha}},
+\end{align}
+\end{proposition}
+\begin{proof}
+  By \eqref{eq:approxim_estimate_weight}, \Cref{lem:localization_enorm}, and \eqref{a4},
+%
+\begin{align}
+    \|u-I_h u\|^2_{\mathbb H(\Omega)}&\leq C \ell^{1+\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx\notag\\
+    &\quad +C\ell^{-1}(h)\sum_{i\in\inter{0,N}}|u-u_h|_{L^2(\Omega_i)}^2+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(d(x))\,dx\notag\\
+    &\leq C \ell^{\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx\notag\\ 
+    &\quad +C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1-\alpha}(d(x))\,dx,\label{eq:est_aprox_sum}
+\end{align}
+where we used that $\frac{\ell^{\alpha}(d(x))}{\ell^{\alpha}(h)}\leq 1$ for $x\in\Omega_i$.  
+
+Let $x_i:=x_0=0$ if $i<0$ and $x_i:=x_{N+1}=L$ if $i>N+1$.  Then, 
+%
+\begin{align}\notag
+   \sum_{i\in\inter{0,N}} \int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx 
+   &\leq \sum_{i\in\inter{0,N}} \int_{x_{i-2}}^{x_{i+3}}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx\notag\\
+   &\leq \sum_{i\in\inter{0,N}} \sum_{j\in \inter{i-2,i+3}}\int_{\Omega_j}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx\notag\\
+ & \leq 5\int_{\Omega}\int_{\Omega} \frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx. \label{eq:est_aprox_omega}
+\end{align}
+
+Noting that the last integral in \eqref{eq:est_aprox_sum} can be directly extended to the set $\Omega$, we can put together estimates \eqref{eq:est_aprox_sum} and \eqref{eq:est_aprox_omega} and obtain \eqref{eq:interp_final}
+\end{proof}
+%
+
+
+\section{Stability of the error}
+
+We begin by recalling the variational formulation associated to our problem: find $u\in\mathbb H(\Omega)$ such that 
+%
+\begin{equation}\label{eq:cont_problem}
+    \cE_{L}(u,v)=\int_{\Omega}f v \quad \forall v\in \mathbb H(\Omega)
+\end{equation}
+%
+with $\cE_{L}(u,v)=\cE(u,v)+B(u,v)$ and where we recall \eqref{eq:bilinear_E}--\eqref{eq:bilinear_B}.
+
+Our goal is to approximate the solution $u$ to \eqref{eq:cont_problem} by solving the following discrete problem: find $u_h\in \mathcal V_h$ such that
+%
+\begin{equation}\label{eq:discr_problem}
+    \cE_{L}(u_h,v)=\int_{\Omega} f v \quad \forall v\in \mathcal V_h
+\end{equation}
+%
+
+
+Unlike the case of the fractional Laplacian, we observe that the bilinear form $\cE_{L}(u,u)$ is not coercive in $\mathbb H(\Omega)$ so we cannot employ the classical Cea's lemma. Instead, we shall use the following variant which employs a discrete inf-sup condition. 
+%
+\begin{lemma}\label{lem:cea_mg}
+Assume that there exists a constant $\alpha_0>0$ uniform with respect to $h$ such that
+%
+\begin{equation}\label{eq:discr_inf_sup}
+    \sup_{v\in \mathcal V_h}\frac{\cE_{L}(u_h,v)}{\|v\|_{\mathbb H(\Omega)}}\geq \alpha_0\|u_h\|_{\mathbb H(\Omega)}, \quad\forall u_h\in\mathcal V_h.
+\end{equation}
+%
+Then, there exists a unique solution $u_h\in \mathcal V_h$ to \eqref{eq:discr_problem}. Moreover, this solution satisfies
+%
+\begin{equation}\label{eq:stability_cea}
+    \|u-u_h\|_{\mathbb H(\Omega)}\leq \left(1+\frac{C}{\alpha_0}\right)\inf_{w\in\mathcal V_h}\|u-w\|_{\mathbb H(\Omega)}.
+\end{equation}
+%
+where $C>0$ is uniform with respect to $h$.
+\end{lemma}
+%
+\begin{proof}
+Let $(e_i)_i\subset \mathcal V_h$ be a finite dimensional basis of $\mathcal V_h$ with $\dim(\mathcal V_h)=K$. Setting $u_h=\sum_{i\in\inter{1,K}}u_i e_i$ and $v_h=\sum_{i\in\inter{1,K}} v_i e_i$, we note that since $\cE_{L}(\cdot,\cdot)$ is a symmetric bilinear form, the discrete problem \eqref{eq:discr_problem} amounts to solve the linear system 
+%
+\begin{equation}
+    A_h U = F_h
+\end{equation}
+%
+where $A_h\in\mathbb R^{K\times K}$ with entries $(A_h)_{ij}=\cE_L(e_i,e_j)$, $F\in\R^{K}$ with entries $(F)_i=\int_{\Omega}f e_i$, and $U=(u_1,\ldots, u_K)^T\in \R^{K}$. 
+
+The discrete $\inf$-$\sup$ condition \eqref{eq:discr_inf_sup} readily ensures the non-singularity of the matrix $A_h$, thus $U$ can be uniquely determined and so $u_h$. On the other hand, since $\mathcal V_h\subset \mathbb H(\Omega)$ we can take $v\in \mathcal V_h$ in \eqref{eq:cont_problem} to obtain from \eqref{eq:discr_problem} that
+%
+\begin{align}\label{eq:ort_cond}
+    \cE_{L}(u-u_h,v)=0 \quad\forall v\in\mathcal V_h.
+\end{align}
+%
+Let $w\in\mathcal V_h$ be an arbitrary function in $\mathcal V_h$. By \eqref{eq:discr_inf_sup} and \eqref{eq:ort_cond} we have
+%
+\begin{equation}
+    \alpha_0\|u_h-w\|_{\mathbb H(\Omega)} \leq \sup_{v\in\mathcal V_h}\frac{\cE_{L}(u_h-w,v)}{\|v\|_{\mathbb H}}=\sup_{v\in\mathcal V_h}\frac{\cE_{L}(u-w,v)}{\|v\|_{\mathbb H}}.
+\end{equation}
+%
+Using \cite[Lemma 3.4]{HSS22} and the compact embedding $\mathbb H(\Omega)\hookrightarrow L^2(\Omega)$, we can see that there exists $C>0$ such that
+%
+\begin{equation*}
+    |\cE_{L}(u-w,v)|\leq C\|u-w\|_{\mathbb H(\Omega)}\|v\|_{\mathbb H(\Omega)}
+\end{equation*}
+%
+whence
+%
+\begin{align}\label{eq:est_stab_w}
+    \alpha_0\|u_h-w\|_{\mathbb H(\Omega)} \leq C\|u-w\|_{\mathbb H(\Omega)} \quad\forall w\in\mathcal V_h.
+\end{align}
+Finally, triangle inequality and \eqref{eq:est_stab_w} yield
+%
+\begin{equation}
+    \|u-u_h\|_{\mathbb H(\Omega)}\leq \|u-w\|_{\mathbb H(\Omega)}+\|w-u_h\|_{\mathbb H(\Omega)}\leq \left(1+\frac{C}{\alpha_0}\right)\|u-w\|_{\mathbb H(\Omega)}.
+\end{equation}
+%
+Taking the infimum for $w\in \mathcal V_h$ yields the desired result. 
+\end{proof}
+
+\begin{lemma}
+Assume that the problem $L_\Delta u=0$ in $\Omega$ with $u=0$ in $\R\backslash  \Omega$ only has the trivial solution.  Then, there are $h_0>0$ and $\alpha_0>0$ such that
+\begin{equation*}
+    \sup_{v\in \mathcal V_h}\frac{\cE_{L}(u,v)}{\|v\|_{\mathbb H(\Omega)}}\geq \alpha_0\|u\|_{\mathbb H(\Omega)} \quad\text{ for all } u\in\mathcal V_h \text{ and }h\in(0,h_0),
+\end{equation*}
+where $\alpha_0$ is independent of $h$.
+\end{lemma}
+\begin{proof}
+We argue as in \cite[Theorem 4.2.1]{dem20}. Assume, by contradiction, that for every $n\in\N$ there are $h_n<\frac{1}{n}$ and a sequence $(u_n)_{n\in\N}\in \mathcal V_{h_n}$ such that $\|u_n\|_{\mathbb H(\Omega)}=1$ and
+\begin{equation}\label{ccea}
+    \sup_{v\in \mathcal V_{h_n}}\frac{\cE_{L}(u_n,v)}{\|v\|_{\mathbb H(\Omega)}}<\frac{1}{n}\qquad \text{ for all }n\in\N.
+\end{equation}
+Since $(u_n)$ is bounded in $\mathbb H(\Omega)$, then there is $u\in \mathbb H(\Omega)$ such that $u_n \rightharpoonup u$ weakly in $\mathbb H(\Omega)$. Moreover, since $\mathbb H(\Omega)$ is compactly embedded in $L^2(\Omega)$, then $u_n\to u$ in $L^2(\Omega)$.  Then,
+\begin{align}
+    \|u_n-u\|^2_{\mathbb H(\Omega)}
+    &=\cE(u_n,u_n-u)-\cE(u,u_n-u)\notag\\
+    &=\cE_L(u_n,u_n-u)-B(u_n,u_n-u)-\cE(u,u_n-u),\label{007}
+\end{align}
+where $B$ is given by \eqref{eq:bilinear_B}.  In particular, $B$ is a bilinear continuous operator in $L^2(\Omega)$.  Note that $\cE(u,u_n-u)\to 0$ as $n\to \infty$ by weak convergence in $\mathbb H(\Omega)$, $B(u_n,u_n-u)\to 0$ as $n\to \infty$ by strong convergence in $L^2(\Omega)$. By Theorem \ref{density:thm}, there is a sequence $(\widetilde u_n)$ in $\mathcal V_h$ such that $\widetilde u_n\to u$ in $\mathbb H(\Omega)$ as $n\to \infty$, as a consequence,
+\begin{align*}
+    \cE_L(u_n,u_n-u)
+    &=\cE_L(u_n,u_n-\widetilde u_n)+\cE_L(u_n,\widetilde u_n-u)\\
+    &\leq \frac{\cE_L(u_n,u_n-\widetilde u_n)}{\|u_n-\widetilde u_n\|_{\mathbb H(\Omega)}}\|u_n-\widetilde u_n\|_{\mathbb H(\Omega)}+\cE_L(u_n,\widetilde u_n-u) \to 0\qquad \text{ as }n\to \infty,
+\end{align*}
+by \eqref{ccea} and arguing as in \eqref{007}, because $(u_n-\widetilde u_n)_{n\in\N}$ and $(u_n)$ are bounded in $\mathbb H(\Omega)$.  As a consequence, $u_n\to u$ in $\mathbb H(\Omega)$ as $n\to\infty$. Then $\|u\|_{\mathbb H(\Omega)}=1$. Let $w\in \mathbb H(\Omega)\backslash \{0\}$ and let $(w_n)\subset \mathcal V_h$ such that $w_n\to w$ in $\mathbb H(\Omega)$ as $n\to \infty$ (see Theorem \ref{density:thm}), then
+\begin{align*}
+    \frac{\cE_{L}(u,w)}{\|w\|_{\mathbb H(\Omega)}}=\lim_{n\to\infty}\frac{\cE_{L}(u_n,w_n)}{\|w_n\|_{\mathbb H(\Omega)}}\leq \lim_{n\to\infty}\sup_{v\in \mathcal V_h}\frac{\cE_{L}(u_n,v)}{\|v\|_{\mathbb H(\Omega)}}\leq \lim_{n\to\infty}\frac{1}{n}=0.
+\end{align*}
+Since $w$ is arbitrary, this implies that $u$ is a nontrivial weak solution of $L_\Delta u=0$ in $\Omega$ with $u=0$ in $\R\backslash  \Omega$, but this contradicts our assumption and the claim follows. 
+\end{proof}
+
+
+% \Cref{lem:cea_mg} relies heavily on the discrete $\inf$-$\sup$ condition \eqref{eq:discr_inf_sup}. In turn, this is consequence of the general result \cite[Theorem 4.2.1]{dem20} which, in our context translates into the following: there exists $h_0>0$ and $\gamma_0>0$ such that for any $h<h_0$
+% %
+% \begin{equation}
+%     \sup_{v\in\mathcal V_h} \frac{|\cE_{L}(u_h,v)|}{\|v\|_{\mathbb{H}}}\geq \gamma_0\|u_h\|_{\mathbb H} \quad\forall u_h\in\mathcal V_h.
+% \end{equation}
+% %
+% Note that we have to pay the price of imposing an extra smallness assumption on the discrete parameter $h$. 
+
+\begin{proposition}\label{prop:more_regularity}
+Assume that alternative $i)$ of \Cref{eq:regularity} holds for some $\alpha\in(0,1)$. Then, $u\in \mathbb H^{1+\alpha}(\Omega;\ell)$. Moreover, there is $C>0$ only depending on $\Omega$ and $\alpha$ such that $\|u\|_{H^{1+\alpha}(\Omega;\ell)}\leq C\|u\|_{\mathcal X^{\alpha}(\Omega)}$.
+\end{proposition}
+%
+\begin{proof}
+Fix $\alpha\in(0,1)$ as given by \Cref{eq:regularity}. Let $x\in \Omega$ and let $y\in\partial \Omega$ be such that $d(x)=|x-y|$. Then $u(y)=0$ and 
+%
+\begin{align}\label{eq:iden_fro}
+    \frac{|u(x)|}{\ell^{\alpha}(d(x))}=\frac{|u(x)-u(y)|}{\ell^{\alpha}(|x-y|)}.
+\end{align}
+%
+From the definition of the spaces $H^{1+\alpha}(\Omega;\ell)$ and $\mathcal X^\alpha(\Omega)$ and identity \eqref{eq:iden_fro}, we have
+%
+\begin{align}\notag
+    \|u\|^2_{H^{1+\alpha}(\Omega;\ell)}&=\int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}\, \d{y} \d{x}+\int_{\Omega}|u(x)|^2\ell^{-1-\alpha}(d(x))\,\d{x} \\
+    &\leq \|u\|^2_{\mathcal X^{\alpha}(\Omega)}\left(\int_{\Omega}\int_{\Omega}\frac{\ell^{1+\alpha}(|x-y|)}{|x-y|\ell^{2+2\alpha}(d(x,y))}\,\d{y}\d{x}+ \int_{\Omega}\ell^{-1+\alpha}(d(x))\,\d{x}\right).\label{a6}
+\end{align}
+%
+The claim now follows from \eqref{lem:int:bds}.
+\end{proof}
+%
+
+\begin{theorem}
+    Assume that alternative $i)$ of \Cref{eq:regularity} holds for some $\alpha\in(0,1)$ and let $h>0$ be a sufficiently small discretization parameter. For the solution $u$ to \eqref{eq:cont_problem} and its finite element approximation $u_h$ given by \eqref{eq:discr_problem}, we have the following a priori estimate
+    %
+    \begin{equation}
+        \|u-u_h\|_{\mathbb H(\Omega)}\leq C\ell^{\alpha}(h)\|f\|_{\mathcal Y}
+    \end{equation}
+    %
+    for some $\alpha\in(0,1)$ and where $C>0$ is uniform with respect to $h$ 
+\end{theorem}
+
+\begin{proof}
+Fix $\alpha\in(0,1)$ as given by \Cref{eq:regularity}. Combining estimate \eqref{eq:interp_final} (with this particular $\alpha$) and \eqref{eq:stability_cea} we get
+%
+\begin{align}
+    \|u-u_h\|_{\mathbb H(\Omega)}\leq C\ell^{\alpha}(h)\|u\|_{\mathbb{H}^{1+\alpha}(\Omega;\ell)}.
+\end{align}
+%
+for some constant $C>0$ uniform with respect to $h$. By \Cref{prop:more_regularity} and the regularity estimate \eqref{eq:regularity_classical} we obtain the desired result.
+\end{proof}
+
+% \section{FEM setting}
+
+% Let $\Omega=(0,b)$ with $b\in(0,1)$. Given $M\in \N$, let $I:=\{1,\ldots, M\}$, $h:=\frac{b+2}{M}$, and
+% \begin{align*}
+% x_0:=-1,\qquad x_i:=x_0+i h\text{ for }i\in \mathbb Z.
+% \end{align*}
+% In particular, $x_M=b+1$.   Furthermore, for $i\in I$, let
+% \begin{align*}
+% \Omega_i:=(x_{i-1},x_{i}),\qquad 
+% U:=B_h(0)=(-h,h),\qquad 
+% D:=B_1\backslash U=(-1,1)\backslash (-h,h).
+% \end{align*}
+
+% Then 
+% \begin{align*}
+%     B_1(\Omega)=(-1,b+1)=\bigcup_{i\in I} \Omega_i.
+% \end{align*}
+
+% For $i\in I,$ let $\varphi_i$ denote the usual $P_0$ or $P_1$ finite element basis in dimension one. For $u\in \cH(\Omega)\cap C(\R^N)$ let $I_hu:\R^N\to\R$ be given by
+% \begin{align*}
+% I_h u (x):=\sum_{i\in I}a_i\varphi_i(x),\qquad a_i:=\frac{1}{2h}\int_{\Omega} u\varphi_i.
+% \end{align*}
+
+% In the following $C>0$ denotes possibly different constants independent of $i$.
+% Observe that
+% % \begin{align*}
+% % a_j\leq |u|_{2,\Omega_i}|\varphi_i|_2 \leq C|u|_{2,\Omega_i} h
+% % \end{align*}
+% % and
+% \begin{align*}
+% \|I_h u\|^2
+% &=\int_{B_1(\Omega)}\int_{B_1}\frac{|I_h u(x)-I_h u(x+y)|^2}{|y|}\, dy\, dx\\
+% &=
+% \sum_{i\in I}\int_{\Omega_i}\int_{U}\frac{|I_h u(x)-I_h u(x+y)|^2}{|y|}\, dy\, dx
+% +\sum_{i\in I}\int_{\Omega_i}\int_{D}\frac{|I_h u(x)-I_h u(x+y)|^2}{|y|}\, dy\, dx\\
+% &=:T_1+T_2.
+% \end{align*}
+
+% Let
+% \begin{align*}
+% I(i)
+% :=\{j\in I\::\: \varphi_j(x)-\varphi_j(x+y)\neq 0 \text{ for some }(x,y)\in \Omega_i\times U\}
+% =\{i-2,\ldots,i+2\}.
+% \end{align*}
+
+% Then, using the Lipschitz continuity,
+% \begin{align*}
+% T_{1,i}&:=\int_{\Omega_i}\int_{U}\frac{|I_h u(x)-I_h u(x+y)|^2}{|y|}\, dy\, dx
+% =\int_{\Omega_i}\int_{U}\frac{|\sum_{j\in I}a_j(\varphi_j(x)-\varphi_j(x+y))|^2}{|y|}\, dy\, dx\\
+% &\leq \left(\sum_{j\in I(i)}a_j^2\right)\sum_{j\in I(i)}\int_{\Omega_i}\int_{U}\frac{|\varphi_j(x)-\varphi_j(x+y)|^2}{|y|}\, dy\, dx\leq \frac{C}{h^2} \left(\sum_{j\in I(i)}a_j^2\right)\sum_{j\in I(i)}\int_{\Omega_i}\int_{U}|y|\, dy\, dx\\
+% &=\frac{C}{h^2} \left(\sum_{j\in I(i)}a_j^2\right)\sum_{j\in I(i)}|\Omega_i| h^2
+% \leq C h\left(\sum_{j\in I(i)}a_j^2\right).%\leq Ch^2|u|_{2,\Omega_i}.
+% \end{align*}
+
+% Then
+% \begin{align*}
+% T_1=\sum_{i\in I}T_{1,i}\leq Ch \sum_{i\in I}\left(\sum_{j\in I(i)}a_j^2\right).
+% \end{align*}
+
+% On the other hand,
+% \begin{align*}
+% T_{2,i}
+% &:=\int_{\Omega_i}\int_{D}\frac{|I_h u(x)-I_h u(x+y)|^2}{|y|}\, dy\, dx\\
+% &\leq 2\left(
+% \int_{\Omega_i}|I_h u(x)|^2\int_{D}|y|^{-1}\, dy\, dx
+% +\int_{\Omega_i}\int_{D}|I_h u(x+y)|^2|y|^{-1}\, dy\, dx
+% \right).
+% \end{align*}
+% Note that
+% \begin{align*}
+%     \sum_{i\in I}\int_{\Omega_i}|I_h u(x)|^2\int_{D}|y|^{-1}\, dy\, dx
+%     \leq C|\ln(h)|\int_{\Omega_i}|I_h u(x)|^2\, dx
+%     %&\leq C|\ln(h)|\int_{\Omega}\left|\sum_{j\in I}a_j\varphi_j(x)\right|^2\, dx\\
+%     %&\leq C|\ln(h)|\left(\sum_{j\in I}a_i^2\right)
+% \end{align*}
+% and
+% \begin{align*}
+% \int_{\Omega_i}\int_{D}|I_h u(x+y)|^2|y|^{-1}\, dy\, dx
+% \leq \int_{\Omega_i}\int_{D}|I_h u(x+y)|^2|y|^{-1}\, dy\, dx
+% \end{align*}
+
+% \section{The logarithmic Hardy inequality}
+
+% Let $\Omega\subset \R^N$ be a bounded domain.
+
+% \begin{lemma}\label{lem:equiv_norm}
+% For every $R>0$, the norm
+% \begin{align*}
+%     \|u\|_{R}:=\left(\int_{\R^N}\int_{B_R(x)}\frac{|u(x)-u(y)|^2}{|x-y|^N}\, dy\, dx\right)^\frac{1}{2}
+% \end{align*}
+% is an equivalent norm in $\mathbb H(\Omega)$.
+% \end{lemma}
+% \begin{proof}
+% TO-DO
+% \end{proof}
+
+% Now we show a logarithmic Hardy inequality for domains satisfying a uniform exterior sphere condition, namely, that there is $r_0>$ such that for every $z\in \partial\Omega$ there is $z^*\in \R^N\backslash \Omega$ such that
+% \begin{align}\label{r0}
+% \overline{B_{r_0}(z^*)}\cap \overline{\Omega}=\{z\}.
+% \end{align}
+
+%  We follow the argument in \cite[Section 4.2]{BC18} devised for convex domains. For $x\in \R^N$, let
+% \begin{align*}
+% \delta(x)=\delta_\Omega(x):=\chi_{\Omega}(x)\inf_{y\in \partial \Omega}|x-y|.
+% \end{align*}
+
+% \begin{proposition}\label{prop:hardy}
+% Let $\Omega\subset \R^N$ be a bounded domain satisfying a uniform exterior sphere condition. Then
+% \begin{align*}
+% \int_{\Omega}\frac{|u(x)|^2}{\ell(\delta_\Omega(x))}\, dx\leq C\|u\|^2\qquad \text{ for all }u\in\mH(\Omega)
+% \end{align*}
+% and for some constant $C=C(\Omega)>0.$
+% \end{proposition}
+% \begin{proof}
+% Let $R:=2\diam(\Omega)>0$. For every $x\in \Omega$ there is $x_0\in \R^N$ such that
+% \begin{align*}
+%     |x-x_0|=2\delta(x),\qquad \frac{x+x_0}{2}\in \partial \Omega.
+% \end{align*}
+% For every $x\in\Omega$ and $y\in \R^N\backslash B_{\delta(x)}(x_0)$,
+% \begin{align*}
+% |x-y|\leq |x-x_0|+|x_0-y|=2\delta(x)+|x_0-y|\leq 3|x_0-y|.
+% \end{align*}
+% We now split the domain $\Omega.$ Let $r_0>0$ be as in \eqref{r0} and let
+% \begin{align*}
+%     \Omega_1:=\left\{y\in\Omega\::\: \delta(y)<\frac{r_0}{10}\right\},\qquad \Omega_2:=\Omega\backslash \Omega_1.
+% \end{align*}
+% By making $r_0$ smaller if necessary, we can assume that, for every $x\in\Omega_1$,
+% \begin{align*}
+% A_x:=\{y\in \R^N\::\: \delta(x)<|y-x_0|<r_0,\ (y-x_0,x-x_0)<0\}\subset B_R(x)\backslash \Omega\cup B_{\delta(x)}(x_0)).
+% \end{align*}
+
+% \setlength{\unitlength}{1cm}
+% \begin{figure}[ht] 
+% \begin{center}
+% \begin{picture}(5,5)
+% \put(0,0){\includegraphics[width=5cm]{v.png}}
+% \put(0.5,4){$\Omega$}
+% \put(3.5,2){$A_x$}
+% \put(2.77,2.54){$\bullet$}
+% \put(2.7,2.3){$x_0$}
+% \put(2.17,2.54){$\bullet$}
+% \put(2.1,2.3){$x$}
+% \end{picture}
+% \end{center}
+%  \caption{The set $A_x$.}\label{f}
+% \end{figure}
+
+
+
+
+% Then
+% \begin{align}
+%     \int_{\R^N}\int_{B_R(x)}\frac{|u(x)-u(y)|^2}{|x-y|^N}\, dy\, dx
+%     &\geq \int_{\Omega}|u(x)|^2\int_{B_R(x)\backslash (\Omega\cup B_{\delta(x)}(x_0))}|x-y|^{-N}\, dy\, dx\notag\\
+%     =T_1+T_2,\label{H1}
+% \end{align}
+% where
+% \begin{align}
+%     T_1&:=\int_{\Omega_1}|u(x)|^2\int_{B_R(x)\backslash (\Omega\cup B_{\delta(x)}(x_0))}|x-y|^{-N}\, dy\, dx \notag\\
+%     &\geq 3^{-N}\int_{\Omega_1}|u(x)|^2\int_{A_x}|x_0-y|^{-N}\, dy\, dx\geq \frac{1}{2\omega_N 3^N}\int_{\Omega_1}|u(x)|^2\int_{\delta(x)}^{r_0}\rho^{-1}\, d\rho\, dx\notag\\
+%     &=\frac{1}{2\omega_N 3^N}\int_{\Omega_1}|u(x)|^2\left|\ln\left(\frac{\delta(x)}{r_0}\right)\right|\, dx\geq C_1\int_{\Omega_1}\frac{|u(x)|^2}{\ell(\delta(x))}\, dx\label{H2}
+% \end{align}
+% for some $C_1=C_1(\Omega)>0$ (using Lemma \ref{prop1} together with the fact that $\frac{\delta(x)}{r_0}<\frac{1}{10}$) and
+% \begin{align}
+%     T_2&:=\int_{\Omega_2}|u(x)|^2\int_{B_R(x)\backslash (\Omega\cup B_{\delta(x)}(x_0))}|x-y|^{-N}\, dy\, dx\notag\\
+%     &\geq (3R)^{-N}|B_R| \int_{\Omega_2}|u(x)|^2\frac{\ell(\delta(x))}{\ell(\delta(x))}\, dx
+%     \geq C_2\int_{\Omega_2}\frac{|u(x)|^2}{\ell(\delta(x))}\, dx\label{H3}
+% \end{align}
+% for some $C_2=C_2(\Omega)>0$, because $|x-y|<3R$ for $x\in \Omega$ and $y\in B_R(x)$ and using that $\ell(\delta(x))\geq \ell(\frac{r_0}{10})$ for $x\in \Omega_2.$ The claim now follows from \eqref{H1}, \eqref{H2}, and \eqref{H3}.
+% \end{proof}
+
+% \begin{corollary}
+% Let $\Omega\subset \R^N$ be a bounded domain satisfying a uniform exterior sphere condition.  There is $C=C(\Omega)>0$ such that
+% \begin{align*}
+%     \|u\|^2\leq C\int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|^N}\, dx\, dy\qquad \text{ for all }u\in\mH(\Omega).
+% \end{align*}
+% \end{corollary}
+% \begin{proof}
+% Let $u\in C_c^\infty(\Omega)$ and $R>0$ be fixed such that $\Omega\subset B_R(x)$ for all $x\in\Omega$. By \Cref{lem:equiv_norm}, we have
+% %
+% \begin{align}\label{eq:des_init}
+%     \|u\|^2&\leq \|u\|_R^2=C\int_{\R^N}\int_{B_R(x)}\frac{|u(x)-u(y)|^2}{|x-y|^N}dy dx. 
+% \end{align}
+% %
+% for some $C>0$ only depending on $\Omega$ and $R$. Let
+% $
+%     B_R(\Omega):=\{x\in \R^N\::\: \dist(x,\Omega)<R\}.
+% $
+% %
+% {Note that if $\dist(x,\Omega)>R$ and $|x-y|<R$, then $y\not\in \Omega$}, whence
+% %
+% \begin{align}\label{eq:norm_R_bound}
+%      \|u\|_R^2=C\int_{B_{R}(\Omega)}\int_{B_R(x)}\frac{|u(x)-u(y)|^2}{|x-y|^N}dy dx \leq  C\int_{B_{R}(\Omega)}\int_{B_{R^\prime}}\frac{|u(x)-u(y)|^2}{|x-y|^N}dy dx . 
+% \end{align}
+% %
+% where we have chosen $R^\prime>0$ large enough such that $ B_R(x)\subset B_{R^\prime}$ for all $x\in B_R(\Omega)$. In particular, $B_R(\Omega)\subset B_{R^\prime}$ and hence
+% %
+% \begin{align}\label{eq:iden_norms}
+%   \|u\|_R^2 
+%     &\leq C\left(\int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|^N}dy dx +2\int_{\Omega}\int_{B_{R^\prime}\setminus \Omega} \frac{|u(x)|^2}{|x-y|^N}dy dx\right) 
+% \end{align}
+% %
+% since $u=0$ in $\R^N\setminus \Omega$. 
+% For the second term in the r.h.s of \eqref{eq:iden_norms}, we have that
+% %
+% \begin{align}\notag
+%     \int_{\Omega}\int_{B_{R_2}\setminus \Omega} \frac{|u(x)|^2}{|x-y|^N}dy dx&\leq \int_{\Omega}|u(x)|^2\int_{B_{R^\prime}\setminus B_{\delta(x)}(x)}\frac{1}{|x-y|^N}dy dx \\ \label{eq:final_bound}
+%     &=\int_{\Omega}|u(x)|^2\log\left(\frac{R^\prime}{\delta(x)}\right)dx \leq C \int_{\Omega}\frac{|u(x)|^2}{\ell(\delta(x))}dx
+% \end{align}
+% %
+% for some constant $C>0$ depending on $R^\prime$.   Putting together \eqref{eq:des_init}, \eqref{eq:norm_R_bound}, \eqref{eq:iden_norms}, and \eqref{eq:final_bound} and using \Cref{prop:hardy} yield that
+% %
+% \begin{align}
+%     \|u\|^2\leq C \int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|^N}dy dx + C\|u\|^2
+% \end{align}
+% %
+% for some $C>0$ only depending on $\Omega$, $R$ and $R^\prime$. 
+% %
+% \end{proof}
+
+
+
+
+
+\section{The stiffness matrix for the logarihtmic Laplacian}
+
+Recall that $\Omega:=(0,L)$ for some $L>0$.  We use $A^L_h$ to denote the stiffness matrix associated to the logarithmic Laplacian $L_\Delta.$   The entries of the matrix $A^L_h=(b_{ij})_{i,j=0}^{N+1}$ can be obtained by computing
+\begin{align*}
+b_{ij}=\cE_L(\varphi_i,\varphi_j)\qquad \text{ for }i,j=0,\ldots,N+1.
+\end{align*}
+Instead of doing this computation directly, we obtain a closed formula for $b_{ij}$ by differentiating the entries of the stiffness matrix for the fractional Laplacian (which were explicitly computed in \cite{BH17}) and evaluating them at $s=0$.  To be more precise, let $A^s_h=(b_{ij}^s)_{i,j=0}^{N+1}$ be the stiffness matrix for $(-\Delta)^s$. We show the following. 
+\begin{lemma} For $i,j=0,\ldots,N+1,$
+\begin{align*}
+    b_{ij}=\partial_s b_{ij}^s \mid_{s=0}.
+\end{align*}
+\end{lemma}
+\begin{proof}
+We claim that 
+\begin{align}\label{aux:1}
+\lim_{s\to 0}\left\|\frac{(-\Delta)^s \varphi_i-\varphi_i}{s}-L_\Delta \varphi_i    \right\|_{L^p(\R)}=0\qquad \text{for $i=0,\ldots,N+1$ and $1<p<\infty$.}
+\end{align}
+For $i=1,\ldots,N$, this follows directly from \cite[Theorem 1.1]{CW19}, because $\varphi_i$ is Lipschitz continuous in $\R$.  However, the functions $\phi_0$ and $\phi_{N+1}$ have a jump discontinuity at 0 and at $L$, respectively.  Nevertheless, the proof of \cite[Theorem 1.1]{CW19} can be adapted to this case with obvious changes.  For the reader's convenience we include a brief proof in the appendix (see Lemma \ref{phi0:conv}). Then, integrating by parts (see Lemma \ref{ibyp:lem}) and using \eqref{aux:1},
+\begin{align*}
+\partial_s b_{ij}^s\mid_{s=0}&=\partial_s\cE_s(\varphi_i,\varphi_j)\mid_{s=0}=
+\partial_s\int_{\R} (-\Delta)^s\varphi_i \varphi_j\, dx\mid_{s=0}\\
+&=\int_{\R} \partial_s(-\Delta)^s\varphi_i\mid_{s=0} \varphi_j\, dx
+=\int_{\R} L_\Delta\varphi_i \varphi_j\, dx
+=\cE_L(\varphi_i,\varphi_j)=b_{ij},
+\end{align*}
+where we used that
+\begin{align*}
+\int_{\R}\left(\frac{(-\Delta)^s \varphi_i-\varphi_i}{s}-L_\Delta \varphi_i  \right)\varphi_j\, dx
+\leq \|\varphi_j\|_\infty\int_{\Omega}\left|\frac{(-\Delta)^s \varphi_i-\varphi_i}{s}-L_\Delta \varphi_i  \right|\, dx\to 0
+\end{align*}
+as $s\to 0^+,$ since $\Omega$ is bounded.
+\end{proof}
+
+
+In \cite{L22}, a good numerical approximation of these coefficients is done using a trapeze formula.  The error involved in this approximation is of the order $O(\frac{1}{N^2})$.  
+
+
+
+
+
+
+
+
+\section{Computation of the stiffness matrix}
+
+In this section we construct the stiffness matrix associated to the fractional Laplacian $(-\Delta)^s$ with $s\in(0,\frac{1}{2})$. We follow the computations done in \cite{BH17}.  In particular, we want to calculate
+\begin{align*}
+a_{ij}:=\frac{2}{c_{1,s}}\cE_s(\varphi_i,\varphi_j)\qquad \text{ for }i,j=0,\ldots, N+1,
+\end{align*}
+where $c_{1,s}=4^s\pi^{-1/2}s(1-s)\frac{\Gamma(1/2+s)}{\Gamma(2-s)}=\frac{\sin (\pi  s) \Gamma (2 s+1)}{\pi }$.
+
+If $i,j\neq 0,N+1$, then these coefficients were obtained in \cite{BH17}, and are given by the following formulas. 
+
+If $i,j\in\inter{1,N}$ and $j-i\geq 2$, then
+\begin{align*}
+	a_{i,j} = - h^{1-2s}\,\frac{4(k+1)^{3-2s} + 4(k-1)^{3-2s}-6k^{3-2s}-(k+2)^{3-2s}-(k-2)^{3-2s}}{2s(1-2s)(1-s)(3-2s)};
+\end{align*} 
+moreover, for $i\in\inter{1,N-1}$,
+\begin{align*}
+	a_{i,i+1} =	\displaystyle h^{1-2s}\frac{3^{3-2s}-2^{5-2s}+7}{2s(1-2s)(1-s)(3-2s)},
+\end{align*}
+and, for  $i\in\inter{1,N}$,
+\begin{align*}
+	a_{i,i} =
+			\displaystyle h^{1-2s}\,\frac{2^{3-2s}-4}{s(1-2s)(1-s)(3-2s)}.
+\end{align*}
+
+Let $\mathcal A^s_h=\frac{c_{1,s}}{2}(a_{ij})_{i,j=0}^{N+1}$. It remains to calculate $a_{0,i}$ for $i\in\inter{0,N+1}$.  By symmetry, we have that $a_{0,0}=a_{N+1,N+1}$, $a_{0,i}=a_{i,0}=a_{N+1-i,N+1}=a_{N+1,N+1-i}$ for $i\in\inter{1,N}$. Therefore, we only consider the following cases.
+
+\subsection{Case 1: $a_{0,0}$.}
+
+Note that
+	\begin{align*}
+	a_{0,0}= & \int_{\RR}\int_{\RR}\frac{(\varphi_0(x)-\varphi_0(y))^2}{|x-y|^{1+2s}}\,dxdy
+	\\
+	=& 2\int_{h}^{+\infty}\int_{0}^{h} \ldots\,dxdy  + \int_{0}^{h}\int_{0}^{h} \ldots\,dxdy + 2\int_{-\infty}^{0}\int_{0}^{h} \ldots\,dxdy,
+\end{align*}
+where 
+
+% In Fig. \ref{upp_dia}, we give a scheme of the regions of interactions between the basis functions $\varphi_i(x)$ and $\varphi_i(y)$ enlightening the domain of integration of the $R_i$. The regions in grey are the ones that produce a contribution to $a_{0,0}$, while on the regions in white the integrals will be zero.
+% \begin{figure}
+% \figinit{0.7pt}
+% % Axes
+% \figpt 0:(-50,70)
+% \figpt 1:(-100,80) \figpt 2:(220,80)
+% \figpt 3:(-40,-20) \figpt 4:(-40,290)
+
+% %%%%
+% \figpt 5:(40,0) \figpt 6:(40,270)
+% \figpt 7:(65,0) \figpt 8:(65,270)
+% \figpt 9:(90,0) \figpt 10:(90,270)
+% %
+% \figpt 11:(-80,160) \figpt 12:(200,160)
+% \figpt 13:(-80,185) \figpt 14:(200,185)
+% \figpt 15:(-80,210) \figpt 16:(200,210)
+
+% \figpt 53:(65,250) \figpt 54:(65,250)
+% \figpt 55:(65,230) \figpt 56:(65,25)
+% \figpt 57:(65,41) \figpt 58:(200,210)
+
+% \figpt 59:(-25,185) \figpt 60:(140,185)
+% \figpt 61:(-5,185) \figpt 62:(160,185)
+% \figpt 63:(65,230) \figpt 64:(65,25)
+
+% %
+
+% % Grey part 
+% \figpt 29:(40,210) \figpt 30:(90,210)
+% \figpt 31:(40,160) \figpt 32:(90,160)
+
+% % Diagonal 
+% \figpt 33:(-40,80) \figpt 34:(150,270)
+
+% % Points for writing
+% \figpt 35:(-49,164) \figpt 36:(-47,189) \figpt 37:(-49,215) 
+% \figpt 38:(30,74) \figpt 39:(58,74) \figpt 40:(80,74) 
+
+% \figpt 41:(150,240) \figpt 42:(65,240) \figpt 43:(150,185) 
+% \figpt 44:(-15,240) \figpt 45:(52.5,172.5) \figpt 46:(77.5,172.5) 
+% \figpt 47:(52.5,195.5) \figpt 48:(77.5,195.5) \figpt 49:(-15,185) 
+% \figpt 50:(65,30) \figpt 51:(150,30) \figpt 52:(-15,30) 
+
+% \figpt 73:(-52,280) \figpt 74:(210,70)
+
+
+% % 2. Creation of the graphical file
+% \figdrawbegin{}
+
+% \figset(fillmode=yes, color=0.9)
+% \figdrawline[29,30,10,6,29]
+% \figdrawline[30,32,12,16,30]
+% \figdrawline[32,31,5,9,32]
+% \figdrawline[31,11,15,29,31]
+% \figset(fillmode=yes, color=0.6)
+% \figdrawline[29,30,32,31,29]
+% \figset(fillmode=no, color=0)
+% \figdrawarrow[1,2]
+% \figdrawarrow[3,4]
+% \figdrawline[5,6]
+% \figdrawline[9,10]
+% \figdrawline[11,12]
+% \figdrawline[15,16]
+% \figset(dash=4)
+% \figdrawline[7,56]
+% \figdrawline[57,55]
+% \figdrawline[53,8]
+% \figdrawline[13,59]
+% \figdrawline[60,61]
+% \figdrawline[62,14]
+% \figset(dash=5)
+% \figdrawline[33,34]
+% \figdrawend
+
+% % 3. Writing text on the figure
+% \figvisu{\figBoxA}{}{
+% \figwritec [0]{$O$}
+% \figwritec [35,38]{$x_{i-1}$}
+% \figwritec [36,39]{$x_i$}
+% \figwritec [37,40]{$x_{i+1}$}
+% \figwritec [73]{$y$}
+% \figwritec [41]{$R_1$}
+% \figwritec [42,43]{$R_2$}
+% \figwritec [44]{$R_3$}
+% \figwritec [45]{$R_4^1$}
+% \figwritec [46]{$R_4^2$}
+% \figwritec [47]{$R_4^3$}
+% \figwritec [48]{$R_4^4$}
+% \figwritec [49,50]{$R_5$}
+% \figwritec [51]{$R_6$}
+% \figwritec [52]{$R_7$}
+% }
+% \centerline{\box\figBoxA}
+% \caption{Interactions between the basis function $\varphi_i(x)$ and $\varphi_i(y)$.}\label{dia}
+% \end{figure}
+% %\begin{figure}
+% %	\centering
+% %	\includegraphics[scale=1]{figure16.eps}
+% %	\caption{Interactions between the basis function $\varphi_i(x)$ and $\varphi_i(y)$.}\label{dia}
+% %\end{figure}
+
+% Le us now compute the terms $R_i$, $i=1,\ldots,7$, separately. First, note that $R_1=R_3=R_6=R_7=0,$ because the integrating regions are outside the support of $\varphi_0$. 
+% \subsubsection*{Computation of $R_2$}
+\begin{align*}
+	R_1 &:= 2\int_{h}^{+\infty}\int_{0}^{h} \frac{\varphi_0^2(x)}{|x-y|^{1+2s}}\,dxdy = 8\int_{0}^{h}\left(1-\frac{x}{h}\right)^2\left(\int_{h}^{+\infty} \frac{1}{(y-x)^{1+2s}}\, dy\right)\,dx \\
+	&= \frac{4}{s}\int_{0}^{h}\frac{\left(1-\frac{x}{h}\right)^2}{(h-x)^{2s}}\,dx
+	=\frac{4h^{1-2 s}}{s(3-2 s)}.
+\end{align*}
+
+%\subsubsection*{Computation of $R_4$}
+\begin{align*}
+	R_2 &
+	:= \int_{0}^{h}\int_{0}^{h} \frac{(\varphi_0(x)-\varphi_0(y))^2}{|x-y|^{1+2s}}\,dxdy
+	= 4h^{-2}\int_{0}^{h}\int_{0}^{h} |x-y|^{1-2s}\,dxdy
+	=\frac{4h^{1-2 s}}{(1-s) (3-2 s)}
+\end{align*}
+
+
+
+%\subsubsection*{Computation of $R_5$}
+\begin{align*}
+	R_3 &:= 2\int_{-\infty}^{0}\int_{0}^{h} \frac{\varphi_0^2(x)}{|x-y|^{1+2s}}\,dxdy = 2\int_{0}^{h}\varphi_0^2(x)\left(\int_{-\infty}^{0} \frac{dy}{|x-y|^{1+2s}}\right)\,dx = \frac{1}{s}\int_{0}^{h}\frac{\varphi_0^2(x)}{x^{2s}}\,dx\\
+	&=\frac{4 h^{1-2 s}}{(1-s)(3-2 s) (1-2 s)s}.
+\end{align*}
+%
+as long as $s<1/2$.
+
+Therefore,
+%
+\begin{equation*}
+    a_{0,0}=\frac{8 h^{1 - 2 s}}{s (3 - 2 s) (1 - 2 s)}
+\end{equation*}
+%
+
+\subsection{Case 2: $a_{0,j}$ for $j\in\inter{2,N}$.}
+
+\begin{align}\label{elem_noint_app}
+	a_{0,j}&=-2 \int_{x_{j-1}}^{x_{j+1}}\int_{0}^{h}\frac{\varphi_0(x)\varphi_j(y)}{|x-y|^{1+2s}}\,dxdy
+=-4 \int_{(j-1)h}^{(j+1)h}\int_0^{h}\frac{\left(1-\frac{x}{h}\right)\left(1-\frac{|y-jh|}{h}\right)}{|x-y|^{1+2s}}\,dxdy.
+\end{align}
+
+Let us introduce the following change of variables:
+\begin{align*}
+	\frac{x}{h}=\hat{x},\;\;\; \frac{y-jh}{h}=\hat{y}.
+\end{align*}
+
+Then, rewriting (with some abuse of notations since there is no possibility of confusion) $\hat{x}=x$ and $\hat{y}=y$, we get 
+\begin{align}\label{elem_noint_cv}
+	a_{0,j}&=-4h^{1-2s} \int_{-1}^1\int_{0}^1\frac{(1-x)(1-|y|)}{(j+y-x)^{1+2s}}\,dxdy\\
+	&=-4h^{1-2s} \left(\int_{0}^1\int_{0}^1\frac{(1-x)(1-y)}{(j+y-x)^{1+2s}}\,dxdy
+	+\int_{-1}^0\int_{0}^1\frac{(1-x)(1+y)}{(j+y-x)^{1+2s}}\,dxdy\right)\\
+	&=-4h^{1-2s}(B_1+B_3).
+\end{align}
+Integrating by parts several times, we have
+\begin{align*}
+	& B_1 = \frac{1}{4s(1-2s)}\left[2j^{1-2s}-\frac{(j+1)^{2-2s}-(j-1)^{2-2s}}{1-s}-\frac{2j^{3-2s}-(j+1)^{3-2s}-(j-1)^{3-2s}}{(1-s)(3-2s)}\right],\\
+%	& B_2 = \frac{1}{4s(1-2s)}\left[-2k^{1-2s}+\frac{2(k+1)^{2-2s}-2k^{2-2s}}{1-s}+\frac{2(k+1)^{3-2s}-k^{3-2s}-(k+2)^{3-2s}}{(1-s)(3-2s)}\right]\\
+	& B_3 = \frac{1}{4s(1-2s)}\left[-2j^{1-2s}+\frac{2j^{2-2s}-2(j-1)^{2-2s}}{1-s}+\frac{2(j-1)^{3-2s}-j^{3-2s}-(j-2)^{3-2s}}{(1-s)(3-2s)}\right].
+%	& B_4 = \frac{1}{4s(1-2s)}\left[2k^{1-2s}-\frac{(k+1)^{2-2s}-(k-1)^{2-2s}}{1-s}-\frac{2k^{3-2s}-(k+1)^{3-2s}-(k-1)^{3-2s}}{(1-s)(3-2s)}\right].
+\end{align*} 
+
+Therefore,
+\begin{align*}
+	a_{0,j} =-\frac{h^{1-2 s} \gamma_j^s }{(1-2 s) (1-s) s (3- 2s )}.
+\end{align*} 
+where
+%
+\begin{align}\notag
+\gamma_j^s= &-3 j^{3-2 s}+2 (3-2 s) j^{2-2 s}+(2 s-3)
+   (j-1)^{2-2 s}+3 (j-1)^{3-2 s} \\ \label{eq:def_gamma_j}
+   &-(j-2)^{3-2 s}+(j+1)^{3-2 s}+(2
+   s-3) (j+1)^{2-2 s}.
+\end{align}
+%
+
+\subsection{Case 3: $a_{0,N+1}$.} Since $\Omega=(0,L)$, we have that $x_{N+1}=L=(N+1)h=x_{N+2}$ and $x_{N-1}=L-h=h(N-1)$. Then
+
+\begin{align}\label{elem_noint_app}
+a_{0,N+1}&=-2 \int_{x_{N}}^{x_{N+1}}\int_{x_0}^{x_1}\frac{\varphi_0(x)\varphi_{N+1}(y)}{|x-y|^{1+2s}}\,dxdy
+=-8\int_{Nh}^{(N+1)h}\int_0^{h}\frac{\left(1-\frac{x}{h}\right)\left(\frac{y}{h}-N\right)}{(y-x)^{1+2s}}\,dxdy\\
+&=-8h^{1-2s}\int_{0}^{1}\int_0^{1}\frac{\left(1-x\right)y}{(y+N-x)^{1+2s}}\,dxdy,
+\end{align}
+then
+%
+\begin{align*}
+a_{0,N+1} = -\frac{2 h^{1-2 s} \zeta_N^s }{s(1-s)(1-2s )(3-2 s)}
+\end{align*}
+%
+where 
+%
+\begin{align}\notag 
+\zeta_N^s:= (N-1)^{-2 s} N^{-2 s} (N+1)^{-2 s}
+   &\left[(N+1)^{2 s} \left(2 N^2 (N-1)^{2 s} (N+2 s-3)-(N-1)^3
+   N^{2 s}\right) \right. \\  & \label{eq:def_zeta_N} \;
+   \left. -(N+1) (N-1)^{2 s} N^{2 s} \left(N^2+4 N (s-1)+4
+   s^2-6 s+1\right)\right]
+\end{align}
+%
+
+
+\subsection{Case 4: $a_{0,1}$.}
+
+We have 
+	\begin{align*}
+	a_{0,1}= & \int_{\RR}\int_{\RR}\frac{(\varphi_0(x)-\varphi_0(y))(\varphi_{1}(x)-\varphi_{1}(y))}{|x-y|^{1+2s}}\,dxdy
+	\\
+	= & \int_{h}^{+\infty}\int_{h}^{+\infty} \ldots\,dxdy + 2\int_{h}^{+\infty}\int_{0}^{h} \ldots\,dxdy + 2\int_{h}^{+\infty}\int_{-\infty}^{0} \ldots\,dxdy 
+	\\
+	& + \int_{0}^{h}\int_{0}^{h} \ldots\,dxdy + 2\int_{0}^{h}\int_{-\infty}^{0} \ldots\,dxdy + \int_{-\infty}^{0}\int_{-\infty}^{0} \ldots\,dxdy 
+	\\
+	:= & Q_1 + Q_2 + Q_3 + Q_4 + Q_5 + Q_6.
+\end{align*}
+
+Le us now compute the terms $Q_i$, $i=1,\ldots,6$, separately.   Note that $Q_6=Q_3=Q_1 = 0.$ Moreover, by Fubini's theorem,
+\begin{align*}
+	Q_2 &= 2\int_{h}^{+\infty}\int_{0}^{h} \frac{\varphi_0(x)(\varphi_{1}(x)-\varphi_{1}(y))}{|x-y|^{1+2s}}\,dxdy\\
+	&= 2\int_{0}^{h}\varphi_0(x)\varphi_{1}(x)\left(\int_{h}^{+\infty} \frac{dy}{|x-y|^{1+2s}}\right)\,dx - 2\int_{h}^{2h}\int_{0}^{h} \frac{\varphi_0(x)\varphi_{1}(y)}{|x-y|^{1+2s}}\,dxdy 
+	\\
+	&= \frac{1}{s}\int_{0}^{h}\frac{\varphi_0(x)\varphi_{1}(x)}{(h-x)^{2s}}\,dx - 2\int_{h}^{2h}\int_{0}^{h} \frac{\varphi_0(x)\varphi_{1}(y)}{|x-y|^{1+2s}}\,dxdy
+	\\
+	&= \frac{2}{s}\int_{0}^{h}\frac{\left(1-\frac{x}{h}\right)\left(1-\frac{h-x}{h}\right)}{(h-x)^{2s}}\,dx - 4\int_{h}^{2h}\int_{0}^{h} \frac{\left(1-\frac{x}{h}\right)\left(1-\frac{y-h}{h}\right)}{|x-y|^{1+2s}}\,dxdy,
+\end{align*}
+where, using a change of variables,
+\begin{align*}
+Q_2^1&=2\frac{h^{1-2s}}{s}\int_0^1 x^{1-2s}(1-x)\,dx = \frac{h^{1-2s}}{s(1-s)(3-2s)},\\
+Q_2^2 &= -4h^{1-2s}\int_0^1\int_0^1\frac{(1-x)(1-y)}{(y-x+1)^{1+2s}}\,dxdy = h^{1-2s}\frac{2^{2-2s}+2s-4}{s(1-s)(3-2s)}.
+\end{align*}
+Adding the two contributions, we get the following expression for the term $Q_2$
+\begin{align*}
+	Q_2 = h^{1-2s}\frac{2^{2-2s}+2s-3}{s(1-s)(3-2s)}.
+\end{align*}
+Finally, 
+\begin{align*}
+	Q_4 &= \int_{0}^{h}\int_{0}^{h} \frac{(\varphi_0(x)-\varphi_0(y))(\varphi_{1}(x)-\varphi_{1}(y))}{|x-y|^{1+2s}}\,dxdy. 
+\end{align*}
+Note that
+\begin{align*}
+	(\varphi_0(x)-\varphi_0(y))(\varphi_{1}(x)-\varphi_{1}(y)) = 2\left(\frac{y-x}{h}\right)\left(\frac{x-y}{h}\right) = -2\frac{|x-y|^2}{h^2},
+\end{align*}
+and the integral becomes
+\begin{align*}
+	Q_4 &= -2\int_{0}^{h}\int_{0}^{h} |x-y|^{1-2s}\,dxdy = -2\frac{h^{1-2s}}{(1-s)(3-2s)}. 
+\end{align*}
+
+By Fubini's theorem,
+\begin{align*}
+	Q_5 &= 2\int_{0}^{h}\varphi_0(y)\varphi_{1}(y)\left(\int_{-\infty}^{0} \frac{dx}{|x-y|^{1+2s}}\right)dy = \frac{1}{s}\int_{0}^{h}\frac{\varphi_0(y)\varphi_{1}(y)}{(y)^{2s}}\,dy \\
+	&= \frac{2}{s}\int_{0}^{h}\frac{\left(1-\frac{y}{h}\right)\left(1-\frac{h-y}{h}\right)}{y^{2s}}\,dx=\frac{h^{1-2 s}}{(1-s) s (3-2 s)}.
+\end{align*}
+
+Then,
+\begin{align*}
+a_{0,1}=Q_2+Q_4+Q_5=\frac{\left(2^{2-2 s}-2\right) h^{1-2 s}}{(3-2 s) (1-s) s}.
+\end{align*}
+
+\subsection{Conclusion}
+
+The stifness matrix $\mathcal A_h^s\in\mathbb R^{(N+2)\times (N+2)}$ has components
+%
+\begin{equation}\label{eq:def_aijs_s}
+a_{i,j}=\frac{c_{1,s}}{2}\int_{\R}\int_{\R}\frac{(\phi_i(x)-\phi_i(y)(\phi_j(x)-\phi_j(y))}{|x-y|^{1+2s}}dx dy, \quad i,j\in\inter{0,1}, 
+\end{equation}
+Recall that $\frac{c_{1,s}}{2}=\frac{\sin (\pi  s) \Gamma (2 s+1)}{2\pi}$.
+
+
+%
+In view of the symmetry of \eqref{eq:def_aijs_s} and using the basis $(\varphi_i)_{i\in\inter{0,N+1}}$ of shape funcitons \eqref{eq:def_basis}--\eqref{eq:def_basis_ext}, the coefficients $a_{i,j}$ with $i,j\in\inter{0,N+1}$ and $j\geq i$ are given by
+%
+% \begin{equation}
+% a_{i,j}= h^{1 - 2 s}
+% \begin{cases}
+% \frac{8 }{s (3 - 2 s) (1 - 2 s)} & \textnormal{$i=0$, $j=0$,} \\ 
+% \frac{\left(2^{2-2 s}-2\right)}{(3-2 s) (1-s) s} & \textnormal{$i=0$, $j=1$,} \\
+% -\frac{\gamma_j^s }{s(1-2 s) (1-s)(3-2s)} & \parbox[t]{.3\columnwidth}{$i=0$, $j\in\inter{2,N}$, where $\gamma_j^s$ is defined in \eqref{eq:def_gamma_j},}\\
+% -\frac{\zeta^s_{N} }{s(1-2 s) (1-s) (3-2s)} & \parbox[t]{.3\columnwidth}{$i=0$, $j=N+1$, where $\zeta_N^s$ is defined in \eqref{eq:def_zeta_N},}\\
+% -\frac{4(k+1)^{3-2s} + 4(k-1)^{3-2s}-6k^{3-2s}-(k+2)^{3-2s}-(k-2)^{3-2s}}{2s(1-2s)(1-s)(3-2s)} & \textnormal{ $i,j\in\inter{1,N}$ and $j-i\geq 2$,} \\
+% \frac{3^{3-2s}-2^{5-2s}+7}{2s(1-2s)(1-s)(3-2s)} & \textnormal{$i\in\inter{1,N-1}$ and $j=i+1$,} \\
+% \frac{2^{3-2s}-4}{s(1-2s)(1-s)(3-2s)} & \textnormal{$i\in\inter{1,N}$ and $j=i$.}
+% \end{cases}
+% \end{equation}
+%
+\begin{equation}
+a_{i,j}= \frac{h^{1 - 2 s}}{2s(1-2s)(1-s)(3-2s)}
+\begin{cases}
+16(1-s) & \textnormal{$i=0$, $j=0$,} \\ 
+\left(2^{3-2 s}-8\right)(1-2s) & \textnormal{$i=0$, $j=1$,} \\
+-2\gamma_j^s  & \parbox[t]{.3\columnwidth}{$i=0$, $j\in\inter{2,N}$, where $\gamma_j^s$ is defined in \eqref{eq:def_gamma_j},}\\
+-2\zeta^s_{N}  & \parbox[t]{.3\columnwidth}{$i=0$, $j=N+1$, where $\zeta_N^s$ is defined in \eqref{eq:def_zeta_N},}\\
+-\xi_k^s & \textnormal{ $i,j\in\inter{1,N}$ with $k\geq 2$,} \\
+3^{3-2s}-2^{5-2s}+7 & \textnormal{$i\in\inter{1,N-1}$ and $j=i+1$,} \\
+4^{2-2s}-8 & \textnormal{$i\in\inter{1,N}$ and $j=i$,}
+\end{cases}
+\end{equation}
+where $k:=j-i$ and $\xi^s_k:=4(k+1)^{3-2s} + 4(k-1)^{3-2s}-6k^{3-2s}-(k+2)^{3-2s}-(k-2)^{3-2s}$
+
+
+\section{Stiffness matrix of the logarithmic Laplacian}
+
+The stiffness matrix $\mathcal A_{h}^{L}\in{\R^{(N+2)\times(N+2)}}$ of the logarithmic laplacian has coefficients $a_{i,j}$ with $i,j\in\inter{0,N+1}$ and $j\geq 1$ given by
+%
+\begin{equation}
+a_{i,j}= h
+\begin{cases}
+\displaystyle -\frac{4 \gamma }{3}+\frac{32 }{9}-\frac{8}{3}  \log (h)+\frac{8}{3}  \log
+   (2)+\frac{4}{3}  \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=0$,} \\ 
+\displaystyle -\frac{\gamma }{3}+\frac{5}{9}-\frac{2}{3} \log (h)-\frac{2}{3}  \log
+   (2)+\frac{1}{3} \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=1$,} \\
+   -\frac{2}{3}, 
+ & \parbox[t]{.3\columnwidth}{$i=0$, $j=2$}\\
+ \mathsf{l}_k, 
+ & \parbox[t]{.3\columnwidth}{$i=0$, $j\in\inter{3,N}$}\\
+ \mathsf{m}_k, &  \parbox[t]{.3\columnwidth}{$i=0$, $j=N+1$,}\\
+\displaystyle -\frac{\mathsf p_k}{3}, & \textnormal{$i,j\in\inter{1,N}$ and $j-i=2$,} \\
+\displaystyle \frac{\mathsf q_k}{6}, & \textnormal{$i,j\in\inter{1,N}$ and $j-i> 2$,} \\
+\displaystyle -\frac{\gamma}{6} + \frac{11}{18} - \frac{\log(h)}{3}  + \frac{64\log(2) - 54\log(3)}{12} + \frac{\log(2)}{3}  + \frac{1}{6} \psi(\frac 12), & \textnormal{$i\in\inter{1,N-1}$ and $j=i+1$,} \\
+\displaystyle -\frac{2}{9}\left[6\log(h) + 3\gamma - 11 + \log(64) - 3\psi(\frac12)\right], & \textnormal{$i\in\inter{1,N}$ and $j=i$.}
+\end{cases}
+\end{equation}
+%
+where 
+%
+\begin{align} \notag
+\mathsf{l}_k:= & \frac{1}{3}  \left[-3 j^3 \log (j)+6 j^2 \log (j)+(j-2)^3 (-\log (j-2))+3
+   (j-1)^2 (j-2) \log (j-1) \right. \\
+   &\left. +(j+1)^2 (j-2) \log (j+1)-2\right] \\
+   \mathsf{m}_k:= & \frac{2}{3}\left[2 (N-3) N^2 \log (N)-N-(N-1)^3 \log (N-1)-(N+1) ((N-4) N+1) \log (N+1)-3\right] \\
+\mathsf{p}_k:=&  -24\log(3) - 12\log(4) - 16\log(9) + 27\log(16) + \log(144) \\ \notag
+\mathsf{q}_k:=&-(-2 + k)^3\log(-2 + k) + 4(-1 + k)^3\log(-1 + k) - 6 k^3 \log(k)  \\
+&+4(1 + k)^3\log(1 + k) - (2 + k)^3\log(2 + k)
+\end{align}
+and $\psi$ is the digamma function and $\gamma=-\psi(1)$
+
+
+\section{Convergence of the method}
+
+To observe the rate of convergence numerically, we compare a numerical approximation with an explicit solution. For this, we follow the approach in \cite{L22} and use three explicit solutions. For $r>0$, let  $\Omega:=(-L,L)$, $h_\Omega(x):=-\ln(L^2-|x|^2)$, and $\rho_1:=2 \ln (2)+\psi\left(\frac{1}{2}\right)-\gamma\approx -1.15443$, where $\gamma=-\Gamma^{\prime}(1)$ is the Euler-Mascheroni constant and $\psi$ is the Digamma function given by $\psi=\frac{\Gamma^{\prime}}{\Gamma}$.  For $x\in\R$, let 
+\begin{align*}
+u_1(x):=\chi_{[-L,L]}(x), \qquad
+u_2(x):=\chi_{[-L,L]}(x) x, \qquad
+u_3(x):=(L^2-x^2)_+=(L^2-x^2)\chi_{[-L,L]}(x).
+\end{align*}
+Then, for $x\in \Omega$,
+\begin{align*}
+    L_\Delta u_1(x)&=h_\Omega(x)+\rho_1,\\
+    L_\Delta u_2(x)&=x(2+h_\Omega(x)+\rho_1),\\
+    L_\Delta u_3(x)&=L^2-3x^2+(h_\Omega(x)+\rho_1)(L^2-x^2).
+\end{align*}
+
+By \cite[Corollary 1.9]{CW19} it is stated that the (weak) maximum principle holds in 1D whenever 
+\begin{align*}
+    2L=|\Omega|\leq 2 e^{\frac{1}{2}(\psi(\frac{1}{2})-\gamma)}|B_1(0)|=4e^{\frac{1}{2}(\psi(\frac{1}{2})-\gamma)},
+    \end{align*}
+    that is,
+    \begin{align*}
+        L\leq 2 e^{\frac{1}{2}(\psi(\frac{1}{2})-\gamma)}\approx 0.6453.
+\end{align*}
+
+
+
+\appendix
+
+\section{Some auxiliary lemmas}
+%
+\begin{lemma}\label{lem:over}
+Let $R>0$ and $\alpha\in(0,1)$. Then there is $C=C(R,\alpha)>0$ such that 
+%
+\begin{equation}
+    \int_0^{R} \frac{\ell^{1+\alpha}(\rho)}{\rho}d\rho\leq C.
+\end{equation}
+%
+\end{lemma}
+%
+\begin{proof}
+Let $r\in(0,0.1)$ be fixed and assume that $R>0.1$. We split the integral into two parts, that is
+%
+\begin{equation*}
+    \int_{0}^{R}\frac{\ell^{1+\alpha}(\rho)}{\rho}d\rho=\int_{0}^{r} \frac{\ell^{1+\alpha}(\rho)}{\rho}d\rho + \int_{r}^{R}\frac{\ell^{1+\alpha}(\rho)}{\rho}d\rho
+\end{equation*}
+%
+Using that $d\rho/\rho=d(\ln \rho)$ and by definition of the function $\ell$, we have
+%
+\begin{align*}
+    \int_{0}^{R}\frac{\ell^{1+\alpha}(\rho)}{\rho}d\rho &=-\int_{0}^{r} \frac{d|\ln(\rho)|}{|\ln(\rho)|^{1+\alpha}} + \int_{r}^{R}\frac{\ell^{1+\alpha}(\rho)}{\rho}d\rho 
+    \\ &\leq -\int_{0}^{r} \frac{d|\ln(\rho)|}{|\ln(\rho)|^{1+\alpha}} + \int_{r}^{R}\frac{|\ln(r)|^{-1-\alpha}}{\rho}d\rho \\
+    &=\frac{\ell^\alpha(r)}{\alpha}+\ln(r)^{-1-\alpha}\ln(R/r):=C(R,\alpha).
+\end{align*}
+%
+The case $R\leq 0.1$ follows similarly. This ends the proof. 
+\end{proof}
+
+\begin{lemma}\label{lem:ellbeta}
+For every $R>0$ and $\beta>0$ there is $C=C(R,\beta)>0$ such that
+\begin{align*}
+\int_0^R \ell^{-\beta}(\rho)\, d\rho<C.
+\end{align*}
+\end{lemma}
+\begin{proof}
+ It is well known that the Gamma function has the following integral representation
+ \begin{align*}
+     \Gamma(z)=\int_0^1\left(\ln \frac{1}{t}\right)^{z-1}\, dt\qquad \text{ for }z>0.
+ \end{align*}
+Then, using \eqref{ell:def},
+\begin{align*}
+\int_0^R \ell^{-\beta}(\rho)\,d\rho
+=
+\int_0^{\rho_0} |\ln(x)|^{\beta}\,dx
++
+\frac{R}{\ell^{\beta}(\rho_0)}
+&\leq 
+\int_0^{1} |\ln(x)|^{\beta}\,dx
++
+\frac{R}{\ell^{\beta}(\rho_0)}=\Gamma(1+\beta)+\ell^{-\beta}(\rho_0)R.
+\end{align*}
+\end{proof}
+
+
+\begin{lemma}\label{lem:int:bds}
+Let $\alpha>0$ and $\Omega=(0,L)$ for some $L>0$. There is $C=C(L,\alpha)>0$ such that 
+\begin{align*}
+\int_{\Omega}\int_{\Omega}\frac{\ell^{1+\alpha}(|x-y|)}{|x-y|\ell^{2+2\alpha}(d(x,y))}\,dy\, dx+ \int_{\Omega}\ell^{-1+\alpha}(d(x))\, dy\,dx<C.
+\end{align*}
+\end{lemma}
+\begin{proof}
+Recall that $d(x):=\dist(x,\partial \Omega)$ and $d(x,y)=\min(d(x),d(y)).$ Then
+\begin{align*}
+\int_0^L \ell^{-1+\alpha}(d(x))\,dx&\leq \int_0^L \ell^{-1+\alpha}(x)\,dx+\int_0^L \ell^{-1+\alpha}(L-x)\,dx=:C_1<\infty,
+\end{align*}
+by Lemma \ref{lem:ellbeta}. On the other hand,
+\begin{align*}
+\int_0^L\int_0^L\frac{\ell^{1+\alpha}(|x-y|)}{|x-y|\ell^{2+2\alpha}(d(x,y))}\,dy\, dx
+&\leq 2\int_0^L\int_0^L\frac{\ell^{1+\alpha}(|x-y|)}{|x-y|\ell^{2+2\alpha}(d(x))}\,dy\, dx\\
+&\leq 4\int_0^L\left(\int_0^L\frac{\ell^{1+\alpha}(|x-y|)}{|x-y|}\,dy\right)\frac{1}{\ell^{2+2\alpha}(x)}\, dx\\
+&\leq 4\left(\int_0^L\frac{\ell^{1+\alpha}(\rho)}{\rho}\,d\rho\right)\int_0^L\frac{1}{\ell^{2+2\alpha}(x)}\, dx=:C_2<\infty,
+\end{align*}
+by Lemmas \ref{lem:over} and \ref{lem:ellbeta}.
+\end{proof}
+
+
+
+
+
+
+
+The next lemma follows closely the proof of \cite[Theorem 1.1]{CW19}.
+\begin{lemma}\label{phi0:conv}
+For $1<p<\infty$,
+\begin{align*}
+\lim_{s\to 0}\left\|\frac{(-\Delta)^s \varphi_0-\varphi_0}{s}-L_\Delta \varphi_0    \right\|_{L^p(\R)}
+=\lim_{s\to 0}\left\|\frac{(-\Delta)^s \varphi_{N+1}-\varphi_{N+1}}{s}-L_\Delta \varphi_{N+1}    \right\|_{L^p(\R)}
+=0.
+\end{align*}
+\end{lemma}
+\begin{proof}
+It suffices to show the claim for $\varphi_0$. Recall that $\Omega=(0,L)$ and $\varphi_0(x)=2(1-\frac{x}{h})\chi_{[0,h]}$ for $h\in(0,1)$ small (with respect to $L$).  Let $R>4.$  For $x \in \mathbb{R}$, we have
+$$
+\left[(-\Delta)^s \varphi_0\right](x)=\int_{\mathbb{R}} \frac{\varphi_0(x)-\varphi_0(x+z)}{|z|^{1+2s}} d z=A_R(s, x)+D_R(s) \varphi_0(x)
+$$
+with
+$$
+A_R(s, x):=c_{1, s}\left(\int_{B_R} \frac{\varphi_0(x)-\varphi_0(x+z)}{|z|^{1+2 s}} d z-\int_{\mathbb{R} \backslash B_R} \frac{\varphi_0(x+z)}{|z|^{1+2s}} d z\right)
+$$
+and $D_R(s):=c_{1, s} \int_{\mathbb{R} \backslash B_R}|z|^{-1-2 s} d z=\frac{c_{1, s}}{s}R^{-2 s}.$ Let $c_{1, s}=s d_1(s)$ with $d_1(s):=\frac{c_{1, s}}{s}=\pi^{-\frac{1}{2}} 2^{2 s} \frac{\Gamma\left(\frac{1}{2}+s\right)}{\Gamma(1-s)}.$  Note that, for $x\in B_R\backslash \{0\}$,
+\begin{align*}
+\frac{A_R(s, x)}{s} & =d_1(s) \int_{B_R} \frac{\varphi_0(x)-\varphi_0(x+z)}{|z|^{1+2 s}} d z
+\rightarrow \tilde{A}_R(x):=\int_{B_R} \frac{\varphi_0(x)-\varphi_0(x+z)}{|z|} d z \quad \text { as } s \rightarrow 0^{+}
+\end{align*}
+These integrals are singular at $x=0$, but the singularity is of logarithmic type.  As a consequence, direct computations show that this convergence also holds in $L^p(\R)$ for $1<p<\infty$.  The rest of the argument follows exactly as in \cite[Theorem 1.1]{CW19}.
+\end{proof}
+
+\begin{lemma}\label{ibyp:lem}
+For $i,j=0,\ldots,N+1$ and $s<\frac{1}{4}$, we have that
+\begin{align*}
+    \cE_s(\varphi_i,\varphi_j)&=\int_{\R}(-\Delta)^s\varphi_i\varphi_j\, dx,\qquad \cE_L(\varphi_i,\varphi_j)=\int_{\R}L_\Delta\varphi_i\varphi_j\, dx.
+\end{align*}
+\end{lemma}
+\begin{proof}The proof follows by a standard application of Fubini's theorem. 
+\end{proof}
+
+
+
+ \bibliographystyle{plain}
+ \bibliography{biblio}
+
+
+
+\newpage
+
+{\Huge  TO DO:}
+\begin{enumerate}
+    \item Escribir la introducción, Como problemas abiertos: Adaptative mesh y su impacto en la tasa de convergencia, $N\geq 2$ (explicar que aquí una de las dificultades es que no hay una noción de traza en los espacios de Hilbert involucrados), y ver qué pasa en dos intervalos o más.
+    \item Las imágenes: 
+    \begin{enumerate}
+        \item función de torsión en dominios chiquitos (positiva), dominios un poco más grandes (negativa) y muy grandes (oscilatoria)
+        \item Convergencia logarítmica del error
+        \item Dos aproximaciones de soluciones, una que se compare con una solución explícita y otra que se compare con la utilizada con la de la convergencia del error.
+    \end{enumerate}
+    \item Mencionar y explicar que la misma matriz de rigidez sirve para todos los intervalos.
+    \item Enviárselo a Sven y ver si tiene alguna sugerencia. 
+    \item Limpiar el código para calcular soluciones y subirlo a un github.
+\end{enumerate}
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+****OTHER STUFF****
+
+
+\section{The Blow-up paradox}
+
+Fix $\Omega$ and let $\lambda_*>0$ be such that $\ln(\lambda_*^2)=\lambda_1^L(\Omega)$.  Since the first eigenfunction $\xi_1^L$ of $L_\Delta$ is strictly positive, the Fredholf alternative (assuming we can use it, probably we need that $\lambda_1^L(\Omega)>0$) implies that the problem
+\begin{align*}
+L_\Delta u-\lambda_1^L u= 1\qquad \text{ in }\Omega
+\end{align*}
+does not have a solution. This, however, by the reasoning above, would imply that the problem 
+\begin{align}\label{1}
+L_\Delta u_{\lambda_*}=1\qquad \text{ in }{\lambda_*}\Omega
+\end{align}
+also does not have a solution.  In fact, in (Chen-Weth, 2018) they only use Riesz theorem under the assumption $\lambda_1^L(\Omega)>0$.  It seems, however, that we can show existence of solutions also for $\lambda_1^L(\Omega)<0$, and only $\lambda_1^L(\Omega)=0$ is pathological (and there is nonexistence in this case).
+
+It is also interesting to note that if $\xi_1^L$ is the first eigenfunction of $\lambda_*\Omega$ and $\lambda_1^L(\lambda_*\Omega)=0$, then $\xi_1^L>0$ in $\Omega$ and
+\begin{align*}
+L_\Delta \xi_1^L=0\qquad \text{ in }{\lambda_*}\Omega
+\end{align*}
+
+
+\section{Maximum principles}
+In the Chen-Weth paper (Corollary 1.9)  it is stated that the (weak) maximum principle holds in 1D whenever 
+\begin{align*}
+    2L=|\Omega|\leq 2 e^{\frac{1}{2}(\psi(\frac{1}{2})-\gamma)}|B_1(0)|=4e^{\frac{1}{2}(\psi(\frac{1}{2})-\gamma)},
+    \end{align*}
+    that is,
+    \begin{align*}
+        L\leq 2 e^{\frac{1}{2}(\psi(\frac{1}{2})-\gamma)}\approx 0.6453.
+\end{align*}
+In particular, the torsion function should be \emph{positive} in the interval $\Omega=(-0.8,0.8)$.  In light of the previous section, this amounts to solve the problem
+\begin{align*}
+    L_\Delta u+\ln(0.6^2)u=1\qquad \text{ in }(-1,1).
+\end{align*}
+
+
+\section{Scaling properties of the fractional Laplacian}
+
+Let $u\in C^\infty_c(\Omega)$ and let $\lambda>0$.  Let $u_\lambda\in C^\infty_c(\lambda\Omega)$ be given by
+\begin{align*}
+u_\lambda(x):=u(\lambda^{-1} x).
+\end{align*}
+Similarly, for $\varphi\in C^\infty_c(\Omega)$ we define $\varphi_\lambda\in C^\infty_c(\lambda\Omega)$. Then, $\zeta=\lambda\xi$, $d\zeta=\lambda^{N}d\xi$,
+\begin{align*}
+\cE(u_\lambda,\varphi_\lambda)
+&=\int_{\R^N}|\xi|^{2s}\widehat u_\lambda(\xi) \widehat \varphi_\lambda(\xi) \, d\xi
+=\lambda^{2N}\int_{\R^N}|\xi|^{2s}\widehat u(\lambda\xi) \widehat \varphi(\lambda\xi) \, d\xi\\
+&=\lambda^{N}\int_{\R^N}|\lambda^{-1}\zeta|^{2s}\widehat u(\zeta) \widehat \varphi(\zeta) \, d\zeta
+=\lambda^{N-2s}\int_{\R^N}|xi|^{2s}\widehat u(\xi) \widehat \varphi(\xi) \, d\xi\\
+&=\lambda^{N-2s}\cE_s(u,\varphi).
+\end{align*}
+On the hand, setting $y=\lambda^{-1} x$, $dy=\lambda^{-N} dx$,
+\begin{align*}
+    \int_{\R^N} f_\lambda(x) \varphi_\lambda (x)\, dx
+    =\int_{\R^N} f(\lambda^{-1}x) \varphi (\lambda^{-1}x)\, dx
+    =\lambda^N\int_{\R^N} f(y) \varphi (y)\, dy
+\end{align*}
+
+As a consequence, $u$ is a weak solution of 
+\begin{align*}
+\lambda^{-2s}(-\Delta)^s u= f\qquad \text{ in }\Omega
+\end{align*}
+if and only if $u_\lambda$ is a weak solution of
+\begin{align*}
+(\Delta)^s u_\lambda=f_\lambda\qquad \text{ in }\lambda\Omega.
+\end{align*}
+
+For eigenfunctions,
+\begin{align*}
+(-\Delta)^s \varphi= \lambda^{2s}\lambda_s(\lambda\Omega)\varphi\qquad \text{ in }\Omega
+\end{align*}
+if and only if $\varphi_\lambda$ is a weak solution of
+\begin{align*}
+(\Delta)^s \varphi_\lambda=\lambda_s(\lambda\Omega) \varphi_\lambda\qquad \text{ in }\lambda\Omega.
+\end{align*}
+Namely,
+\begin{align*}
+    \lambda_1(\Omega)=\lambda^{2s}\lambda_s(\lambda\Omega),\qquad 
+    \lambda^{-2s}\lambda_1((-1,1))=\lambda_s((-\lambda,\lambda))
+\end{align*}
+
