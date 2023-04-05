@@ -27,6 +27,7 @@ bookmarksnumbered,bookmarksopen]{hyperref}
 \usepackage{caption}
 \usepackage{cleveref}
 
+
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{remark}[theorem]{Remark}
@@ -119,6 +120,12 @@ bookmarksnumbered,bookmarksopen]{hyperref}
 \newcommand{\B}[1]{{\color{red} #1}}  %for paper content
 \newcommand{\Bc}[1]{{\color{red}\textbf{#1}}}  %for comments
 
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{positioning}
+%\usepackage{subfig}
+
+
 \newcommand{\weakly}{\rightharpoonup}
 
 \title{FEM for 1D-problems involving the logarithmic Laplacian: error estimates and numerical implementation}
@@ -130,6 +137,64 @@ bookmarksnumbered,bookmarksopen]{hyperref}
 \section{Introduction}
 
 In this paper...
+
+
+%%%%%%%%%%%%%%%
+%%%%.        Figure       %%%
+%%%%%%%%%%%%%%%
+% DO NOT ERASE
+\begin{figure}[htbp]
+	\centering
+	%
+	\subfloat[]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{axis}[xlabel={$x$},xmin=-0.1,xmax=0.1,legend pos=outer north east,
+	legend plot pos=left,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_05-04-2023_15h34.org}\solution      
+	      
+	\addplot[thick,color=blue] table[x,y] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	}
+	\subfloat[]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
+	legend plot pos=left,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_05-04-2023_15h37.org}\solution      
+	      
+	\addplot[thick,color=blue] table[x,y] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	} 
+%	 \\
+%	\subfloat[]{
+%	\begin{tikzpicture}[scale=0.8]
+%	\begin{axis}[xlabel={$x$},xmin=-10,xmax=10,legend pos=outer north east,
+%	legend plot pos=left,
+%	legend style={cells={anchor=west},draw=none}]
+%	%	    
+%	\pgfplotstableread{./Programas/num_results/sol-log_05-04-2023_15h36.org}\solution      
+%	      
+%	\addplot[thick,color=blue] table[x,y] \solution; %\label{cost}
+%	
+%	\end{axis}
+%	%	
+%	\end{tikzpicture}
+%	}
+	\caption{}
+	\label{fig:eigen_crit_neumann}
+\end{figure}
+
+
+
 
 \section{Notation}
 
