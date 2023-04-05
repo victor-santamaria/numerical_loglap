@@ -1,7 +1,7 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=0.1;
+L=5;
 ell=1;
 
 %%% Number of discrete points, mesh and mesh size
@@ -68,6 +68,8 @@ figure(3)
 loglog(step,dif_norm,'LineWidth',2.5);
 sl_dif=log(dif_norm(1)/dif_norm(end))/log(step(1)/step(end));
 legend("Slope: "+num2str(sl_dif)); title("Error norm quadrature")
+
+write_sol(true);
 
 
 %%% Auxiliary functions
@@ -224,17 +226,6 @@ for i=2:Nx-1
 end
 
 M = sparse(hx*M);
-
-end
-
-function [err] = error_bilinear(h,xi,sol,f)
-
-numf=f(xi);
-numf=numf(2:end-1);
-
-val = -1.08145;
-valnum = h*sum(numf'.*sol(2:end-1));
-err = val-valnum;
 
 end
 
