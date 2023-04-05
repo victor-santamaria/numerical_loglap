@@ -1,11 +1,11 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=5;
+L=1;
 ell=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50];
+Nval=[499];
 %Nval=[100];
 step=[];
 dif_norm=[];
@@ -69,7 +69,9 @@ loglog(step,dif_norm,'LineWidth',2.5);
 sl_dif=log(dif_norm(1)/dif_norm(end))/log(step(1)/step(end));
 legend("Slope: "+num2str(sl_dif)); title("Error norm quadrature")
 
-write_sol(true);
+
+%%% Descomentar si queremos guardar la solución
+write_sol;
 
 
 %%% Auxiliary functions
