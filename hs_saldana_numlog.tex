@@ -149,12 +149,12 @@ In this paper...
 	\subfloat[]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=-0.1,xmax=0.1,legend pos=outer north east,
-	legend plot pos=left,
+	legend plot pos=left, xtick={-0.1,0,0.1}, ymin=-0.01,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
 	\pgfplotstableread{./Programas/num_results/sol-log_05-04-2023_15h34.org}\solution      
 	      
-	\addplot[thick,color=blue] table[x,y] \solution; %\label{cost}
+	\addplot[very thick,color=blue] table[x,y] \solution; %\label{cost}
 	
 	\end{axis}
 	%	
@@ -163,12 +163,12 @@ In this paper...
 	\subfloat[]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
-	legend plot pos=left,
+	legend plot pos=left, xtick={-1,0,1}, ymax=0.01,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
 	\pgfplotstableread{./Programas/num_results/sol-log_05-04-2023_15h37.org}\solution      
 	      
-	\addplot[thick,color=blue] table[x,y] \solution; %\label{cost}
+	\addplot[very thick,color=blue] table[x,y] \solution; %\label{cost}
 	
 	\end{axis}
 	%	
@@ -1650,7 +1650,34 @@ where
 and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 
 
-\section{Si tiene que ir la nueva sección}
+\section{Some figures about convergence}
+
+%%%%%%%%%%%%%%%
+%%%%.        Figure       %%%
+%%%%%%%%%%%%%%%
+% DO NOT ERASE
+\begin{figure}[htbp]
+	\centering
+	%
+	\begin{tikzpicture}[scale=1]
+	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
+	legend plot pos=left, xtick={-1,0,1},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_06-04-2023_13h30.org}\solution      
+	      
+	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
+	 \addlegendentry{Exact solution};
+	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
+	 \addlegendentry{Numerical approximation};
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+
+	\caption{The exact solution and its numerical approximation}
+	\label{fig:eigen_crit_neumann}
+\end{figure}
 
 \section{Convergence of the method}
 
