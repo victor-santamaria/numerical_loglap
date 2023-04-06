@@ -4,7 +4,7 @@ clear
 L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400];
+Nval=[50];
 step=[];
 dif_norm=[];
 dif_bilinear=[];
@@ -27,21 +27,8 @@ for N=Nval
     T=readtable(tabname);
     T=table2array(T);
 
-
-    %%% Extracting data from tables
-
-    %%% Right-hand side of the problem and projection over finite elements
-    %f = @(x) 1+0*x; %%% Torsion
-    %f = @(x) (-3*x.^2+1)+(log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*(1-x.^2); %%% (1-x^2)
-    %f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%%
-    %characteristic
-   
-    %F=projection(xi,f,L,h);
-
     f=T(:,2);
     F=h*f; F(1)=F(1)*5/3; F(end)=F(end)*5/3;
-
-
 
     exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2*L^2)));
 
@@ -85,6 +72,8 @@ end
  loglog(step,dif_norm,'LineWidth',2.5);
  sl_quad=log(dif_norm(1)/dif_norm(end))/log(step(1)/step(end));
  legend("Slope: "+num2str(sl_quad)); title('error H quadrature')
+
+ write_numsol_realsol(xi,sol_log,exsol(xi),exsol,true);
 
 
 %%% Auxiliary functions
@@ -266,4 +255,63 @@ err = val-valnum;
 
 end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Funciones para guardar soluciones
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+function write_sol(xi,solution,flag)
+if flag==true
+    [dt,ht,mt]=obtain_date();
+
+    L=max(abs(xi));
+    h=xi(2)-xi(1);
+    N=2*L/h-1;
+
+    name_result = strcat('num_results/','sol-log_',...
+        dt,'_',ht,'h',mt,'.org');
+    file_result_temp=name_result;
+    outs_file_temp=fopen(file_result_temp,'w');
+
+    fprintf(outs_file_temp,'%s %s \n','#domain: ', ...
+        strcat('(-',num2str(L),',',num2str(L),')'));
+    fprintf(outs_file_temp,'%s %s \n','#N: ', num2str(N));
+    fprintf(outs_file_temp,'%s %4.4e \n','#h: ', 2*L/(N+1));
+
+    fprintf(outs_file_temp,'%4.4f %4.4e \n',[xi',solution].');
+    ST=fclose(outs_file_temp);
+end
+end
+
+function write_numsol_realsol(xi,numsol,realsol,exsol_expr,flag)
+if flag==true
+    [dt,ht,mt]=obtain_date();
+
+    L=max(abs(xi));
+    h=xi(2)-xi(1);
+    N=2*L/h-1;
+
+    c=func2str(exsol_expr);
+
+    name_result = strcat('num_results/','sol-log_num-vs-exact_',...
+        dt,'_',ht,'h',mt,'.org');
+    file_result_temp=name_result;
+    outs_file_temp=fopen(file_result_temp,'w');
+
+    fprintf(outs_file_temp,'%s %s \n','#domain: ', ...
+        strcat('(-',num2str(L),',',num2str(L),')'));
+    fprintf(outs_file_temp,'%s %s \n','#Exact solution: ', c);
+    fprintf(outs_file_temp,'%s %s \n','#N: ', num2str(N));
+    fprintf(outs_file_temp,'%s %4.4e \n','#h: ', 2*L/(N+1));
+
+    fprintf(outs_file_temp,'%s %s %s \n','xi','numsol','exsol');
+    fprintf(outs_file_temp,'%4.4f %4.4e %4.4e \n',[xi',numsol,realsol'].');
+    ST=fclose(outs_file_temp);
+end
+end
+
+
+function [dt,ht,mt]=obtain_date()
+dt = datestr(now,'dd-mm-yyyy');
+ht = datestr(now,'HH');
+mt = datestr(now,'MM');
+end

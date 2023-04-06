@@ -71,7 +71,7 @@ legend("Slope: "+num2str(sl_dif)); title("Error norm quadrature")
 
 
 %%% Descomentar si queremos guardar la solución
-write_sol;
+write_sol(xi,sol_log,true);
 
 
 %%% Auxiliary functions
@@ -229,6 +229,66 @@ end
 
 M = sparse(hx*M);
 
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Funciones para guardar soluciones
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function write_sol(xi,solution,flag)
+if flag==true
+    [dt,ht,mt]=obtain_date();
+
+    L=max(abs(xi));
+    h=xi(2)-xi(1);
+    N=2*L/h-1;
+
+    name_result = strcat('num_results/','sol-log_',...
+        dt,'_',ht,'h',mt,'.org');
+    file_result_temp=name_result;
+    outs_file_temp=fopen(file_result_temp,'w');
+
+    fprintf(outs_file_temp,'%s %s \n','#domain: ', ...
+        strcat('(-',num2str(L),',',num2str(L),')'));
+    fprintf(outs_file_temp,'%s %s \n','#N: ', num2str(N));
+    fprintf(outs_file_temp,'%s %4.4e \n','#h: ', 2*L/(N+1));
+
+    fprintf(outs_file_temp,'%4.4f %4.4e \n',[xi',solution].');
+    ST=fclose(outs_file_temp);
+end
+end
+
+function write_numsol_realsol(xi,numsol,realsol,exsol_expr,flag)
+if flag==true
+    [dt,ht,mt]=obtain_date();
+
+    L=max(abs(xi));
+    h=xi(2)-xi(1);
+    N=2*L/h-1;
+
+    c=func2str(exsol_expr);
+
+    name_result = strcat('num_results/','sol-log_num-vs-exact_',...
+        dt,'_',ht,'h',mt,'.org');
+    file_result_temp=name_result;
+    outs_file_temp=fopen(file_result_temp,'w');
+
+    fprintf(outs_file_temp,'%s %s \n','#domain: ', ...
+        strcat('(-',num2str(L),',',num2str(L),')'));
+    fprintf(outs_file_temp,'%s %s \n','#Exact solution: ', c);
+    fprintf(outs_file_temp,'%s %s \n','#N: ', num2str(N));
+    fprintf(outs_file_temp,'%s %4.4e \n','#h: ', 2*L/(N+1));
+
+    fprintf(outs_file_temp,'%s %s %s \n','xi','numsol','exsol');
+    fprintf(outs_file_temp,'%4.4f %4.4e %4.4e \n',[xi',numsol,realsol'].');
+    ST=fclose(outs_file_temp);
+end
+end
+
+function [dt,ht,mt]=obtain_date()
+dt = datestr(now,'dd-mm-yyyy');
+ht = datestr(now,'HH');
+mt = datestr(now,'MM');
 end
 
 
