@@ -122,7 +122,9 @@ bookmarksnumbered,bookmarksopen]{hyperref}
 
 \usepackage{tikz}
 \usepackage{pgfplots}
+\usepackage{pgfplotstable}
 \usetikzlibrary{positioning}
+\usepackage{booktabs}
 %\usepackage{subfig}
 
 
@@ -1675,9 +1677,91 @@ and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 	%	
 	\end{tikzpicture}
 
-	\caption{The exact solution and its numerical approximation}
+	\caption{The exact solution and its numerical approximation for $N=50$.}
 	\label{fig:eigen_crit_neumann}
 \end{figure}
+
+%%%%%%%%%%%%%%%
+%%%%.        Figure       %%%
+%%%%%%%%%%%%%%%
+% DO NOT ERASE
+\begin{figure}[htbp]
+	\centering
+	%
+	\subfloat[]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{loglogaxis}[xlabel={$h$},legend pos=outer north east,
+	legend plot pos=left,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_06-04-2023_15h10.org}\solution      
+	      
+	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=H_norm] \solution; %\label{cost}
+	% \addlegendentry{Convergence rate in the norm $\mathbb H$};
+	
+	\end{loglogaxis}
+	%	
+	\end{tikzpicture}
+	} \quad 
+	\subfloat[]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{loglogaxis}[xlabel={$h$},legend pos=outer north east,
+	legend plot pos=left,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_06-04-2023_15h10.org}\data      
+	      
+	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=Linf_norm] \data; %\label{cost}
+	% \addlegendentry{Convergence rate in the norm $\mathbb H$};
+	
+	\end{loglogaxis}
+	%	
+	\end{tikzpicture}
+	}
+	
+	\caption{Convergence of the method}
+	\label{fig:eigen_crit_neumann}
+\end{figure}
+
+
+\begin{table}[h!]
+\centering
+%
+\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_06-04-2023_15h10.org}\data
+%
+\pgfplotstableset{
+columns={h,H_norm,slope,Linf_norm,slope_inf},
+columns/h/.style={
+column name=$h$,
+sci,sci zerofill,sci subscript,
+precision=4,
+column type/.add={}{|}},	
+columns/H_norm/.style={
+column name=$\mathbb H$--norm,
+sci,sci zerofill,sci subscript,
+precision=4},
+columns/slope_inf/.style={
+column name=slope,
+sci,sci zerofill,sci subscript,
+precision=4},
+columns/Linf_norm/.style={
+column name=$L_{\infty}$--norm,
+sci,sci zerofill,sci subscript,
+precision=4,
+column type/.add={|}{}},
+}
+%
+\pgfplotstabletypeset[clear infinite, empty cells with={\ensuremath{-}},
+every head row/.style={
+before row=\toprule,after row=\midrule},
+every last row/.style={
+after row=\bottomrule},
+]{\data}
+%
+\caption{Convergence data.}
+\label{table:1}
+\end{table}
+
 
 \section{Convergence of the method}
 
