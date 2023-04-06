@@ -4,13 +4,14 @@ clear
 L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50];
+Nval=[50,100,200,400,800,1600,3200];
 step=[];
 dif_norm=[];
 dif_bilinear=[];
 dif_linfinity=[];
 
 pendiente=[];
+slope_inf=[];
 alpha=[];
 
 
@@ -50,9 +51,11 @@ for N=Nval
 
     if length(dif_norm)== 1
         pendiente=[pendiente,NaN];
+        slope_inf=[slope_inf,NaN];
         alpha=[alpha,NaN];
     else
         pendiente=[pendiente,log(dif_norm(end)/dif_norm(end-1))/log(step(end)/step(end-1))];
+        slope_inf=[slope_inf,log(dif_linfinity(end)/dif_linfinity(end-1))/log(step(end)/step(end-1))];
         alpha=[alpha,abs(log(dif_norm(end)/dif_norm(end-1)))/abs(log(abs(log(step(end))/abs(log(step(end-1))))))];
     end
 
@@ -73,7 +76,10 @@ end
  sl_quad=log(dif_norm(1)/dif_norm(end))/log(step(1)/step(end));
  legend("Slope: "+num2str(sl_quad)); title('error H quadrature')
 
- write_numsol_realsol(xi,sol_log,exsol(xi),exsol,true);
+
+ %%% Write otput files
+ write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
+ write_convergence_data(xi,step,dif_norm,dif_linfinity,pendiente',slope_inf',true)
 
 
 %%% Auxiliary functions
@@ -305,6 +311,27 @@ if flag==true
 
     fprintf(outs_file_temp,'%s %s %s \n','xi','numsol','exsol');
     fprintf(outs_file_temp,'%4.4f %4.4e %4.4e \n',[xi',numsol,realsol'].');
+    ST=fclose(outs_file_temp);
+end
+end
+
+function write_convergence_data(xi,step,dif_norm,dif_linfinity,slope,slope_inf,flag)
+if flag==true
+    [dt,ht,mt]=obtain_date();
+    L=max(abs(xi));
+
+    name_result = strcat('num_results/','sol-log_convergence_data_',...
+        dt,'_',ht,'h',mt,'.org');
+    file_result_temp=name_result;
+    outs_file_temp=fopen(file_result_temp,'w');
+
+    fprintf(outs_file_temp,'%s %s \n','#domain: ', ...
+        strcat('(-',num2str(L),',',num2str(L),')'));
+
+    fprintf(outs_file_temp,'%s %s %s %s %s \n','h','H_norm', ...
+        'Linf_norm','slope','slope_inf');
+    fprintf(outs_file_temp,'%4.4e %4.4e %4.4e  %4.4e %4.4e \n' ...
+        ,[step,dif_norm,dif_linfinity,slope,slope_inf].');
     ST=fclose(outs_file_temp);
 end
 end
