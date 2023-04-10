@@ -138,7 +138,173 @@ bookmarksnumbered,bookmarksopen]{hyperref}
 
 \section{Introduction}
 
-In this paper...
+In this paper we analyze the implementation of the finite element method (FEM) to one-dimensional nonlocal Dirichlet boundary value problems involving the logarithmic Laplacian such as
+\begin{align}\label{P:intro}
+    L_\Delta u = f \quad \text{ in }\Omega,\qquad u=0\quad \text{ on }\R\backslash \Omega,
+\end{align}
+where $\Omega$ is an open interval, $f$ belongs to a suitable (log-Hölder) space, and $L_\Delta$ denotes the logarithmic Laplacian given by
+\begin{align}\label{LL}
+     L_\Delta u(x)=\int_{\R}\frac{u(x)\chi_{B_1(x)}(y)-u(y)}{|x-y|}\, dy+\rho_1 u(x).
+ \end{align}
+ Here $\rho_1\approx-1.15$ is an explicit negative constant given in \eqref{constants}. The logarithmic Laplacian $L_\Delta$ is a pseudodifferential operator with Fourier symbol $2\ln|\xi|$, namely,
+\begin{align*}
+{\mathcal F}(L_\Delta \varphi)(\xi)=2\ln|\xi| {\mathcal F}(\varphi)(\xi)\qquad \text{ for all }\varphi\in C^\infty_c(\R),
+\end{align*}
+where ${\mathcal F}$ denotes the Fourier transform.  This operator appears naturally as a first order expansion of the (integral) fractional Laplacian $(-\Delta)^s$ as $s\to 0^+$; in particular, in \cite[Theorem 1.1]{CW19} it is shown that, for all $\varphi\in C^\infty_c(\R^N)$,
+\begin{align*}
+(-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)\qquad \text{as $s\to 0^+$ in }L^p(\R) \text{ with }1<p\leq \infty,
+\end{align*}
+ where $(-\Delta)^s$ denotes the pseudodifferential operator with Fourier symbol $|\xi|^{2s}$.
+
+ Problems such as \eqref{P:intro} play a key role in the understanding of fractional equations as $s\to 0$. This asymptotic analysis is relevant, both in applications and for theoretical reasons.  In applications, for instance, several phenomena that are modeled with a fractional-type diffusion are optimized in some sense for small values of $s$, see \cite{Caffarelli17} and the references in \cite{HSS22}.  On the other hand,  the mathematical structures that appear in the limit as $s\to 0^+$ for linear and nonlinear fractional problems are highly nontrivial and interesting; for instance, we refer to \cite{CW19,LW21} for a study of the spectral properties of $L_\Delta$, to \cite{AS22,HSS22} for the analysis of some relevant nonlinear problems in this setting, and to \cite{CS22} for the regularity properties of solutions to \eqref{P:intro}, in particular, \cite[Theorem 1.1]{CS22} gives some conditions for the existence of classical solutions to \eqref{P:intro}.  We also mention \cite{JSW20}, where the operator $L_\Delta$ is used to characterize the derivative of the solution mapping of nonlocal problems involving the fractional Laplacian.
+
+The problem \eqref{P:intro} has a variational structure (see \cite{CW19}), which allows the use of powerful functional analysis tools to explore its solvability. Nevertheless, the operator $L_\Delta$ exhibits several pathologies that make its study difficult. Here is a short list of some of them:
+\begin{enumerate}
+    \item It lacks good scaling properties (see the discussion in \cite{CS22}).
+    \item For every bounded open set $U\subset \R$ there is $\lambda>0$ such that the problem \eqref{P:intro} does not have a solution for $f\equiv 1$ and $\Omega=\lambda U$, see \cite[Remark 5.9]{CS22}.
+    \item The operator $L_\Delta$ does not satisfy the maximum principle in general. Nevertheless, positivity preserving properties do hold under additional geometric restrictions on the domain, see \cite[Theorem 1.8 and Corollary 1.9]{CW19}.
+    \item Classical solutions of \eqref{P:intro} can be very irregular, in particular, they may not belong to Hölder spaces $C^\alpha(\Omega)$ for any $\alpha\in(0,1)$, see \cite[Remark 5.6]{CS22}.
+    \item No explicit continuous solution of \eqref{P:intro} with $f>0$ is known. In particular, the torsion function, namely the solution of \eqref{P:intro} with $f\equiv 1$, is not known when $\Omega$ is a ball of radius $r>0$.
+\end{enumerate}
+
+ These obstacles justify the interest and importance of the analysis of the numerical approximation of solutions to \eqref{P:intro}.  Furthermore, we show that new phenomena appear and that new ideas are required to implement the finite element method in this setting.
+
+In this work, we focus our analysis to dimension one. This simplified setting allows us to present the key ideas and new concepts in a more transparent way and it has several other advantages; the most relevant one, is that in 1D we can provide an \emph{explicit formula} for the stiffness matrix.  This makes the implementation of the FEM to be very straightforward and fast in just a few lines of code (available in GitHub).  We think that this provides the community with a compelling tool to understand the particular pathologies of logarithmic problems and to test and deduce new conjectures for these difficult and elusive problems. Furthermore, we believe that several of the ideas involved in the 1D analysis that we present can be generalized to dimensions 2 and 3, but certainly the higher-dimensional case is nontrivial and requires additional new ideas. See Section \ref{sec:o:p} for a discussion on the challenges in this direction and other open problems.
+
+Our main result (see Theorem \ref{main:thm:intro} below) states that the FEM numerical approximation of the weak solution converges logarithmically; in particular, we show that the norm of the numerical error can be bounded in terms of $|\ln(h)|^{-\alpha}$, where $H$ is the discretization parameter and $\alpha\in(0,1)$. We also provide numerical evidence that suggests that this kind of logarithmic bounds are optimal, in the sense that no polynomial bound of the type $h^\beta$ for some $\beta>0$ can be expected in general in this setting.  This contrasts with the convergence rate $h^\frac{1}{2}|\ln h|$ observed for the fractional Laplacian for $s\in(0,\frac{1}{2})$ (see \cite[Theorem 3.31]{Bor17}) and the rate $h^2$ for the standard Laplacian (see \cite{???}).
+
+To state our main result in more detail, let us introduce some notation. Let $L>0$,
+\begin{align*}
+\Omega:=(0,L),
+\end{align*}
+ $B_1(\Omega):=(-1,L+1)$. Following \cite{CW19}, consider the Hilbert space
+\begin{align*}
+\mH(\Omega):=\{u\in L^2(\Omega)\::\: \|u\|_{\mathbb H(\Omega)}<\infty \text{ and }u=0\text{ on }\R\backslash \Omega\},
+\end{align*}
+where $\|u\|^2_{\mathbb H(\Omega)}:={\mathcal E}(u,u)$ and ${\mathcal E}(\cdot,\cdot)$ is a scalar product on $\mathbb H(\Omega)$ given by
+\begin{align*}
+    {\mathcal E}(u,v)&=\int_{\R}\int_{B_1(x)}\frac{(u(x)-u(y))(v(x)-v(y))}{|x-y|}\, dy\, dx \qquad \text{ for }u,v\in \mH(\Omega).
+\end{align*}
+It is known that $\mathbb H(\Omega)\hookrightarrow L^2(\Omega)$ compactly. Note that the space $\mH(\Omega)$ imposes very little regularity restrictions on its elements, and in particular step functions belong to $\mH(\Omega)$. As a consequence, this space does not allow a notion of trace for its elements.
+
+As mentioned before, the problem \eqref{P:intro} has a variational structure. For $f\in L^2(\Omega)$, we say that $u\in \mH(\Omega)$ is a weak solution of \eqref{P:intro} if
+\begin{equation*}
+    \cE_{L}(u,v)=\int_{\Omega} f(x) v(x)\, dx \qquad \text{ for all } v\in  \mH(\Omega),
+\end{equation*}
+where $\cE_L(u,v)=\cE(u,v)+B(u,v)$ and
+\begin{align}\label{eq:bilinear_B}
+    B(u,v)=-\iint_{x,y\in\R\atop |x-y|\geq 1}\frac{u(x)\,v(y)}{|x-y|}dx dy+\rho_1\int_{\R}u v dx.
+\end{align}
+ The bilinear form $\cE_L$ is \emph{not} coercive in general and it does not induce a norm in $\mH(\Omega)$.
+
+To implement the FEM in logarithmic problems, the regularity theory of weak solution of \eqref{P:intro} plays an important role. This kind of results face important challenges, due to the lack of good scaling properties of the operator $L_\Delta$; however, recently in \cite{CS22} the regularity of weak solutions in log-Hölder spaces has been studied.  Since these results play a fundamental role in our approach (in particular the estimate \eqref{eq:log_problem} below), it is worth to describe them in detail. Let $\ell:(0,\infty)\to (0,1]$ be the modulus of continuity given by
+\begin{align}\label{ell:def}
+\ell(\rho) := |\ln(\min(\rho_0,\rho))|^{-1}, \qquad\rho_0:=0.1.
+\end{align}
+Note that $\ell$ is a non-decreasing concave function with $\ell(0) := \lim_{r\to0^+}\ell(r)=0$. Given $\alpha\in(0,1)$, let
+%
+\begin{align*}
+    \mathcal X^\alpha(\Omega)&:=\left\{u:\mathbb R\to \mathbb R:\|u\|_{X^\alpha(\Omega)}<+\infty \;\textnormal{ and $u=0$ in }\; \R\setminus \Omega\right\}, \\
+    \mathcal Y(\Omega)&:=\{f:\Omega\to \mathbb R:\|f\|_{\mathcal Y(\Omega)}<+\infty\},
+\end{align*}
+%
+where
+%
+\begin{align*}
+    \|u\|_{\mathcal X^\alpha(\Omega)}&:=\sup_{x,y\in\mathbb R \atop x\neq y}\frac{|u(x)-u(y)|}{\ell^{\alpha}(|x-y|)}+\sup_{x,y\in\Omega \atop x\neq y}\ell^{1+\alpha}(d(x,y))\frac{|u(x)-u(y)|}{\ell^{1+\alpha}(|x-y|)}, \\
+    \|f\|_{\mathcal Y(\Omega)}&:=\|f\|_{L^\infty(\Omega)}+\sup_{x,y\in\Omega \atop x\neq y}\ell^{2}(d(x,y))\frac{|u(x)-u(y)|}{\ell(|x-y  |)}, \\
+    d(x)&:=\dist(x,\partial \Omega), \quad d(x,y):=\min(d(x),d(y)).
+\end{align*}
+
+The next theorem guarantees the existence of classical solutions of \eqref{P:intro}.
+
+\begin{theorem}[Theorem 1.1 in \cite{CS22}]\label{eq:regularity}
+    There is $\alpha=\alpha(\Omega)\in(0,1)$ such that exactly one of the following alternatives holds:
+    \begin{enumerate}[label=\roman*)]
+        \item For every $f\in\mathcal Y(\Omega)$ there exists a unique classical solution $u\in\mathcal X^{\alpha}(\Omega)$ of
+        %
+        \begin{equation}\label{eq:log_problem}
+            L_{\Delta} u = f \;\textnormal{ in }\; \Omega, \quad u=0 \;\textnormal{ on } \R\setminus \Omega.
+        \end{equation}
+        %
+        Moreover,
+        %
+        \begin{equation}\label{eq:regularity_classical}
+            \|u\|_{\mathcal X^{\alpha}(\Omega)}\leq C\|f\|_{\mathcal Y(\Omega)}
+        \end{equation}
+        %
+        for some constant $C>0$ only depending on $\Omega$.
+        %
+        \item There is a non-trivial classical solution $u\in X^{\alpha}(\Omega)$ of $L_{\Delta} u=0$.
+    \end{enumerate}
+\end{theorem}
+
+As a final ingredient to state our main result, me introduce the notation of the 1D FEM.  Let $N\in\mathbb N$, $h=\frac{L}{N+1}$, $x_i:=ih$, and $\Omega_i:=(x_{i},x_{i+1})$ for $i=0,\ldots,N$. Note that $\overline{\Omega}=\cup_{i=0}^N \overline{\Omega_i}$. Consider the discrete space
+%
+\begin{equation}
+    \mathcal V_h=\{v\in \mathcal C^0(\B{\Omega}): v=0 \textnormal{ in } \R\setminus \Omega, \;\; v|_{\Omega_i}\in \mathcal P_1, \;\;  i=0,\ldots,N\}.
+\end{equation}
+%
+where $\mathcal P_1$ is the space of polynomials of degree less or equal than one.
+% Let $\varphi_i$ be the usual basis of shape functions $\varphi_i$ with compact support in each interval $[x_{i-1},x_{i+1}]$ defined as
+% \begin{align*}
+%     \varphi_0(x):=2\begin{cases}
+%         \displaystyle \frac{x_{1}-x}{h} &x\in [x_0,x_{1}], \\
+%         0 &\textnormal{elsewhere},
+%     \end{cases} \qquad \varphi_{N+1}(x):=2\begin{cases}
+%         \displaystyle \frac{x-x_{N}}{h} &x\in[x_{N},x_{N+1}], \\
+%         0 &\textnormal{elsewhere,}
+%     \end{cases}
+% \end{align*}
+% and, for $i=1,\ldots,N$,
+% \begin{align*}
+%     \varphi_i(x):=\begin{cases}
+%         \displaystyle \frac{x-x_{i-1}}{h} &x\in[x_{i-1},x_i], \\
+%         \displaystyle \frac{x_{i+1}-x}{h} &x\in [x_i,x_{i+1}], \\
+%         0 &\textnormal{elsewhere.}
+%     \end{cases}
+% \end{align*}
+
+We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of the weak solution $u$ of \eqref{P:intro} if \begin{equation}\label{eq:discr_problem:intro}
+    \cE_{L}(u_h,v)=\int_{\Omega} f(x) v(x)\, dx \qquad \text{ for all } v\in \mathcal V_h.
+\end{equation}
+
+
+ Our main result is the following.
+ \begin{theorem}\label{main:thm:intro}
+    Let $L>0$, $\Omega:=(0,L)$, and $f\in \mathcal{Y}(\Omega)$.  Assume that alternative $i)$ of \Cref{eq:regularity} holds for some $\alpha\in(0,1)$. Let $u$ be the (unique weak) solution of \eqref{eq:cont_problem} and let $u_h$ be its finite element approximation given by \eqref{eq:discr_problem:intro}. Then there are constants $h_0>0$, $C>0$, and $\alpha\in(0,1)$ such that
+    \begin{equation*}
+        \|u-u_h\|_{\mathbb H(\Omega)}\leq C\ell^{\alpha}(h)\|f\|_{\mathcal Y}\qquad \text{ for all }h\in(0,h_0),
+    \end{equation*}
+    where $\ell$ is the modulus of continuity given in \eqref{ell:def}.
+ \end{theorem}
+ Due to the nonlocal nature of $L_\Delta$, we cannot use the standard theory of FEM (note that the norms are not additive with respect to disjoint domains). Instead, for the proof of Theorem \ref{main:thm:intro}, we follow the general strategy implemented in \cite{Bor17}, where the FEM is used to approximate solutions of the fractional Laplacian and to show the convergence of the method.  The overall scheme is as follows: If $u$ is a weak solution that we wish to approximate with a finite element approximation, one defines first an \emph{interpolator} denoted by $I_h u$.  Then, via a localization of the norms (see Lemma \ref{lem:localization_enorm}) one can bound the global interpolation error $\|u-I_h u\|_{\mathbb H(\Omega)}$ (see Proposition \ref{eq:estab_H_c_infty}) in terms of a Hilbert space with logarithmic weights (see \eqref{H:weights:def}).  Then, with a Cea's-Lemma-type result (Lemma \ref{lem:cea_mg}), we can bound the norm $\|u-u_h\|_{\mathbb H(\Omega)}$ in terms of $\|u-I_h u\|_{\mathbb H(\Omega)}$.  Finally, the regularity estimate \eqref{eq:regularity_classical} comes into play to obtain the final estimate stated in Theorem \ref{main:thm:intro}.
+
+ However, since the regularity theory for $L_\Delta$ is much less developed than that of $(-\Delta)^s$, key elements in the proofs in \cite{Bor17} have to be changed to fit into the logarithmic Laplacian setting.  For instance, the idea of \emph{trace} plays a key role in order to define the Scott-Zhang interpolator used in \cite{Bor17}. This trace is known to exist because, under suitable assumptions on the right-hand side $f$, regularity estimates for the fractional Laplacian imply that the corresponding weak solutions always belong to $H^{\frac{1}{2}+\eps}(\Omega)$ for some $\eps>0$ (see \cite[Theorem 2.3.6]{Bor17}), which is a Hilbert space with trace.  There is no such result for the operator $L_\Delta$.  Although Theorem \ref{eq:regularity} implies that weak solutions are log-Hölder continuous, it is not known if these solutions belong to a suitable Hilbert space with trace.
+
+ As a consequence, we use a simpler interpolator: the projection to $\mathcal V_h$ in the $L^2$-sense (see \eqref{eq:interpolator}). Because of this, in our approach, it is important to consider two discontinuous elements in the finite element basis (see \eqref{eq:def_basis_ext}).  This might seem odd, in virtue of the Dirichlet boundary conditions, but in fact this is required in our analysis and numerical experiments show that the presence of these two discontinuous elements improves the numerical approximation of logarithmic problems.
+
+ Finally, for the algorithmic implementation of the FEM, we also present a new perspective. Typically, in order to obtain the finite element approximation $u_h$ given by \eqref{eq:discr_problem:intro}, one needs to compute the so-called \emph{stiffness matrix}. For this, a finite element basis $(\varphi_i)_{i=0}^{N+1}$ of $\mathcal V_h$ is considered (see \eqref{eq:def_basis}-\eqref{eq:def_basis_ext}) and a matrix with entries
+ \begin{align}\label{s:m:intro}
+ \mathcal A_{h}^{L}=(\cE_L(\varphi_i,\varphi_j))_{i,j=0}^N
+ \end{align}
+ is calculated. Then, solving the linear algebraic problem
+ \begin{align*}
+\mathcal A_{h}^{L}\alpha = F,
+ \end{align*}
+ where $F=(f_i)_{i=0}^{N+1}$ and $f_i=\int_{\Omega}f(x)\varphi_i(x)\, dx$, one finds a vector $\alpha=(\alpha_i)_{i=0}^{N+1}$ and then
+ \begin{align*}
+     u_h(x):=\sum_{i=0}^{N+1}\alpha_i \varphi_i(x)
+ \end{align*}
+ is the finite element approximation and satisfies \eqref{eq:discr_problem:intro}. In this paper, instead of calculating \eqref{s:m:intro} (either directly or numerically), we use the stiffness matrix $\mathcal A_{h}^{s}$ for the fractional Laplacian $(-\Delta)^s$ and show that
+ \begin{align*}
+ \mathcal A_{h}^{L}=\partial_s \mathcal A_{h}^{s}|_{s=0},
+ \end{align*}
+ see Lemma \ref{lem:derivative:s:m}.  This is possible, since a closed formula for the stiffness matrix $\mathcal A_{h}^{s}$ has been obtained in \cite{BH17}.  Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, here we had to calculate only the corresponding entries, see Section \ref{sec:s:m}.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section \ref{sec:s:m:log}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ and not on the length $L$ of the interval $\Omega$.  Therefore, the formula for $\mathcal A_{h}^{L}$ applies to logarithmic problems on any interval.
+
+To close this introduction, we discuss some numerical approximations of the torsion function and some explicit solutions...
+
+The paper is organized as follows....
 
 
 %%%%%%%%%%%%%%%
@@ -192,17 +358,26 @@ In this paper...
 %	\end{tikzpicture}
 %	}
 	\caption{}
-	\label{fig:eigen_crit_neumann}
+	\label{fig:3}
 \end{figure}
 
 
 
 
+
+
 \section{Notation}
+Let
+\begin{align}\label{constants}
+\rho_1:=2\ln 2 + \psi(\tfrac{1}{2})-\gamma\approx -1.15,
+\end{align}
+where $\gamma=-\Gamma'(1)$ is the Euler-Mascheroni constant, and $\psi=\frac{\Gamma'}{\Gamma}$ is the Digamma function.
+
+
 
 \subsection{Log-Hölder moduli of continuity}
 
-We use that $\ell$ satisfies the following property. Its proof, among many other properties for this modulus of continuity are included in the appendix.
+The modulus of continuity $\ell$ (defined in \eqref{ell:def}) satisfies the following property.
 
 \begin{lemma}[Semi-homogeneity]\label{prop1}
 There is $c>0$ such that 
@@ -210,25 +385,7 @@ There is $c>0$ such that
 \ell(\lambda)\leq c\frac{\ell(\lambda r)}{\ell(r)}\,\qquad \text{ for all }r,\lambda >0.
 \]
 \end{lemma}
-
-For $\alpha\in(0,1]$, $\ell^\alpha$ is also modulus of continuity with properties similar to those we have already mentioned for $\ell$ (monotonicity, concavity, semi-homogeneity, etc.).
-
-\begin{definition}
-Let $\Omega\subset\subset\R^n$ open and $d(x):=\dist(x,\partial\Omega)$. Given $\alpha,\beta\geq 0$ we construct the semi-norms
-\begin{align*}
-&[u]_{\mathcal L^\alpha(\Omega)} := \sup_{\substack{x,y\in \Omega\\x\neq y}}\frac{|u(x)-u(y)|}{\ell^\alpha(|x-y|)}, \\
-&[u]^{(0)}_{\mathcal L^\alpha(\Omega)} := \sup_{\substack{x,y \in \Omega\\x\neq y}} \ell^{\alpha}(\min\{d(x),d(y)\})\frac{|u(x)-u(y)|}{\ell^\alpha(|x-y|)},% \qquad d:= \min(d_1,d_2), \ d_i := \dist(x_i,\partial \Omega),
-\end{align*}
-and the norms
-\begin{align*}
-&\|u\|_{\mathcal L^\alpha(\Omega)} := \|u\|_{L^\infty(\Omega)} + [u]_{\mathcal L^{\alpha}(\Omega)},\\
-&\|u\|^{(0)}_{\mathcal L^\alpha(\Omega)} := \sup_{x\in\Omega} |u(x)| + [u]^{(0)}_{\mathcal L^\alpha(\Omega)}.%, \qquad d := \dist(x,\p\W).
-\end{align*}
-We also define the Banach space
-\begin{align*}
-\mathcal L^\alpha(\Omega):=\{u:\Omega\to\R\::\: \|u\|_{\cL^\alpha(\Omega)}<\infty\}
-\end{align*}
- \end{definition}
+For a proof, see \cite[Lemma 3.2]{CS22}.
 
 
 \section{Variational setting}
@@ -247,73 +404,13 @@ where
 %    h_\Omega(x)=-\ln(x(b-x)),\qquad x\in(0,b).
 %\end{align*}
 
-\begin{definition}\label{def:l_rho}
-Let us fix
-\begin{align}\label{ell:def}
-\ell(\rho) = |\ln(\min(\rho_0,\rho))|^{-1}, \qquad\rho_0:=0.1.     
-\end{align}
-where the truncation guarantees that $\ell$ is a modulus of continuity. That is to say that $\ell$ is a non-decreasing, concave function over the interval $(0,\infty)$, taking values in $(0,1]$, and with the limit $\ell(0) := \lim_{r\to0^+}\ell(r)=0$.
-\end{definition}
-
 
 For any $\beta>0$, we denote by $\weH{\beta}$
 %
 \begin{align}\notag
     \weH{\beta}&=\left\{ u\in L^2(\Omega): \int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell(|x-y|)^{\beta}}dydx<+\infty \right. \\
-    &\hspace{3 cm}\left. \textnormal{and} \int_{\Omega}|u(x)|^2\ell^{-\beta}(\delta(x))dx <+\infty\right\}.
+    &\hspace{3 cm}\left. \textnormal{and} \int_{\Omega}|u(x)|^2\ell^{-\beta}(\delta(x))dx <+\infty\right\}.\label{H:weights:def}
 \end{align}
-
-\begin{equation}\label{eq:bilinear_E}
-    \cE(u,v)=\frac{1}{2}\iint_{x,y\in\R\atop |x-y|\leq 1}\frac{(u(x)-u(y))(v(x)-v(y))}{|x-y|}dx dy,
-\end{equation}
-
-\begin{align}\label{eq:bilinear_B}
-    B(u,v)=-\iint_{x,y\in\R\atop |x-y|\geq 1}\frac{u(x)\,v(y)}{|x-y|}dx dy+\rho_1\int_{\R}u v dx, \quad \rho_1=2\ln 2+\psi(1/2)-\gamma, \quad \gamma:=-\Gamma^\prime(1).
-\end{align}
-
-\begin{align*}
-\cE_L(u,v)=\cE(u,v)+B(u,v).
-\end{align*}
-
-
-Given $\alpha\in(0,1)$, let 
-%
-\begin{align}
-    \mathcal X^\alpha(\Omega)&:=\left\{u:\mathbb R\to \mathbb R:\|u\|_{X^\alpha(\Omega)}<+\infty \;\textnormal{ and $u=0$ in }\; \R\setminus \Omega\right\}, \\
-    \mathcal Y(\Omega)&:=\{f:\Omega\to \mathbb R:\|f\|_{\mathcal Y(\Omega)}<+\infty\},
-\end{align}
-%
-where 
-%
-\begin{align}
-    \|u\|_{\mathcal X^\alpha(\Omega)}&:=\sup_{x,y\in\mathbb R \atop x\neq y}\frac{|u(x)-u(y)|}{\ell^{\alpha}(|x-y|)}+\sup_{x,y\in\Omega \atop x\neq y}\ell^{1+\alpha}(d(x,y))\frac{|u(x)-u(y)|}{\ell^{1+\alpha}(|x-y|)}, \\
-    \|f\|_{\mathcal Y(\Omega)}&:=\|f\|_{L^\infty(\Omega)}+\sup_{x,y\in\Omega \atop x\neq y}\ell^{2}(d(x,y))\frac{|u(x)-u(y)|}{\ell(|x-y  |)}, \\
-    d(x)&:=\dist(x,\partial \Omega), \quad d(x,y)=\min(d(x),d(y)).
-\end{align}
-%
-
-We have the following result (see \cite[Theorem 1.1]{CS22}).
-
-\begin{theorem}\label{eq:regularity}
-    Let $\Omega$ be a bounded open set of $\mathbb R$. Then, there exists $\alpha\in(0,1)$ only depending on $\Omega$ such that exactly one of the following holds:
-    \begin{enumerate}[label=\roman*)]
-        \item For every $f\in\mathcal Y(\Omega)$ there exists a unique classical solution $u\in\mathcal X^{\alpha}(\Omega)$ of
-        %
-        \begin{equation}\label{eq:log_problem}
-            L_{\Delta} u = f \;\textnormal{ in }\; \Omega, \quad u=0 \;\textnormal{ on } \R\setminus \Omega.
-        \end{equation}
-        %
-        Moreover, 
-        %
-        \begin{equation}\label{eq:regularity_classical}
-            \|u\|_{\mathcal X^{\alpha}(\Omega)}\leq C\|f\|_{\mathcal Y(\Omega)}
-        \end{equation}
-        %
-        for some constant $C>0$ only depending on $\Omega$.
-        %
-        \item There is a non-trivial classical solution $u\in X^{\alpha}(\Omega)$ of $L_{\Delta} u=0$.
-    \end{enumerate}
-\end{theorem}
 
 \section{Localization of the $\mathbb{H}$-norm in 1-d}
 
@@ -342,7 +439,7 @@ Let $L>0$ be fixed and $N\in\mathbb N^*$ be large enough such that $h\in(0,\frac
     &\quad +C\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(\delta(x))\,dx,
 \end{align}
 %
-where $\ell(\cdot)$ as in \Cref{def:l_rho} and
+where $\ell(\cdot)$ as in \eqref{ell:def} and
 %
 \begin{align}\label{eq:def_Si}
     S_i:=\bigcup_{j\in\inter{0,N}\,:\,\overline{\Omega_j}\cap \overline{\Omega_i}\neq \emptyset}\Omega_j, \quad i\in\inter{0,N};
@@ -865,7 +962,7 @@ We begin by recalling the variational formulation associated to our problem: fin
     \cE_{L}(u,v)=\int_{\Omega}f v \quad \forall v\in \mathbb H(\Omega)
 \end{equation}
 %
-with $\cE_{L}(u,v)=\cE(u,v)+B(u,v)$ and where we recall \eqref{eq:bilinear_E}--\eqref{eq:bilinear_B}.
+with $\cE_{L}(u,v)=\cE(u,v)+B(u,v)$ and where we recall \eqref{eq:bilinear_B}.
 
 Our goal is to approximate the solution $u$ to \eqref{eq:cont_problem} by solving the following discrete problem: find $u_h\in \mathcal V_h$ such that
 %
@@ -1247,7 +1344,7 @@ Recall that $\Omega:=(0,L)$ for some $L>0$.  We use $A^L_h$ to denote the stiffn
 b_{ij}=\cE_L(\varphi_i,\varphi_j)\qquad \text{ for }i,j=0,\ldots,N+1.
 \end{align*}
 Instead of doing this computation directly, we obtain a closed formula for $b_{ij}$ by differentiating the entries of the stiffness matrix for the fractional Laplacian (which were explicitly computed in \cite{BH17}) and evaluating them at $s=0$.  To be more precise, let $A^s_h=(b_{ij}^s)_{i,j=0}^{N+1}$ be the stiffness matrix for $(-\Delta)^s$. We show the following. 
-\begin{lemma} For $i,j=0,\ldots,N+1,$
+\begin{lemma}\label{lem:derivative:s:m} For $i,j=0,\ldots,N+1,$
 \begin{align*}
     b_{ij}=\partial_s b_{ij}^s \mid_{s=0}.
 \end{align*}
@@ -1283,7 +1380,7 @@ In \cite{L22}, a good numerical approximation of these coefficients is done usin
 
 
 
-\section{Computation of the stiffness matrix}
+\section{Computation of the stiffness matrix}\label{sec:s:m}
 
 In this section we construct the stiffness matrix associated to the fractional Laplacian $(-\Delta)^s$ with $s\in(0,\frac{1}{2})$. We follow the computations done in \cite{BH17}.  In particular, we want to calculate
 \begin{align*}
@@ -1455,10 +1552,10 @@ Therefore,
 
 \subsection{Case 2: $a_{0,j}$ for $j\in\inter{2,N}$.}
 
-\begin{align}\label{elem_noint_app}
+\begin{align*}
 	a_{0,j}&=-2 \int_{x_{j-1}}^{x_{j+1}}\int_{0}^{h}\frac{\varphi_0(x)\varphi_j(y)}{|x-y|^{1+2s}}\,dxdy
 =-4 \int_{(j-1)h}^{(j+1)h}\int_0^{h}\frac{\left(1-\frac{x}{h}\right)\left(1-\frac{|y-jh|}{h}\right)}{|x-y|^{1+2s}}\,dxdy.
-\end{align}
+\end{align*}
 
 Let us introduce the following change of variables:
 \begin{align*}
@@ -1496,11 +1593,11 @@ where
 
 \subsection{Case 3: $a_{0,N+1}$.} Since $\Omega=(0,L)$, we have that $x_{N+1}=L=(N+1)h=x_{N+2}$ and $x_{N-1}=L-h=h(N-1)$. Then
 
-\begin{align}\label{elem_noint_app}
+\begin{align*}
 a_{0,N+1}&=-2 \int_{x_{N}}^{x_{N+1}}\int_{x_0}^{x_1}\frac{\varphi_0(x)\varphi_{N+1}(y)}{|x-y|^{1+2s}}\,dxdy
 =-8\int_{Nh}^{(N+1)h}\int_0^{h}\frac{\left(1-\frac{x}{h}\right)\left(\frac{y}{h}-N\right)}{(y-x)^{1+2s}}\,dxdy\\
 &=-8h^{1-2s}\int_{0}^{1}\int_0^{1}\frac{\left(1-x\right)y}{(y+N-x)^{1+2s}}\,dxdy,
-\end{align}
+\end{align*}
 then
 %
 \begin{align*}
@@ -1615,7 +1712,7 @@ a_{i,j}= \frac{h^{1 - 2 s}}{2s(1-2s)(1-s)(3-2s)}
 where $k:=j-i$ and $\xi^s_k:=4(k+1)^{3-2s} + 4(k-1)^{3-2s}-6k^{3-2s}-(k+2)^{3-2s}-(k-2)^{3-2s}$
 
 
-\section{Stiffness matrix of the logarithmic Laplacian}
+\section{Stiffness matrix of the logarithmic Laplacian}\label{sec:s:m:log}
 
 The stiffness matrix $\mathcal A_{h}^{L}\in{\R^{(N+2)\times(N+2)}}$ of the logarithmic laplacian has coefficients $a_{i,j}$ with $i,j\in\inter{0,N+1}$ and $j\geq 1$ given by
 %
@@ -1678,7 +1775,7 @@ and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 	\end{tikzpicture}
 
 	\caption{The exact solution and its numerical approximation for $N=50$.}
-	\label{fig:eigen_crit_neumann}
+	\label{fig:1}
 \end{figure}
 
 %%%%%%%%%%%%%%%
@@ -1720,7 +1817,7 @@ and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 	}
 	
 	\caption{Convergence of the method}
-	\label{fig:eigen_crit_neumann}
+	\label{fig:2}
 \end{figure}
 
 
@@ -1907,6 +2004,18 @@ For $i,j=0,\ldots,N+1$ and $s<\frac{1}{4}$, we have that
 \end{lemma}
 \begin{proof}The proof follows by a standard application of Fubini's theorem. 
 \end{proof}
+
+
+
+
+\section{Open problems}\label{sec:o:p}
+
+ To close this paper, we discuss some open problems.
+ \begin{enumerate}
+    \item \emph{Adaptive mesh:} In this paper we only considered a homogeneous mesh.  It would be interesting to study the effect that an adaptive mesh would have in the convergence rate.
+     \item \emph{Dimension 2 and 3:} We think that once the one-dimensional case has been established, it would be interesting to study the convergence of FEM for logarithmic problems in dimensions 2 and 3.
+ \end{enumerate}
+
 
 
 
