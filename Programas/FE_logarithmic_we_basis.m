@@ -5,11 +5,11 @@ L=1;
 ell=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[499];
+Nval=[50,100,200,400];
 %Nval=[100];
 step=[];
 dif_norm=[];
-dif_bilinear=[];
+dif_L2=[];
 dif_linfinity=[];
 pendiente=[]; alpha=[];
 
@@ -22,9 +22,9 @@ for N=Nval
     mass = MassMatrix(xi,h);
 
     %%% Right-hand side of the problem and projection over finite elements
-    f = @(x) 1+0*x; %%% Torsion
+    %f = @(x) 1+0*x; %%% Torsion
     %f = @(x) (-3*x.^2+1)+(log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*(1-x.^2); %%% (1-x^2)
-    %f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
+    f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
     %f_ell = @(x) ell^2*(-3*x.^2+1)+(log(1./(ell^2*(1-x.^2)))+(2*log(2)+psi(1/2)+psi(1)))*ell^2.*(1-x.^2);
    
     F=projection(xi,f,h);
@@ -32,16 +32,18 @@ for N=Nval
 
     exsol=@(x) ell^2*(1-0*x.^2);
 
-    sol_log=(Alog-log(ell^(2))*mass)\F;
+    sol_log=(Alog-0*log(ell^(2))*mass)\F;
 
     err_temp=exsol(xi)'-sol_log;
-    err_temp=err_temp(2:end-1);
 
-    error_norm=E_norm(xi(2:end-1),err_temp,1);
-    err_linf=norm(exsol(xi)'-sol_log,"inf");
+    error_norm=sqrt(E_norm(xi(1:end),err_temp,1));
+    err_linf=norm(err_temp,Inf);
+    %err_L2=norm(err_temp,2);
+    err_L2=sqrt(err_temp'*mass*err_temp);
 
     dif_norm=[dif_norm;error_norm];
     dif_linfinity=[dif_linfinity;err_linf];
+    dif_L2=[dif_L2;err_L2];
     
     step=[step;h];
 
@@ -54,13 +56,13 @@ for N=Nval
     end
 
     figure(1)
-    %plot(xi, sol_log,xi,exsol(xi),'x',xi,sol_log*0,'LineWidth',1);
-    plot(xi, sol_log,'LineWidth',1);
+    plot(xi, sol_log,xi,exsol(xi),'x',xi,sol_log*0,'LineWidth',1);
+    %plot(xi, sol_log,'LineWidth',1);
     
 end
 
 figure(2)
-loglog(step,dif_linfinity,step,0.557./(-log(step)).^(0.036),'LineWidth',2.5);
+loglog(step,dif_linfinity,'LineWidth',2.5);
 sl_dif=log(dif_linfinity(1)/dif_linfinity(end))/log(step(1)/step(end));
 legend("Slope: "+num2str(sl_dif)); title("Error L infinity norm")
 
@@ -68,6 +70,11 @@ figure(3)
 loglog(step,dif_norm,'LineWidth',2.5);
 sl_dif=log(dif_norm(1)/dif_norm(end))/log(step(1)/step(end));
 legend("Slope: "+num2str(sl_dif)); title("Error norm quadrature")
+
+figure(4)
+loglog(step,dif_norm,'LineWidth',2.5);
+sl_dif=log(dif_L2(1)/dif_L2(end))/log(step(1)/step(end));
+legend("Slope: "+num2str(sl_dif)); title("Error L^2")
 
 
 %%% Descomentar si queremos guardar la solución
@@ -186,7 +193,7 @@ end
 
 
 function [out] = E_norm(xi,u,r)
-eps=10e-8;
+eps=10e-3;
 %eps = 1e-3*(xi(2)-xi(1));
 yi = xi;
 [Ux, Uy] = meshgrid(u,u);
@@ -202,7 +209,7 @@ end
 out_1 = trapz(xi,Z_new);
 killing_measure = ((r + eps - abs(xi))<=1).*(-log(r + eps -abs(xi)));
 out_2 = trapz(xi,u.^2.*killing_measure');
-out = out_1 + out_2;
+out = out_1 + 0*out_2;
 end
 
 function M = MassMatrix(x,hx)

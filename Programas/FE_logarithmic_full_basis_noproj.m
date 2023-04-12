@@ -7,12 +7,14 @@ L=1;
 Nval=[50,100,200,400,800,1600,3200];
 step=[];
 dif_norm=[];
-dif_bilinear=[];
+dif_L2=[];
 dif_linfinity=[];
 
 pendiente=[];
 slope_inf=[];
+slope_L2=[];
 alpha=[];
+alpha_L2=[];
 
 
 for N=Nval
@@ -38,29 +40,33 @@ for N=Nval
     sol_log=(Alog)\F;
 
     temp_err=exsol(xi)'-sol_log;
-    temp_err=temp_err(2:end-1); %%Removiendo el ultimo punto
-    %temp_err=temp_err(floor((N+1)/4):floor(3*(N+1)/4),1);
-
-    error_norm=E_norm(xi(2:end-1),temp_err,L);
-    err_linf=norm(exsol(xi)'-sol_log,"inf");
+    %temp_err=temp_err(2:end-1); %%Removiendo el ultimo punto
+   
+    error_norm=E_norm(xi,temp_err,L);
+    err_linf=norm(temp_err,Inf);
+    err_L2=sqrt(temp_err'*mass*temp_err);
 
     dif_norm=[dif_norm;error_norm];
     dif_linfinity=[dif_linfinity;err_linf];
+    dif_L2=[dif_L2;err_L2];
     
     step=[step;h];
 
     if length(dif_norm)== 1
         pendiente=[pendiente,NaN];
         slope_inf=[slope_inf,NaN];
+        slope_L2=[slope_L2,NaN];
         alpha=[alpha,NaN];
+        alpha_L2=[alpha_L2,NaN];
     else
-        pendiente=[pendiente,log(dif_norm(end)/dif_norm(end-1))/log(step(end)/step(end-1))];
-        slope_inf=[slope_inf,log(dif_linfinity(end)/dif_linfinity(end-1))/log(step(end)/step(end-1))];
-        alpha=[alpha,abs(log(dif_norm(end)/dif_norm(end-1)))/abs(log(abs(log(step(end))/abs(log(step(end-1))))))];
+       pendiente=[pendiente,log(dif_norm(end)/dif_norm(end-1))/log(step(end)/step(end-1))];
+       slope_inf=[slope_inf,log(dif_linfinity(end)/dif_linfinity(end-1))/log(step(end)/step(end-1))];
+       slope_L2=[slope_L2,log(dif_L2(end)/dif_L2(end-1))/log(step(end)/step(end-1))];
+       alpha=[alpha,abs(log(dif_norm(end)/dif_norm(end-1)))/abs(log(abs(log(step(end))/abs(log(step(end-1))))))];
+       alpha_L2=[alpha_L2,abs(log(dif_L2(end)/dif_L2(end-1)))/abs(log(abs(log(step(end))/abs(log(step(end-1))))))];
     end
 
     figure(1)
-    %plot(xi, sol_log,xi,exsol(xi),'x',xi,sol_log*0,'LineWidth',1);
     plot(xi, sol_log,xi,exsol(xi),'x','LineWidth',2);
     
 end
@@ -71,15 +77,19 @@ end
  legend("Slope: "+num2str(sl_dif)); title('error L_inf')
 
  figure(3)
- %loglog(step,dif_norm,step,0.4./(-log(step)).^(7),'LineWidth',2.5);
  loglog(step,dif_norm,'LineWidth',2.5);
  sl_quad=log(dif_norm(1)/dif_norm(end))/log(step(1)/step(end));
  legend("Slope: "+num2str(sl_quad)); title('error H quadrature')
 
+ figure(4)
+ loglog(step,dif_L2,'LineWidth',2.5);
+ sl_quad=log(dif_L2(1)/dif_L2(end))/log(step(1)/step(end));
+ legend("Slope: "+num2str(sl_quad)); title('error L^2')
+
 
  %%% Write otput files
  write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
- write_convergence_data(xi,step,dif_norm,dif_linfinity,pendiente',slope_inf',true)
+ write_convergence_data(xi,step,dif_norm,dif_linfinity,pendiente',slope_inf',false)
 
 
 %%% Auxiliary functions
@@ -194,10 +204,9 @@ end
 
 
 function [out] = E_norm(xi,u,r)
-%N = length(u);
-%x = linspace(-r,r,N);
-eps=10e-8;
-%eps = 1e-3*(xi(2)-xi(1));
+h=xi(2)-xi(1);
+mass = MassMatrix(xi,h);
+eps=1e-4;
 yi = xi;
 [Ux, Uy] = meshgrid(u,u);
 [X,Y] = meshgrid(xi,yi);
@@ -218,10 +227,11 @@ else
                         + ((abs(xi)-r)>=1).*(-log(r+eps-abs(xi)));
 end
 
+%killing_measure(~isfinite(killing_measure))=0;
 
-out_2 = trapz(xi,u.^2.*killing_measure');
-out = out_1 + out_2;
-%out = out_2
+%out_2 = trapz(xi,u.^2.*killing_measure');
+out_2 = (u.^2.*killing_measure')'*mass*(u.^2.*killing_measure');
+out = 0*out_1 + out_2;
 end
 
 function M = MassMatrix(x,hx)
@@ -250,16 +260,6 @@ M = sparse(hx*M);
 
 end
 
-function [err] = error_bilinear(h,xi,sol,f)
-
-% numf=f(xi);
-% numf=numf(2:end-1);
-
-val = -1.32528;
-valnum = h*sum(f.*sol);
-err = val-valnum;
-
-end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% Funciones para guardar soluciones
@@ -335,7 +335,6 @@ if flag==true
     ST=fclose(outs_file_temp);
 end
 end
-
 
 function [dt,ht,mt]=obtain_date()
 dt = datestr(now,'dd-mm-yyyy');
