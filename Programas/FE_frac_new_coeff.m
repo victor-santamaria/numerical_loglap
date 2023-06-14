@@ -9,9 +9,10 @@ L=1;
 c_1 = 2*(s*2^(2*s-1)*gamma(0.5*(1+2*s)))/(sqrt(pi)*gamma(1-s));
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600,3200,6400];
+Nval=[50,100,200,400,800];
 dif_norm=[];
-dif_bilin=[];
+dif_L2_norm_matlab=[];
+dif_L2_norm=[];
 step=[];
 pendiente=[];
 
@@ -21,6 +22,7 @@ for N=Nval
     h=xi(2)-xi(1);
 
     As=flRigidity_w0(s,L,N);
+    mass = MassMatrix(xi,h);
 
     %%% Right-hand side of the problem and projection over finite elements
     f = @(x) 1+0*x;
@@ -37,14 +39,17 @@ for N=Nval
     figure(1)
     plot(xi, sol_frac,xi,exsol(xi,s,L),'x',xi,sol_frac*0,'LineWidth',1);
     %plot(xi, sol_frac,'LineWidth',1);
+
+    err_temp=exsol(xi,s,L)'-sol_frac;
     
     e_norm = error_fl(h,s,sol_frac);
 
-    e_bilin = error_bilinear(h,xi,s,sol_frac,f);
+    err_L2_matlab=norm(err_temp,2);
+    err_L2=sqrt(err_temp'*mass*err_temp);
 
     dif_norm=[dif_norm;e_norm];
-
-    dif_bilin=[dif_bilin;e_bilin];
+    dif_L2_norm_matlab=[dif_L2_norm_matlab;err_L2_matlab];
+    dif_L2_norm=[dif_L2_norm;err_L2];
 
     step=[step;h]
 
@@ -57,10 +62,22 @@ for N=Nval
 
 end
 
-figure(3)
-loglog(step,dif_norm)
+figure(2)
+loglog(step,dif_norm,'LineWidth',2.5)
 sl_dif=log(dif_norm(1)/dif_norm(end))/log(step(1)/step(end));
-legend("Slope: "+num2str(sl_dif))
+legend("Slope: "+num2str(sl_dif)); title('error H^s norm')
+
+figure(3)
+loglog(step,dif_L2_norm_matlab,'LineWidth',2.5);
+sl_quad=log(dif_L2_norm_matlab(1)/dif_L2_norm_matlab(end))/log(step(1)/step(end));
+legend("Slope: "+num2str(sl_quad)); title('error L2 matlab')
+
+figure(4)
+loglog(step,dif_L2_norm,'LineWidth',2.5);
+sl_quad=log(dif_L2_norm(1)/dif_L2_norm(end))/log(step(1)/step(end));
+legend("Slope: "+num2str(sl_quad)); title('error L^2')
+
+[xx,B0] = plt_sol_nearboundary(xi,sol_frac,h);
 
 
 
@@ -84,6 +101,7 @@ for i=1:N
         xx = linspace(xi(i),xi(i)+h,N+1);
         xx = 0.5*(xx(2:end)+xx(1:end-1));
         B1 = 2*f(xx).*Phi((xx-xi(i))/h);
+        %B1 = f(xx).*Phi((xx-xi(i))/h);
         F(i) = ((h)/N)*sum(B1);
     end
 
@@ -91,6 +109,7 @@ for i=1:N
         xx = linspace(xi(i)-h,xi(i),N+1);
         xx = 0.5*(xx(2:end)+xx(1:end-1));
         B1 = 2*f(xx).*Phi((xx-xi(i))/h);
+        %B1 = f(xx).*Phi((xx-xi(i))/h);
         F(i) = ((h)/N)*sum(B1);
     end
 
@@ -98,8 +117,8 @@ end
 
 end
 
-
 function A = flRigidity_w0(s,L,N)
+
 
 x = linspace(-L,L,N+2);
 x = x(2:end-1);
@@ -193,6 +212,32 @@ A = c*A;
 
 end
 
+function M = MassMatrix(x,hx)
+
+Nx = length(x);
+
+M=zeros(Nx,Nx);
+
+M(1,2)=1/3;
+M(Nx,Nx-1)=M(1,2);
+
+for i=2:Nx-2
+    M(i,i+1)=1/6;
+end
+
+M=M+M';
+
+M(1,1)=4/3;
+M(Nx,Nx)=M(1,1);
+ 
+for i=2:Nx-1
+    M(i,i)=2/3;
+end
+
+M = sparse(hx*M);
+
+end
+
 function [e_norm] = error_fl(h,s,sol)
 
 val = pi/(2^(2*s)*gamma(s+0.5)*gamma(s+1.5));
@@ -201,21 +246,20 @@ e_norm = sqrt(val-valnum);
 
 end
 
-function [e_norm] = error_bilinear(h,xi,s,sol,f)
+function [xx,B0]=plt_sol_nearboundary(xi,ui,h)
 
-c_1 = 2*(s*2^(2*s-1)*gamma(0.5*(1+2*s)))/(sqrt(pi)*gamma(1-s));
+N=size(xi,2);
 
-val = c_1*2^(1-2*s)/(s-2*s^2);
+for i=1:N
 
-numf=f(xi);
-numf=numf(2:end-1);
-
-valnum = h*sum(numf'.*sol(2:end-1));
-e_norm = sqrt(val-valnum);
-
+    if i==1
+        xx = linspace(xi(i),xi(i)+h,N+1);
+        B0=ui(i)*(2*(h-1)/h-2*xx/h)+ui(i+1)*(xx/h+1/h);
+        
+    end
 end
 
-
+end
 
 
 

@@ -4,17 +4,21 @@ clear
 L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600,3200];
+Nval=[50,100,200,400,800,1600];
 step=[];
 dif_norm=[];
 dif_L2=[];
 dif_linfinity=[];
+dif_L2_loc=[];
 
 pendiente=[];
 slope_inf=[];
 slope_L2=[];
+slope_L2_loc=[];
 alpha=[];
 alpha_L2=[];
+alpha_L2_loc=[];
+
 
 
 for N=Nval
@@ -25,17 +29,23 @@ for N=Nval
     Alog=LoglapRigidity(L,N);
     mass = MassMatrix(xi,h);
 
+    M=1;
+
+    mass_loc=mass(M+1:end-M,M+1:end-M);
+
+
+
     tabname="./datos_sim/file"+num2str(N)+".txt";
 
     T=readtable(tabname);
     T=table2array(T);
 
     f=T(:,2);
-    F=h*f; F(1)=F(1)*5/3; F(end)=F(end)*5/3;
+    F=h*f; F(1)=F(1)*3/3; F(end)=F(end)*3/3;
 
-    exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2*L^2)));
+    %exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2*L^2)));
 
-    %exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2)));
+    exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2)));
 
     sol_log=(Alog)\F;
 
@@ -45,10 +55,14 @@ for N=Nval
     error_norm=E_norm(xi,temp_err,L);
     err_linf=norm(temp_err,Inf);
     err_L2=sqrt(temp_err'*mass*temp_err);
+    %err_L2=norm(temp_err,2);
+
+    err_L2_loc=sqrt(temp_err(M+1:end-M)'*mass_loc*temp_err(M+1:end-M));
 
     dif_norm=[dif_norm;error_norm];
     dif_linfinity=[dif_linfinity;err_linf];
     dif_L2=[dif_L2;err_L2];
+    dif_L2_loc=[dif_L2_loc;err_L2_loc];
     
     step=[step;h];
 
@@ -56,14 +70,18 @@ for N=Nval
         pendiente=[pendiente,NaN];
         slope_inf=[slope_inf,NaN];
         slope_L2=[slope_L2,NaN];
+        slope_L2_loc=[slope_L2_loc,NaN];
         alpha=[alpha,NaN];
         alpha_L2=[alpha_L2,NaN];
+        alpha_L2_loc=[alpha_L2_loc,NaN];
     else
        pendiente=[pendiente,log(dif_norm(end)/dif_norm(end-1))/log(step(end)/step(end-1))];
        slope_inf=[slope_inf,log(dif_linfinity(end)/dif_linfinity(end-1))/log(step(end)/step(end-1))];
        slope_L2=[slope_L2,log(dif_L2(end)/dif_L2(end-1))/log(step(end)/step(end-1))];
+       slope_L2_loc=[slope_L2_loc,log(dif_L2_loc(end)/dif_L2_loc(end-1))/log(step(end)/step(end-1))];
        alpha=[alpha,abs(log(dif_norm(end)/dif_norm(end-1)))/abs(log(abs(log(step(end))/abs(log(step(end-1))))))];
        alpha_L2=[alpha_L2,abs(log(dif_L2(end)/dif_L2(end-1)))/abs(log(abs(log(step(end))/abs(log(step(end-1))))))];
+       alpha_L2_loc=[alpha_L2_loc,abs(log(dif_L2_loc(end)/dif_L2_loc(end-1)))/abs(log(abs(log(step(end))/abs(log(step(end-1))))))];
     end
 
     figure(1)
@@ -86,10 +104,17 @@ end
  sl_quad=log(dif_L2(1)/dif_L2(end))/log(step(1)/step(end));
  legend("Slope: "+num2str(sl_quad)); title('error L^2')
 
+ figure(5)
+ loglog(step,dif_L2_loc,'LineWidth',2.5);
+ sl_quad=log(dif_L2_loc(1)/dif_L2_loc(end))/log(step(1)/step(end));
+ legend("Slope: "+num2str(sl_quad)); title('error L^2_{loc}')
+
 
  %%% Write otput files
  write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
  write_convergence_data(xi,step,dif_norm,dif_linfinity,pendiente',slope_inf',false)
+
+ [xx,B0]=plt_sol_nearboundary(xi,sol_log,h);
 
 
 %%% Auxiliary functions
@@ -231,7 +256,7 @@ end
 
 %out_2 = trapz(xi,u.^2.*killing_measure');
 out_2 = (u.^2.*killing_measure')'*mass*(u.^2.*killing_measure');
-out = 0*out_1 + out_2;
+out = out_1 + out_2;
 end
 
 function M = MassMatrix(x,hx)
@@ -340,4 +365,19 @@ function [dt,ht,mt]=obtain_date()
 dt = datestr(now,'dd-mm-yyyy');
 ht = datestr(now,'HH');
 mt = datestr(now,'MM');
+end
+
+function [xx,B0]=plt_sol_nearboundary(xi,ui,h)
+
+N=size(xi,2);
+
+for i=1:N
+
+    if i==1
+        xx = linspace(xi(i),xi(i)+h,N+1);
+        B0=ui(i)*(2*(h-1)/h-2*xx/h)+ui(i+1)*(xx/h+1/h);
+        
+    end
+end
+
 end

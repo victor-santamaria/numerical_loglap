@@ -1,11 +1,11 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=1;
+L=0.3;
 ell=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400];
+Nval=[50];
 %Nval=[100];
 step=[];
 dif_norm=[];
@@ -22,13 +22,12 @@ for N=Nval
     mass = MassMatrix(xi,h);
 
     %%% Right-hand side of the problem and projection over finite elements
-    %f = @(x) 1+0*x; %%% Torsion
+    f = @(x) 1+0*x; %%% Torsion
     %f = @(x) (-3*x.^2+1)+(log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*(1-x.^2); %%% (1-x^2)
-    f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
+    %f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
     %f_ell = @(x) ell^2*(-3*x.^2+1)+(log(1./(ell^2*(1-x.^2)))+(2*log(2)+psi(1/2)+psi(1)))*ell^2.*(1-x.^2);
    
     F=projection(xi,f,h);
-
 
     exsol=@(x) ell^2*(1-0*x.^2);
 
@@ -72,13 +71,15 @@ sl_dif=log(dif_norm(1)/dif_norm(end))/log(step(1)/step(end));
 legend("Slope: "+num2str(sl_dif)); title("Error norm quadrature")
 
 figure(4)
-loglog(step,dif_norm,'LineWidth',2.5);
+loglog(step,dif_L2,'LineWidth',2.5);
 sl_dif=log(dif_L2(1)/dif_L2(end))/log(step(1)/step(end));
 legend("Slope: "+num2str(sl_dif)); title("Error L^2")
 
 
 %%% Descomentar si queremos guardar la solución
-write_sol(xi,sol_log,true);
+write_sol(xi,sol_log,false);
+
+[xx,B0]=plt_sol_nearboundary(xi,f(xi),h);
 
 
 %%% Auxiliary functions
@@ -298,4 +299,19 @@ ht = datestr(now,'HH');
 mt = datestr(now,'MM');
 end
 
+
+function [xx,B0]=plt_sol_nearboundary(xi,ui,h)
+
+N=size(xi,2);
+
+for i=1:N
+
+    if i==1
+        xx = linspace(xi(i),xi(i)+h,N+1);
+        B0=ui(i)*(2*(h-1)/h-2*xx/h)+ui(i+1)*(xx/h+1/h);
+        
+    end
+end
+
+end
 
