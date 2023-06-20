@@ -311,16 +311,16 @@ The paper is organized as follows....
 %%%%.        Figure       %%%
 %%%%%%%%%%%%%%%
 % DO NOT ERASE
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
 	\centering
 	%
 	\subfloat[]{
 	\begin{tikzpicture}[scale=0.8]
-	\begin{axis}[xlabel={$x$},xmin=-0.1,xmax=0.1,legend pos=outer north east,
-	legend plot pos=left, xtick={-0.1,0,0.1}, ymin=-0.01,
+	\begin{axis}[xlabel={$x$},xmin=0,xmax=0.2,legend pos=outer north east,
+	legend plot pos=left, xtick={0,0.1,0.2}, ymin=-0.01,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_05-04-2023_15h34.org}\solution      
+	\pgfplotstableread{./Programas/num_results/sol-log_20-06-2023_12h20.org}\solution      
 	      
 	\addplot[very thick,color=blue] table[x,y] \solution; %\label{cost}
 	
@@ -330,11 +330,11 @@ The paper is organized as follows....
 	}
 	\subfloat[]{
 	\begin{tikzpicture}[scale=0.8]
-	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
-	legend plot pos=left, xtick={-1,0,1}, ymax=0.01,
+	\begin{axis}[xlabel={$x$},xmin=0,xmax=2,legend pos=outer north east,
+	legend plot pos=left, xtick={0,1,2}, ymax=0.01,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_05-04-2023_15h37.org}\solution      
+	\pgfplotstableread{./Programas/num_results/sol-log_20-06-2023_12h25.org}\solution      
 	      
 	\addplot[very thick,color=blue] table[x,y] \solution; %\label{cost}
 	
@@ -342,21 +342,21 @@ The paper is organized as follows....
 	%	
 	\end{tikzpicture}
 	} 
-%	 \\
-%	\subfloat[]{
-%	\begin{tikzpicture}[scale=0.8]
-%	\begin{axis}[xlabel={$x$},xmin=-10,xmax=10,legend pos=outer north east,
-%	legend plot pos=left,
-%	legend style={cells={anchor=west},draw=none}]
-%	%	    
-%	\pgfplotstableread{./Programas/num_results/sol-log_05-04-2023_15h36.org}\solution      
-%	      
-%	\addplot[thick,color=blue] table[x,y] \solution; %\label{cost}
-%	
-%	\end{axis}
-%	%	
-%	\end{tikzpicture}
-%	}
+	 \\
+	\subfloat[]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{axis}[xlabel={$x$},xmin=0,xmax=7,legend pos=outer north east,
+	legend plot pos=left,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_20-06-2023_12h28.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x,y] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	}
 	\caption{}
 	\label{fig:3}
 \end{figure}

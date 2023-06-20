@@ -1,11 +1,11 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=20;
+L=7;
 ell=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50];
+Nval=[100];
 %Nval=[100];
 step=[];
 dif_norm=[];
@@ -77,7 +77,7 @@ legend("Slope: "+num2str(sl_dif)); title("Error L^2")
 
 
 %%% Descomentar si queremos guardar la solución
-write_sol(xi,sol_log,false);
+write_sol(xi,sol_log,true);
 
 [xx,B0]=plt_sol_nearboundary(xi,f(xi),h);
 
@@ -261,7 +261,7 @@ if flag==true
     fprintf(outs_file_temp,'%s %s \n','#N: ', num2str(N));
     fprintf(outs_file_temp,'%s %4.4e \n','#h: ', 2*L/(N+1));
 
-    fprintf(outs_file_temp,'%4.4f %4.4e \n',[xi',solution].');
+    fprintf(outs_file_temp,'%4.4f %4.4e \n',[xi',[2*solution(1);solution(2:end-1);2*solution(end)]].');
     ST=fclose(outs_file_temp);
 end
 end
