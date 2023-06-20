@@ -9,7 +9,7 @@ L=1;
 c_1 = 2*(s*2^(2*s-1)*gamma(0.5*(1+2*s)))/(sqrt(pi)*gamma(1-s));
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800];
+Nval=[50,100,200,400,800,1600,3200,6400];
 dif_norm=[];
 dif_L2_norm_matlab=[];
 dif_L2_norm=[];
@@ -57,7 +57,7 @@ for N=Nval
     if length(dif_norm)== 1
         pendiente=[pendiente,NaN];
     else
-        pendiente=[pendiente,log(dif_norm(end)/dif_norm(end-1))/log(step(end)/step(end-1))];
+        pendiente=[pendiente,log(dif_L2_norm(end)/dif_L2_norm(end-1))/log(step(end)/step(end-1))];
     end
 
 end

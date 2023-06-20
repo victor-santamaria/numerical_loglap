@@ -1,8 +1,7 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=7;
-ell=1;
+L=1;
 
 %%% Number of discrete points, mesh and mesh size
 Nval=[100];
@@ -15,23 +14,23 @@ pendiente=[]; alpha=[];
 
 for N=Nval
 
-    xi=linspace(-0*L,L,N+2);
+    xi=linspace(-L,L,N+2);
     h=xi(2)-xi(1);
 
     Alog=LoglapRigidity(L,N);
     mass = MassMatrix(xi,h);
 
     %%% Right-hand side of the problem and projection over finite elements
-    f = @(x) 1+0*x; %%% Torsion
+    %f = @(x) 1+0*x; %%% Torsion
     %f = @(x) (-3*x.^2+1)+(log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*(1-x.^2); %%% (1-x^2)
-    %f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
+    f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
     %f_ell = @(x) ell^2*(-3*x.^2+1)+(log(1./(ell^2*(1-x.^2)))+(2*log(2)+psi(1/2)+psi(1)))*ell^2.*(1-x.^2);
    
     F=projection(xi,f,h);
 
-    exsol=@(x) ell^2*(1-0*x.^2);
+    exsol=@(x) (1-0*x.^2);
 
-    sol_log=(Alog-0*log(ell^(2))*mass)\F;
+    sol_log=Alog\F;
 
     err_temp=exsol(xi)'-sol_log;
 
@@ -77,7 +76,9 @@ legend("Slope: "+num2str(sl_dif)); title("Error L^2")
 
 
 %%% Descomentar si queremos guardar la solución
-write_sol(xi,sol_log,true);
+write_sol(xi,sol_log,false);
+
+write_numsol_realsol(xi,sol_log,exsol(xi),exsol,true);
 
 [xx,B0]=plt_sol_nearboundary(xi,f(xi),h);
 
@@ -118,7 +119,7 @@ end
 
 function A = LoglapRigidity(L,N)
 
-x = linspace(-0*L,L,N+2);
+x = linspace(-L,L,N+2);
 h = x(2)-x(1);
 
 A = zeros(N+2,N+2);
@@ -288,7 +289,7 @@ if flag==true
     fprintf(outs_file_temp,'%s %4.4e \n','#h: ', 2*L/(N+1));
 
     fprintf(outs_file_temp,'%s %s %s \n','xi','numsol','exsol');
-    fprintf(outs_file_temp,'%4.4f %4.4e %4.4e \n',[xi',numsol,realsol'].');
+    fprintf(outs_file_temp,'%4.4f %4.4e %4.4e \n',[xi',[2*numsol(1);numsol(2:end-1);2*numsol(end)],realsol'].');
     ST=fclose(outs_file_temp);
 end
 end

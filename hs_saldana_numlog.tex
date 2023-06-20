@@ -1791,9 +1791,9 @@ and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 	legend plot pos=left,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_06-04-2023_15h10.org}\solution      
+	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_20-06-2023_13h27.org}\solution      
 	      
-	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=H_norm] \solution; %\label{cost}
+	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=L2norm] \solution; %\label{cost}
 	% \addlegendentry{Convergence rate in the norm $\mathbb H$};
 	
 	\end{loglogaxis}
@@ -1806,19 +1806,36 @@ and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 	legend plot pos=left,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_06-04-2023_15h10.org}\data      
+	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_20-06-2023_13h27.org}\data      
 	      
-	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=Linf_norm] \data; %\label{cost}
+	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=L2locnorm] \data; %\label{cost}
 	% \addlegendentry{Convergence rate in the norm $\mathbb H$};
 	
 	\end{loglogaxis}
 	%	
 	\end{tikzpicture}
 	}
+	\\
+	\subfloat[]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{loglogaxis}[xlabel={$h$},legend pos=outer north east,
+	legend plot pos=left,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_20-06-2023_13h27.org}\data      
+	      
+	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=Linfnorm] \data; %\label{cost}
+	% \addlegendentry{Convergence rate in the norm $\mathbb H$};
 	
+	\end{loglogaxis}
+	%	
+	\end{tikzpicture}
+	}
 	\caption{Convergence of the method}
 	\label{fig:2}
 \end{figure}
+
+
 
 
 \begin{table}[h!]
@@ -1884,6 +1901,66 @@ after row=\bottomrule},
 \caption{Convergence data.}
 \label{table:1}
 \end{table}
+
+%%%%%%%%%%%%%%%
+%%%%.        Figure       %%%
+%%%%%%%%%%%%%%%
+% DO NOT ERASE
+\begin{figure}[htbp]
+	\centering
+	%
+	\subfloat[]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
+	legend plot pos=left, xtick={-1,0,1},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_15h33.org}\solution      
+	      
+	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
+	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, only marks, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	}
+	%
+	\subfloat[]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,ymin=0.5,legend pos=outer north east,
+	legend plot pos=left, xtick={-1,0,1},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_15h43.org}\solution      
+	      
+	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
+	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	} \\
+	\subfloat[]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
+	legend plot pos=left, xtick={-1,0,1},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_12h48.org}\solution      
+	      
+	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
+	\addlegendentry{Exact solution};
+	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
+	 \addlegendentry{Numerical approximation};
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	} 
+	\caption{The exact solution and its numerical approximation for $N=50$.}
+	\label{fig:1}
+\end{figure}
+
 
 
 \section{Convergence of the method}
