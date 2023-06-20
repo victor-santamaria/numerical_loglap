@@ -1763,7 +1763,7 @@ and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 	legend plot pos=left, xtick={-1,0,1},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_06-04-2023_13h30.org}\solution      
+	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_12h48.org}\solution      
 	      
 	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
 	 \addlegendentry{Exact solution};
@@ -1824,28 +1824,54 @@ and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 \begin{table}[h!]
 \centering
 %
-\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_06-04-2023_15h10.org}\data
+\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_20-06-2023_13h27.org}\data
 %
 \pgfplotstableset{
-columns={h,H_norm,slope,Linf_norm,slope_inf},
+columns={N,h,L2norm,slopeL2,L2locnorm,slopeL2loc,Linfnorm,slopeinf},
+%%%
+columns/N/.style={
+column name=$N$,
+},	
+%%% 
 columns/h/.style={
 column name=$h$,
 sci,sci zerofill,sci subscript,
-precision=4,
+precision=2,
 column type/.add={}{|}},	
-columns/H_norm/.style={
-column name=$\mathbb H$--norm,
+%%%
+columns/L2norm/.style={
+column name=$L^2$--norm,
 sci,sci zerofill,sci subscript,
-precision=4},
-columns/slope_inf/.style={
+precision=3},
+%%%
+columns/slopeL2/.style={
 column name=slope,
 sci,sci zerofill,sci subscript,
-precision=4},
-columns/Linf_norm/.style={
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/L2locnorm/.style={
+column name=$L^2_{loc}$-norm,
+sci,sci zerofill,sci subscript,
+precision=3},
+%%%
+columns/slopeL2loc/.style={
+column name=slope,
+%sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/Linfnorm/.style={
 column name=$L_{\infty}$--norm,
 sci,sci zerofill,sci subscript,
 precision=4,
-column type/.add={|}{}},
+column type/.add={}{}},
+%%%
+columns/slopeinf/.style={
+column name=slope,
+sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{}},
 }
 %
 \pgfplotstabletypeset[clear infinite, empty cells with={\ensuremath{-}},

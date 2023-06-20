@@ -112,7 +112,7 @@ end
 
  %%% Write otput files
  write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
- write_convergence_data(xi,step,dif_norm,dif_linfinity,pendiente',slope_inf',false)
+ write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,true)
 
  [xx,B0]=plt_sol_nearboundary(xi,sol_log,h);
 
@@ -335,12 +335,12 @@ if flag==true
     fprintf(outs_file_temp,'%s %4.4e \n','#h: ', 2*L/(N+1));
 
     fprintf(outs_file_temp,'%s %s %s \n','xi','numsol','exsol');
-    fprintf(outs_file_temp,'%4.4f %4.4e %4.4e \n',[xi',numsol,realsol'].');
+    fprintf(outs_file_temp,'%4.4f %4.4e %4.4e \n',[xi',[2*numsol(1);numsol(2:end-1);2*numsol(end)],realsol'].');
     ST=fclose(outs_file_temp);
 end
 end
 
-function write_convergence_data(xi,step,dif_norm,dif_linfinity,slope,slope_inf,flag)
+function write_convergence_data(xi,step,dif_norm_1,dif_norm_2,dif_norm_3,slope_1,slope_2,slope_3,flag)
 if flag==true
     [dt,ht,mt]=obtain_date();
     L=max(abs(xi));
@@ -353,10 +353,10 @@ if flag==true
     fprintf(outs_file_temp,'%s %s \n','#domain: ', ...
         strcat('(-',num2str(L),',',num2str(L),')'));
 
-    fprintf(outs_file_temp,'%s %s %s %s %s \n','h','H_norm', ...
-        'Linf_norm','slope','slope_inf');
-    fprintf(outs_file_temp,'%4.4e %4.4e %4.4e  %4.4e %4.4e \n' ...
-        ,[step,dif_norm,dif_linfinity,slope,slope_inf].');
+    fprintf(outs_file_temp,'% s %s %s %s %s %s %s %s \n', 'N','h','L2norm', ...
+        'L2locnorm','Linfnorm','slopeL2','slopeL2loc','slopeinf');
+    fprintf(outs_file_temp,'%4.4e %4.4e %4.4e %4.4e %4.4e %4.4e %4.4e %4.4e \n' ...
+        ,[2./step-1,step,dif_norm_1,dif_norm_2,dif_norm_3,slope_1',slope_2',slope_3'].');
     ST=fclose(outs_file_temp);
 end
 end
