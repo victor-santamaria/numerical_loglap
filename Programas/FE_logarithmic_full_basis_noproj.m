@@ -4,7 +4,7 @@ clear
 L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600];
+Nval=[50,100,200,400,800,1600,3200];
 step=[];
 dif_norm=[];
 dif_L2=[];
@@ -41,7 +41,7 @@ for N=Nval
     T=table2array(T);
 
     f=T(:,2);
-    F=h*f; F(1)=F(1)*3/3; F(end)=F(end)*3/3;
+    F=h*f; F(1)=F(1)*5/3; F(end)=F(end)*5/3;
 
     %exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2*L^2)));
 

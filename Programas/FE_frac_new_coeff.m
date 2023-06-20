@@ -1,7 +1,7 @@
 clear
 
 %%% Fractional power
-s=0.3;
+s=0.1;
 
 %%% Size of the domain \Omega=(-L,L)
 L=1;

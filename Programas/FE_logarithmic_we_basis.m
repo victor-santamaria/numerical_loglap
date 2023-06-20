@@ -1,7 +1,7 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=0.3;
+L=20;
 ell=1;
 
 %%% Number of discrete points, mesh and mesh size
@@ -15,7 +15,7 @@ pendiente=[]; alpha=[];
 
 for N=Nval
 
-    xi=linspace(-L,L,N+2);
+    xi=linspace(-0*L,L,N+2);
     h=xi(2)-xi(1);
 
     Alog=LoglapRigidity(L,N);
@@ -118,7 +118,7 @@ end
 
 function A = LoglapRigidity(L,N)
 
-x = linspace(-L,L,N+2);
+x = linspace(-0*L,L,N+2);
 h = x(2)-x(1);
 
 A = zeros(N+2,N+2);
