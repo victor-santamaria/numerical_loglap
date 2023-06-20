@@ -150,11 +150,10 @@ where $\Omega$ is an open interval, $f$ belongs to a suitable (log-Hölder) spac
 \begin{align*}
 {\mathcal F}(L_\Delta \varphi)(\xi)=2\ln|\xi| {\mathcal F}(\varphi)(\xi)\qquad \text{ for all }\varphi\in C^\infty_c(\R),
 \end{align*}
-where ${\mathcal F}$ denotes the Fourier transform.  This operator appears naturally as a first order expansion of the (integral) fractional Laplacian $(-\Delta)^s$ as $s\to 0^+$; in particular, in \cite[Theorem 1.1]{CW19} it is shown that, for all $\varphi\in C^\infty_c(\R^N)$,
+where ${\mathcal F}$ denotes the Fourier transform.  This operator appears naturally as a first order expansion of the (integral) fractional Laplacian $(-\Delta)^s$ (the pseudodifferential operator with Fourier symbol $|\xi|^{2s}$) as $s\to 0^+$; in particular, in \cite[Theorem 1.1]{CW19} it is shown that, for all $\varphi\in C^\infty_c(\R^N)$,
 \begin{align*}
-(-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)\qquad \text{as $s\to 0^+$ in }L^p(\R) \text{ with }1<p\leq \infty,
+(-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)\qquad \text{as $s\to 0^+$ in }L^p(\R) \text{ with }1<p\leq \infty.
 \end{align*}
- where $(-\Delta)^s$ denotes the pseudodifferential operator with Fourier symbol $|\xi|^{2s}$.
 
  Problems such as \eqref{P:intro} play a key role in the understanding of fractional equations as $s\to 0$. This asymptotic analysis is relevant, both in applications and for theoretical reasons.  In applications, for instance, several phenomena that are modeled with a fractional-type diffusion are optimized in some sense for small values of $s$, see \cite{Caffarelli17} and the references in \cite{HSS22}.  On the other hand,  the mathematical structures that appear in the limit as $s\to 0^+$ for linear and nonlinear fractional problems are highly nontrivial and interesting; for instance, we refer to \cite{CW19,LW21} for a study of the spectral properties of $L_\Delta$, to \cite{AS22,HSS22} for the analysis of some relevant nonlinear problems in this setting, and to \cite{CS22} for the regularity properties of solutions to \eqref{P:intro}, in particular, \cite[Theorem 1.1]{CS22} gives some conditions for the existence of classical solutions to \eqref{P:intro}.  We also mention \cite{JSW20}, where the operator $L_\Delta$ is used to characterize the derivative of the solution mapping of nonlocal problems involving the fractional Laplacian.
 
@@ -302,7 +301,18 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
  \end{align*}
  see Lemma \ref{lem:derivative:s:m}.  This is possible, since a closed formula for the stiffness matrix $\mathcal A_{h}^{s}$ has been obtained in \cite{BH17}.  Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, here we had to calculate only the corresponding entries, see Section \ref{sec:s:m}.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section \ref{sec:s:m:log}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ and not on the length $L$ of the interval $\Omega$.  Therefore, the formula for $\mathcal A_{h}^{L}$ applies to logarithmic problems on any interval.
 
-To close this introduction, we discuss some numerical approximations of the torsion function and some explicit solutions...
+To close this introduction, we discuss some numerical approximations.  First we analyze the torsion function, namely, the solution of the equation
+\begin{align*}
+ L_\Delta \tau = 1\quad \text{ in }(-L,L),\qquad \tau=0\quad \text{ on }\R\backslash (-L,L).
+\end{align*}
+
+
+
+
+
+
+
+and some explicit solutions...
 
 The paper is organized as follows....
 
