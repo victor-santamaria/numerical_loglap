@@ -301,20 +301,12 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
  \end{align*}
  see Lemma \ref{lem:derivative:s:m}.  This is possible, since a closed formula for the stiffness matrix $\mathcal A_{h}^{s}$ has been obtained in \cite{BH17}.  Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, here we had to calculate only the corresponding entries, see Section \ref{sec:s:m}.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section \ref{sec:s:m:log}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ and not on the length $L$ of the interval $\Omega$.  Therefore, the formula for $\mathcal A_{h}^{L}$ applies to logarithmic problems on any interval.
 
-To close this introduction, we discuss some numerical approximations.  First we analyze the torsion function, namely, the solution of the equation
-\begin{align*}
- L_\Delta \tau = 1\quad \text{ in }(-L,L),\qquad \tau=0\quad \text{ on }\R\backslash (-L,L).
-\end{align*}
+To close this introduction, we discuss some numerical approximations.  First, we analyze the torsion function, namely, the solution of the equation
+\begin{align}\label{t:p:intro}
+ L_\Delta \tau = 1\quad \text{ in }(0,L),\qquad \tau=0\quad \text{ on }\R\backslash (-L,L)
+\end{align}
+for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of \eqref{t:p:intro} does not have a closed formula. In fact, the numerical approximations show that the shape of the torsion functions changes drastically as the length of the domain $L>0$ increases, see Figure \ref{Fig:t:f}. In particular, for $L=0.2$ the torsion function is positive in $(0,L)$.  This is consistent with the known fact that the maximum principle for the logarithmic Laplacian only holds in small domains, see \cite[Corollary 1.9]{CW19}. For $L=2$ we observe that the maximum principle does not hold anymore and the solution is \emph{negative} in $(0,L)$ (which is sometimes referred to as an antimaximum principle) and for $L=15$ the torsion functions exhbits oscillation and a sign change in the domain. These last two phenomena have not been described theoretically so far.
 
-
-
-
-
-
-
-and some explicit solutions...
-
-The paper is organized as follows....
 
 
 %%%%%%%%%%%%%%%
@@ -324,7 +316,7 @@ The paper is organized as follows....
 \begin{figure}[!htbp]
 	\centering
 	%
-	\subfloat[]{
+	\subfloat[$L=0.2$]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=0,xmax=0.2,legend pos=outer north east,
 	legend plot pos=left, xtick={0,0.1,0.2}, ymin=-0.01,
@@ -338,7 +330,7 @@ The paper is organized as follows....
 	%	
 	\end{tikzpicture}
 	}
-	\subfloat[]{
+	\subfloat[$L=2$]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=0,xmax=2,legend pos=outer north east,
 	legend plot pos=left, xtick={0,1,2}, ymax=0.01,
@@ -352,8 +344,8 @@ The paper is organized as follows....
 	%	
 	\end{tikzpicture}
 	} 
-	 \\
-	\subfloat[]{
+	 \\ \bigskip
+	\subfloat[$L=7$]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=0,xmax=7,legend pos=outer north east,
 	legend plot pos=left,
@@ -367,10 +359,19 @@ The paper is organized as follows....
 	%	
 	\end{tikzpicture}
 	}
-	\caption{}
-	\label{fig:3}
+	\caption{Numerical aproximation of the solution to \eqref{t:p:intro} for different values of $L$.}
+	\label{Fig:t:f}
 \end{figure}
 
+
+
+
+
+
+
+and some explicit solutions...
+
+The paper is organized as follows....
 
 
 
