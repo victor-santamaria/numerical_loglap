@@ -345,13 +345,13 @@ for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of
 	\end{tikzpicture}
 	} 
 	 \\ \bigskip
-	\subfloat[$L=7$]{
+	\subfloat[$L=16$]{
 	\begin{tikzpicture}[scale=0.8]
-	\begin{axis}[xlabel={$x$},xmin=0,xmax=7,legend pos=outer north east,
-	legend plot pos=left,
+	\begin{axis}[xlabel={$x$},xmin=0,xmax=16,legend pos=outer north east,
+	legend plot pos=left, xtick={0,8,16},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_20-06-2023_17h08.org}\solution      
+	\pgfplotstableread{./Programas/num_results/sol-log_20-06-2023_17h12.org}\solution      
 	      
 	\addplot[very thick,color=blue] table[x,y] \solution; %\label{cost}
 	
