@@ -4,7 +4,7 @@ clear
 L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[100];
+Nval=[50,100,200,400,800,1600,3200];
 %Nval=[100];
 step=[];
 dif_norm=[];
@@ -23,12 +23,12 @@ for N=Nval
     %%% Right-hand side of the problem and projection over finite elements
     %f = @(x) 1+0*x; %%% Torsion
     %f = @(x) (-3*x.^2+1)+(log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*(1-x.^2); %%% (1-x^2)
-    f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
-    %f_ell = @(x) ell^2*(-3*x.^2+1)+(log(1./(ell^2*(1-x.^2)))+(2*log(2)+psi(1/2)+psi(1)))*ell^2.*(1-x.^2);
-   
+    %f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
+    f = @(x)  (2+log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*x; %%% x
+
     F=projection(xi,f,h);
 
-    exsol=@(x) (1-0*x.^2);
+    exsol=@(x) x;
 
     sol_log=Alog\F;
 
@@ -78,7 +78,7 @@ legend("Slope: "+num2str(sl_dif)); title("Error L^2")
 %%% Descomentar si queremos guardar la solución
 write_sol(xi,sol_log,false);
 
-write_numsol_realsol(xi,sol_log,exsol(xi),exsol,true);
+write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
 
 [xx,B0]=plt_sol_nearboundary(xi,f(xi),h);
 

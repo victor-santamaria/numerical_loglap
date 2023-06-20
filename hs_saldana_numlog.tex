@@ -1836,6 +1836,58 @@ and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 \end{figure}
 
 
+\begin{table}[h!]
+\centering
+%
+\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_20-06-2023_16h35.org}\data
+%
+\pgfplotstableset{
+columns={N,h,L2norm,slopeL2,Hsnorm,slopeHs},
+%%%
+columns/N/.style={
+column name=$N$,
+},	
+%%% 
+columns/h/.style={
+column name=$h$,
+sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/L2norm/.style={
+column name=$L^2$--norm,
+sci,sci zerofill,sci subscript,
+precision=3},
+%%%
+columns/slopeL2/.style={
+column name=slope,
+sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/Hsnorm/.style={
+column name=$H^s$-norm,
+sci,sci zerofill,sci subscript,
+precision=3},
+%%%
+columns/slopeHs/.style={
+column name=slope,
+%sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{}},	
+%%%
+}
+%
+\pgfplotstabletypeset[clear infinite, empty cells with={\ensuremath{-}},
+every head row/.style={
+before row=\toprule,after row=\midrule},
+every last row/.style={
+after row=\bottomrule},
+]{\data}
+%
+\caption{Convergence data fractional Laplacian.}
+\label{table:frac_lap}
+\end{table}
 
 
 \begin{table}[h!]
@@ -1898,7 +1950,7 @@ every last row/.style={
 after row=\bottomrule},
 ]{\data}
 %
-\caption{Convergence data.}
+\caption{Convergence data logarithmic Laplacian.}
 \label{table:1}
 \end{table}
 
@@ -1915,7 +1967,7 @@ after row=\bottomrule},
 	legend plot pos=left, xtick={-1,0,1},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_15h33.org}\solution      
+	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_16h03.org}\solution      
 	      
 	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
 	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, only marks, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
@@ -1927,11 +1979,11 @@ after row=\bottomrule},
 	%
 	\subfloat[]{
 	\begin{tikzpicture}[scale=0.8]
-	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,ymin=0.5,legend pos=outer north east,
+	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,ymin=0.0,legend pos=outer north east,
 	legend plot pos=left, xtick={-1,0,1},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_15h43.org}\solution      
+	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_16h01.org}\solution      
 	      
 	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
 	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
@@ -1946,11 +1998,11 @@ after row=\bottomrule},
 	legend plot pos=left, xtick={-1,0,1},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_12h48.org}\solution      
+	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_15h59.org}\solution      
 	      
 	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
 	\addlegendentry{Exact solution};
-	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
+	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, only marks, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
 	 \addlegendentry{Numerical approximation};
 	
 	\end{axis}

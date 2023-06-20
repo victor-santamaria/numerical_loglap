@@ -9,12 +9,13 @@ L=1;
 c_1 = 2*(s*2^(2*s-1)*gamma(0.5*(1+2*s)))/(sqrt(pi)*gamma(1-s));
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600,3200,6400];
+Nval=[50,100,200,400,800,1600,3200];
 dif_norm=[];
 dif_L2_norm_matlab=[];
 dif_L2_norm=[];
 step=[];
-pendiente=[];
+slopeL2=[];
+slopeHs=[];
 
 for N=Nval
 
@@ -55,9 +56,11 @@ for N=Nval
 
 
     if length(dif_norm)== 1
-        pendiente=[pendiente,NaN];
+        slopeL2=[slopeL2,NaN];
+        slopeHs=[slopeHs,NaN];
     else
-        pendiente=[pendiente,log(dif_L2_norm(end)/dif_L2_norm(end-1))/log(step(end)/step(end-1))];
+        slopeL2=[slopeL2,log(dif_L2_norm(end)/dif_L2_norm(end-1))/log(step(end)/step(end-1))];
+        slopeHs=[slopeHs,log(dif_norm(end)/dif_norm(end-1))/log(step(end)/step(end-1))];
     end
 
 end
@@ -79,6 +82,7 @@ legend("Slope: "+num2str(sl_quad)); title('error L^2')
 
 [xx,B0] = plt_sol_nearboundary(xi,sol_frac,h);
 
+write_convergence_data(xi,step,dif_norm,dif_L2_norm,slopeHs,slopeL2,true);
 
 
 %%% Auxiliary functions
@@ -261,5 +265,29 @@ end
 
 end
 
+function write_convergence_data(xi,step,dif_norm_1,dif_norm_2,slope_1,slope_2,flag)
+if flag==true
+    [dt,ht,mt]=obtain_date();
+    L=max(abs(xi));
 
+    name_result = strcat('num_results/','sol-log_convergence_data_',...
+        dt,'_',ht,'h',mt,'.org');
+    file_result_temp=name_result;
+    outs_file_temp=fopen(file_result_temp,'w');
 
+    fprintf(outs_file_temp,'%s %s \n','#domain: ', ...
+        strcat('(-',num2str(L),',',num2str(L),')'));
+
+    fprintf(outs_file_temp,'%s %s %s %s %s %s \n', 'N','h','Hsnorm' ...
+        ,'L2norm','slopeHs','slopeL2');
+    fprintf(outs_file_temp,'%4.4e %4.4e %4.4e %4.4e %4.4e %4.4e \n' ...
+        ,[2./step-1,step,dif_norm_1,dif_norm_2,slope_1',slope_2'].');
+    ST=fclose(outs_file_temp);
+end
+end
+
+function [dt,ht,mt]=obtain_date()
+dt = datestr(now,'dd-mm-yyyy');
+ht = datestr(now,'HH');
+mt = datestr(now,'MM');
+end
