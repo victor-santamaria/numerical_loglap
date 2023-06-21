@@ -1,10 +1,10 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=1;
+L=3;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600,3200];
+Nval=[50,100,200,400,800,1600];
 step=[];
 dif_norm=[];
 dif_L2=[];
@@ -35,7 +35,7 @@ for N=Nval
 
 
 
-    tabname="./datos_sim/file"+num2str(N)+"_lambda05.txt";
+    tabname="./datos_sim/file"+num2str(N)+"_lambda3.txt";
 
     T=readtable(tabname);
     T=table2array(T);
@@ -45,7 +45,7 @@ for N=Nval
 
     %exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2*L^2)));
 
-    exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2)));
+    exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2*L^2)));
 
     sol_log=(Alog)\F;
 
@@ -112,7 +112,7 @@ end
 
  %%% Write otput files
  write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
- write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,false)
+ write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,true)
 
  [xx,B0]=plt_sol_nearboundary(xi,sol_log,h);
 
@@ -356,7 +356,7 @@ if flag==true
     fprintf(outs_file_temp,'% s %s %s %s %s %s %s %s \n', 'N','h','L2norm', ...
         'L2locnorm','Linfnorm','slopeL2','slopeL2loc','slopeinf');
     fprintf(outs_file_temp,'%4.4e %4.4e %4.4e %4.4e %4.4e %4.4e %4.4e %4.4e \n' ...
-        ,[2./step-1,step,dif_norm_1,dif_norm_2,dif_norm_3,slope_1',slope_2',slope_3'].');
+        ,[2*L./step-1,step,dif_norm_1,dif_norm_2,dif_norm_3,slope_1',slope_2',slope_3'].');
     ST=fclose(outs_file_temp);
 end
 end

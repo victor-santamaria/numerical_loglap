@@ -1775,6 +1775,31 @@ Consider the interval $\Omega=(-1,1)$, let $h=\frac{1}{N+1}$ for some $N\in\math
 reconstructed the exact solution with our algorithm.
 
 
+%%%%%%%%%%%%%%%
+%%%%.        Figure       %%%
+%%%%%%%%%%%%%%%
+% DO NOT ERASE
+\begin{figure}[htbp]
+	\centering
+	%
+	\begin{tikzpicture}[scale=1]
+	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
+	legend plot pos=left, xtick={-1,0,1},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/file50_lambda1.org}\solution      
+	      
+	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
+	%\addlegendentry{Exact solution};
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+
+	\caption{Logarithmic laplacian.}
+	\label{fig:1}
+\end{figure}
+
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -1975,8 +2000,72 @@ every last row/.style={
 after row=\bottomrule},
 ]{\data}
 %
-\caption{Convergence data logarithmic Laplacian.}
+\caption{Convergence data logarithmic Laplacian $L=1$.}
 \label{table:1}
+\end{table}
+
+\begin{table}[h!]
+\centering
+%
+\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_21-06-2023_12h25.org}\data
+%
+\pgfplotstableset{
+columns={N,h,L2norm,slopeL2,L2locnorm,slopeL2loc,Linfnorm,slopeinf},
+%%%
+columns/N/.style={
+column name=$N$,
+},	
+%%% 
+columns/h/.style={
+column name=$h$,
+sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/L2norm/.style={
+column name=$L^2$--norm,
+sci,sci zerofill,sci subscript,
+precision=3},
+%%%
+columns/slopeL2/.style={
+column name=slope,
+sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/L2locnorm/.style={
+column name=$L^2_{loc}$-norm,
+sci,sci zerofill,sci subscript,
+precision=3},
+%%%
+columns/slopeL2loc/.style={
+column name=slope,
+%sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/Linfnorm/.style={
+column name=$L_{\infty}$--norm,
+sci,sci zerofill,sci subscript,
+precision=4,
+column type/.add={}{}},
+%%%
+columns/slopeinf/.style={
+column name=slope,
+sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{}},
+}
+%
+\pgfplotstabletypeset[clear infinite, empty cells with={\ensuremath{-}},
+every head row/.style={
+before row=\toprule,after row=\midrule},
+every last row/.style={
+after row=\bottomrule},
+]{\data}
+%
+\caption{Convergence data logarithmic Laplacian $L=3$.}
+\label{table:2}
 \end{table}
 
 %%%%%%%%%%%%%%%
