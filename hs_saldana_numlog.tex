@@ -1766,13 +1766,13 @@ In this section we present numerical approximations of some explicit solutions a
 
 In general, a good way to observe the optimality of the FEM convergence rate is using the torsion function, namely the solution of the boundary-value problem with right-hand side $f\equiv 1$ (see, among others, \cite[Section 5]{AB17} or \cite[Section 5]{BHS19}). Unfortunately, no closed expression for the torsion function of the logarithmic Laplacian \eqref{t:p:intro} is known.
 
-Because of this, we propose the following. Consider the function $u:\R\to\R$ given by
+Because of this, we propose the following. Let $\Omega:=(-1,1)$ and consider the function $u:\R\to\R$ given by
 \begin{align}\label{udef}
- u(x)=\frac{1}{\sqrt{-\ln\left(\frac{1-x^2}{2}\right)}} \chi_{(-1,1)}(x),
+ u(x)=\frac{1}{\sqrt{-\ln\left(\frac{1-x^2}{2}\right)}} \chi_{\Omega}(x),
 \end{align}
-where $\chi_{(-1,1)}$ denotes the characteristic function in the interval $(-1,1)$.
+where $\chi_{\Omega}$ denotes the characteristic function in the interval $(-1,1)$.
 
-This choice is justified by the fact that a direct (nontrivial) calculation yields that $u$ has a uniformly bounded logarithmic Laplacian in $(-1,1)$ and it has the optimal boundary regularity for logarithmic Dirichlet problems, namely, it behaves as $\ell^{1/2}(d(x))$ (see the Introduction for the definition of $d$ and $\ell$). Here we only observe these facts numerically (see Figures \ref{fig:1} and \ref{fig:2}), but we will present the explicit calculation in a forthcoming paper. See also \cite[Theorem 1.11]{CW19} and \cite[Remark~1.5]{FJW22}.
+This choice is justified by the fact that $u$ has a uniformly bounded logarithmic Laplacian in $(-1,1)$ (as a direct nontrivial calculation shows) and it has the optimal boundary regularity\footnote{This is needed to observe the optimal convergence rate. Indeed, solutions which are smoother typically yield better convergence rates, see, for instance, \cite[Section 5 and Table 2]{AB17} for the case of the fractional Laplacian.} for logarithmic Dirichlet problems, namely, it behaves as $\ell^{1/2}(d(x))$ (see the Introduction for the definition of $d$ and $\ell$). Here we only observe these facts numerically (see Figures \ref{fig:1} and \ref{fig:2}), but we will present a detailed proof in a forthcoming paper. See also \cite[Theorem 1.11]{CW19} and \cite[Remark~1.5]{FJW22}.
 
 
 %%%%%%%%%%%%%%%
@@ -1800,12 +1800,12 @@ This choice is justified by the fact that a direct (nontrivial) calculation yiel
 	\label{fig:1}
 \end{figure}
 
-Now, consider the interval $\Omega=(-1,1)$, let $h=\frac{1}{N+1}$ for $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$. Let $f_i:=L_\Delta u(x_i)$ for $i\in\inter{0,N+1}$, this is a good approximation of the coefficients $\int_{\R}L_\Delta u \phi_i\, dx$.  Let $F:=(f_i)$ and $\alpha:=A_h^{-1}F$, 
+Now, consider $h=\frac{1}{N+1}$ for $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$. Let $f_i:=h L_\Delta u(x_i)$ for $i\in\inter{0,N+1}$, $F:=(f_i)$, and let $\alpha:=A_h^{-1}F$, 
 where $A_h$ is the stiffness matrix for the logarithmic Laplacian given in \eqref{stiff:LogLap}. Let 
 \begin{align}\label{vdef}
 v_h(x):=\sum_{i=0}^{N+1}\alpha_i \phi_i(x), 
 \end{align}
-which is a good approximation for $u_h$, given in Theorem \ref{main:thm:intro}, see Figure \ref{fig:2}.
+which is a good approximation for $u_h$ (defined in Theorem \ref{main:thm:intro}), see Figure \ref{fig:2}.
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -1835,7 +1835,7 @@ which is a good approximation for $u_h$, given in Theorem \ref{main:thm:intro}, 
 	\label{fig:2}
 \end{figure}
 
-As seen in Figure \ref{fig:2}, the error is largest close to the boundary of the interval, where the function $u$ has a logarithmic behavior.  To quantify this error we compute the following quantities,
+As seen in Figure \ref{fig:2}, the largest error ocurrs close to the boundary of the interval, where the function $u$ has a logarithmic behavior.  To quantify this error we compute the following quantities,
 \begin{align*}
  a_h&:=\int_{-1}^1 |u-v_h|^2\, dx\qquad \text{(the $L^2$-norm of the error between $u$ and $v$)},\\
  b_h&:=\int_{-1+h}^{1-h} |u-v_h|^2\, dx\qquad \text{(a local $L^2$-norm of the error between $u$ and $v$)},\\
@@ -1903,9 +1903,9 @@ We are particularly interested in exhibiting evidence for the optimality of the 
 	\label{fig:3}
 \end{figure}
 
-Note that these curves are not straight lines. This contrasts with the typical behavior of algorithms with convergence rate of order $h^p$ for some $p>0$; in particular, this is the case of the fractional Laplacian, see for instance \cite[Figure 8]{BH17} and \cite[Figure 1]{AB17}.  This suggests that the optimal convergence rate for the logarithmic Laplacian is \emph{not} of power-type, as shown in Theorem \ref{main:thm:intro}.
+Note that these curves are not straight lines. This contrasts with the typical behavior of algorithms with convergence rate of order $h^p$ for some $p>0$; in particular, this is the case of the fractional Laplacian, see for instance \cite[Figure 8]{BH17}, \cite[Figure 1]{AB17}, and Table \ref{table:frac_lap} in the Appendix.  This suggests that the optimal convergence rate for the logarithmic Laplacian is \emph{not} of power-type, as suggested in Theorem \ref{main:thm:intro}.
 
-Although the curve in Figure \ref{l2_ah} looks almost straight, a computation of its slope (with respect to consecutive experiments) shows otherwise, as presented in Table \ref{table:1}.
+Although the curve in Figure \ref{l2_ah} looks almost straight, a computation of its slope (with respect to consecutive points) shows otherwise, as presented in Table \ref{table:1}.
 
 
 \begin{table}[h!]
@@ -1973,59 +1973,6 @@ after row=\bottomrule},
 \end{table}
 
 
-
-\begin{table}[h!]
-\centering
-%
-\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_20-06-2023_16h35.org}\data
-%
-\pgfplotstableset{
-columns={N,h,L2norm,slopeL2,Hsnorm,slopeHs},
-%%%
-columns/N/.style={
-column name=$N$,
-},	
-%%% 
-columns/h/.style={
-column name=$h$,
-sci,sci zerofill,sci subscript,
-precision=2,
-column type/.add={}{|}},	
-%%%
-columns/L2norm/.style={
-column name=$L^2$--norm,
-sci,sci zerofill,sci subscript,
-precision=3},
-%%%
-columns/slopeL2/.style={
-column name=slope,
-sci,sci zerofill,sci subscript,
-precision=2,
-column type/.add={}{|}},	
-%%%
-columns/Hsnorm/.style={
-column name=$H^s$-norm,
-sci,sci zerofill,sci subscript,
-precision=3},
-%%%
-columns/slopeHs/.style={
-column name=slope,
-%sci,sci zerofill,sci subscript,
-precision=2,
-column type/.add={}{}},	
-%%%
-}
-%
-\pgfplotstabletypeset[clear infinite, empty cells with={\ensuremath{-}},
-every head row/.style={
-before row=\toprule,after row=\midrule},
-every last row/.style={
-after row=\bottomrule},
-]{\data}
-%
-\caption{Convergence data fractional Laplacian.}
-\label{table:frac_lap}
-\end{table}
 
 \begin{table}[h!]
 \centering
@@ -2309,7 +2256,62 @@ For $i,j=0,\ldots,N+1$ and $s<\frac{1}{4}$, we have that
  \end{enumerate}
 
 
-
+\section{Convergence rates for fractional problems}
+ 
+{\color{white}.}
+\begin{table}[h!]
+\centering
+%
+\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_20-06-2023_16h35.org}\data
+%
+\pgfplotstableset{
+columns={N,h,L2norm,slopeL2,Hsnorm,slopeHs},
+%%%
+columns/N/.style={
+column name=$N$,
+},	
+%%% 
+columns/h/.style={
+column name=$h$,
+sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/L2norm/.style={
+column name=$L^2$--norm,
+sci,sci zerofill,sci subscript,
+precision=3},
+%%%
+columns/slopeL2/.style={
+column name=slope,
+sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/Hsnorm/.style={
+column name=$H^s$-norm,
+sci,sci zerofill,sci subscript,
+precision=3},
+%%%
+columns/slopeHs/.style={
+column name=slope,
+%sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{}},	
+%%%
+}
+%
+\pgfplotstabletypeset[clear infinite, empty cells with={\ensuremath{-}},
+every head row/.style={
+before row=\toprule,after row=\midrule},
+every last row/.style={
+after row=\bottomrule},
+]{\data}
+%
+\caption{Convergence data fractional Laplacian.}
+\label{table:frac_lap}
+\end{table}
+ 
 
  \bibliographystyle{plain}
  \bibliography{biblio}
@@ -2331,6 +2333,10 @@ For $i,j=0,\ldots,N+1$ and $s<\frac{1}{4}$, we have that
     \item Enviárselo a Sven y ver si tiene alguna sugerencia. 
     \item Limpiar el código para calcular soluciones y subirlo a un github.
 \end{enumerate}
+
+
+
+
 
 
 
