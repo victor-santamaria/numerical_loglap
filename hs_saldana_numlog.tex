@@ -1762,15 +1762,18 @@ and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 
 \section{Numerical evidence and illustrations}
 
-In this section we present numerical approximations of some explicit solutions and we discuss some evidence for the optimality of the logarithmic convergence rate in Theorem \ref{main:thm:intro}. 
+In this section we present numerical approximations of some explicit solutions and we discuss some evidence for the optimality of the logarithmic convergence rate stated in Theorem \ref{main:thm:intro}. 
 
-As mentioned before, one of the main difficulties to deal with problems associated with the logarithmic Laplacian is the lack of explicit solutions, in particular, no closed expression for the torsion function (i.e., taking  the right-hand side $f\equiv 1$) is known. Typically, such function is used to illustrate the optimality of the approximation rate of the numerical method (see, among others, \cite[Section 5]{AB17} or \cite[Section 5]{BHS19}) since it has the optimal regularity near the boundary. 
+In general, a good way to observe the optimality of the FEM convergence rate is using the torsion function, namely the solution of the boundary-value problem with right-hand side $f\equiv 1$ (see, among others, \cite[Section 5]{AB17} or \cite[Section 5]{BHS19}). Unfortunately, no closed expression for the torsion function of the logarithmic Laplacian \eqref{t:p:intro} is known.
 
-In view of this, we propose the following. First, consider the function $u:\R\to\R$ given by
+Because of this, we propose the following. Consider the function $u:\R\to\R$ given by
 \begin{align}\label{udef}
  u(x)=\frac{1}{\sqrt{-\ln\left(\frac{1-x^2}{2}\right)}} \chi_{(-1,1)}(x),
 \end{align}
-where $\chi_{(-1,1)}$ denotes the characteristic function in the interval $(-1,1)$. We justify this choice by noting that $u(x)$ behaves as $\ell^{1/2}(\delta(x))$ where $\delta(x)$ is the distance function to the boundary of the interval $(-1,1)$, decay which is conjectured to be the optimal one for problemas associated to $L_{\Delta}$, cf. \cite[Theorem 1.11]{CW19} and \cite{}. With the aid of Mathematica, we can compute directly $L_\Delta u(x)$ in $(-1,1)$, see Figure \ref{fig:1}. 
+where $\chi_{(-1,1)}$ denotes the characteristic function in the interval $(-1,1)$.
+
+This choice is justified by the fact that a direct (nontrivial) calculation yields that $u$ has a uniformly bounded logarithmic Laplacian in $(-1,1)$ and it has the optimal boundary regularity for logarithmic Dirichlet problems, namely, it behaves as $\ell^{1/2}(d(x))$ (see the Introduction for the definition of $d$ and $\ell$). Here we only observe these facts numerically (see Figures \ref{fig:1} and \ref{fig:2}), but we will present the explicit calculation in a forthcoming paper. See also \cite[Theorem 1.11]{CW19} and \cite[Remark~1.5]{FJW22}.
+
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
