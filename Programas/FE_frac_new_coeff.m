@@ -1,7 +1,7 @@
 clear
 
 %%% Fractional power
-s=0.1;
+s=0.3;
 
 %%% Size of the domain \Omega=(-L,L)
 L=1;
@@ -9,7 +9,7 @@ L=1;
 c_1 = 2*(s*2^(2*s-1)*gamma(0.5*(1+2*s)))/(sqrt(pi)*gamma(1-s));
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600,3200];
+Nval=[50,100,200,400,800];
 dif_norm=[];
 dif_L2_norm_matlab=[];
 dif_L2_norm=[];
@@ -26,7 +26,10 @@ for N=Nval
     mass = MassMatrix(xi,h);
 
     %%% Right-hand side of the problem and projection over finite elements
-    f = @(x) 1+0*x;
+    %f = @(x) 1+0*x;
+
+    f = @(x) gamma(2*s+1)*(s+1)*(1-(1+2*s).*x.^2); 
+
     %f = @(x) (c_1/(2*s))*((1+x).^(-2*s)+(1-x).^(-2*s));
     %f = @(x) sin(pi*x);
     F=projection(xi,f,h);
@@ -34,8 +37,9 @@ for N=Nval
     sol_frac=As\F;
 
     %%% Exact solution
-    exsol=@(x,s,L) 2^(-2*s)*sqrt(pi)/(gamma((1+2*s)/2)*gamma(1+s)).*(L^2-x.^2).^s;
-    %exsol=@(x,s,L) 1+0.*x;
+    %exsol=@(x,s,L) 2^(-2*s)*sqrt(pi)/(gamma((1+2*s)/2)*gamma(1+s)).*(L^2-x.^2).^s; %Ros-Oton
+    
+    exsol=@(x,s,L) (1-x.^2).^(1+s);
 
     figure(1)
     plot(xi, sol_frac,xi,exsol(xi,s,L),'x',xi,sol_frac*0,'LineWidth',1);
@@ -82,7 +86,7 @@ legend("Slope: "+num2str(sl_quad)); title('error L^2')
 
 [xx,B0] = plt_sol_nearboundary(xi,sol_frac,h);
 
-write_convergence_data(xi,step,dif_norm,dif_L2_norm,slopeHs,slopeL2,true);
+write_convergence_data(xi,step,dif_norm,dif_L2_norm,slopeHs,slopeL2,false);
 
 
 %%% Auxiliary functions

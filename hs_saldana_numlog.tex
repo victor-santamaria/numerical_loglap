@@ -1762,15 +1762,15 @@ and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 
 \section{Numerical evidence and illustrations}
 
-In this section we present numerical appoximations of some explicit solutions and we discuss some evidence for the optimality of the logarithmic convergence rate in Theorem \ref{main:thm:intro}. 
+In this section we present numerical approximations of some explicit solutions and we discuss some evidence for the optimality of the logarithmic convergence rate in Theorem \ref{main:thm:intro}. 
 
-First, let $u:\R\to\R$ be given by
+As mentioned before, one of the main difficulties to deal with problems associated with the logarithmic Laplacian is the lack of explicit solutions, in particular, no closed expression for the torsion function (i.e., taking  the right-hand side $f\equiv 1$) is known. Typically, such function is used to illustrate the optimality of the approximation rate of the numerical method (see, among others, \cite[Section 5]{AB17} or \cite[Section 5]{BHS19}) since it has the optimal regularity near the boundary. 
+
+In view of this, we propose the following. First, consider the function $u:\R\to\R$ given by
 \begin{align}\label{udef}
  u(x)=\frac{1}{\sqrt{-\ln\left(\frac{1-x^2}{2}\right)}} \chi_{(-1,1)}(x),
 \end{align}
-where $\chi_{(-1,1)}$ denotes the characteristic function in the interval $(-1,1)$.
-
-With Mathematica, we can compute $L_\Delta u$ in $(-1,1)$, see Figure \ref{fig:1}.
+where $\chi_{(-1,1)}$ denotes the characteristic function in the interval $(-1,1)$. We justify this choice by noting that $u(x)$ behaves as $\ell^{1/2}(\delta(x))$ where $\delta(x)$ is the distance function to the boundary of the interval $(-1,1)$, decay which is conjectured to be the optimal one for problemas associated to $L_{\Delta}$, cf. \cite[Theorem 1.11]{CW19} and \cite{}. With the aid of Mathematica, we can compute directly $L_\Delta u(x)$ in $(-1,1)$, see Figure \ref{fig:1}. 
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -1800,7 +1800,7 @@ With Mathematica, we can compute $L_\Delta u$ in $(-1,1)$, see Figure \ref{fig:1
 Now, consider the interval $\Omega=(-1,1)$, let $h=\frac{1}{N+1}$ for $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$. Let $f_i:=L_\Delta u(x_i)$ for $i\in\inter{0,N+1}$, this is a good approximation of the coefficients $\int_{\R}L_\Delta u \phi_i\, dx$.  Let $F:=(f_i)$ and $\alpha:=A_h^{-1}F$, 
 where $A_h$ is the stiffness matrix for the logarithmic Laplacian given in \eqref{stiff:LogLap}. Let 
 \begin{align}\label{vdef}
-v_h(x):=\sum_{i=0}^{N+1}\alpha_i \phi_i, 
+v_h(x):=\sum_{i=0}^{N+1}\alpha_i \phi_i(x), 
 \end{align}
 which is a good approximation for $u_h$, given in Theorem \ref{main:thm:intro}, see Figure \ref{fig:2}.
 
@@ -1821,7 +1821,7 @@ which is a good approximation for $u_h$, given in Theorem \ref{main:thm:intro}, 
 	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
 	 \addlegendentry{$u$};
 	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
-	 \addlegendentry{$v$};
+	 \addlegendentry{$v_h$};
 	
 	\end{axis}
 	%	
@@ -1860,7 +1860,7 @@ We are particularly interested in exhibiting evidence for the optimality of the 
 	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=L2norm] \solution; %\label{cost}
 	% \addlegendentry{Convergence rate in the norm $\mathbb H$};
 	
-	\end{loglogaxis}
+	\end{loglogaxis}\label{l2_ah}
 	%	
 	\end{tikzpicture}
 	} \quad 
@@ -1901,7 +1901,7 @@ We are particularly interested in exhibiting evidence for the optimality of the 
 
 Note that these curves are not straight lines. This contrasts with the typical behavior of algorithms with convergence rate of order $h^p$ for some $p>0$; in particular, this is the case of the fractional Laplacian, see for instance \cite[Figure 8]{BH17} and \cite[Figure 1]{AB17}.  This suggests that the optimal convergence rate for the logarithmic Laplacian is \emph{not} of power-type, as shown in Theorem \ref{main:thm:intro}.
 
-Although the curve in Figure \ref{fig:3} a) looks almost straight, a computation of its slope (with respect to consecutive experiments) shows otherwise, as presented in Table \ref{table:1}.
+Although the curve in Figure \ref{l2_ah} looks almost straight, a computation of its slope (with respect to consecutive experiments) shows otherwise, as presented in Table \ref{table:1}.
 
 
 \begin{table}[h!]
@@ -2143,7 +2143,7 @@ after row=\bottomrule},
 	\end{tikzpicture}
 	} 
 	\caption{The exact solution and its numerical approximation for $N=50$.}
-	\label{fig:1}
+	\label{fig:comp_sol}
 \end{figure}
 
 
