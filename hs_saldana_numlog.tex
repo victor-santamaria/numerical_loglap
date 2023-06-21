@@ -1770,14 +1770,7 @@ First, let $u:\R\to\R$ be given by
 \end{align}
 where $\chi_{(-1,1)}$ denotes the characteristic function in the interval $(-1,1)$.
 
-With Mathematica, we can compute $L_\Delta u$ in $(-1,1)$, see Figure \ref{fig:LogLap}.
-
-Now, consider the interval $\Omega=(-1,1)$, let $h=\frac{1}{N+1}$ for $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$. Let $f_i:=L_\Delta u(x_i)$ for $i\in\inter{0,N+1}$, this is a good approximation of the coefficients $\int_{\R}L_\Delta u \phi_i\, dx$.  Let $F:=(f_i)$ and $\alpha:=A_h^{-1}F$, 
-where $A_h$ is the stiffness matrix for the logarithmic Laplacian given in \eqref{stiff:LogLap}. Let 
-\begin{align}\label{vdef}
-v_N(x):=\sum_{i=0}^{N+1}\alpha_i \phi_i, 
-\end{align}
-which is a good approximation for $u_h$, given in Theorem \ref{main:thm:intro}, see Figure \ref{fig:1}.
+With Mathematica, we can compute $L_\Delta u$ in $(-1,1)$, see Figure \ref{fig:1}.
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -1804,6 +1797,12 @@ which is a good approximation for $u_h$, given in Theorem \ref{main:thm:intro}, 
 	\label{fig:1}
 \end{figure}
 
+Now, consider the interval $\Omega=(-1,1)$, let $h=\frac{1}{N+1}$ for $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$. Let $f_i:=L_\Delta u(x_i)$ for $i\in\inter{0,N+1}$, this is a good approximation of the coefficients $\int_{\R}L_\Delta u \phi_i\, dx$.  Let $F:=(f_i)$ and $\alpha:=A_h^{-1}F$, 
+where $A_h$ is the stiffness matrix for the logarithmic Laplacian given in \eqref{stiff:LogLap}. Let 
+\begin{align}\label{vdef}
+v_h(x):=\sum_{i=0}^{N+1}\alpha_i \phi_i, 
+\end{align}
+which is a good approximation for $u_h$, given in Theorem \ref{main:thm:intro}, see Figure \ref{fig:2}.
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -1829,18 +1828,81 @@ which is a good approximation for $u_h$, given in Theorem \ref{main:thm:intro}, 
 	\end{tikzpicture}
 
 	\caption{A comparison between $u$ given by \eqref{udef} and $v$ given by \eqref{vdef} for $N=50$.}
-	\label{fig:1}
+	\label{fig:2}
 \end{figure}
 
-
-Next we compute the following quantities,
+As seen in Figure \ref{fig:2}, the error is largest close to the boundary of the interval, where the function $u$ has a logarithmic behavior.  To quantify this error we compute the following quantities,
 \begin{align*}
- a_N&:=\int_{-1}^1 |u-v_N|^2\, dx\qquad \text{(the $L^2$-norm of the error between $u$ and $v$)},\\
- b_N&:=\int_{-1+h}^{1-h} |u-v_N|^2\, dx\qquad \text{(a local $L^2$-norm of the error between $u$ and $v$)},\\
- c_N&:=\sup_{(-1,1)} |u-v_N|\qquad \text{(the $L^\infty$-norm of the error between $u$ and $v$)}.
+ a_h&:=\int_{-1}^1 |u-v_h|^2\, dx\qquad \text{(the $L^2$-norm of the error between $u$ and $v$)},\\
+ b_h&:=\int_{-1+h}^{1-h} |u-v_h|^2\, dx\qquad \text{(a local $L^2$-norm of the error between $u$ and $v$)},\\
+ c_h&:=\sup_{(-1,1)} |u-v_h|\qquad \text{(the $L^\infty$-norm of the error between $u$ and $v$)}.
 \end{align*}
 
-We remark that close to 
+We remark that $b_h$ gives information on the error rate in the interior of the interval, slightly far away from the endpoints. 
+
+We are particularly interested in exhibiting evidence for the optimality of the logarithmic rate in Theorem \ref{main:thm:intro}.  For this, we compute these quantities for different values of $h$ and describe the behavior of the error curve, which we show in Figure \ref{fig:3}.
+
+%%%%%%%%%%%%%%%
+%%%%.        Figure       %%%
+%%%%%%%%%%%%%%%
+% DO NOT ERASE
+\begin{figure}[h!]
+	\centering
+	%
+	\subfloat[The $L^2$-norm $(a_h)$.]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{loglogaxis}[xlabel={$h$},legend pos=outer north east,
+	legend plot pos=left,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_20-06-2023_13h27.org}\solution      
+	      
+	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=L2norm] \solution; %\label{cost}
+	% \addlegendentry{Convergence rate in the norm $\mathbb H$};
+	
+	\end{loglogaxis}
+	%	
+	\end{tikzpicture}
+	} \quad 
+	\subfloat[The $L_{loc}^2$-norm $(b_h)$.]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{loglogaxis}[xlabel={$h$},legend pos=outer north east,
+	legend plot pos=left,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_20-06-2023_13h27.org}\data      
+	      
+	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=L2locnorm] \data; %\label{cost}
+	% \addlegendentry{Convergence rate in the norm $\mathbb H$};
+	
+	\end{loglogaxis}
+	%	
+	\end{tikzpicture}
+	}
+	\\\bigskip
+	\subfloat[The $L^\infty$-norm $(c_h)$.]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{loglogaxis}[xlabel={$h$},legend pos=outer north east,
+	legend plot pos=left,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_21-06-2023_11h34.org}\data      
+	      
+	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=Linfnorm] \data; %\label{cost}
+	% \addlegendentry{Convergence rate in the norm $\mathbb H$};
+	
+	\end{loglogaxis}
+	%	
+	\end{tikzpicture}
+	}
+	\caption{Error curves for $a_h$, $b_h$, and $c_h$.}
+	\label{fig:3}
+\end{figure}
+
+Note that these curves are not straight lines. This contrasts with the typical behavior of algorithms with convergence rate of order $h^p$ for some $p>0$; in particular, this is the case of the fractional Laplacian, see for instance \cite[Figure 8]{BH17} and \cite[Figure 1]{AB17}.  This suggests that the optimal convergence rate for the logarithmic Laplacian is \emph{not} of power-type, as shown in Theorem \ref{main:thm:intro}.
+
+Although the curve in Figure \ref{fig:3} a) looks almost straight, a computation of its slope (with respect to consecutive experiments) shows otherwise, as presented in Table \ref{table:1}.
+
 
 \begin{table}[h!]
 \centering
@@ -1861,7 +1923,7 @@ precision=2,
 column type/.add={}{|}},	
 %%%
 columns/L2norm/.style={
-column name=$L^2$--norm,
+column name=$L^2$--norm ($a_h$),
 sci,sci zerofill,sci subscript,
 precision=3},
 %%%
@@ -1872,7 +1934,7 @@ precision=2,
 column type/.add={}{|}},	
 %%%
 columns/L2locnorm/.style={
-column name=$L^2_{loc}$-norm,
+column name=$L^2_{loc}$-norm ($b_h$),
 sci,sci zerofill,sci subscript,
 precision=3},
 %%%
@@ -1883,7 +1945,7 @@ precision=2,
 column type/.add={}{|}},	
 %%%
 columns/Linfnorm/.style={
-column name=$L_{\infty}$--norm,
+column name=$L_{\infty}$--norm ($c_h$),
 sci,sci zerofill,sci subscript,
 precision=4,
 column type/.add={}{}},
@@ -1902,67 +1964,10 @@ every last row/.style={
 after row=\bottomrule},
 ]{\data}
 %
-\caption{Error data between $u$ and $v$. The $L^2-$norm column refers to $a_N$. }
+\caption{Error data  for $a_h$, $b_h$, and $c_h$.}
 \label{table:1}
 \end{table}
 
-
-%%%%%%%%%%%%%%%
-%%%%.        Figure       %%%
-%%%%%%%%%%%%%%%
-% DO NOT ERASE
-\begin{figure}[htbp]
-	\centering
-	%
-	\subfloat[]{
-	\begin{tikzpicture}[scale=0.8]
-	\begin{loglogaxis}[xlabel={$h$},legend pos=outer north east,
-	legend plot pos=left,
-	legend style={cells={anchor=west},draw=none}]
-	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_20-06-2023_13h27.org}\solution      
-	      
-	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=L2norm] \solution; %\label{cost}
-	% \addlegendentry{Convergence rate in the norm $\mathbb H$};
-	
-	\end{loglogaxis}
-	%	
-	\end{tikzpicture}
-	} \quad 
-	\subfloat[]{
-	\begin{tikzpicture}[scale=0.8]
-	\begin{loglogaxis}[xlabel={$h$},legend pos=outer north east,
-	legend plot pos=left,
-	legend style={cells={anchor=west},draw=none}]
-	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_20-06-2023_13h27.org}\data      
-	      
-	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=L2locnorm] \data; %\label{cost}
-	% \addlegendentry{Convergence rate in the norm $\mathbb H$};
-	
-	\end{loglogaxis}
-	%	
-	\end{tikzpicture}
-	}
-	\\
-	\subfloat[]{
-	\begin{tikzpicture}[scale=0.8]
-	\begin{loglogaxis}[xlabel={$h$},legend pos=outer north east,
-	legend plot pos=left,
-	legend style={cells={anchor=west},draw=none}]
-	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_21-06-2023_11h34.org}\data      
-	      
-	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=Linfnorm] \data; %\label{cost}
-	% \addlegendentry{Convergence rate in the norm $\mathbb H$};
-	
-	\end{loglogaxis}
-	%	
-	\end{tikzpicture}
-	}
-	\caption{Convergence of the method}
-	\label{fig:2}
-\end{figure}
 
 
 \begin{table}[h!]
