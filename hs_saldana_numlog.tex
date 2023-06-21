@@ -305,9 +305,9 @@ To close this introduction, we discuss some numerical approximations.  First, we
 \begin{align}\label{t:p:intro}
  L_\Delta \tau = 1\quad \text{ in }(0,L),\qquad \tau=0\quad \text{ on }\R\backslash (-L,L)
 \end{align}
-for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of \eqref{t:p:intro} does not have a closed formula. In fact, the numerical approximations show that the shape of the torsion functions changes drastically as the length of the domain $L>0$ increases, see Figure \ref{Fig:t:f}. In particular, for $L=0.2$ the torsion function is positive in $(0,L)$.  This is consistent with the known fact that the maximum principle for the logarithmic Laplacian only holds in small domains, see \cite[Corollary 1.9]{CW19}. For $L=2$ we observe that the maximum principle does not hold anymore and the solution is \emph{negative} in $(0,L)$ (which is sometimes referred to as an antimaximum principle) and for $L=15$ the torsion functions exhbits oscillation and a sign change in the domain. These last two phenomena have not been described theoretically so far.
+for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of \eqref{t:p:intro} does not have a closed formula. In fact, the numerical approximations show that the shape of the torsion functions changes drastically as the length of the domain $L>0$ increases, see Figure \ref{Fig:t:f}. In particular, for $L=0.2$ the torsion function is positive in $(0,L)$.  This is consistent with the known fact that the maximum principle for the logarithmic Laplacian only holds in small domains, see \cite[Corollary 1.9]{CW19}. For $L=2$ we observe that the maximum principle does not hold anymore and the solution is \emph{negative} in $(0,L)$ (which is sometimes referred to as an antimaximum principle) and for $L=16$ the torsion function exhbits oscillations and changes sign. These last two phenomena have not been described theoretically so far.
 
-
+We have also tested our algorithm with some explicit solutions. We refer to Section \ref{}
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -1760,7 +1760,21 @@ where
 and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 
 
-\section{Some figures about convergence}
+\section{Numerical approximations and error estimates}
+
+In this section we present numerical appoximations of some explicit solutions. 
+
+First, to illustrate Theorem \ref{main:thm:intro}, we use a function that exhibits numerically a logarithmic rate of convergence. To be more precise, let $u:\R\to\R$ be given by
+\begin{align*}
+ u(x)=\frac{1}{\sqrt{-\ln\left(\frac{1-x^2}{2}\right)}}.
+\end{align*}
+
+Consider the interval $\Omega=(-1,1)$, let $h=\frac{1}{N+1}$ for some $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$.  We computed with Mathematica 13.0 the values $f_i:=L_\Delta u(x_i)$ for $i\in\inter{0,N+1}$ and defined $F:=\sum$
+
+
+reconstructed the exact solution with our algorithm.
+
+
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
