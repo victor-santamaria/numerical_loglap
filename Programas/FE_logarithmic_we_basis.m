@@ -1,10 +1,10 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=16;
+L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[100];
+Nval=[50];
 %Nval=[100];
 step=[];
 dif_norm=[];
@@ -76,7 +76,7 @@ legend("Slope: "+num2str(sl_dif)); title("Error L^2")
 
 
 %%% Descomentar si queremos guardar la solución
-write_sol(xi,sol_log,true);
+write_sol(xi,sol_log,false);
 
 write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
 

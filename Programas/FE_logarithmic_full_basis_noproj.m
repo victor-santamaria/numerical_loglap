@@ -4,7 +4,7 @@ clear
 L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600,3200];
+Nval=[50];
 step=[];
 dif_norm=[];
 dif_L2=[];
@@ -41,7 +41,7 @@ for N=Nval
     T=table2array(T);
 
     f=T(:,2);
-    F=h*f; F(1)=F(1)*5/3; F(end)=F(end)*5/3;
+    F=h*f; F(1)=F(1)*3/3; F(end)=F(end)*3/3;
 
     %exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2*L^2)));
 
@@ -112,7 +112,7 @@ end
 
  %%% Write otput files
  write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
- write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,true)
+ write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,false)
 
  [xx,B0]=plt_sol_nearboundary(xi,sol_log,h);
 
