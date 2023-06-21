@@ -1780,11 +1780,11 @@ where $\chi_{(-1,1)}$ denotes the characteristic function in the interval $(-1,1
 	\centering
 	%
 	\begin{tikzpicture}[scale=1]
-	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
+	\begin{axis}[xlabel={$x$},xmin=-1.001,xmax=1.001,legend pos=outer north east,
 	legend plot pos=left, xtick={-1,0,1},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{./Programas/num_results/file50_lambda1.org}\solution      
+	\pgfplotstableread{./Programas/num_results/file200_lambda1.org}\solution      
 	      
 	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
 	%\addlegendentry{Exact solution};
@@ -1812,13 +1812,14 @@ which is a good approximation for $u_h$, given in Theorem \ref{main:thm:intro}, 
 	\centering
 	%
 	\begin{tikzpicture}[scale=1]
-	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
+	\begin{axis}[xlabel={$x$},xmin=-1.001,xmax=1.001,legend pos=outer north east,
 	legend plot pos=left, xtick={-1,0,1},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_12h48.org}\solution      
+	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_12h48.org}\solution   
+	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_21-06-2023_16h18.org}\solutionfine         
 	      
-	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
+	\addplot[thick,color=blue] table[x=xi,y=exsol] \solutionfine; %\label{cost}
 	 \addlegendentry{$u$};
 	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
 	 \addlegendentry{$v_h$};
