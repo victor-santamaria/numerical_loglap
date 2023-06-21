@@ -1727,7 +1727,7 @@ where $k:=j-i$ and $\xi^s_k:=4(k+1)^{3-2s} + 4(k-1)^{3-2s}-6k^{3-2s}-(k+2)^{3-2s
 
 The stiffness matrix $\mathcal A_{h}^{L}\in{\R^{(N+2)\times(N+2)}}$ of the logarithmic laplacian has coefficients $a_{i,j}$ with $i,j\in\inter{0,N+1}$ and $j\geq 1$ given by
 %
-\begin{equation}
+\begin{equation}\label{stiff:LogLap}
 a_{i,j}= h
 \begin{cases}
 \displaystyle -\frac{4 \gamma }{3}+\frac{32 }{9}-\frac{8}{3}  \log (h)+\frac{8}{3}  \log
@@ -1760,27 +1760,31 @@ where
 and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 
 
-\section{Numerical evidence and approximations}
+\section{Numerical evidence and illustrations}
 
-In this section we present numerical appoximations of some explicit solutions. 
+In this section we present numerical appoximations of some explicit solutions and we discuss some evidence for the optimality of the logarithmic convergence rate in Theorem \ref{main:thm:intro}. 
 
-First, to illustrate Theorem \ref{main:thm:intro}, we use a function that exhibits numerically a logarithmic rate of convergence. To be more precise, let $u:\R\to\R$ be given by
-\begin{align*}
- u(x)=\frac{1}{\sqrt{-\ln\left(\frac{1-x^2}{2}\right)}}.
-\end{align*}
+First, let $u:\R\to\R$ be given by
+\begin{align}\label{udef}
+ u(x)=\frac{1}{\sqrt{-\ln\left(\frac{1-x^2}{2}\right)}} \chi_{(-1,1)}(x),
+\end{align}
+where $\chi_{(-1,1)}$ denotes the characteristic function in the interval $(-1,1)$.
 
-Consider the interval $\Omega=(-1,1)$, let $h=\frac{1}{N+1}$ for some $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$.  We computed with Mathematica 13.0 the values $f_i:=L_\Delta u(x_i)$ for $i\in\inter{0,N+1}$ and defined $F:=\sum$
+With Mathematica, we can compute $L_\Delta u$ in $(-1,1)$, see Figure \ref{fig:LogLap}.
 
-
-reconstructed the exact solution with our algorithm.
-
+Now, consider the interval $\Omega=(-1,1)$, let $h=\frac{1}{N+1}$ for $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$. Let $f_i:=L_\Delta u(x_i)$ for $i\in\inter{0,N+1}$, this is a good approximation of the coefficients $\int_{\R}L_\Delta u \phi_i\, dx$.  Let $F:=(f_i)$ and $\alpha:=A_h^{-1}F$, 
+where $A_h$ is the stiffness matrix for the logarithmic Laplacian given in \eqref{stiff:LogLap}. Let 
+\begin{align}\label{vdef}
+v_N(x):=\sum_{i=0}^{N+1}\alpha_i \phi_i, 
+\end{align}
+which is a good approximation for $u_h$, given in Theorem \ref{main:thm:intro}, see Figure \ref{fig:1}.
 
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
 %%%%%%%%%%%%%%%
 % DO NOT ERASE
-\begin{figure}[htbp]
+\begin{figure}[h!]
 	\centering
 	%
 	\begin{tikzpicture}[scale=1]
@@ -1791,17 +1795,92 @@ reconstructed the exact solution with our algorithm.
 	\pgfplotstableread{./Programas/num_results/sol-log_num-vs-exact_20-06-2023_12h48.org}\solution      
 	      
 	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
-	 \addlegendentry{Exact solution};
+	 \addlegendentry{$u$};
 	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
-	 \addlegendentry{Numerical approximation};
+	 \addlegendentry{$v$};
 	
 	\end{axis}
 	%	
 	\end{tikzpicture}
 
-	\caption{The exact solution and its numerical approximation for $N=50$.}
+	\caption{A comparison between $u$ given by \eqref{udef} and $v$ given by \eqref{vdef} for $N=50$.}
 	\label{fig:1}
 \end{figure}
+
+
+Next we compute the following quantities,
+\begin{align*}
+ a_N&:=\int_{-1}^1 |u-v_N|^2\, dx\qquad \text{(the $L^2$-norm of the error between $u$ and $v$)},\\
+ b_N&:=\int_{-1+h}^{1-h} |u-v_N|^2\, dx\qquad \text{(a local $L^2$-norm of the error between $u$ and $v$)},\\
+ c_N&:=\sup_{(-1,1)} |u-v_N|\qquad \text{(the $L^\infty$-norm of the error between $u$ and $v$)}.
+\end{align*}
+
+We remark that close to 
+
+\begin{table}[h!]
+\centering
+%
+\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_21-06-2023_11h34.org}\data
+%
+\pgfplotstableset{
+columns={N,h,L2norm,slopeL2,L2locnorm,slopeL2loc,Linfnorm,slopeinf},
+%%%
+columns/N/.style={
+column name=$N$,
+},	
+%%% 
+columns/h/.style={
+column name=$h$,
+sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/L2norm/.style={
+column name=$L^2$--norm,
+sci,sci zerofill,sci subscript,
+precision=3},
+%%%
+columns/slopeL2/.style={
+column name=slope,
+sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/L2locnorm/.style={
+column name=$L^2_{loc}$-norm,
+sci,sci zerofill,sci subscript,
+precision=3},
+%%%
+columns/slopeL2loc/.style={
+column name=slope,
+%sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/Linfnorm/.style={
+column name=$L_{\infty}$--norm,
+sci,sci zerofill,sci subscript,
+precision=4,
+column type/.add={}{}},
+%%%
+columns/slopeinf/.style={
+column name=slope,
+sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{}},
+}
+%
+\pgfplotstabletypeset[clear infinite, empty cells with={\ensuremath{-}},
+every head row/.style={
+before row=\toprule,after row=\midrule},
+every last row/.style={
+after row=\bottomrule},
+]{\data}
+%
+\caption{Error data between $u$ and $v$. The $L^2-$norm column refers to $a_N$. }
+\label{table:1}
+\end{table}
+
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -1914,70 +1993,6 @@ after row=\bottomrule},
 \label{table:frac_lap}
 \end{table}
 
-
-\begin{table}[h!]
-\centering
-%
-\pgfplotstableread{./Programas/num_results/sol-log_convergence_data_21-06-2023_11h34.org}\data
-%
-\pgfplotstableset{
-columns={N,h,L2norm,slopeL2,L2locnorm,slopeL2loc,Linfnorm,slopeinf},
-%%%
-columns/N/.style={
-column name=$N$,
-},	
-%%% 
-columns/h/.style={
-column name=$h$,
-sci,sci zerofill,sci subscript,
-precision=2,
-column type/.add={}{|}},	
-%%%
-columns/L2norm/.style={
-column name=$L^2$--norm,
-sci,sci zerofill,sci subscript,
-precision=3},
-%%%
-columns/slopeL2/.style={
-column name=slope,
-sci,sci zerofill,sci subscript,
-precision=2,
-column type/.add={}{|}},	
-%%%
-columns/L2locnorm/.style={
-column name=$L^2_{loc}$-norm,
-sci,sci zerofill,sci subscript,
-precision=3},
-%%%
-columns/slopeL2loc/.style={
-column name=slope,
-%sci,sci zerofill,sci subscript,
-precision=2,
-column type/.add={}{|}},	
-%%%
-columns/Linfnorm/.style={
-column name=$L_{\infty}$--norm,
-sci,sci zerofill,sci subscript,
-precision=4,
-column type/.add={}{}},
-%%%
-columns/slopeinf/.style={
-column name=slope,
-sci,sci zerofill,sci subscript,
-precision=2,
-column type/.add={}{}},
-}
-%
-\pgfplotstabletypeset[clear infinite, empty cells with={\ensuremath{-}},
-every head row/.style={
-before row=\toprule,after row=\midrule},
-every last row/.style={
-after row=\bottomrule},
-]{\data}
-%
-\caption{Convergence data logarithmic Laplacian.}
-\label{table:1}
-\end{table}
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
