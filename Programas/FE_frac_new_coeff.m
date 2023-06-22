@@ -9,13 +9,19 @@ L=1;
 c_1 = 2*(s*2^(2*s-1)*gamma(0.5*(1+2*s)))/(sqrt(pi)*gamma(1-s));
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800];
+Nval=[50,100,200,400,800,1600,3200];
 dif_norm=[];
 dif_L2_norm_matlab=[];
 dif_L2_norm=[];
+dif_L2_loc=[];
+dif_linfinity=[];
+
 step=[];
+
 slopeL2=[];
 slopeHs=[];
+slope_L2_loc=[];
+slope_inf=[];
 
 for N=Nval
 
@@ -25,10 +31,13 @@ for N=Nval
     As=flRigidity_w0(s,L,N);
     mass = MassMatrix(xi,h);
 
-    %%% Right-hand side of the problem and projection over finite elements
-    %f = @(x) 1+0*x;
+    M=1;
 
-    f = @(x) gamma(2*s+1)*(s+1)*(1-(1+2*s).*x.^2); 
+    mass_loc=mass(M+1:end-M,M+1:end-M);
+
+    %%% Right-hand side of the problem and projection over finite elements
+    f = @(x) 1+0*x;
+    %f = @(x) gamma(2*s+1)*(s+1)*(1-(1+2*s).*x.^2); 
 
     %f = @(x) (c_1/(2*s))*((1+x).^(-2*s)+(1-x).^(-2*s));
     %f = @(x) sin(pi*x);
@@ -37,9 +46,8 @@ for N=Nval
     sol_frac=As\F;
 
     %%% Exact solution
-    %exsol=@(x,s,L) 2^(-2*s)*sqrt(pi)/(gamma((1+2*s)/2)*gamma(1+s)).*(L^2-x.^2).^s; %Ros-Oton
-    
-    exsol=@(x,s,L) (1-x.^2).^(1+s);
+    exsol=@(x,s,L) 2^(-2*s)*sqrt(pi)/(gamma((1+2*s)/2)*gamma(1+s)).*(L^2-x.^2).^s; %Ros-Oton
+    %exsol=@(x,s,L) (1-x.^2).^(1+s);
 
     figure(1)
     plot(xi, sol_frac,xi,exsol(xi,s,L),'x',xi,sol_frac*0,'LineWidth',1);
@@ -49,12 +57,16 @@ for N=Nval
     
     e_norm = error_fl(h,s,sol_frac);
 
+    err_linf=norm(err_temp,Inf);
     err_L2_matlab=norm(err_temp,2);
     err_L2=sqrt(err_temp'*mass*err_temp);
+    err_L2_loc=sqrt(err_temp(M+1:end-M)'*mass_loc*err_temp(M+1:end-M));
 
     dif_norm=[dif_norm;e_norm];
     dif_L2_norm_matlab=[dif_L2_norm_matlab;err_L2_matlab];
     dif_L2_norm=[dif_L2_norm;err_L2];
+    dif_L2_loc=[dif_L2_loc;err_L2_loc];
+    dif_linfinity=[dif_linfinity;err_linf];
 
     step=[step;h]
 
@@ -62,9 +74,13 @@ for N=Nval
     if length(dif_norm)== 1
         slopeL2=[slopeL2,NaN];
         slopeHs=[slopeHs,NaN];
+        slope_inf=[slope_inf,NaN];
+        slope_L2_loc=[slope_L2_loc,NaN];
     else
         slopeL2=[slopeL2,log(dif_L2_norm(end)/dif_L2_norm(end-1))/log(step(end)/step(end-1))];
         slopeHs=[slopeHs,log(dif_norm(end)/dif_norm(end-1))/log(step(end)/step(end-1))];
+        slope_L2_loc=[slope_L2_loc,log(dif_L2_loc(end)/dif_L2_loc(end-1))/log(step(end)/step(end-1))];
+        slope_inf=[slope_inf,log(dif_linfinity(end)/dif_linfinity(end-1))/log(step(end)/step(end-1))];
     end
 
 end
@@ -86,7 +102,7 @@ legend("Slope: "+num2str(sl_quad)); title('error L^2')
 
 [xx,B0] = plt_sol_nearboundary(xi,sol_frac,h);
 
-write_convergence_data(xi,step,dif_norm,dif_L2_norm,slopeHs,slopeL2,false);
+write_convergence_data(xi,step,dif_norm,dif_L2_norm,dif_L2_loc,dif_linfinity,slopeHs,slopeL2,slope_L2_loc,slope_inf,false);
 
 
 %%% Auxiliary functions
@@ -269,7 +285,7 @@ end
 
 end
 
-function write_convergence_data(xi,step,dif_norm_1,dif_norm_2,slope_1,slope_2,flag)
+function write_convergence_data(xi,step,dif_norm_1,dif_norm_2,dif_norm_3,dif_norm_4,slope_1,slope_2,slope_3,slope_4,flag)
 if flag==true
     [dt,ht,mt]=obtain_date();
     L=max(abs(xi));
@@ -282,10 +298,10 @@ if flag==true
     fprintf(outs_file_temp,'%s %s \n','#domain: ', ...
         strcat('(-',num2str(L),',',num2str(L),')'));
 
-    fprintf(outs_file_temp,'%s %s %s %s %s %s \n', 'N','h','Hsnorm' ...
+    fprintf(outs_file_temp,'%s %s %s %s %s %s %s %s %s %s \n', 'N','h','Hsnorm' ...
         ,'L2norm','slopeHs','slopeL2');
-    fprintf(outs_file_temp,'%4.4e %4.4e %4.4e %4.4e %4.4e %4.4e \n' ...
-        ,[2./step-1,step,dif_norm_1,dif_norm_2,slope_1',slope_2'].');
+    fprintf(outs_file_temp,'%4.4e %4.4e %4.4e %4.4e %4.4e %4.4e %4.4e %4.4e %4.4e %4.4e \n' ...
+        ,[2./step-1,step,dif_norm_1,dif_norm_2,dif_norm_3,dif_norm_4,slope_1',slope_2',slope_3',slope_4'].');
     ST=fclose(outs_file_temp);
 end
 end
