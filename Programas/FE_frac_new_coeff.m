@@ -1,7 +1,7 @@
 clear
 
 %%% Fractional power
-s=0.3;
+s=0.05;
 
 %%% Size of the domain \Omega=(-L,L)
 L=1;
@@ -9,7 +9,7 @@ L=1;
 c_1 = 2*(s*2^(2*s-1)*gamma(0.5*(1+2*s)))/(sqrt(pi)*gamma(1-s));
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600];
+Nval=[50,100,200,400,800,1600,3200];
 dif_norm=[];
 dif_L2_norm_matlab=[];
 dif_L2_norm=[];
