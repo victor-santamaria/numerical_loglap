@@ -560,29 +560,31 @@ Let $(\varphi_i)_{i\in\inter{0,N+1}}$ be the basis of shape functions $\varphi_i
 and
 %
 \begin{align}\label{eq:def_basis_ext}
-    \varphi_0(x)=2\begin{cases}
+    \varphi_0(x)=\B{\sqrt{2}}\begin{cases}
         \displaystyle \frac{x_{1}-x}{h} &x\in [x_0,x_{1}], \\
         0 &\textnormal{elsewhere},
-    \end{cases} \qquad \varphi_{N+1}(x)=2\begin{cases}
+    \end{cases} \qquad \varphi_{N+1}(x)=\B{\sqrt{2}}\begin{cases}
         \displaystyle \frac{x-x_{N}}{h} &x\in[x_{N},x_{N+1}], \\
         0 &\textnormal{elsewhere.}
     \end{cases}
 \end{align}
 %
-Given a function $v$, we define the interpolator of $v$ as
+We define the (quasi-)interpolator $I_h:L^2(\Omega)\to \mathcal V_h$ by
 %
 \begin{equation}\label{eq:interpolator}
-I_h v(x)=\sum_{k\in\inter{0,N+1}}a_k \varphi_k(x)
+I_h v(x)=\sum_{k\in\inter{0,N+1}}a_k \varphi_k(x),
 \end{equation}
 where
 %
 \begin{equation}\label{eq:def_coeff_ak}
-  a_k:=\frac{1}{h}\int_{\Omega}v(x)\varphi_k(x)\,dx  
+  a_k:=\frac{1}{h}\int_{\Omega}v(x)\varphi_k(x)\,dx.
 \end{equation}
 %
-Clearly, $I_h v\in\mathcal V_h$. Note that this definition is particularly useful since $v\in\mathbb H(\Omega)$ is not necessarily continuous at the grid points $x_i$. 
-
-Observe that $\varphi_0$ and $\varphi_{N+1}$ have a factor 2.  This allows to have the property that $I_h 1 = 1$ in $\Omega$.
+Note that this definition with the $L^2$ scalar product is particularly useful since $v\in\mathbb H(\Omega)\subset L^2(\Omega)$ is not necessarily continuous at the grid points $x_i$.  Moreover, observe that $\varphi_0$ and $\varphi_{N+1}$ have a factor $\B{\sqrt{2}}$ and have a jump discontinuity at $0$ and at $N+1$ respectively.  This allows to have the important property that
+\begin{align}\label{Ihc}
+I_h 1 = 1\qquad \text{ in $\Omega$,}
+\end{align}
+namely, that the interpolation of a constant function in $\Omega$ is the constant itself.
 
 %
 \begin{lemma}\label{lem:bounds_aks}
@@ -669,9 +671,9 @@ Let $x\in \Omega$ be arbitrary. From definition \eqref{eq:interpolator} and esti
 %
 By the definition of the basis functions, we note that 
 %
-\begin{equation}\label{eq:basis_uno}
-    \sum_{k\in\inter{0,N+1}}\varphi_k(x)\leq 2 \quad \textnormal{ for any $x\in\Omega$}.
-\end{equation}
+\begin{equation*}
+    \sum_{k\in\inter{0,N+1}}\varphi_k(x)\leq \B{\sqrt{2}} \quad \textnormal{ for any $x\in\Omega$}.
+\end{equation*}
 The result then follows. 
 \end{proof}
 
@@ -725,7 +727,7 @@ Let $i\in\inter{0,N}$ and $v\in C_c^\infty(\Omega)$. There is $C>0$ independent 
 %
 \begin{proof}
 Let $i\in\inter{0,N}$, $v\in C_c^\infty(\Omega)$, and $\overline {v}:=\frac{1}{5h}\int_{x_i-2h}^{x_i+3h}v\,dx$.
-By \eqref{eq:basis_uno}, $v-I_h v=v-\overline{v}+I_h(\overline v - v)$, thus
+By \eqref{Ihc}, $v-I_h v=v-\overline{v}+I_h(\overline v - v)$, thus
 %
 \begin{align}\notag
     \int_{\Omega_i}&\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|} dy dx \\ \notag
@@ -1524,17 +1526,17 @@ where
 % Le us now compute the terms $R_i$, $i=1,\ldots,7$, separately. First, note that $R_1=R_3=R_6=R_7=0,$ because the integrating regions are outside the support of $\varphi_0$. 
 % \subsubsection*{Computation of $R_2$}
 \begin{align*}
-	R_1 &:= 2\int_{h}^{+\infty}\int_{0}^{h} \frac{\varphi_0^2(x)}{|x-y|^{1+2s}}\,dxdy = 8\int_{0}^{h}\left(1-\frac{x}{h}\right)^2\left(\int_{h}^{+\infty} \frac{1}{(y-x)^{1+2s}}\, dy\right)\,dx \\
-	&= \frac{4}{s}\int_{0}^{h}\frac{\left(1-\frac{x}{h}\right)^2}{(h-x)^{2s}}\,dx
-	=\frac{4h^{1-2 s}}{s(3-2 s)}.
+	R_1 &:= 2\int_{h}^{+\infty}\int_{0}^{h} \frac{\varphi_0^2(x)}{|x-y|^{1+2s}}\,dxdy = \B{4}\int_{0}^{h}\left(1-\frac{x}{h}\right)^2\left(\int_{h}^{+\infty} \frac{1}{(y-x)^{1+2s}}\, dy\right)\,dx \\
+	&= \frac{\B{2}}{s}\int_{0}^{h}\frac{\left(1-\frac{x}{h}\right)^2}{(h-x)^{2s}}\,dx
+	=\frac{\B{2}h^{1-2 s}}{s(3-2 s)}.
 \end{align*}
 
 %\subsubsection*{Computation of $R_4$}
 \begin{align*}
 	R_2 &
 	:= \int_{0}^{h}\int_{0}^{h} \frac{(\varphi_0(x)-\varphi_0(y))^2}{|x-y|^{1+2s}}\,dxdy
-	= 4h^{-2}\int_{0}^{h}\int_{0}^{h} |x-y|^{1-2s}\,dxdy
-	=\frac{4h^{1-2 s}}{(1-s) (3-2 s)}
+	= \B{2}h^{-2}\int_{0}^{h}\int_{0}^{h} |x-y|^{1-2s}\,dxdy
+	=\frac{\B{2}h^{1-2 s}}{(1-s) (3-2 s)}
 \end{align*}
 
 
@@ -1542,7 +1544,7 @@ where
 %\subsubsection*{Computation of $R_5$}
 \begin{align*}
 	R_3 &:= 2\int_{-\infty}^{0}\int_{0}^{h} \frac{\varphi_0^2(x)}{|x-y|^{1+2s}}\,dxdy = 2\int_{0}^{h}\varphi_0^2(x)\left(\int_{-\infty}^{0} \frac{dy}{|x-y|^{1+2s}}\right)\,dx = \frac{1}{s}\int_{0}^{h}\frac{\varphi_0^2(x)}{x^{2s}}\,dx\\
-	&=\frac{4 h^{1-2 s}}{(1-s)(3-2 s) (1-2 s)s}.
+	&=\frac{\B{2}h^{1-2 s}}{(1-s)(3-2 s) (1-2 s)s}.
 \end{align*}
 %
 as long as $s<1/2$.
@@ -1550,7 +1552,7 @@ as long as $s<1/2$.
 Therefore,
 %
 \begin{equation*}
-    a_{0,0}=\frac{8 h^{1 - 2 s}}{s (3 - 2 s) (1 - 2 s)}
+    a_{0,0}=\frac{\B{4}h^{1 - 2 s}}{s (3 - 2 s) (1 - 2 s)}
 \end{equation*}
 %
 
@@ -1558,7 +1560,7 @@ Therefore,
 
 \begin{align*}
 	a_{0,j}&=-2 \int_{x_{j-1}}^{x_{j+1}}\int_{0}^{h}\frac{\varphi_0(x)\varphi_j(y)}{|x-y|^{1+2s}}\,dxdy
-=-4 \int_{(j-1)h}^{(j+1)h}\int_0^{h}\frac{\left(1-\frac{x}{h}\right)\left(1-\frac{|y-jh|}{h}\right)}{|x-y|^{1+2s}}\,dxdy.
+=-\B{2\sqrt{2}} \int_{(j-1)h}^{(j+1)h}\int_0^{h}\frac{\left(1-\frac{x}{h}\right)\left(1-\frac{|y-jh|}{h}\right)}{|x-y|^{1+2s}}\,dxdy.
 \end{align*}
 
 Let us introduce the following change of variables:
@@ -1568,10 +1570,10 @@ Let us introduce the following change of variables:
 
 Then, rewriting (with some abuse of notations since there is no possibility of confusion) $\hat{x}=x$ and $\hat{y}=y$, we get 
 \begin{align}\label{elem_noint_cv}
-	a_{0,j}&=-4h^{1-2s} \int_{-1}^1\int_{0}^1\frac{(1-x)(1-|y|)}{(j+y-x)^{1+2s}}\,dxdy\\
-	&=-4h^{1-2s} \left(\int_{0}^1\int_{0}^1\frac{(1-x)(1-y)}{(j+y-x)^{1+2s}}\,dxdy
+	a_{0,j}&=-\B{2\sqrt{2}}h^{1-2s} \int_{-1}^1\int_{0}^1\frac{(1-x)(1-|y|)}{(j+y-x)^{1+2s}}\,dxdy\\
+	&=-\B{2\sqrt{2}}h^{1-2s} \left(\int_{0}^1\int_{0}^1\frac{(1-x)(1-y)}{(j+y-x)^{1+2s}}\,dxdy
 	+\int_{-1}^0\int_{0}^1\frac{(1-x)(1+y)}{(j+y-x)^{1+2s}}\,dxdy\right)\\
-	&=-4h^{1-2s}(B_1+B_3).
+	&=-\B{2\sqrt{2}}h^{1-2s}(B_1+B_3).
 \end{align}
 Integrating by parts several times, we have
 \begin{align*}
@@ -1583,7 +1585,7 @@ Integrating by parts several times, we have
 
 Therefore,
 \begin{align*}
-	a_{0,j} =-\frac{h^{1-2 s} \gamma_j^s }{(1-2 s) (1-s) s (3- 2s )}.
+	a_{0,j} =-\frac{h^{1-2 s} \gamma_j^s }{\B{\sqrt{2}}(1-2 s) (1-s) s (3- 2s )}.
 \end{align*} 
 where
 %
@@ -1599,13 +1601,13 @@ where
 
 \begin{align*}
 a_{0,N+1}&=-2 \int_{x_{N}}^{x_{N+1}}\int_{x_0}^{x_1}\frac{\varphi_0(x)\varphi_{N+1}(y)}{|x-y|^{1+2s}}\,dxdy
-=-8\int_{Nh}^{(N+1)h}\int_0^{h}\frac{\left(1-\frac{x}{h}\right)\left(\frac{y}{h}-N\right)}{(y-x)^{1+2s}}\,dxdy\\
-&=-8h^{1-2s}\int_{0}^{1}\int_0^{1}\frac{\left(1-x\right)y}{(y+N-x)^{1+2s}}\,dxdy,
+=-\B{4}\int_{Nh}^{(N+1)h}\int_0^{h}\frac{\left(1-\frac{x}{h}\right)\left(\frac{y}{h}-N\right)}{(y-x)^{1+2s}}\,dxdy\\
+&=-\B{4}h^{1-2s}\int_{0}^{1}\int_0^{1}\frac{\left(1-x\right)y}{(y+N-x)^{1+2s}}\,dxdy,
 \end{align*}
 then
 %
 \begin{align*}
-a_{0,N+1} = -\frac{2 h^{1-2 s} \zeta_N^s }{s(1-s)(1-2s )(3-2 s)}
+a_{0,N+1} = -\frac{h^{1-2 s} \zeta_N^s }{s(1-s)(1-2s )(3-2 s)}
 \end{align*}
 %
 where 
@@ -1640,16 +1642,16 @@ Le us now compute the terms $Q_i$, $i=1,\ldots,6$, separately.   Note that $Q_6=
 	\\
 	&= \frac{1}{s}\int_{0}^{h}\frac{\varphi_0(x)\varphi_{1}(x)}{(h-x)^{2s}}\,dx - 2\int_{h}^{2h}\int_{0}^{h} \frac{\varphi_0(x)\varphi_{1}(y)}{|x-y|^{1+2s}}\,dxdy
 	\\
-	&= \frac{2}{s}\int_{0}^{h}\frac{\left(1-\frac{x}{h}\right)\left(1-\frac{h-x}{h}\right)}{(h-x)^{2s}}\,dx - 4\int_{h}^{2h}\int_{0}^{h} \frac{\left(1-\frac{x}{h}\right)\left(1-\frac{y-h}{h}\right)}{|x-y|^{1+2s}}\,dxdy,
+	&= \frac{\B{\sqrt{2}}}{s}\int_{0}^{h}\frac{\left(1-\frac{x}{h}\right)\left(1-\frac{h-x}{h}\right)}{(h-x)^{2s}}\,dx - \B{2\sqrt{2}}\int_{h}^{2h}\int_{0}^{h} \frac{\left(1-\frac{x}{h}\right)\left(1-\frac{y-h}{h}\right)}{|x-y|^{1+2s}}\,dxdy=:Q_2^1+Q_2^2,
 \end{align*}
 where, using a change of variables,
 \begin{align*}
-Q_2^1&=2\frac{h^{1-2s}}{s}\int_0^1 x^{1-2s}(1-x)\,dx = \frac{h^{1-2s}}{s(1-s)(3-2s)},\\
-Q_2^2 &= -4h^{1-2s}\int_0^1\int_0^1\frac{(1-x)(1-y)}{(y-x+1)^{1+2s}}\,dxdy = h^{1-2s}\frac{2^{2-2s}+2s-4}{s(1-s)(3-2s)}.
+Q_2^1&=\B{\sqrt{2}}\frac{h^{1-2s}}{s}\int_0^1 x^{1-2s}(1-x)\,dx = \frac{h^{1-2s}}{s(1-s)(3-2s)\B{\sqrt{2}}},\\
+Q_2^2 &= -\B{2\sqrt{2}}h^{1-2s}\int_0^1\int_0^1\frac{(1-x)(1-y)}{(y-x+1)^{1+2s}}\,dxdy = h^{1-2s}\frac{2^{2-2s}+2s-4}{s(1-s)(3-2s)\B{\sqrt{2}}}.
 \end{align*}
 Adding the two contributions, we get the following expression for the term $Q_2$
 \begin{align*}
-	Q_2 = h^{1-2s}\frac{2^{2-2s}+2s-3}{s(1-s)(3-2s)}.
+	Q_2 = h^{1-2s}\frac{2^{2-2s}+2s-3}{s(1-s)(3-2s)\B{\sqrt{2}}}.
 \end{align*}
 Finally, 
 \begin{align*}
@@ -1657,22 +1659,22 @@ Finally,
 \end{align*}
 Note that
 \begin{align*}
-	(\varphi_0(x)-\varphi_0(y))(\varphi_{1}(x)-\varphi_{1}(y)) = 2\left(\frac{y-x}{h}\right)\left(\frac{x-y}{h}\right) = -2\frac{|x-y|^2}{h^2},
+	(\varphi_0(x)-\varphi_0(y))(\varphi_{1}(x)-\varphi_{1}(y)) = \B{\sqrt{2}}\left(\frac{y-x}{h}\right)\left(\frac{x-y}{h}\right) = -\B{\sqrt{2}}\frac{|x-y|^2}{h^2},
 \end{align*}
 and the integral becomes
 \begin{align*}
-	Q_4 &= -2\int_{0}^{h}\int_{0}^{h} |x-y|^{1-2s}\,dxdy = -2\frac{h^{1-2s}}{(1-s)(3-2s)}. 
+	Q_4 &= -\B{\frac{\sqrt{2}}{h^2}}\int_{0}^{h}\int_{0}^{h} |x-y|^{1-2s}\,dxdy = -\B{\sqrt{2}}\frac{h^{1-2s}}{(1-s)(3-2s)}.
 \end{align*}
 
 By Fubini's theorem,
 \begin{align*}
 	Q_5 &= 2\int_{0}^{h}\varphi_0(y)\varphi_{1}(y)\left(\int_{-\infty}^{0} \frac{dx}{|x-y|^{1+2s}}\right)dy = \frac{1}{s}\int_{0}^{h}\frac{\varphi_0(y)\varphi_{1}(y)}{(y)^{2s}}\,dy \\
-	&= \frac{2}{s}\int_{0}^{h}\frac{\left(1-\frac{y}{h}\right)\left(1-\frac{h-y}{h}\right)}{y^{2s}}\,dx=\frac{h^{1-2 s}}{(1-s) s (3-2 s)}.
+	&= \frac{\B{\sqrt{2}}}{s}\int_{0}^{h}\frac{\left(1-\frac{y}{h}\right)\left(1-\frac{h-y}{h}\right)}{y^{2s}}\,dx=\frac{h^{1-2 s}}{(1-s) s (3-2 s)\B{\sqrt{2}}}.
 \end{align*}
 
 Then,
 \begin{align*}
-a_{0,1}=Q_2+Q_4+Q_5=\frac{\left(2^{2-2 s}-2\right) h^{1-2 s}}{(3-2 s) (1-s) s}.
+a_{0,1}=Q_2+Q_4+Q_5=\frac{\left(2^{2-2 s}-2\right) h^{1-2 s}}{(3-2 s) (1-s) s\B{\sqrt{2}}}.
 \end{align*}
 
 \subsection{Conclusion}
@@ -1704,8 +1706,8 @@ In view of the symmetry of \eqref{eq:def_aijs_s} and using the basis $(\varphi_i
 \begin{equation}\label{stiff:frac}
 a_{i,j}= \frac{h^{1 - 2 s}}{2s(1-2s)(1-s)(3-2s)}
 \begin{cases}
-16(1-s) & \textnormal{$i=0$, $j=0$,} \\ 
-\left(2^{3-2 s}-8\right)(1-2s) & \textnormal{$i=0$, $j=1$,} \\
+\B{8}(1-s) & \textnormal{$i=0$, $j=0$,} \\
+\B{\sqrt{2}}\left(2^{2-2 s}-2\right)(1-2s) & \textnormal{$i=0$, $j=1$,} \\
 -2\gamma_j^s  & \parbox[t]{.3\columnwidth}{$i=0$, $j\in\inter{2,N}$, where $\gamma_j^s$ is defined in \eqref{eq:def_gamma_j},}\\
 -2\zeta^s_{N}  & \parbox[t]{.3\columnwidth}{$i=0$, $j=N+1$, where $\zeta_N^s$ is defined in \eqref{eq:def_zeta_N},}\\
 -\xi_k^s & \textnormal{ $i,j\in\inter{1,N}$ with $k\geq 2$,} \\
