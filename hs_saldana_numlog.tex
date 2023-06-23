@@ -807,7 +807,7 @@ since $h=\frac{L}{N+1}$. Since $v\in C_c^\infty(\Omega)$, a direct computation a
     & \leq Ch^2+Ch^2\ell^{-1}(h)+C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1-\alpha}(\delta(x))\,dx.
 \end{align*}
 %
-Using \blue{Lema integrabilidad $\ell$} and since $h\leq \ell^{\frac{1+\alpha}{2}}(h)$ for any $h\leq h_0$ for some $h_0>0$ only depending on $\alpha$, we obtain 
+Using Lemma \ref{lem:ellbeta} and since $h\leq \ell^{\frac{1+\alpha}{2}}(h)$ for any $h\leq h_0$ for some $h_0>0$ only depending on $\alpha$, we obtain
 %
 \begin{align*}
     \|v-I_h v\|_{\mathbb H(\Omega)}
@@ -1769,7 +1769,12 @@ Because of this, we propose the following. Let $\Omega:=(-1,1)$ and consider the
 \end{align}
 where $\chi_{\Omega}$ denotes the characteristic function in the interval $(-1,1)$.
 
-This choice is justified by the fact that $u$ has a uniformly bounded logarithmic Laplacian in $(-1,1)$ (as a direct nontrivial calculation shows) and it has the optimal boundary regularity\footnote{This is needed to observe the optimal convergence rate. Indeed, solutions which are smoother typically yield better convergence rates, see, for instance, \cite[Section 5 and Table 2]{AB17} for the case of the fractional Laplacian.} for logarithmic Dirichlet problems, namely, it behaves as $\ell^{1/2}(d(x))$ (see the Introduction for the definition of $d$ and $\ell$). Here we only observe these facts numerically (see Figures \ref{fig:1} and \ref{fig:2}), but we will present a detailed proof in a forthcoming paper. See also \cite[Theorem 1.11]{CW19} and \cite[Remark~1.5]{FJW22}.
+This choice is justified by the following facts
+\begin{itemize}
+ \item $u$ has a uniformly bounded logarithmic Laplacian in $(-1,1)$ (as a direct nontrivial calculation shows),
+ \item has the optimal boundary regularity\footnote{This is needed to observe the optimal convergence rate. Indeed, solutions which are smoother typically yield better convergence rates, see, for instance, \cite[Section 5 and Table 2]{AB17} for the case of the fractional Laplacian.} for logarithmic Dirichlet problems, namely, it behaves as $\ell^{1/2}(d(x))$ (see the Introduction for the definition of $d$ and $\ell$).
+\end{itemize}
+ Here we only observe these facts numerically (see Figures \ref{fig:1} and \ref{fig:2}), but we will present a detailed proof in a forthcoming paper. See also \cite[Theorem 1.11]{CW19} and \cite[Remark~1.5]{FJW22}.
 
 
 %%%%%%%%%%%%%%%
@@ -1834,8 +1839,8 @@ which is a good approximation for $u_h$ (defined in Theorem \ref{main:thm:intro}
 
 As seen in Figure \ref{fig:2}, the largest error ocurrs close to the boundary of the interval, where the function $u$ has a logarithmic behavior.  To quantify this error we compute the following quantities,
 \begin{align*}
- a_h&:=\int_{-1}^1 |u-v_h|^2\, dx\qquad \text{(the $L^2$-norm of the error between $u$ and $v$)},\\
- b_h&:=\int_{-1+h}^{1-h} |u-v_h|^2\, dx\qquad \text{(a local $L^2$-norm of the error between $u$ and $v$)},\\
+ a_h&:=\left(\int_{-1}^1 |u-v_h|^2\, dx\right)^\frac{1}{2}\qquad \text{(the $L^2$-norm of the error between $u$ and $v$)},\\
+ b_h&:=\left(\int_{-1+h}^{1-h} |u-v_h|^2\, dx\right)^\frac{1}{2}\qquad \text{(a local $L^2$-norm of the error between $u$ and $v$)},\\
  c_h&:=\sup_{(-1,1)} |u-v_h|\qquad \text{(the $L^\infty$-norm of the error between $u$ and $v$)}.
 \end{align*}
 
@@ -2040,6 +2045,20 @@ after row=\bottomrule},
 \end{table}
 
 
+\begin{remark}
+Let $u$ as in \eqref{udef} and $v$ as in \eqref{vdef}.  Let $u_h$ be the FEM approximation of $u$ given by Theorem \ref{main:thm:intro}.  Then,
+\begin{align*}
+\|u-u_h\|^2_{\mathbb H(\Omega)}
+\geq
+\|u-u_h\|^2_{L^2(\Omega)}
+=\|u-v_h\|^2_{L^2(\Omega)}
++2\int_\Omega  (u-v_h)(v_h-u_h)\, dx
++\|v_h-u_h\|^2_{L^2(\Omega)}.
+\end{align*}
+In Table \ref{table:1}, we see evidence that the norm $a_h^2:=\|u-v_h\|^2_{L^2(\Omega)}$ does not decay as $h^p$ for any $p>0$. We do not have an exact estimate for the norm $R_h:=\|v_h-u_h\|^2_{L^2(\Omega)}$, but this is not important to establish that the norm $E_h:=\|u-u_h\|^2_{\mathbb H(\Omega)}$ does not decay as a power.  Indeed, if the term $R_h=O(h^p)$ for some $p>0$, then $E_h=O(a_h^2)$, which does not decay as a power.  On the other hand, if $R_h$ has a worse decay than $a_h^2$, then this decay dominates and therefore $E_h$ does not decay as power also in this case.  Summarizing,   Table \ref{table:1} does present relevant evidence on the optimality of the type of rate shown in Theorem \ref{main:thm:intro}.
+\end{remark}
+
+
 \subsection{Approximation of explicit solutions}
 
 Now we follow the approach in \cite{L22} and use three explicit solutions to further illustrate the FEM approximation of solutions to logarithmic Dirichlet problems. For $r>0$, let  $\Omega:=(-L,L)$, $h_\Omega(x):=-\ln(L^2-|x|^2)$, and $\rho_1:=2 \ln (2)+\psi\left(\frac{1}{2}\right)-\gamma\approx -1.15443$, where $\gamma=-\Gamma^{\prime}(1)$ is the Euler-Mascheroni constant and $\psi$ is the Digamma function given by $\psi=\frac{\Gamma^{\prime}}{\Gamma}$.  For $x\in\R$, let 
@@ -2124,6 +2143,18 @@ By \cite[Corollary 1.9]{CW19} it is stated that the (weak) maximum principle hol
 \end{figure}
 
 We remark that the functions $u_1$ and $u_2$ do not satify the assumptions of Theorem~\ref{main:thm:intro}, because the right-hand side does not belong to $\mathcal Y(\Omega)$. Nevertheless, the FEM yields a good approximation also in these cases.  On the other hand, the function $u_3$ is Lipschitz in $\R$ and thus it exhibits a better convergence rate. Therefore, we cannot use $u_3$ to show the optimality of the convergence rate stated in Theorem \ref{main:thm:intro}.
+
+
+
+
+ \section{Open problems}\label{sec:o:p}
+
+ To close this paper, we discuss some open problems.
+ \begin{enumerate}
+    \item \emph{Adaptive mesh:} In this paper we only considered a homogeneous mesh.  It would be interesting to study the effect that an adaptive mesh would have in the convergence rate.
+     \item \emph{Dimension 2 and 3:} We think that once the one-dimensional case has been established, it would be interesting to study the convergence of FEM for logarithmic problems in dimensions 2 and 3.
+ \end{enumerate}
+
 
 
 \appendix
@@ -2309,130 +2340,19 @@ after row=\bottomrule},
 \label{table:frac_lap}
 \end{table}
  
-
- \section{Open problems}\label{sec:o:p}
-
- To close this paper, we discuss some open problems.
- \begin{enumerate}
-    \item \emph{Adaptive mesh:} In this paper we only considered a homogeneous mesh.  It would be interesting to study the effect that an adaptive mesh would have in the convergence rate.
-     \item \emph{Dimension 2 and 3:} We think that once the one-dimensional case has been established, it would be interesting to study the convergence of FEM for logarithmic problems in dimensions 2 and 3.
- \end{enumerate}
-
  
  \bibliographystyle{plain}
  \bibliography{biblio}
 
-
-
-\newpage
-
-{\Huge  TO DO:}
-\begin{enumerate}
-    \item Escribir la introducción, Como problemas abiertos: Adaptative mesh y su impacto en la tasa de convergencia, $N\geq 2$ (explicar que aquí una de las dificultades es que no hay una noción de traza en los espacios de Hilbert involucrados), y ver qué pasa en dos intervalos o más.
-    \item Las imágenes: 
-    \begin{enumerate}
-        \item función de torsión en dominios chiquitos (positiva), dominios un poco más grandes (negativa) y muy grandes (oscilatoria)
-        \item Convergencia logarítmica del error
-        \item Dos aproximaciones de soluciones, una que se compare con una solución explícita y otra que se compare con la utilizada con la de la convergencia del error.
-    \end{enumerate}
-    \item Mencionar y explicar que la misma matriz de rigidez sirve para todos los intervalos.
-    \item Enviárselo a Sven y ver si tiene alguna sugerencia. 
-    \item Limpiar el código para calcular soluciones y subirlo a un github.
-\end{enumerate}
-
-
-
-
-
+Citar los artículos:
+\begin{itemize}
+ \item De Chhetri que cita a victor
+ \item artículos de Juan Pablo
+\item artículo de Nochetto con otro interpolador
+ \item artículos de Feulefack y Remi
+\end{itemize}
 
 
 
 \end{document}
-
-
-
-
-
-
-
-****OTHER STUFF****
-
-
-\section{The Blow-up paradox}
-
-Fix $\Omega$ and let $\lambda_*>0$ be such that $\ln(\lambda_*^2)=\lambda_1^L(\Omega)$.  Since the first eigenfunction $\xi_1^L$ of $L_\Delta$ is strictly positive, the Fredholf alternative (assuming we can use it, probably we need that $\lambda_1^L(\Omega)>0$) implies that the problem
-\begin{align*}
-L_\Delta u-\lambda_1^L u= 1\qquad \text{ in }\Omega
-\end{align*}
-does not have a solution. This, however, by the reasoning above, would imply that the problem 
-\begin{align}\label{1}
-L_\Delta u_{\lambda_*}=1\qquad \text{ in }{\lambda_*}\Omega
-\end{align}
-also does not have a solution.  In fact, in (Chen-Weth, 2018) they only use Riesz theorem under the assumption $\lambda_1^L(\Omega)>0$.  It seems, however, that we can show existence of solutions also for $\lambda_1^L(\Omega)<0$, and only $\lambda_1^L(\Omega)=0$ is pathological (and there is nonexistence in this case).
-
-It is also interesting to note that if $\xi_1^L$ is the first eigenfunction of $\lambda_*\Omega$ and $\lambda_1^L(\lambda_*\Omega)=0$, then $\xi_1^L>0$ in $\Omega$ and
-\begin{align*}
-L_\Delta \xi_1^L=0\qquad \text{ in }{\lambda_*}\Omega
-\end{align*}
-
-
-\section{Maximum principles}
-In the Chen-Weth paper (Corollary 1.9)  it is stated that the (weak) maximum principle holds in 1D whenever 
-\begin{align*}
-    2L=|\Omega|\leq 2 e^{\frac{1}{2}(\psi(\frac{1}{2})-\gamma)}|B_1(0)|=4e^{\frac{1}{2}(\psi(\frac{1}{2})-\gamma)},
-    \end{align*}
-    that is,
-    \begin{align*}
-        L\leq 2 e^{\frac{1}{2}(\psi(\frac{1}{2})-\gamma)}\approx 0.6453.
-\end{align*}
-In particular, the torsion function should be \emph{positive} in the interval $\Omega=(-0.8,0.8)$.  In light of the previous section, this amounts to solve the problem
-\begin{align*}
-    L_\Delta u+\ln(0.6^2)u=1\qquad \text{ in }(-1,1).
-\end{align*}
-
-
-\section{Scaling properties of the fractional Laplacian}
-
-Let $u\in C^\infty_c(\Omega)$ and let $\lambda>0$.  Let $u_\lambda\in C^\infty_c(\lambda\Omega)$ be given by
-\begin{align*}
-u_\lambda(x):=u(\lambda^{-1} x).
-\end{align*}
-Similarly, for $\varphi\in C^\infty_c(\Omega)$ we define $\varphi_\lambda\in C^\infty_c(\lambda\Omega)$. Then, $\zeta=\lambda\xi$, $d\zeta=\lambda^{N}d\xi$,
-\begin{align*}
-\cE(u_\lambda,\varphi_\lambda)
-&=\int_{\R^N}|\xi|^{2s}\widehat u_\lambda(\xi) \widehat \varphi_\lambda(\xi) \, d\xi
-=\lambda^{2N}\int_{\R^N}|\xi|^{2s}\widehat u(\lambda\xi) \widehat \varphi(\lambda\xi) \, d\xi\\
-&=\lambda^{N}\int_{\R^N}|\lambda^{-1}\zeta|^{2s}\widehat u(\zeta) \widehat \varphi(\zeta) \, d\zeta
-=\lambda^{N-2s}\int_{\R^N}|xi|^{2s}\widehat u(\xi) \widehat \varphi(\xi) \, d\xi\\
-&=\lambda^{N-2s}\cE_s(u,\varphi).
-\end{align*}
-On the hand, setting $y=\lambda^{-1} x$, $dy=\lambda^{-N} dx$,
-\begin{align*}
-    \int_{\R^N} f_\lambda(x) \varphi_\lambda (x)\, dx
-    =\int_{\R^N} f(\lambda^{-1}x) \varphi (\lambda^{-1}x)\, dx
-    =\lambda^N\int_{\R^N} f(y) \varphi (y)\, dy
-\end{align*}
-
-As a consequence, $u$ is a weak solution of 
-\begin{align*}
-\lambda^{-2s}(-\Delta)^s u= f\qquad \text{ in }\Omega
-\end{align*}
-if and only if $u_\lambda$ is a weak solution of
-\begin{align*}
-(\Delta)^s u_\lambda=f_\lambda\qquad \text{ in }\lambda\Omega.
-\end{align*}
-
-For eigenfunctions,
-\begin{align*}
-(-\Delta)^s \varphi= \lambda^{2s}\lambda_s(\lambda\Omega)\varphi\qquad \text{ in }\Omega
-\end{align*}
-if and only if $\varphi_\lambda$ is a weak solution of
-\begin{align*}
-(\Delta)^s \varphi_\lambda=\lambda_s(\lambda\Omega) \varphi_\lambda\qquad \text{ in }\lambda\Omega.
-\end{align*}
-Namely,
-\begin{align*}
-    \lambda_1(\Omega)=\lambda^{2s}\lambda_s(\lambda\Omega),\qquad 
-    \lambda^{-2s}\lambda_1((-1,1))=\lambda_s((-\lambda,\lambda))
-\end{align*}
 
