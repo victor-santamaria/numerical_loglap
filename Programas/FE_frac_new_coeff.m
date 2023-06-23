@@ -179,7 +179,8 @@ for j=3:N+2
 end
 
 %%% Parece que aqui esta el problema
-%%% a(\phi_{0},\phi_{1}) & a(\phi_{N},\phi_{N+1})
+%%% a(\phi_{0},\phi_{1}) & a(\phi_{N},\phi_{N+1}) %% Este coeficiente
+%%% cambio drasticamente al revisar 23-junio-2023
 A(1,2)=(h^(1 - 2*s)*(2^(2 - 2*s)-2)/((1 - s)*s*(3 - 2*s))*sqrt(2));
 A(N+2,N+1)=A(1,2);
 

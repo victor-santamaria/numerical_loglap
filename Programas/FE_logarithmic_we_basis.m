@@ -4,7 +4,7 @@ clear
 L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600];
+Nval=[50];
 %Nval=[100];
 step=[];
 dif_norm=[];
@@ -22,14 +22,14 @@ for N=Nval
     mass = MassMatrix(xi,h);
 
     %%% Right-hand side of the problem and projection over finite elements
-    %f = @(x) 1+0*x; %%% Torsion
+    f = @(x) 1+0*x; %%% Torsion
     %f = @(x) (-3*x.^2+1)+(log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*(1-x.^2); %%% (1-x^2)
-    f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
+    %f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
     %f = @(x)  (2+log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*x; %%% x
 
     F=projection(xi,f,h);
 
-    exsol=@(x) 1+0*x+0*(1-x.^2);
+    exsol=@(x) 0*1+0*x+0*(1-x.^2);
 
     sol_log=Alog\F;
 
@@ -105,14 +105,14 @@ for i=1:N
     if i==1
         xx = linspace(xi(i),xi(i)+h,N+1);
         xx = 0.5*(xx(2:end)+xx(1:end-1));
-        B1 = 2*f(xx).*Phi((xx-xi(i))/h);
+        B1 = sqrt(2)*f(xx).*Phi((xx-xi(i))/h);
         F(i) = ((h)/N)*sum(B1);
     end
 
     if i==N
         xx = linspace(xi(i)-h,xi(i),N+1);
         xx = 0.5*(xx(2:end)+xx(1:end-1));
-        B1 = 2*f(xx).*Phi((xx-xi(i))/h);
+        B1 = sqrt(2)*f(xx).*Phi((xx-xi(i))/h);
         F(i) = ((h)/N)*sum(B1);
     end
 
@@ -133,18 +133,18 @@ emc=-psi(1); %%Euler-Mascheroni constant
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% Entry a(\phi_0,\phi_j) with j=2
-A(1,3)=h*(-2/3);
+A(1,3)=h*(-sqrt(2)/3);
 A(N+2,N)=A(1,3);
 
 %%% Entry a(\phi_0,\phi_j) with j\in\inter{3,N}
 for j=4:N+1
     A(1,j)=h*(1/3*(-3*j^3*log(j)+6*j^2*log(j)+(j-2)^3*(-log(j-2))...
-            +3*(j-1)^2*(j-2)*log(j-1)+(j+1)^2*(j-2)*log(j+1)-2));
+            +3*(j-1)^2*(j-2)*log(j-1)+(j+1)^2*(j-2)*log(j+1)-2))/sqrt(2);
     A(N+2,N+3-j)= A(1,j);
 end
 
 %%% Entry a(\phi_0,\phi_j) with j=N+1
-A(1,N+2)= h*(2/3*(2*(N-3)*N^2*log(N)-N-(N-1)^3*log(N-1)-(N+1)*((N-4)*N+1)*log(N+1)-3));
+A(1,N+2)= h*(2/3*(2*(N-3)*N^2*log(N)-N-(N-1)^3*log(N-1)-(N+1)*((N-4)*N+1)*log(N+1)-3))/2;
 
 
 %%% Case: inner upper triangle 
@@ -170,7 +170,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% Entry a(\phi_0,\phi_j) with j=1
-A(1,2)= h*(-emc/3+5/9-2/3*log(h)-2/3*log(2)+1/3*psi(1/2));
+A(1,2)= h*(-emc/3+5/9-2/3*log(h)-2/3*log(2)+1/3*psi(1/2))/sqrt(2);
 A(N+2,N+1)=A(1,2);
 
 %%% Inner superdiagonal
@@ -187,7 +187,7 @@ A = A+A';
 
 %%% Entry a(\phi_0,\phi_0) 
 
-A(1,1)=h*(-(4*emc)/3+32/9-8/3*log(h)+8/3*log(2)+4/3*psi(1/2));
+A(1,1)=h*(-(4*emc)/3+32/9-8/3*log(h)+8/3*log(2)+4/3*psi(1/2))/2;
 A(N+2,N+2)=A(1,1);
 
 for i=2:N+1
@@ -223,7 +223,7 @@ Nx = length(x);
 
 M=zeros(Nx,Nx);
 
-M(1,2)=1/3;
+M(1,2)=1/(sqrt(2)*3);
 M(Nx,Nx-1)=M(1,2);
 
 for i=2:Nx-2
@@ -232,7 +232,7 @@ end
 
 M=M+M';
 
-M(1,1)=4/3;
+M(1,1)=2/3;
 M(Nx,Nx)=M(1,1);
  
 for i=2:Nx-1
