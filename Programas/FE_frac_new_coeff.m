@@ -9,7 +9,7 @@ L=1;
 c_1 = 2*(s*2^(2*s-1)*gamma(0.5*(1+2*s)))/(sqrt(pi)*gamma(1-s));
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600,3200];
+Nval=[50,100,200,400,800,1600];
 dif_norm=[];
 dif_L2_norm_matlab=[];
 dif_L2_norm=[];
@@ -124,7 +124,7 @@ for i=1:N
     if i==1
         xx = linspace(xi(i),xi(i)+h,N+1);
         xx = 0.5*(xx(2:end)+xx(1:end-1));
-        B1 = 2*f(xx).*Phi((xx-xi(i))/h);
+        B1 = sqrt(2)*f(xx).*Phi((xx-xi(i))/h);
         %B1 = f(xx).*Phi((xx-xi(i))/h);
         F(i) = ((h)/N)*sum(B1);
     end
@@ -132,7 +132,7 @@ for i=1:N
     if i==N
         xx = linspace(xi(i)-h,xi(i),N+1);
         xx = 0.5*(xx(2:end)+xx(1:end-1));
-        B1 = 2*f(xx).*Phi((xx-xi(i))/h);
+        B1 = sqrt(2)*f(xx).*Phi((xx-xi(i))/h);
         %B1 = f(xx).*Phi((xx-xi(i))/h);
         F(i) = ((h)/N)*sum(B1);
     end
@@ -153,7 +153,7 @@ A = zeros(N+2,N+2);
 c = (s*2^(2*s-1)*gamma(0.5*(1+2*s)))/(sqrt(pi)*gamma(1-s));
 
 % % %%% For taking into account the basis functions at the end sides
-%%% a(\phi_0,\phi_j) 
+%%% a(\phi_0,\phi_j) j=[2,N]
 for j=3:N+2
     k = j;
 
@@ -171,16 +171,16 @@ for j=3:N+2
         A(1,j) = (2*h^(1 - 2*s)*N^(-2*s)*(1 + N)^(-2*s)*(2 + N)^(-2*s)*(-N^(2*s)*(1 + N)^(2*s)*(2 + N)*...
             (1 + (1 + N)^2 + 4*(1 + N)*(-1 + s) - 6*s +... 
             4*s^2) + (2 + N)^(2*s)*(-N^3*(1 + N)^(2*s) + 2*N^(2*s)*(1 + N)^2*(-2 + N + 2*s))))/((-1 + s)*s*...
-            (-3 + 2*s)*(-1 + 2*s));
+            (-3 + 2*s)*(-1 + 2*s))/2;
      else
-        A(1,j) = -4*h^(1-2*s)*(B1+B3);
+        A(1,j) = -2*sqrt(2)*h^(1-2*s)*(B1+B3);
     end
     A(N+2,N+3-j)= A(1,j);
 end
 
 %%% Parece que aqui esta el problema
 %%% a(\phi_{0},\phi_{1}) & a(\phi_{N},\phi_{N+1})
-A(1,2)=-((2^(1 - 2*s)*(-2 + 4^s)*h^(1 - 2*s))/((-1 + s)*s*(-3 + 2*s)));
+A(1,2)=(h^(1 - 2*s)*(2^(2 - 2*s)-2)/((1 - s)*s*(3 - 2*s))*sqrt(2));
 A(N+2,N+1)=A(1,2);
 
 %%% The usual fractional laplacian matrix
@@ -229,7 +229,7 @@ end
  
 
 %%% a(\phi_0,\phi_0) & a(\phi_{N+1},\phi_{N+1})
-A(1,1) = (8*h^(1 - 2*s))/(s*(3 + 4*(-2 + s)*s));
+A(1,1) = (4*h^(1 - 2*s))/(s*(3-2*s)*(1-2*s));
 A(N+2,N+2)=A(1,1);
 
 A = c*A;
@@ -242,7 +242,7 @@ Nx = length(x);
 
 M=zeros(Nx,Nx);
 
-M(1,2)=1/3;
+M(1,2)=1/(sqrt(2)*3);
 M(Nx,Nx-1)=M(1,2);
 
 for i=2:Nx-2
@@ -251,7 +251,7 @@ end
 
 M=M+M';
 
-M(1,1)=4/3;
+M(1,1)=2/3;
 M(Nx,Nx)=M(1,1);
  
 for i=2:Nx-1
