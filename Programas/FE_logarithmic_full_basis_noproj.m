@@ -1,7 +1,7 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=0.5;
+L=1;
 
 %%% Number of discrete points, mesh and mesh size
 Nval=[50,100,200,400,800,1600,3200];
@@ -35,13 +35,13 @@ for N=Nval
 
 
 
-    tabname="./datos_sim/file"+num2str(N)+"_lambda0p5.txt";
+    tabname="./datos_sim/file"+num2str(N)+".txt";
 
     T=readtable(tabname);
     T=table2array(T);
 
     f=T(:,2);
-    F=h*f; %F(1)=F(1)*3/3; F(end)=F(end)*3/3;
+    F=h*f; F(1)=F(1)*1/sqrt(2); F(end)=F(end)*1/sqrt(2);
 
     %exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2*L^2)));
 
@@ -119,37 +119,37 @@ end
 
 %%% Auxiliary functions
 
-function [F] = projection(xi,f,L,h)
-
-N=size(xi,2);
-Phi = @(x) 1-abs(x);
-F = zeros(N,1);
-
-for i=1:N
-    if i~=1 && i~=N
-        xx = linspace(xi(i)-h,xi(i)+h,N+1);
-        xx = 0.5*(xx(2:end)+xx(1:end-1));
-        B1 = f(xx).*Phi((xx-xi(i))/h);
-        F(i) = ((2*h)/N)*sum(B1);
-    end
-
-    if i==1
-        xx = linspace(xi(i),xi(i)+h,N+1);
-        xx = 0.5*(xx(2:end)+xx(1:end-1));
-        B1 = 2*f(xx).*Phi((xx-xi(i))/h);
-        F(i) = ((h)/N)*sum(B1);
-    end
-
-    if i==N
-        xx = linspace(xi(i)-h,xi(i),N+1);
-        xx = 0.5*(xx(2:end)+xx(1:end-1));
-        B1 = 2*f(xx).*Phi((xx-xi(i))/h);
-        F(i) = ((h)/N)*sum(B1);
-    end
-
-end
-
-end
+% function [F] = projection(xi,f,L,h)
+% 
+% N=size(xi,2);
+% Phi = @(x) 1-abs(x);
+% F = zeros(N,1);
+% 
+% for i=1:N
+%     if i~=1 && i~=N
+%         xx = linspace(xi(i)-h,xi(i)+h,N+1);
+%         xx = 0.5*(xx(2:end)+xx(1:end-1));
+%         B1 = f(xx).*Phi((xx-xi(i))/h);
+%         F(i) = ((2*h)/N)*sum(B1);
+%     end
+% 
+%     if i==1
+%         xx = linspace(xi(i),xi(i)+h,N+1);
+%         xx = 0.5*(xx(2:end)+xx(1:end-1));
+%         B1 = 2*f(xx).*Phi((xx-xi(i))/h);
+%         F(i) = ((h)/N)*sum(B1);
+%     end
+% 
+%     if i==N
+%         xx = linspace(xi(i)-h,xi(i),N+1);
+%         xx = 0.5*(xx(2:end)+xx(1:end-1));
+%         B1 = 2*f(xx).*Phi((xx-xi(i))/h);
+%         F(i) = ((h)/N)*sum(B1);
+%     end
+% 
+% end
+% 
+% end
 
 function A = LoglapRigidity(L,N)
 
@@ -164,18 +164,18 @@ emc=-psi(1); %%Euler-Mascheroni constant
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% Entry a(\phi_0,\phi_j) with j=2
-A(1,3)=h*(-2/3);
+A(1,3)=h*(-2/3)/sqrt(2);
 A(N+2,N)=A(1,3);
 
 %%% Entry a(\phi_0,\phi_j) with j\in\inter{3,N}
 for j=4:N+1
     A(1,j)=h*(1/3*(-3*j^3*log(j)+6*j^2*log(j)+(j-2)^3*(-log(j-2))...
-            +3*(j-1)^2*(j-2)*log(j-1)+(j+1)^2*(j-2)*log(j+1)-2));
+            +3*(j-1)^2*(j-2)*log(j-1)+(j+1)^2*(j-2)*log(j+1)-2))/sqrt(2);
     A(N+2,N+3-j)= A(1,j);
 end
 
 %%% Entry a(\phi_0,\phi_j) with j=N+1
-A(1,N+2)= h*(2/3*(2*(N-3)*N^2*log(N)-N-(N-1)^3*log(N-1)-(N+1)*((N-4)*N+1)*log(N+1)-3));
+A(1,N+2)= h*(2/3*(2*(N-3)*N^2*log(N)-N-(N-1)^3*log(N-1)-(N+1)*((N-4)*N+1)*log(N+1)-3))/2;
 
 
 %%% Case: inner upper triangle 
@@ -201,7 +201,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% Entry a(\phi_0,\phi_j) with j=1
-A(1,2)= h*(-emc/3+5/9-2/3*log(h)-2/3*log(2)+1/3*psi(1/2));
+A(1,2)= h*(-emc/3+5/9-2/3*log(h)-2/3*log(2)+1/3*psi(1/2))/sqrt(2);
 A(N+2,N+1)=A(1,2);
 
 %%% Inner superdiagonal
@@ -218,7 +218,7 @@ A = A+A';
 
 %%% Entry a(\phi_0,\phi_0) 
 
-A(1,1)=h*(-(4*emc)/3+32/9-8/3*log(h)+8/3*log(2)+4/3*psi(1/2));
+A(1,1)=h*(-(4*emc)/3+32/9-8/3*log(h)+8/3*log(2)+4/3*psi(1/2))/2;
 A(N+2,N+2)=A(1,1);
 
 for i=2:N+1
