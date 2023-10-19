@@ -119,6 +119,8 @@ bookmarksnumbered,bookmarksopen]{hyperref}
 \usepackage[dvipsnames]{xcolor}
 \newcommand{\B}[1]{{\color{red} #1}}  %for paper content
 \newcommand{\Bc}[1]{{\color{red}\textbf{#1}}}  %for comments
+\newcommand{\SJ}[1]{{\color{green} #1}}  %for paper content
+\newcommand{\SJc}[1]{{\color{green}\textbf{#1}}}  %for comments
 
 \usepackage{tikz}
 \usepackage{pgfplots}
@@ -184,7 +186,7 @@ where $\|u\|^2_{\mathbb H(\Omega)}:={\mathcal E}(u,u)$ and ${\mathcal E}(\cdot,\
 \begin{align*}
     {\mathcal E}(u,v)&=\int_{\R}\int_{B_1(x)}\frac{(u(x)-u(y))(v(x)-v(y))}{|x-y|}\, dy\, dx \qquad \text{ for }u,v\in \mH(\Omega).
 \end{align*}
-It is known that $\mathbb H(\Omega)\hookrightarrow L^2(\Omega)$ compactly. Note that the space $\mH(\Omega)$ imposes very little regularity restrictions on its elements, and in particular step functions belong to $\mH(\Omega)$. As a consequence, this space does not allow a notion of trace for its elements.
+It is known that $\mathbb H(\Omega)\hookrightarrow L^2(\Omega)$ compact. Note that the space $\mH(\Omega)$ imposes very little regularity restrictions on its elements, and in particular step functions belong to $\mH(\Omega)$. As a consequence, this space does not allow a notion of trace for its elements.
 
 As mentioned before, the problem \eqref{P:intro} has a variational structure. For $f\in L^2(\Omega)$, we say that $u\in \mH(\Omega)$ is a weak solution of \eqref{P:intro} if
 \begin{equation*}
@@ -211,7 +213,7 @@ where
 %
 \begin{align*}
     \|u\|_{\mathcal X^\alpha(\Omega)}&:=\sup_{x,y\in\mathbb R \atop x\neq y}\frac{|u(x)-u(y)|}{\ell^{\alpha}(|x-y|)}+\sup_{x,y\in\Omega \atop x\neq y}\ell^{1+\alpha}(d(x,y))\frac{|u(x)-u(y)|}{\ell^{1+\alpha}(|x-y|)}, \\
-    \|f\|_{\mathcal Y(\Omega)}&:=\|f\|_{L^\infty(\Omega)}+\sup_{x,y\in\Omega \atop x\neq y}\ell^{2}(d(x,y))\frac{|u(x)-u(y)|}{\ell(|x-y  |)}, \\
+    \|f\|_{\mathcal Y(\Omega)}&:=\|f\|_{L^\infty(\Omega)}+\sup_{x,y\in\Omega \atop x\neq y}\ell^{2}(d(x,y))\frac{|\SJ{f}(x)-\SJ{f}(y)|}{\ell(|x-y  |)}, \\
     d(x)&:=\dist(x,\partial \Omega), \quad d(x,y):=\min(d(x),d(y)).
 \end{align*}
 
@@ -238,13 +240,13 @@ The next theorem guarantees the existence of classical solutions of \eqref{P:int
     \end{enumerate}
 \end{theorem}
 
-As a final ingredient to state our main result, me introduce the notation of the 1D FEM.  Let $N\in\mathbb N$, $h=\frac{L}{N+1}$, $x_i:=ih$, and $\Omega_i:=(x_{i},x_{i+1})$ for $i=0,\ldots,N$. Note that $\overline{\Omega}=\cup_{i=0}^N \overline{\Omega_i}$. Consider the discrete space
+As a final ingredient to state our main result, we introduce the notation of the 1D FEM.  Let $N\in\mathbb N$, $h=\frac{L}{N+1}$, $x_i:=ih$, and $\Omega_i:=(x_{i},x_{i+1})$ for $i=0,\ldots,N$. Note that $\overline{\Omega}=\cup_{i=0}^N \overline{\Omega_i}$. Consider the discrete space
 %
 \begin{equation}
     \mathcal V_h=\{v\in \mathcal C^0(\B{\Omega}): v=0 \textnormal{ in } \R\setminus \Omega, \;\; v|_{\Omega_i}\in \mathcal P_1, \;\;  i=0,\ldots,N\}.
 \end{equation}
 %
-where $\mathcal P_1$ is the space of polynomials of degree less or equal than one.
+where $\mathcal P_1$ is the space of polynomials of degree less than or equal to one.
 % Let $\varphi_i$ be the usual basis of shape functions $\varphi_i$ with compact support in each interval $[x_{i-1},x_{i+1}]$ defined as
 % \begin{align*}
 %     \varphi_0(x):=2\begin{cases}
@@ -305,7 +307,7 @@ To close this introduction, we discuss some numerical approximations.  First, we
 \begin{align}\label{t:p:intro}
  L_\Delta \tau = 1\quad \text{ in }(0,L),\qquad \tau=0\quad \text{ on }\R\backslash (-L,L)
 \end{align}
-for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of \eqref{t:p:intro} does not have a closed formula. In fact, the numerical approximations show that the shape of the torsion functions changes drastically as the length of the domain $L>0$ increases, see Figure \ref{Fig:t:f}. In particular, for $L=0.2$ the torsion function is positive in $(0,L)$.  This is consistent with the known fact that the maximum principle for the logarithmic Laplacian only holds in small domains, see \cite[Corollary 1.9]{CW19}. For $L=2$ we observe that the maximum principle does not hold anymore and the solution is \emph{negative} in $(0,L)$ (which is sometimes referred to as an antimaximum principle) and for $L=16$ the torsion function exhbits oscillations and changes sign. These last two phenomena have not been described theoretically so far.
+for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of \eqref{t:p:intro} does not have a closed formula. In fact, the numerical approximations show that the shape of the torsion functions changes drastically as the length of the domain $L>0$ increases, see Figure \ref{Fig:t:f}. In particular, for $L=0.2$ the torsion function is positive in $(0,L)$.  This is consistent with the known fact that the maximum principle for the logarithmic Laplacian only holds in small domains, see \cite[Corollary 1.9]{CW19}. For $L=2$ we observe that the maximum principle does not hold anymore and the solution is \emph{negative} in $(0,L)$ (which is sometimes referred to as an antimaximum principle) and for $L=16$ the torsion function exhibits oscillations and changes sign. These last two phenomena have not been described theoretically so far.
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -546,7 +548,7 @@ We recall that $\overline{\Omega}=\overline{\cup_{i\in\inter{0,N}}\Omega_i}$ whe
     \mathcal V_h=\{v\in \mathcal C^0(\R): v=0 \textnormal{ in } \R\setminus \Omega, \;\; v|_{\Omega_i}\in \mathcal P_1, \;\;  i\in\inter{0,N}\}
 \end{equation}
 %
-where $\mathcal P_1$ is the space of polynomials of degree less or equal than one. 
+where $\mathcal P_1$ is the space of polynomials of degree less than or equal to one. 
 
 Let $(\varphi_i)_{i\in\inter{0,N+1}}$ be the basis of shape functions $\varphi_i$ with compact support in each interval $[x_{i-1},x_{i+1}]$ defined as
 %
@@ -1049,7 +1051,7 @@ We argue as in \cite[Theorem 4.2.1]{dem20}. Assume, by contradiction, that for e
 \begin{equation}\label{ccea}
     \sup_{v\in \mathcal V_{h_n}}\frac{\cE_{L}(u_n,v)}{\|v\|_{\mathbb H(\Omega)}}<\frac{1}{n}\qquad \text{ for all }n\in\N.
 \end{equation}
-Since $(u_n)$ is bounded in $\mathbb H(\Omega)$, then there is $u\in \mathbb H(\Omega)$ such that $u_n \rightharpoonup u$ weakly in $\mathbb H(\Omega)$. Moreover, since $\mathbb H(\Omega)$ is compactly embedded in $L^2(\Omega)$, then $u_n\to u$ in $L^2(\Omega)$.  Then,
+Since $(u_n)$ is bounded in $\mathbb H(\Omega)$, then there is $u\in \mathbb H(\Omega)$ such that \SJ{after passing to a subsequence} $u_n \rightharpoonup u$ weakly in $\mathbb H(\Omega)$. Moreover, since $\mathbb H(\Omega)$ is compactly embedded in $L^2(\Omega)$, then $u_n\to u$ in $L^2(\Omega)$ \SJ{after passing to another subsequence}.  Then,
 \begin{align}
     \|u_n-u\|^2_{\mathbb H(\Omega)}
     &=\cE(u_n,u_n-u)-\cE(u,u_n-u)\notag\\
@@ -1679,7 +1681,7 @@ a_{0,1}=Q_2+Q_4+Q_5=\frac{\left(2^{2-2 s}-2\right) h^{1-2 s}}{(3-2 s) (1-s) s\B{
 
 \subsection{Conclusion}
 
-The stifness matrix $\mathcal A_h^s\in\mathbb R^{(N+2)\times (N+2)}$ has components
+The stiffness matrix $\mathcal A_h^s\in\mathbb R^{(N+2)\times (N+2)}$ has components
 %
 \begin{equation}\label{eq:def_aijs_s}
 a_{i,j}=\frac{c_{1,s}}{2}\int_{\R}\int_{\R}\frac{(\phi_i(x)-\phi_i(y)(\phi_j(x)-\phi_j(y))}{|x-y|^{1+2s}}dx dy, \quad i,j\in\inter{0,1}, 
@@ -1720,7 +1722,7 @@ where $k:=j-i$ and $\xi^s_k:=4(k+1)^{3-2s} + 4(k-1)^{3-2s}-6k^{3-2s}-(k+2)^{3-2s
 
 \section{Stiffness matrix of the logarithmic Laplacian}\label{sec:s:m:log}
 
-The stiffness matrix $\mathcal A_{h}^{L}\in{\R^{(N+2)\times(N+2)}}$ of the logarithmic laplacian has coefficients $a_{i,j}$ with $i,j\in\inter{0,N+1}$ and $j\geq 1$ given by
+The stiffness matrix $\mathcal A_{h}^{L}\in{\R^{(N+2)\times(N+2)}}$ of the logarithmic Laplacian has coefficients $a_{i,j}$ with $i,j\in\inter{0,N+1}$ and $j\geq 1$ given by
 %
 \begin{equation}\label{stiff:LogLap}
 a_{i,j}= h
@@ -2047,6 +2049,10 @@ after row=\bottomrule},
 
 \begin{remark}
 Let $u$ as in \eqref{udef} and $v$ as in \eqref{vdef}.  Let $u_h$ be the FEM approximation of $u$ given by Theorem \ref{main:thm:intro}.  Then,
+<<<<<<< Updated upstream
+=======
+\SJ{Constant from the Poincar\'e inequality is missing}
+>>>>>>> Stashed changes
 \begin{align*}
 \|u-u_h\|^2_{\mathbb H(\Omega)}
 \geq
@@ -2145,6 +2151,102 @@ By \cite[Corollary 1.9]{CW19} it is stated that the (weak) maximum principle hol
 We remark that the functions $u_1$ and $u_2$ do not satify the assumptions of Theorem~\ref{main:thm:intro}, because the right-hand side does not belong to $\mathcal Y(\Omega)$. Nevertheless, the FEM yields a good approximation also in these cases.  On the other hand, the function $u_3$ is Lipschitz in $\R$ and thus it exhibits a better convergence rate. Therefore, we cannot use $u_3$ to show the optimality of the convergence rate stated in Theorem \ref{main:thm:intro}.
 
 
+<<<<<<< Updated upstream
+=======
+\section{Approximation of the eigenvalues of the logarithmic Laplacian}
+
+Standard Fredholm theory implies that if $0$ is not an eigenvalue of $L_\Delta$, then the Dirichlet problem with $L_{\Delta}$ is uniquely solvable for any $f\in L^2(\Omega)$. By the regularity theory, this translates to classical solutions in view of  Theorem \ref{eq:regularity}. To approximate the eigenvalues of $L_{\Delta}$ in $\Omega$, we consider first the case of Theorem \ref{eq:regularity}(ii), that is, the case in which $0$ is an eigenvalue of $L_{\Delta}$ in $\Omega$. In this case there is a nontrivial $\phi\in \mathcal X^{\alpha}(\Omega)$ satisfying $L_{\Delta}\phi=0$ in  $\Omega$ and $\phi=0$ in $\R\setminus \Omega$ ---we emphasize here that the following argument can be done in any dimension. Note that if we define for $r>0$ a function $\phi_r=\phi(\cdot/r)$, then $L_{\Delta}\phi_r=-2\ln(r)\phi_r$ in $r\Omega$ and $\phi_r=0$ in $\R\setminus r\Omega$. Thus having $0$ as an eigenvalue for $\Omega$ gives us the eigenvalue $-2\ln(r)$ in $r\Omega$.\\
+
+In this way, if we can approximate such $L>0$ such that the operator $L_{\Delta}$ has $0$ as an eigenvalue in $\Omega=(0,L)$, we can classify from there the eigenvalues of $(0,\tilde{L})$ for a general $\tilde{L}>0$. To find these values of $L$, we first show that the eigenvalues of the stiffness matrix $\mathcal A_h^L$ actually converge to the eigenvalues of $L_{\Delta}$ and then we use the condition of the stiffness $\mathcal{A}^L_h$ to find the cases in which there is zero as an eigenvalue. Here, we denote the condition of a matrix $A$ by
+\begin{equation}\label{defi:condition}
+\textnormal{cond}(A):=\Big|\frac{\lambda_{\max}(A)}{\lambda_{\min}(A)}\Big|,
+\end{equation}
+where with $\sigma(A)=\{\lambda\in \R\;:\; \lambda\text{ is an eigenvalue of $A$}\}$ for a matrix $A$ we denote
+$$
+\lambda_{\max}(A):=\max_{\lambda\in \sigma(A)}|\lambda|\quad\text{ and }\quad \lambda_{\min}(A):=\min_{\lambda\in \sigma(A)}|\lambda|.
+$$
+In this way, $\textnormal{cond}(\mathcal{A}^L_h)$ blows up while moving $L$ from $0$ to infinity every time there is $0$ as an eigenvalue of $\mathcal{A}^L_h$.\\
+
+Since we already know that there is an infinite sequence of eigenvalues $\lambda_1<\lambda_2\leq\ldots\lambda_k\to \infty$ for $k\to\infty$ of $L_{\Delta}$ in $\Omega=(0,L)$ for some fixed $L$ by \cite[Theorem 3.4]{CW19}, it follows that we can find a sequence of values $L_i>0$, $i\in \N$ satisfying $0<L_1<L_2<\ldots$ with $L_i\to\infty$ for $i\to \infty$ such that $0$ is an eigenvalue of $L_{\Delta}$ in $(0,L_i)$. With the above it then follows that the eigenvalues of $L_{\Delta}$ in $(0,L)$ are given by $\lambda_i=2\ln(L_i/L)$ for $i\in \N$ (without multiplicity).\\
+
+We first show the convergence of the eigenvalues of $\mathcal{A}^L_h$ to eigenvalues of $L_{\Delta}$ for $h\to 0$. Then we present an approximation of $\textnormal{cond}(A^L_h)$ for small enough $h$ and give the approximations of the eigenvalues in $(0,L)$ for general $L>0$.\\
+
+For the convergence, we cannot work with Theorem \ref{main:thm:intro}, since it is not clear whether the eigenfunctions belong to the space $\mathcal{Y} (\Omega)$. We first classify the eigenvalues $\{\lambda_k\}_{k\in \N}$ of $L_{\Delta}$ with the Courant-Fischer minimax principle, see e.g. \cite[Proposition 2.3 and Remark 2.4]{GJW22}, that is it holds
+$$
+\lambda_k=\inf_{\substack{M\subset \mH(\Omega)\\ \dim(M)=k}} \max_{\substack{u\in M\setminus\{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u),\quad k\in \N,
+$$
+where $U\subset\mH(\Omega)$ is any dense subspace of $\mH(\Omega)$.
+
+\begin{proposition}\label{prop:eigen-approx}
+It holds
+$$
+\lambda_{k,h}:=\inf_{\substack{M\subset \mathcal{V}_{h}\\ \dim(M)=k}} \max_{\substack{u\in M\setminus\{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u)\to \lambda_k\quad\text{for $h\to0$.}
+$$
+Here, $\lambda_{k,h}$ equals to the $k$-the eigenvalue of $\mathcal{A}^L_{h}$.
+\end{proposition}
+\begin{proof}
+First note that by the Courant-Fischer minimax principle it holds, for $h>0$,
+$$
+\lambda_k=\inf_{\substack{M\subset \mH(\Omega)\\ \dim(M)=k}} \max_{\substack{u\in M\setminus\{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u)\leq \inf_{\substack{M\subset \mathcal{V}_{h}\\ \dim(M)=k}} \max_{\substack{u\in M\setminus\{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u)=\lambda_{k,h}.
+$$
+For the other inequality, first recall that by the Poincar\'e inequality, we fix a constant $C>0$ such that 
+$$
+\|u\|_{L^2(\Omega)}\leq C\|u\|_{\mH(\Omega)}\quad\text{for all $u\in \mH(\Omega)$.}
+$$
+Let  $\delta>0$. Then there is a subspace $M_{\delta}\subset \mH(\Omega)$ with $\dim(M_{\delta})=k$ and some $m\in M_{\delta}$ with $\|m\|_{L^2(\Omega)}=1$ such that
+$$
+\max_{\substack{ u\in M_{\delta}\setminus \{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u)=\mathcal{E}_{L}(m,m)\leq \lambda_k+\frac{\delta}{2}.
+$$
+Using Theorem \ref{density:thm} we find $h_0>0$ such that 
+$$
+\|m-m_h\|_{\mH(\Omega)}\leq \frac{\delta}{2C} \quad\text{for all $h\in(0,h_0)$}
+$$
+and it holds
+$$
+0<\|m_h\|_{L^2(\Omega)}\leq \|m-m_H\|_{L^2(\Omega)}+1\leq \frac{\delta}{2}+1
+$$
+Then
+\begin{align}
+\lambda_{k}&\leq \lambda_{k,h}\leq \|m_h\|_{L^2(\Omega)}^2 \mathcal{E}_L(m_h,m_h)\notag\\
+&\leq ( \frac{\delta}{2}+1)^2\Big(\mathcal{E}_L(m_h-m,m_h+m)+\mathcal{E}_L(m,m)\Big)\notag\\
+&\leq ( \frac{\delta}{2}+1)^2\big(\lambda_k+\delta\big)+ ( \frac{\delta}{2}+1)^2\mathcal{E}_L(m_h-m,m_h+m).\label{lambda-k-upperbound}
+\end{align}
+Here, by the definition of $\mathcal{E}_L$ and the Cauchy-Schwarz inequality
+\begin{align}
+\mathcal{E}_L(m_h-m,m_h+m)&\leq \mathcal{E}(m_h-m,m_h+m)+\|m_h-m\|_{L^1(\R^N)}\|m\|_{L^1(\R^N)}+\rho_1\|m_h-m\|_{L^2(\R^N)}\notag\\
+&\leq \|m_h-m\|_{\mH(\Omega)}\Big(\|m_h\|_{\mH(\Omega)}+\|m\|_{\mH(\Omega)}\Big)+\Big(|\Omega|+\rho_1\Big)\|m_h-m\|_{L^2(\R^N)}\notag\\
+&\leq \frac{\delta}{2C}\Big(\|m_h\|_{\mH(\Omega)}+\|m\|_{\mH(\Omega)}+C\big(|\Omega|+\rho_1\big)\Big).\label{lambda-k-upperbound2}
+\end{align}
+Since $\|m_h\|_{\mH(\Omega)}\to \|m\|_{\mH(\Omega)}$ for $h\to 0$, we can assume that we have
+$$
+\|m_h\|_{\mH(\Omega)}\leq \|m\|_{\mH(\Omega)}+1
+$$
+by assuming $h_0$ smaller if necessary. Thus from \eqref{lambda-k-upperbound} and \eqref{lambda-k-upperbound2} we have
+\begin{align*}
+\lambda_k\leq \lambda_{k,h}\leq ( \frac{\delta}{2}+1)^2\big(\lambda_k+\delta\big)+ \delta\frac{(\delta+2)^2}{8C}\Big(2\|m\|_{\mH(\Omega)}+1+C\big(|\Omega|+\rho_1\big)\Big).
+\end{align*}
+Sending $\delta\to 0$, the right-hand side converges to $\lambda_k$ and this shows the first part. For the last part, note that since the $\phi_i$, $i\in\inter{0,N+1}$ form a basis of $\mathcal{V}_h$, the dimension of $\mathcal{V}_{h}$ is $N+2$ and, for any $u\in V_{\eps}$, we can find $r_k\in \R$, $k\in \inter{0,N+1}$ such that
+$$
+u=\sum_{k=0}^{N+1}r_k\phi_k\quad\text{and thus}\quad \mathcal{E}_L(u,u)=\sum_{k,i=0}^{N+1}r_kr_i\mathcal{E}_L(\phi_i,\phi_j)= \mathcal{A}^L_\eps r\cdot r.
+$$
+From here, it is easy to see that $\lambda_{k,h}$ denotes the $k$-the eigenvalue of $\mathcal{A}^L_{h}$.
+\end{proof}
+
+
+
+\SJc{ToDos:}
+\begin{enumerate}
+\item \SJc{Add picture ``condition vs. values of $L$'' ---for comparison: picture 17.1 in \cite{L22} }
+\item \SJc{Add a table where by the Golden Section Search (see below) different $L_i$ in certain intervals and depending on $h$ are approximated ---for comparison: table 17.1 in \cite{L22} }
+\item \SJc{Add a corollary with a table of the different approximations of the eigenvalues of $L_{\Delta}$ in $(0,L)$ ---for comparison: Proposition 17.1 in \cite{L22} }
+\end{enumerate}
+\SJc{In \cite{L22} the Golden Section Search was used according to the book \emph{Numerical Recipes} by Press, William H., Teukolsky, Saul A., Vetterling, William T. and Flannery, Brian P. (2007)}\\
+\SJc{the numerics in \cite{L22} are done with $r$ such that $\Omega=(-r,r)$ so that the values here will be different}
+
+\begin{remark}
+We emphasize that the scaling of the logarithmic Laplacian behaves the same in all dimensions. Due to this, and by following the proof of Proposition \ref{prop:eigen-approx} closely, the approach to estimate the eigenvalues of $L_{\Delta}$ in an arbitrary domain $\Omega\subset\R^N$ can be done in an equivalent way, once the stiffness matrix is calculated and Theorem \ref{density:thm} is verified for the corresponding approximation space $\mathcal{V}_h$.
+\end{remark}
+>>>>>>> Stashed changes
 
 
  \section{Open problems}\label{sec:o:p}
