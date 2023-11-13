@@ -136,10 +136,10 @@ bookmarksnumbered,bookmarksopen]{hyperref}
 \title{FEM for 1D-problems involving the logarithmic Laplacian: error estimates and numerical implementation}
 
 \author{V\'ictor Hern\'andez-Santamar\'ia\footnote{The work of V. Hern\'andez-Santamar\'ia is supported by the program ``Estancias Posdoctorales por México para la Formación y Consolidación de las y los Investigadores por México'' of CONAHCYT (Mexico). He also received support from Projects A1-S-17475 and A1-S-10457 of CONAHCYT and by UNAM-DGAPA-PAPIIT grants IN109522, IN104922, and IA100324 (Mexico).} \and
- Sven Jarohs\footnote{}\and
+ Sven Jarohs\footnote{\blue{if needed add funding info}}\and
 Alberto Salda\~{n}a\footnote{ A. Saldaña is supported  by  
 CONAHCYT grant A1-S-10457 (Mexico) and by UNAM-DGAPA-PAPIIT grant IA100923 (Mexico).}\and
-Leonard Sinsch\footnote{} 
+Leonard Sinsch\footnote{\blue{if needed add funding info}} 
 }
 
 
@@ -184,7 +184,7 @@ The problem \eqref{P:intro} has a variational structure (see \cite{CW19}), which
 
  These obstacles justify the interest and importance of the analysis of the numerical approximation of solutions to \eqref{P:intro}.  Furthermore, we show that new phenomena appear and that new ideas are required to implement the finite element method in this setting.
 
-In this work, we focus our analysis to dimension one. This simplified setting allows us to present the key ideas and new concepts in a more transparent way and it has several other advantages; the most relevant one, is that in 1D we can provide an \emph{explicit formula} for the stiffness matrix.  This makes the implementation of the FEM very straightforward and fast in just a few lines of code (available in GitHub).  We think that this provides the community with a compelling tool to understand the particular pathologies of logarithmic problems and to test and deduce new conjectures for these difficult and elusive problems. Furthermore, we believe that several of the ideas involved in the 1D analysis that we present can be generalized to dimensions 2 and 3, but certainly the higher-dimensional case is nontrivial and requires additional new ideas. See Section \ref{sec:o:p} for a discussion on the challenges in this direction and other open problems.
+In this work, we focus our analysis to dimension one. This simplified setting allows us to present the key ideas and new concepts in a more transparent way and it has several other advantages; the most relevant one, is that in 1D we can provide an \emph{explicit formula} for the stiffness matrix.  This makes the implementation of the FEM very straightforward and fast in just a few lines of code.  We think that this provides the community with a compelling tool to understand the particular pathologies of logarithmic problems and to test and deduce new conjectures for these difficult and elusive problems. Furthermore, we believe that several of the ideas involved in the 1D analysis that we present can be generalized to dimensions 2 and 3, but certainly the higher-dimensional case is nontrivial and requires additional new ideas. \blue{Ver si vale la pena dejar esta frase así como lo descrito en la sección 9} See Section \ref{sec:o:p} for a discussion on the challenges in this direction and other open problems.
 
 Our main result (see Theorem \ref{main:thm:intro} below) states that the FEM numerical approximation of the weak solution converges logarithmically; in particular, we show that the norm of the numerical error can be bounded in terms of $|\ln(h)|^{-\alpha}$, where $h$ is the discretization parameter and $\alpha\in(0,1)$. We also provide numerical evidence that suggests that this kind of logarithmic bounds are optimal, in the sense that no polynomial bound of the type $h^\beta$ for some $\beta>0$ can be expected in general in this setting.  This contrasts with the convergence rate $h^\frac{1}{2}|\ln h|$ observed for the fractional Laplacian for $s\in(0,\frac{1}{2})$ (see \cite[Theorem 3.31]{Bor17}) and the well-known rate $h^2$ for the standard Laplacian.
 
@@ -323,15 +323,15 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
  \begin{align*}
  \mathcal A_{h}^{L}=\partial_s \mathcal A_{h}^{s}|_{s=0},
  \end{align*}
- see Lemma \ref{lem:derivative:s:m}.  This is possible, since a closed formula for the stiffness matrix $\mathcal A_{h}^{s}$ has been obtained in \cite{BH17}.  This can be seen as a discrete version pf the expansion \eqref{intro:exp} in terms of the stiffness matrix. 
+ see Lemma \ref{lem:derivative:s:m}.  This is possible, since a closed formula for the stiffness matrix $\mathcal A_{h}^{s}$ has been obtained in \cite{BH17}.  This can be seen as a discrete version of the expansion \eqref{intro:exp} in terms of the stiffness matrix. 
  
  Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, here we had to calculate only the corresponding entries, see Section \ref{sec:s:m}.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section \ref{sec:s:m:log}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ and not on the length $L$ of the interval $\Omega$.  Therefore, the formula for $\mathcal A_{h}^{L}$ applies to logarithmic problems on any interval splitted into $N+1=\frac{L}{h}$ subintervals.
 
 To close this introduction, we discuss some numerical approximations.  First, we analyze the torsion function, namely, the solution of the equation
 \begin{align}\label{t:p:intro}
- L_\Delta \tau = 1\quad \text{ in }(0,L),\qquad \tau=0\quad \text{ on }\R\backslash (0,L)
+ L_\Delta \tau = 1\quad \text{ in }(-L,L),\qquad \tau=0\quad \text{ on }\R\backslash (-L,L)
 \end{align}
-for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of \eqref{t:p:intro} does not have a closed formula. In fact, the numerical approximations show that the shape of the torsion functions changes drastically as the length of the domain $L>0$ increases, see Figure \ref{Fig:t:f}. In particular, for $L=0.2$ the torsion function is positive in $(0,L)$.  This is consistent with the known fact that the maximum principle for the logarithmic Laplacian only holds in small domains, see \cite[Corollary 1.9]{CW19}. For $L=2$ we observe that the maximum principle does not hold anymore and the solution is \emph{negative} in $(0,L)$ (which is sometimes referred to as an antimaximum principle) and for $L=16$ the torsion function exhibits oscillations and changes sign. These last two phenomena have not been described theoretically so far.
+for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of \eqref{t:p:intro} does not have a closed formula. In fact, the numerical approximations show that the shape of the torsion functions changes drastically as the length of the domain $L>0$ increases, see Figure \ref{Fig:t:f}. In particular, for $L=0.1$ the torsion function is positive in $(-L,L)$.  This is consistent with the known fact that the maximum principle for the logarithmic Laplacian only holds in small domains, see \cite[Corollary 1.9]{CW19}. For $L=1$ we observe that the maximum principle does not hold anymore and the solution is \emph{negative} in $(-L,L)$ (which is sometimes referred to as an antimaximum principle) and for $L=8$ the torsion function exhibits oscillations and changes sign. These last two phenomena have not been described theoretically so far.
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -340,10 +340,10 @@ for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of
 \begin{figure}[h!]
 	\centering
 	%
-	\subfloat[$L=0.2$]{
+	\subfloat[$L=0.1$]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=0,xmax=0.2,legend pos=outer north east,
-	legend plot pos=left, xtick={0,0.1,0.2}, ymin=-0.01,
+	legend plot pos=left, xtick={0,0.1,0.2}, xticklabels={-0.1,0,0.1} , ymin=-0.01,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
 	\pgfplotstableread{./Programas/num_results/sol-log_20-06-2023_12h20.org}\solution      
@@ -354,10 +354,10 @@ for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of
 	%	
 	\end{tikzpicture}
 	}
-	\subfloat[$L=2$]{
+	\subfloat[$L=1$]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=0,xmax=2,legend pos=outer north east,
-	legend plot pos=left, xtick={0,1,2}, ymax=0.01,
+	legend plot pos=left, xtick={0,1,2}, xticklabels={-1,0,1}, ymax=0.01,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
 	\pgfplotstableread{./Programas/num_results/sol-log_20-06-2023_12h25.org}\solution      
@@ -369,10 +369,10 @@ for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of
 	\end{tikzpicture}
 	} 
 	 \\ \bigskip
-	\subfloat[$L=16$]{
+	\subfloat[$L=8$]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=0,xmax=16,legend pos=outer north east,
-	legend plot pos=left, xtick={0,8,16},
+	legend plot pos=left, xtick={0,8,16}, xticklabels={-8,0,8},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
 	\pgfplotstableread{./Programas/num_results/sol-log_20-06-2023_17h12.org}\solution      
@@ -461,7 +461,7 @@ where
 
 For any $\beta>0$,
 %
-\begin{align}\notag
+\begin{align}
     \weH{\beta}&:=\left\{ u\in L^2(\Omega): \int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell(|x-y|)^{\beta}}dydx<+\infty \quad\textnormal{ and }\quad  \int_{\Omega}|u(x)|^2\ell^{-\beta}(\delta(x))dx <+\infty\right\},\label{H:weights:def}
 \end{align}
 where $\delta(x)=\operatorname{dist}(x,\partial \Omega)$ and $\ell$ is given in \eqref{ell:def}. 
@@ -513,9 +513,7 @@ For any $R>0$, we also define $B_{R}(\Omega):=\{x\in\R:\dist(x,\Omega)<R\}=(-R,L
 
 In the following, $C$ denotes possibly different positive constants that are independent of the parameter $h$. 
 
-Let $\Omega=(0,L)$, $h=\frac{L}{N+1}$. Recall that $\Omega_i:=(x_{i},x_{i+1})$ for $i\in\inter{0,N}$ and $\overline{\Omega}=\overline{\cup_{i\in\inter{0,N}}\Omega_i}$. 
-
-Unlike the usual fractional norm, we note that the $\mathbb H$-norm only has a finite range of interaction, indeed
+Let $\Omega=(0,L)$, $h=\frac{L}{N+1}$. Recall that $\Omega_i:=(x_{i},x_{i+1})$ for $i\in\inter{0,N}$ and $\overline{\Omega}=\overline{\cup_{i\in\inter{0,N}}\Omega_i}$. Unlike the usual fractional norm, we note that the $\mathbb H$-norm only has a finite range of interaction, indeed
 %
 \begin{align}\label{eq:norm_R_bound}
     \|u\|^2_{\mathbb H(\Omega)} &=\int_{B_1(\Omega)}\int_{B_1(x)}\frac{|u(x)-u(y)|^2}{|x-y|}\, dy\, dx,
@@ -653,7 +651,7 @@ Let $v\in \mathbb H(\Omega)$ and $a_k$ as in \eqref{eq:def_coeff_ak}. There is $
     |a_k|\leq C h^{-1/2} |v|_{L^2(S_k)}\qquad \text{ for all } k\in\inter{0,N+1}
 \end{equation}
 %
-with $S_k$ as defined in \eqref{eq:def_Si}. If in addition, $v\in L^\infty(\Omega)$, we have
+with $S_k$ as defined in \eqref{eq:def_Si}. If in addition $v\in L^\infty(\Omega)$, we have
 \begin{equation}\label{eq:est_ak_Linf}
     |a_k|\leq C |v|_{L^\infty(\Omega)} \quad\text{ for all } k\in\inter{0,N+1}.
 \end{equation}
@@ -735,18 +733,24 @@ By the definition of the basis functions, we note that
 The result then follows. 
 \end{proof}
 
-\blue{Modificar la notación de este lema, posiblemente cambien algunas cosas abajo pero es solo cuestión de notación}
-
 \begin{lemma}\label{lem:loc_norm_interp}
 Let $i\in\inter{0,N}$, $v\in \mathbb H(\Omega)$, and $a_k$ as in \eqref{eq:def_coeff_ak}.  There is $C>0$ independent of $h$ such that
 %
 \begin{enumerate}[label=\upshape(\roman*)]
-\item $\displaystyle \int_{\Omega_i}\int_{S_i}\frac{|I_hv(x)-I_hv(y)|^2}{|x-y|}dy dx\leq Ch\sum_{k\in \inter{i-1,i+2}} a_k^2$,
-\item  $\displaystyle |I_h u|^2_{L^2(\Omega_i)}\leq Ch\sum_{k\in \inter{i-1,i+1}} a_k^2$,
+\item $\displaystyle \int_{\Omega_i}\int_{S_i}\frac{|I_hv(x)-I_hv(y)|^2}{|x-y|}dy dx\leq Ch\sum_{k\in I_i} a_k^2$,
+\item  $\displaystyle |I_h u|^2_{L^2(\Omega_i)}\leq Ch\sum_{k\in I_i^\prime} a_k^2$,
 \end{enumerate}
+\blue{where 
+%
+\begin{gather}\label{def_Ii}
+I_i:=\{j\in\inter{0,N+1}:\varphi_j(x)-\varphi_j(y) \neq 0 \ \textnormal{for $x\in \Omega_i$ and $y\in S_i$}\}, \\ \label{def_Iiprime}
+I^\prime_i:=\{j\in\inter{0,N+1}:\varphi_j(x)\neq 0 \ \textnormal{for $x\in \Omega_i$}\}.
+\end{gather}
+%
+}
 \end{lemma}
 \begin{proof}
-Let $I_i:=\{j\in\inter{0,N+1}:\varphi_j(x)-\varphi_j(y) \neq 0 \ \textnormal{for $x\in \Omega_i$ and $y\in S_i$}\}=\inter{i-1,i+2}$ and  $I^\prime_i:=\{j\in\inter{0,N+1}:\varphi_j(x)\neq 0 \ \textnormal{for $x\in \Omega_i$}\}\B{=\inter{i,i+1}}$. We begin by proving item (i). Given $i\in\inter{0,N}$, let $x\in \Omega_i$ and $y\in S_i$ such that $x\neq y$.  From definitions \eqref{eq:def_basis} and \eqref{eq:interpolator} it can be readily seen that
+We begin by proving item (i). Given $i\in\inter{0,N}$, let $x\in \Omega_i$ and $y\in S_i$ such that $x\neq y$.  From definitions \eqref{eq:def_basis}, \eqref{eq:interpolator}, and \eqref{def_Ii} it can be readily seen that
 %
 \begin{equation}\label{a1}
     I_hv(x)-I_hv(y)=\sum_{k\in I_i} a_k(\varphi_k(x)-\varphi_k(y)).
@@ -765,11 +769,13 @@ Noting that the functions $\varphi_k$ are Lipschitz continuous and verify that $
     \int_{\Omega_i}\int_{S_i}\frac{|\varphi_k(x)-\varphi_k(y)|^2}{|x-y|}dy dx \leq \frac{C}{h^2}\int_{\Omega_i}\int_{S_i}|x-y|dy dx \leq Ch,
 \end{equation}
 %
-since $|x-y|\leq 2h$ for all $x\in \Omega_i$ and $y\in S_i$. Combining \eqref{eq:est_interp_1} and \eqref{eq:est_interp_2} yields (i). For (ii), note that
+since $|x-y|\leq 2h$ for all $x\in \Omega_i$ and $y\in S_i$. Combining \eqref{eq:est_interp_1} and \eqref{eq:est_interp_2} yields (i). 
+
+For (ii), note that from \eqref{eq:def_basis}, \eqref{eq:interpolator}, and \eqref{def_Iiprime}, we have
 \begin{align*}
 |I_h u|^2_{L^2(\Omega_i)}
-\leq \sum_{k\in \inter{i-1,i+1}}|a_k|^2\int_{\Omega_i}\varphi_k(x)^2\, dx
-\leq \sum_{k\in \inter{i-1,i+1}}|a_k|^2|\Omega_i|=h\sum_{k\in \inter{i-1,i+1}}|a_k|^2.
+\leq \sum_{k\in I_i^\prime}|a_k|^2\int_{\Omega_i}|\varphi_k(x)|^2\, dx
+\leq \sum_{k\in I_i^\prime}|a_k|^2|\Omega_i|=h\sum_{k\in I_i^\prime}|a_k|^2.
 \end{align*}
 %
 \end{proof}
@@ -801,13 +807,13 @@ Using that $\overline v$ is a constant function, we can use mean value theorem t
 \end{equation}
 since $|x-y|\leq 3h$ for $x,y\in S_i$.
 
-On the other hand, we can use item (i) of \Cref{lem:loc_norm_interp} to $J_2$ and obtain
+On the other hand, we can use item (i) of \Cref{lem:loc_norm_interp} for $J_2$ and obtain
 %
 \begin{equation}\label{eq:est_J2}
     J_2 \leq Ch\sum_{k\in I_i} b_k^2,
 \end{equation}
 %
-where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and $I_i=\{j\in\inter{0,N}:\varphi_j(x)-\varphi_j(y) \neq 0 \ \textnormal{for $x\in \Omega_i$ and $y\in S_i$}\}=\inter{i-1,i+2}$. Since $|\varphi_k|\leq 1$, 
+where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ \blue{and $I_i$ as defined in \eqref{def_Ii}}. Since $|\varphi_k|\leq 1$, 
 \begin{equation}\label{abk}
     |b_k|^2
     \leq \frac{1}{h^2}\left(\int_{S_k} |v-\overline v|dx\right)^2
@@ -833,7 +839,7 @@ Indeed, let $i\in\inter{0,N}$, $U=({x_i-2h},{x_{i}+2h})$, and $\overline{v}:=\fr
 \begin{align}
 |v-I_hv|^2_{L^2(\Omega_i)}
 \leq C|v-\overline{v}|_{L^2(\Omega_i)}^2 +|I_h(v-\overline{v})|^2_{L^2(\Omega_i)}
-\leq Ch^3+Ch\sum_{k\in \inter{i-1,i+1}}a_k^2,\label{a2}
+\leq Ch^3+Ch\sum_{k\in I_i^\prime}a_k^2,\label{a2}
 \end{align}
 where $a_k=\frac{1}{h}\int_{x_{k-1}}^{x_{k+1}} (v-\overline{v})\varphi_k\, dx$ and $|a_k|\leq \frac{1}{h}\int_{x_i-2h}^{x_{i}+2h}|v-\overline{v}|\, dx$. By Lemma \ref{lem:poincare_type},
 \begin{equation}
@@ -965,14 +971,14 @@ Using that $\overline v$ is a constant function, we can readily estimate $J_1$ a
 On the other hand, we can apply \Cref{lem:loc_norm_interp} to $J_2$ and obtain
 %
 \begin{equation}\label{eq:est_J2_weight}
-    J_2 \leq Ch\sum_{k\in \inter{i-1,i+2}} b_k^2
+    J_2 \leq Ch\sum_{k\in I_i} b_k^2
 \end{equation}
 %
-where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$. As in \eqref{abk}, for every $k\in \inter{i-1,i+2}$,
+where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and \blue{$I_i$ is defined in \eqref{def_Ii}}. As we did in \eqref{abk}, for every $k\in I_i$,
 \begin{align*}
     |b_k|^2\leq \frac{C}{h}\int_{T_{i}}|v-\overline{v}|^2\, dx,
 \end{align*}
-because the support of $\varphi_k$ is in $T_{i}$ for all $k\in \inter{i-1,i+2}$. Using \Cref{lem:poincare_type_weight}, we can estimate the right-hand side of the above expression and obtain
+because the support of $\varphi_k$ is in $T_{i}$ for \blue{all $k\in I_i$}. Using \Cref{lem:poincare_type_weight}, we can estimate the right-hand side of the above expression and obtain
 %
 \begin{equation}\label{eq:est_bks_weight}
     |b_k|^2\leq Ch^{-1}\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx\qquad \text{for all $k\in \inter{i-1,i+2}$}.
@@ -2234,7 +2240,7 @@ Since we already know that there is an infinite sequence of eigenvalues $\lambda
 
 We next show the convergence of the eigenvalues of $\mathcal{A}^L_h$ to eigenvalues of $L_{\Delta}$ for $h\to 0$. Then we present an approximation of $\textnormal{cond}(A^L_h)$ for small enough $h$ and give the approximations of the eigenvalues in $(0,L)$ for general $L>0$.\\
 
-For the convergence, we cannot work with Theorem \ref{main:thm:intro}, since it is not clear whether the eigenfunctions belong to the space $\mathcal{Y} (\Omega)$. We first classify the eigenvalues $\{\lambda_k\}_{k\in \N}$ of $L_{\Delta}$ with the Courant-Fischer minimax principle, see e.g. \cite[Proposition 2.3 and Remark 2.4]{GJW22}, that is it holds
+For the convergence, we cannot work with Theorem \ref{main:thm:intro}, since it is not clear whether the eigenfunctions belong to the space $\mathcal{Y} (\Omega)$. We first classify the eigenvalues $\{\lambda_k\}_{k\in \N}$ of $L_{\Delta}$ with the Courant-Fischer minimax principle, see e.g. \cite[Proposition 2.3 and Remark 2.4]{FJW22}, that is it holds
 \begin{align}\label{CF}
 \lambda_k=\inf_{\substack{M\subset \mH(\Omega)\\ \dim(M)=k}} \max_{\substack{u\in M\setminus\{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u),\quad k\in \N, 
 \end{align}
