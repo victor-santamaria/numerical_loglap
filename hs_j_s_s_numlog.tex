@@ -143,10 +143,17 @@ Leonard Sinsch\footnote{\blue{if needed add funding info}}
 }
 
 
+
+
 \begin{document}
 
 
+
 \maketitle
+
+\abstract{
+\blue{In this work, we present the numerical analysis and implementation of a finite element approximation for one-dimensional elliptic problems involving the so-called logarithmic Laplacian, a pseudo-differential operator that appears as a first order expansion of the fractional Laplacian as $s\to 0^+$. We provide complete error estimates and provide an order of convergence of the method in the energy norm  by analyzing the problem in suitable \emph{log}-weighted spaces. Our approach, being 1D allows us to compute explicitly the associated stiffness matrix without using numerical integration as in other related fractional problems. As a further application of our results, we investigate some espectral properties of the logarithmic Laplacian, in particular, we show that the discrete eigenvalue problem converges to the continuous one. We provide several numerical examples illustrating our results. }
+}
 
 \section{Introduction}
 
@@ -171,7 +178,7 @@ where ${\mathcal F}$ denotes the Fourier transform.  This operator appears natur
 (-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)\qquad \text{as $s\to 0^+$ in }L^p(\R) \text{ with }1<p\leq \infty.
 \end{align}
 
- Problems such as \eqref{P:intro} play a key role in the understanding of fractional equations as $s\to 0$. This asymptotic analysis is relevant, both in applications and for theoretical reasons.  In applications, for instance, several phenomena that are modeled with a fractional-type diffusion are optimized in some sense for small values of $s$, see \cite{Caffarelli17} and the references in \cite{HSS22}.  On the other hand,  the mathematical structures that appear in the limit as $s\to 0^+$ for linear and nonlinear fractional problems are highly nontrivial and interesting; for instance, we refer to \cite{CW19,LW21,FJW22} for the analysis of linear and eigenvalue problems, to \cite{AS22,HSS22} for the analysis of some relevant nonlinear problems, and to \cite{CS22} for the regularity properties of solutions to \eqref{P:intro}, in particular, \cite[Theorem 1.1]{CS22} gives some conditions for the existence of classical solutions to \eqref{P:intro}.  We also mention \cite{JSW20}, where the operator $L_\Delta$ is used to characterize the derivative of the solution mapping of nonlocal problems involving the fractional Laplacian.
+ Problems such as \eqref{P:intro} play a key role in the understanding of fractional equations as $s\to 0$. This asymptotic analysis is relevant, both in applications and for theoretical reasons.  In applications, for instance, several phenomena that are modeled with a fractional-type diffusion are optimized in some sense for small values of $s$, see \cite{Caffarelli17} and the references in \cite{HSS22}.  On the other hand,  the mathematical structures that appear in the limit as $s\to 0^+$ for linear and nonlinear fractional problems are highly nontrivial and interesting; for instance, we refer to \cite{CW19,LW21,FJW22} for the analysis of linear and eigenvalue problems, to \cite{AS22,HSS22} for the analysis of some relevant nonlinear problems, and to \cite{CS22} for the regularity properties of solutions to \eqref{P:intro}, in particular, \cite[Theorem 1.1]{CS22} gives some conditions for the existence of classical solutions to \eqref{P:intro}.  We also mention \cite{JSW20}, where the operator $L_\Delta$ is used to characterize the derivative of the solution mapping of nonlocal problems involving the fractional Laplacian and \cite{chen2023taylor}, where higher-order expansions of the fractional Laplacian are considered.
 
 The problem \eqref{P:intro} has a variational structure (see \cite{CW19}), which allows the use of powerful functional analysis tools to explore its solvability. Nevertheless, the operator $L_\Delta$ exhibits several pathologies that make its study difficult. Here is a short list of some of them:
 \begin{enumerate}
@@ -184,7 +191,9 @@ The problem \eqref{P:intro} has a variational structure (see \cite{CW19}), which
 
  These obstacles justify the interest and importance of the analysis of the numerical approximation of solutions to \eqref{P:intro}.  Furthermore, we show that new phenomena appear and that new ideas are required to implement the finite element method in this setting.
 
-In this work, we focus our analysis to dimension one. This simplified setting allows us to present the key ideas and new concepts in a more transparent way and it has several other advantages; the most relevant one, is that in 1D we can provide an \emph{explicit formula} for the stiffness matrix.  This makes the implementation of the FEM very straightforward and fast in just a few lines of code.  We think that this provides the community with a compelling tool to understand the particular pathologies of logarithmic problems and to test and deduce new conjectures for these difficult and elusive problems. Furthermore, we believe that several of the ideas involved in the 1D analysis that we present can be generalized to dimensions 2 and 3, but certainly the higher-dimensional case is nontrivial and requires additional new ideas. \blue{Ver si vale la pena dejar esta frase así como lo descrito en la sección 9} See Section \ref{sec:o:p} for a discussion on the challenges in this direction and other open problems.
+In this work, we focus our analysis to dimension one. This simplified setting allows us to present the key ideas and new concepts in a more transparent way and it has several other advantages; the most relevant one, is that in 1D we can provide an \emph{explicit formula} for the stiffness matrix.  This makes the implementation of the FEM very straightforward and fast in just a few lines of code.  \blue{We shall mention that this 1D approach has been successfully used for illustrating and identifying qualitative features of fractional elliptic and parabolic problems, see for instance, \cite{ABBM18,BdPM18,BHS19,CGH20} and we think that our work provides the community with a compelling tool to understand the particular pathologies of logarithmic problems and to test and deduce new conjectures for these difficult and elusive problems.} 
+
+Furthermore, we believe that several of the ideas involved in the 1D analysis that we present can be generalized to dimensions 2 and 3, but certainly the higher-dimensional case is nontrivial and requires additional new ideas. \blue{Ver si vale la pena dejar esta frase así como lo descrito en la sección 9} See Section \ref{sec:o:p} for a discussion on the challenges in this direction and other open problems.
 
 Our main result (see Theorem \ref{main:thm:intro} below) states that the FEM numerical approximation of the weak solution converges logarithmically; in particular, we show that the norm of the numerical error can be bounded in terms of $|\ln(h)|^{-\alpha}$, where $h$ is the discretization parameter and $\alpha\in(0,1)$. We also provide numerical evidence that suggests that this kind of logarithmic bounds are optimal, in the sense that no polynomial bound of the type $h^\beta$ for some $\beta>0$ can be expected in general in this setting.  This contrasts with the convergence rate $h^\frac{1}{2}|\ln h|$ observed for the fractional Laplacian for $s\in(0,\frac{1}{2})$ (see \cite[Theorem 3.31]{Bor17}) and the well-known rate $h^2$ for the standard Laplacian.
 
