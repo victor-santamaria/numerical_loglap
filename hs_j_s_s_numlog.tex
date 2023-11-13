@@ -136,10 +136,13 @@ bookmarksnumbered,bookmarksopen]{hyperref}
 \title{FEM for 1D-problems involving the logarithmic Laplacian: error estimates and numerical implementation}
 
 \author{V\'ictor Hern\'andez-Santamar\'ia\footnote{The work of V. Hern\'andez-Santamar\'ia is supported by the program ``Estancias Posdoctorales por México para la Formación y Consolidación de las y los Investigadores por México'' of CONAHCYT (Mexico). He also received support from Projects A1-S-17475 and A1-S-10457 of CONAHCYT and by UNAM-DGAPA-PAPIIT grants IN109522, IN104922, and IA100324 (Mexico).} \and
- Sven Jarohs\footnote{\blue{if needed add funding info}}\and
+ Sven Jarohs
+ %\footnote{\blue{if needed add funding info}}
+ \and
 Alberto Salda\~{n}a\footnote{ A. Saldaña is supported  by  
 CONAHCYT grant A1-S-10457 (Mexico) and by UNAM-DGAPA-PAPIIT grant IA100923 (Mexico).}\and
-Leonard Sinsch\footnote{\blue{if needed add funding info}} 
+Leonard Sinsch
+%\footnote{\blue{if needed add funding info}} 
 }
 
 
@@ -398,7 +401,7 @@ for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of
 
 We have also tested our algorithm with some explicit solutions. We refer to Section \ref{sec:numerics} for more approximations and a discussion on the optimality of the logarithmic rate given in Theorem \ref{main:thm:intro}.
 
-\SJ{Finally, to close the paper, we investigate the (Dirichlet) eigenvalues of the logarithmic Laplacian $L_{\Delta}$ in an interval $(-L,L)$ for some $L>0$. As shown in \cite[Theorem 1.4]{CW19}, the eigenvalues of $L_{\Delta}$ in a bounded domain are a sequence such that $\lambda_1<\lambda_2\leq \ldots\leq\lambda_n\to \infty$ for $n\to\infty$.  Moreover, by using scalings (see \cite[Lemma 2.5]{LW21}) it holds that if $\lambda_k(\Omega)$ denotes the $k$-th eigenvalue of $L_{\Delta}$ in a bounded $\Omega$, then $\lambda_k(R\Omega)=\lambda_k(\Omega)-2\ln(R)$ for $R>0$. In Section \ref{eigenvalue approximation} we first show that the eigenvalues of the stiffness matrix defined in \eqref{s:m:intro} converge to the eigenvalues of the logarithmic Laplacian for $N\to \infty$, see Proposition \ref{prop:eigen-approx} below. Knowing from the scaling properties that, by sending $L$ to infinity, there are $L_i>0$ such that $\lambda_i=0$ in $(-L_i,L_i)$  for $i\in \N$, see Figure \ref{L vs condition}, it is enough to estimate the cases in which $0$ is an eigenvalue of $\mathcal{A}^L_h$. Using again the scaling properties, we may infer from this an approximation of the eigenvalues in a general interval. To be precise, we have
+\SJ{Finally, to close the paper, we investigate the (Dirichlet) eigenvalues of the logarithmic Laplacian $L_{\Delta}$ in an interval $(-L,L)$ for some $L>0$. As shown in \cite[Theorem 1.4]{CW19}, the eigenvalues of $L_{\Delta}$ in a bounded domain are a sequence such that $\lambda_1<\lambda_2\leq \ldots\leq\lambda_n\to \infty$ for $n\to\infty$.  Moreover, by using scalings (see \cite[Lemma 2.5]{LW21}) it holds that if $\lambda_k(\Omega)$ denotes the $k$-th eigenvalue of $L_{\Delta}$ in a bounded $\Omega$, then $\lambda_k(R\Omega)=\lambda_k(\Omega)-2\ln(R)$ for $R>0$. In Section \ref{eigenvalue approximation:sec} we first show that the eigenvalues of the stiffness matrix defined in \eqref{s:m:intro} converge to the eigenvalues of the logarithmic Laplacian for $N\to \infty$, see Proposition \ref{prop:eigen-approx} below. Knowing from the scaling properties that, by sending $L$ to infinity, there are $L_i>0$ such that $\lambda_i=0$ in $(-L_i,L_i)$  for $i\in \N$, see Figure \ref{L vs condition}, it is enough to estimate the cases in which $0$ is an eigenvalue of $\mathcal{A}^L_h$. Using again the scaling properties, we may infer from this an approximation of the eigenvalues in a general interval. To be precise, we have
 \begin{proposition}\label{eigenvalue approximation}
 For $L>0$ the eigenvalues of $L_{\Delta}$ in $(-L,L)$ are given by $\lambda_k=2\ln(L_k/L)$, $k\in \N$, where for each $k\in \N$ the value $L_k>0$ is such that zero is an eigenvalue of $L_{\Delta}$ in $(-L_k,L_k)$. Moreover, for $k\in\{1,\ldots,6\}$, $L_k$ is given approximately by
 \begin{equation*}
@@ -426,7 +429,7 @@ $s$ & $\lambda_1^s$ &$1+s\lambda_1$  & $\lambda_2^s$ &$1+s\lambda_2$ & $\lambda_
 
 
 The paper is organized as follows.
-\SJ{After some introduction of our notation in Section \ref{sec:notation}, we present in Section \ref{sec:localization-norm} the tools on how to localize and discretize the $\mathbb{H}$-norm. The main goal in this section is to provide the convergence of the method, see Theorem \ref{density:thm}. In Section \ref{sec:estimates} we give several interpolation-type estimates and in Section \ref{sec:error} we complete the proof of Theorem \ref{main:thm:intro}, see Theorem \ref{thm:main-thm proof}. We complete this theoretical approach to the numerical approximation by calculating the stiffness matrix explicitly in Section \ref{sec:stiffness} and giving various numerical illustrations in Section \ref{sec:numerics}. Finally, in Section \ref{eigenvalue approximation}, we give the proof of Proposition \ref{eigenvalue approximation} and show that the eigenvalues of the stiffness matrix converge to eigenvalues of $L_{\Delta}$, see Proposition \ref{prop:eigen-approx}. We close the paper with some open problems in Section \ref{sec:o:p}.
+\SJ{After some introduction of our notation in Section \ref{sec:notation}, we present in Section \ref{sec:localization-norm} the tools on how to localize and discretize the $\mathbb{H}$-norm. The main goal in this section is to provide the convergence of the method, see Theorem \ref{density:thm}. In Section \ref{sec:estimates} we give several interpolation-type estimates and in Section \ref{sec:error} we complete the proof of Theorem \ref{main:thm:intro}, see Theorem \ref{thm:main-thm proof}. We complete this theoretical approach to the numerical approximation by calculating the stiffness matrix explicitly in Section \ref{sec:stiffness} and giving various numerical illustrations in Section \ref{sec:numerics}. Finally, in Section \ref{eigenvalue approximation:sec}, we give the proof of Proposition \ref{eigenvalue approximation} and show that the eigenvalues of the stiffness matrix converge to eigenvalues of $L_{\Delta}$, see Proposition \ref{prop:eigen-approx}. We close the paper with some open problems in Section \ref{sec:o:p}.
 }
 
 
@@ -2215,7 +2218,7 @@ By \cite[Corollary 1.9]{CW19} it is stated that the (weak) maximum principle hol
 We remark that the functions $u_1$ and $u_2$ do not satify the assumptions of Theorem~\ref{main:thm:intro}, because the right-hand side does not belong to $\mathcal Y(\Omega)$. Nevertheless, the FEM yields a good approximation also in these cases.  On the other hand, the function $u_3$ is Lipschitz in $\R$ and thus it exhibits a better convergence rate. Therefore, we cannot use $u_3$ to show the optimality of the convergence rate stated in Theorem \ref{main:thm:intro}.
 
 
-\section{Approximation of the eigenvalues of the logarithmic Laplacian}\label{eigenvalue approximation}
+\section{Approximation of the eigenvalues of the logarithmic Laplacian}\label{eigenvalue approximation:sec}
 
 Standard Fredholm theory implies that if $0$ is not an eigenvalue of $L_\Delta$, then the Dirichlet problem with $L_{\Delta}$ is uniquely solvable for any $f\in L^2(\Omega)$. By the regularity theory, this translates to classical solutions in view of  Theorem \ref{eq:regularity}. To approximate the eigenvalues of $L_{\Delta}$ in $\Omega$, we consider first the case of Theorem \ref{eq:regularity}(ii), that is, the case in which $0$ is an eigenvalue of $L_{\Delta}$ in $\Omega$. In this case there is a nontrivial $\phi\in \mathcal X^{\alpha}(\Omega)$, for some $\alpha>0$, satisfying $L_{\Delta}\phi=0$ in  $\Omega$ and $\phi=0$ in $\R\setminus \Omega$ ---we emphasize here that the following argument can be done in any dimension. Note that if we define for $r>0$ a function $\phi_r=\phi(\cdot/r)$, then $L_{\Delta}\phi_r=-2\ln(r)\phi_r$ in $r\Omega$ and $\phi_r=0$ in $\R\setminus r\Omega$\SJ{, see \cite[Lemma 2.5]{LW21}}. Thus having $0$ as an eigenvalue for $\Omega$ gives us the eigenvalue $-2\ln(r)$ in $r\Omega$.\\
 
