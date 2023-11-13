@@ -22,7 +22,7 @@ bookmarksnumbered,bookmarksopen]{hyperref}
 
 
 
-\usepackage{fullpage}
+\usepackage[cm]{fullpage}
 
 \usepackage{subcaption}
 \usepackage{caption}
@@ -145,18 +145,32 @@ Leonard Sinsch
 %\footnote{\blue{if needed add funding info}} 
 }
 
-
-
+\date{}
 
 \begin{document}
-
-
 
 \maketitle
 
 \abstract{
-\blue{In this work, we present the numerical analysis and implementation of a finite element approximation for one-dimensional elliptic problems involving the so-called logarithmic Laplacian, a pseudo-differential operator that appears as a first order expansion of the fractional Laplacian as $s\to 0^+$. We provide complete error estimates and provide an order of convergence of the method in the energy norm  by analyzing the problem in suitable \emph{log}-weighted spaces. Our approach, being 1D allows us to compute explicitly the associated stiffness matrix without using numerical integration as in other related fractional problems. As a further application of our results, we investigate some espectral properties of the logarithmic Laplacian, in particular, we show that the discrete eigenvalue problem converges to the continuous one. We provide several numerical examples illustrating our results. }
+We present the numerical analysis of a finite element method (FEM) for one-dimensional Dirichlet problems involving the logarithmic Laplacian, a pseudo-differential operator that appears as a first order expansion of the fractional Laplacian as the exponent $s\to 0^+$. Using recently obtained regularity results, we show rigorous error estimates and provide a logarithmic order of convergence in the energy norm by analyzing the problem in suitable \emph{log}-weighted spaces. We prove that the stiffness matrix of logarithmic problems can be obtained as the derivative of the fractional stiffness matrix evaluated at $s=0$. Furthermore, we investigate the relationship between the discrete eigenvalue problem and its convergence to the continuous one.  We also provide several numerical examples illustrating our results.
 }
+
+\bigskip
+\bigskip
+
+\noindent\textsc{Keywords:} Finite elements, zero-order kernel, quasi-interpolation, weighted logarithmic norms.
+\medskip
+
+\noindent\textsc{MSC2020:}
+35S15 · % Boundary value problems for PDEs with pseudodifferential operators
+65N15 · % Error bounds for boundary value problems involving PDEs
+65N30 · % Finite element, Rayleigh-Ritz and Galerkin methods for boundary value problems involving PDEs
+35B65 ·	%Smoothness and regularity of solutions to PDEs
+65N25   %Numerical methods for eigenvalue problems for boundary value problems involving PDEs
+
+\medskip
+
+
 
 \section{Introduction}
 
@@ -172,11 +186,11 @@ where $\Omega$ is an open interval, $f$ belongs to a suitable (log-Hölder) spac
      -\int_{\R\backslash(x-1,x+1)}\frac{u(y)}{|x-y|}\, dy
      +\rho_1\, u(x)\qquad \text{ for }x\in \Omega.
  \end{align}
- Here $\rho_1\approx-1.15$ is an explicit negative constant given in \eqref{constants}. The logarithmic Laplacian $L_\Delta$ is a pseudodifferential operator with Fourier symbol $2\ln|\xi|$, namely,
+ Here $\rho_1\approx-1.15$ is an explicit negative constant given in \eqref{constants}. The logarithmic Laplacian $L_\Delta$ is a pseudo-differential operator with Fourier symbol $2\ln|\xi|$, namely,
 \begin{align*}
 {\mathcal F}(L_\Delta \varphi)(\xi)=2\ln|\xi| {\mathcal F}(\varphi)(\xi)\qquad \text{ for all }\varphi\in C^\infty_c(\R),
 \end{align*}
-where ${\mathcal F}$ denotes the Fourier transform.  This operator appears naturally as a first order expansion of the (integral) fractional Laplacian $(-\Delta)^s$ (the pseudodifferential operator with Fourier symbol $|\xi|^{2s}$) as $s\to 0^+$; in particular, in \cite[Theorem 1.1]{CW19} it is shown that, for all $\varphi\in C^\infty_c(\R^N)$,
+where ${\mathcal F}$ denotes the Fourier transform.  This operator appears naturally as a first order expansion of the (integral) fractional Laplacian $(-\Delta)^s$ (the pseudo-differential operator with Fourier symbol $|\xi|^{2s}$) as $s\to 0^+$; in particular, in \cite[Theorem 1.1]{CW19} it is shown that, for all $\varphi\in C^\infty_c(\R^N)$,
 \begin{align}\label{intro:exp}
 (-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)\qquad \text{as $s\to 0^+$ in }L^p(\R) \text{ with }1<p\leq \infty.
 \end{align}
@@ -194,9 +208,9 @@ The problem \eqref{P:intro} has a variational structure (see \cite{CW19}), which
 
  These obstacles justify the interest and importance of the analysis of the numerical approximation of solutions to \eqref{P:intro}.  Furthermore, we show that new phenomena appear and that new ideas are required to implement the finite element method in this setting.
 
-In this work, we focus our analysis to dimension one. This simplified setting allows us to present the key ideas and new concepts in a more transparent way and it has several other advantages; the most relevant one, is that in 1D we can provide an \emph{explicit formula} for the stiffness matrix.  This makes the implementation of the FEM very straightforward and fast in just a few lines of code.  \blue{We shall mention that this 1D approach has been successfully used for illustrating and identifying qualitative features of fractional elliptic and parabolic problems, see for instance, \cite{ABBM18,BdPM18,BHS19,CGH20} and we think that our work provides the community with a compelling tool to understand the particular pathologies of logarithmic problems and to test and deduce new conjectures for these difficult and elusive problems.} 
+In this work, we focus our analysis to dimension one. This simplified setting allows us to present the key ideas and new concepts in a more transparent way and it has several other advantages; for example, in 1D we can provide an \emph{explicit formula} for the stiffness matrix.  This makes the implementation of the FEM very straightforward and fast in just a few lines of code.  Analyzing problems in 1D has been successfully used for illustrating and identifying important qualitative features of fractional elliptic and parabolic problems, see, for instance, \cite{ABBM18,BdPM18,BHS19,CGH20}. We think that our work provides the community with a compelling tool to understand the particular pathologies of logarithmic problems and to test and deduce new conjectures in this setting.
 
-Furthermore, we believe that several of the ideas involved in the 1D analysis that we present can be generalized to dimensions 2 and 3, but certainly the higher-dimensional case is nontrivial and requires additional new ideas. \blue{Ver si vale la pena dejar esta frase así como lo descrito en la sección 9} See Section \ref{sec:o:p} for a discussion on the challenges in this direction and other open problems.
+Furthermore, we believe that several of the ideas involved in the 1D analysis that we present can be generalized to dimensions 2 and 3, but certainly the higher-dimensional case is nontrivial and requires additional new ideas.
 
 Our main result (see Theorem \ref{main:thm:intro} below) states that the FEM numerical approximation of the weak solution converges logarithmically; in particular, we show that the norm of the numerical error can be bounded in terms of $|\ln(h)|^{-\alpha}$, where $h$ is the discretization parameter and $\alpha\in(0,1)$. We also provide numerical evidence that suggests that this kind of logarithmic bounds are optimal, in the sense that no polynomial bound of the type $h^\beta$ for some $\beta>0$ can be expected in general in this setting.  This contrasts with the convergence rate $h^\frac{1}{2}|\ln h|$ observed for the fractional Laplacian for $s\in(0,\frac{1}{2})$ (see \cite[Theorem 3.31]{Bor17}) and the well-known rate $h^2$ for the standard Laplacian.
 
@@ -429,7 +443,7 @@ $s$ & $\lambda_1^s$ &$1+s\lambda_1$  & $\lambda_2^s$ &$1+s\lambda_2$ & $\lambda_
 
 
 The paper is organized as follows.
-\SJ{After some introduction of our notation in Section \ref{sec:notation}, we present in Section \ref{sec:localization-norm} the tools on how to localize and discretize the $\mathbb{H}$-norm. The main goal in this section is to provide the convergence of the method, see Theorem \ref{density:thm}. In Section \ref{sec:estimates} we give several interpolation-type estimates and in Section \ref{sec:error} we complete the proof of Theorem \ref{main:thm:intro}, see Theorem \ref{thm:main-thm proof}. We complete this theoretical approach to the numerical approximation by calculating the stiffness matrix explicitly in Section \ref{sec:stiffness} and giving various numerical illustrations in Section \ref{sec:numerics}. Finally, in Section \ref{eigenvalue approximation:sec}, we give the proof of Proposition \ref{eigenvalue approximation} and show that the eigenvalues of the stiffness matrix converge to eigenvalues of $L_{\Delta}$, see Proposition \ref{prop:eigen-approx}. We close the paper with some open problems in Section \ref{sec:o:p}.
+\SJ{After some introduction of our notation in Section \ref{sec:notation}, we present in Section \ref{sec:localization-norm} the tools on how to localize and discretize the $\mathbb{H}$-norm. The main goal in this section is to provide the convergence of the method, see Theorem \ref{density:thm}. In Section \ref{sec:estimates} we give several interpolation-type estimates and in Section \ref{sec:error} we complete the proof of Theorem \ref{main:thm:intro}, see Theorem \ref{thm:main-thm proof}. We complete this theoretical approach to the numerical approximation by calculating the stiffness matrix explicitly in Section \ref{sec:stiffness} and giving various numerical illustrations in Section \ref{sec:numerics}. Finally, in Section \ref{eigenvalue approximation:sec}, we give the proof of Proposition \ref{eigenvalue approximation} and show that the eigenvalues of the stiffness matrix converge to eigenvalues of $L_{\Delta}$, see Proposition \ref{prop:eigen-approx}.
 }
 
 
@@ -514,8 +528,6 @@ for $i\in\inter{1,N}$.  Note that $\varphi_i(x_j)=\delta_{ji}$.  As explained in
     \end{cases}
 \end{align}
 %
-
-\Bc{Add a picture}
 
 For any $R>0$, we also define $B_{R}(\Omega):=\{x\in\R:\dist(x,\Omega)<R\}=(-R,L+R)$.
 
@@ -2163,7 +2175,7 @@ By \cite[Corollary 1.9]{CW19} it is stated that the (weak) maximum principle hol
 \begin{figure}[h!]
 	\centering
 	%
-	\subfloat[The function $u_1$ and its FEM approximation.]{
+	\subfloat[$u_1$ and its FEM approximation.]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
 	legend plot pos=left, xtick={-1,0,1},
@@ -2179,7 +2191,7 @@ By \cite[Corollary 1.9]{CW19} it is stated that the (weak) maximum principle hol
 	\end{tikzpicture}
 	}
 	%
-	\subfloat[The function $u_2$ and its FEM approximation.]{
+	\subfloat[$u_2$ and its FEM approximation.]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,ymin=0.0,legend pos=outer north east,
 	legend plot pos=left, xtick={-1,0,1},
@@ -2193,7 +2205,7 @@ By \cite[Corollary 1.9]{CW19} it is stated that the (weak) maximum principle hol
 	\end{axis}
 	%	
 	\end{tikzpicture}
-	} \\
+	}\\ \bigskip
 	\subfloat[The function $u_3$ and its FEM approximation.]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
@@ -2371,17 +2383,7 @@ This follows immediately from Proposition \ref{eigenvalue approximation a}, the 
 \end{figure}
 
 
- \section{Open problems}\label{sec:o:p}
-
- To close this paper, we discuss some open problems.
- \begin{enumerate}
-    \item \emph{Adaptive mesh:} In this paper we only considered a homogeneous mesh.  It would be interesting to study the effect that an adaptive mesh would have in the convergence rate.
-     \item \emph{Dimension 2 and 3:} We think that once the one-dimensional case has been established, it would be interesting to study the convergence of FEM for logarithmic problems in dimensions 2 and 3.
- \end{enumerate}
-
-
-
-\appendix
+ \appendix
 
 \section{Some auxiliary lemmas}
 %
@@ -2568,13 +2570,6 @@ after row=\bottomrule},
  \bibliographystyle{plain}
  \bibliography{biblio}
 
-Citar los artículos:
-\begin{itemize}
- \item De Chhetri que cita a victor
- \item artículos de Juan Pablo
-\item artículo de Nochetto con otro interpolador
- \item artículos de Feulefack y Remi
-\end{itemize}
 
 \bigskip
 \begin{flushleft}
