@@ -135,19 +135,26 @@ bookmarksnumbered,bookmarksopen]{hyperref}
 
 \title{FEM for 1D-problems involving the logarithmic Laplacian: error estimates and numerical implementation}
 
-\author{V\'ictor Hern\'andez-Santamar\'ia\footnote{Instituto de Matem\'aticas,
+\author{V\'ictor Hern\'andez-Santamar\'ia
+\footnote{Instituto de Matem\'aticas,
 Universidad Nacional Aut\'onoma de M\'exico. 
 Circuito Exterior, Ciudad Universitaria
-04510 Coyoac\'an, Ciudad de M\'exico, Mexico,\newline victor.santamaria@im.unam.mx}\and
-Sven Jarohs\footnote{Institut f\"ur Mathematik,
+04510 Coyoac\'an, Ciudad de M\'exico, Mexico,\newline victor.santamaria@im.unam.mx}\hspace{0.5ex},
+ Sven Jarohs
+\footnote{Institut f\"ur Mathematik,
 Goethe-Universit\"at Frankfurt.
 Robert-Mayer-Str. 10,
-D-60629 Frankfurt am Main, Germany, }\and
-Alberto Salda\~{n}a\footnote{Instituto de Matem\'aticas,
+D-60629 Frankfurt am Main, Germany, jarohs@math.uni-frankfurt.de}\hspace{0.5ex}, 
+Alberto Salda\~{n}a
+\footnote{Instituto de Matem\'aticas,
 Universidad Nacional Aut\'onoma de M\'exico. 
 Circuito Exterior, Ciudad Universitaria
-04510 Coyoac\'an, Ciudad de M\'exico, Mexico,\newline alberto.saldana@im.unam.mx}\and  
-Leonard Sinsch 
+04510 Coyoac\'an, Ciudad de M\'exico, Mexico,\newline alberto.saldana@im.unam.mx}\hspace{0.5ex}, and 
+Leonard Sinsch
+\footnote{Institut f\"ur Mathematik,
+Goethe-Universit\"at Frankfurt.
+Robert-Mayer-Str. 10,
+D-60629 Frankfurt am Main, Germany, leo\_s1996@web.de} 
 }
 
 
@@ -2312,7 +2319,7 @@ From here, it is easy to see that $\lambda_{k,h}$ denotes the $k$-the eigenvalue
 We emphasize that the scaling of the logarithmic Laplacian behaves the same in all dimensions. Due to this, and by following the proof of Proposition \ref{prop:eigen-approx} closely, the approach to estimate the eigenvalues of $L_{\Delta}$ in an arbitrary domain $\Omega\subset\R^N$ can be done in an equivalent way, once the stiffness matrix is calculated and Theorem \ref{density:thm} is verified for the corresponding approximation space $\mathcal{V}_h$.
 \end{remark}
 
-\SJ{We close this section with the explicit numerical approximations. In Figure \ref{L vs condition} \SJc{Not done yet; move the picture to the introduction?} the condition of $\mathcal{A}^L_h$ is plotted for a fixed $N$ and varying $L$. The singularities then indicated the relevant areas in which $L$ can be chosen to have $0$ as an eigenvalue in $(-L,L)$. To approximate the exact values, using the \textit{``Golden-section search''} in certain intervals, we find $L_i$ for $i=1,\ldots,6$ as follows.
+\SJ{We close this section with the explicit numerical approximations. In Figure \ref{L vs condition} the condition of $\mathcal{A}^L_h$ is plotted for a fixed $N$ and varying $L$. The singularities then indicated the relevant areas in which $L$ can be chosen to have $0$ as an eigenvalue in $(-L,L)$. To approximate the exact values, using the \textit{``Golden-section search''} in certain intervals, we find $L_i$ for $i=1,\ldots,6$ as follows.
 
 %%
 %%
@@ -2342,19 +2349,17 @@ This follows immediately from Proposition \ref{eigenvalue approximation a}, the 
 
 \begin{figure}[htbp]
 	\centering
-	%
 	\begin{tikzpicture}[scale=1]
-	\begin{axis}[xlabel={$x$},xmin=-1.001,xmax=1.001,legend pos=outer north east,
-	legend plot pos=left, xtick={-1,0,1},
-	legend style={cells={anchor=west},draw=none}]
-	%	    
-	\pgfplotstableread{./Programas/num_results/file200_lambda1.org}\solution      
-	      
-	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
-	%\addlegendentry{Exact solution};
-	
-	\end{axis}
-	%	
+
+\node at (0,0) {\includegraphics[width=\textwidth]{overview_ri.eps}};
+
+\draw (0.6,-5.3) node[circle,color=white,fill=white,minimum size=1cm,draw] (A) {};
+\node at (A) {\large $L$};
+
+\draw[draw=white,fill=white] (-8.5,-0.9) rectangle ++(0.8,3);
+
+\node[rotate=90] at (-8.2,0)   {\large $\textnormal{cond}\mathcal{A}^L_h$};
+
 	\end{tikzpicture}
 
 	\caption{The condition of $\mathcal{A}^L_h$ for $L\in(0.1,10)$ with $N=2000$.}
@@ -2566,27 +2571,6 @@ Citar los artículos:
 \item artículo de Nochetto con otro interpolador
  \item artículos de Feulefack y Remi
 \end{itemize}
-
-\bigskip
-\begin{flushleft}
-\textbf{Víctor Hernández-Santamaría and Alberto Saldaña}\\
-Instituto de Matemáticas\\
-Universidad Nacional Autónoma de México\\
-Circuito Exterior, Ciudad Universitaria\\
-04510 Coyoacán, Ciudad de México, Mexico\\
-E-mails: \texttt{victor.santamaria@im.unam.mx, alberto.saldana@im.unam.mx} 
-\vspace{.3cm}
-\end{flushleft}
-
-\begin{flushleft}
-\textbf{Sven Jarohs and Leonard Sinsch}\\
-Institut f\"ur Mathematik\\
-Goethe-Universit\"at Frankfurt\\
-Robert-Mayer-Str. 10\\
-D-60629 Frankfurt am Main, Germany  \\
-E-mails: \texttt{jarohs@math.uni-frankfurt.de, lleo\_s1996@web.de} 
-\vspace{.3cm}
-\end{flushleft}
 
 
 
