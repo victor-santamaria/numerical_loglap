@@ -152,8 +152,8 @@ Leonard Sinsch
 \maketitle
 
 \abstract{
-We present the numerical analysis of a finite element method (FEM) for one-dimensional Dirichlet problems involving the logarithmic Laplacian, a pseudo-differential operator that appears as a first order expansion of the fractional Laplacian as the exponent $s\to 0^+$. Our analysis exhibits new phenomena in this setting. In particular, using recently obtained regularity results, we prove rigorous error estimates and provide a logarithmic order of convergence in the energy norm by analyzing the problem in suitable \emph{log}-weighted spaces.
-Numerical evidence suggest that this type of rate cannot be improved. Moreover, we show that the stiffness matrix of logarithmic problems can be obtained as the derivative of the fractional stiffness matrix evaluated at $s=0$. Lastly, we investigate the relationship between the discrete eigenvalue problem and its convergence to the continuous one.  We also provide several numerical examples illustrating our results.
+We present the numerical analysis of a finite element method (FEM) for one-dimensional Dirichlet problems involving the logarithmic Laplacian (the pseudo-differential operator that appears as a first order expansion of the fractional Laplacian as the exponent $s\to 0^+$). Our analysis exhibits new phenomena in this setting; in particular, using recently obtained regularity results, we prove rigorous error estimates and provide a logarithmic order of convergence in the energy norm using  suitable \emph{log}-weighted spaces.
+Numerical evidence suggest that this type of rate cannot be improved. Moreover, we show that the stiffness matrix of logarithmic problems can be obtained as the derivative of the fractional stiffness matrix evaluated at $s=0$. Lastly, we investigate the relationship between the discrete eigenvalue problem and its convergence to the continuous one, and we also provide several numerical examples illustrating our results.
 }
 
 \bigskip
@@ -213,7 +213,7 @@ In this work, we focus our analysis to dimension one. This simplified setting al
 
 Furthermore, we believe that several of the ideas involved in the 1D analysis that we present can be generalized to dimensions 2 and 3, but certainly the higher-dimensional case is nontrivial and requires additional new ideas.
 
-Our main result (see Theorem \ref{main:thm:intro} below) states that the FEM numerical approximation of the weak solution converges logarithmically; in particular, we show that the norm of the numerical error can be bounded in terms of $|\ln(h)|^{-\alpha}$, where $h$ is the discretization parameter and $\alpha\in(0,1)$. We also provide numerical evidence that suggests that this kind of logarithmic bounds are optimal, in the sense that no polynomial bound of the type $h^\beta$ for some $\beta>0$ can be expected in general in this setting.  This contrasts with the convergence rate $h^\frac{1}{2}|\ln h|$ observed for the fractional Laplacian for $s\in(0,\frac{1}{2})$ (see \cite[Theorem 3.31]{Bor17}) and the well-known rate $h^2$ for the standard Laplacian.
+Our main result (see Theorem~\ref{main:thm:intro} below) states that the FEM numerical approximation of the weak solution converges logarithmically; in particular, we show that the norm of the numerical error can be bounded in terms of $|\ln(h)|^{-\alpha}$, where $h$ is the discretization parameter and $\alpha\in(0,1)$. We also provide numerical evidence that suggests that this kind of logarithmic bounds are optimal, in the sense that no polynomial bound of the type $h^\beta$ for some $\beta>0$ can be expected in general in this setting.  This contrasts with the convergence rate $h^\frac{1}{2}|\ln h|$ observed for the fractional Laplacian for $s\in(0,\frac{1}{2})$ (see \cite[Theorem 3.31]{Bor17}) and the well-known rate $h^2$ for the standard Laplacian.
 
 To state our main result in more detail, let us introduce some notation. Let $L>0$,
 \begin{align*}
@@ -328,9 +328,12 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
     \end{equation*}
     where $\ell$ is the modulus of continuity given in \eqref{ell:def}.
  \end{theorem}
- Due to the nonlocal nature of $L_\Delta$, we cannot use the standard theory of FEM (note that the norms are not additive with respect to disjoint domains). Instead, for the proof of Theorem \ref{main:thm:intro}, we follow the general strategy implemented in \cite{Bor17}, where the FEM is used to approximate solutions of the fractional Laplacian and to show the convergence of the method.  The overall scheme is as follows: If $u$ is a weak solution that we wish to approximate with a finite element approximation, one defines first an \emph{interpolator} denoted by $I_h u$.  Then, via a localization of the norms (see Lemma \ref{lem:localization_enorm}) one can bound the global interpolation error $\|u-I_h u\|_{\mathbb H(\Omega)}$ (see Proposition \ref{eq:estab_H_c_infty}) in terms of a Hilbert space with logarithmic weights (see \eqref{H:weights:def}).  Then, with a Cea's-Lemma-type result (Lemma \ref{lem:cea_mg}), we can bound the norm $\|u-u_h\|_{\mathbb H(\Omega)}$ in terms of $\|u-I_h u\|_{\mathbb H(\Omega)}$.  Finally, the regularity estimate \eqref{eq:regularity_classical} comes into play to obtain the final estimate stated in Theorem \ref{main:thm:intro}.
 
- However, since the regularity theory for $L_\Delta$ is much less developed than that of $(-\Delta)^s$, key elements in the proofs in \cite{Bor17} have to be changed to fit into the logarithmic Laplacian setting.  For instance, the idea of \emph{trace} plays a key role in order to define the Scott-Zhang interpolator used in \cite{Bor17}. This trace is known to exist in the fractional case because, under suitable assumptions on the right-hand side $f$, regularity estimates for the fractional Laplacian imply that the corresponding weak solutions always belong to $H^{\frac{1}{2}+\eps}(\Omega)$ for some $\eps>0$ (see \cite[Theorem 2.3.6]{Bor17}), which is a Hilbert space with trace.  There is no such result for the logarithmic Laplacian $L_\Delta$.  Although Theorem \ref{eq:regularity} implies that weak solutions are log-Hölder continuous, it is not known if these solutions belong to a suitable Hilbert space with trace.
+ \Bc{We need to write a proper proof of Theorem \ref{main:thm:intro}.}
+
+ Due to the nonlocal nature of $L_\Delta$, we cannot use the standard theory of FEM (note that the norms are not additive with respect to disjoint domains). Instead, for the proof of Theorem~\ref{main:thm:intro}, we follow the general strategy implemented in \cite{Bor17}, where the FEM is used to approximate solutions of the fractional Laplacian and to show the convergence of the method.  The overall scheme is as follows: If $u$ is a weak solution that we wish to approximate with a finite element approximation, one defines first an \emph{interpolator} denoted by $I_h u$.  Then, via a localization of the norms (see Lemma~\ref{lem:localization_enorm}) one can bound the global interpolation error $\|u-I_h u\|_{\mathbb H(\Omega)}$ (see Proposition~\ref{eq:estab_H_c_infty}) in terms of a Hilbert space with logarithmic weights (see \eqref{H:weights:def}).  Then, with a Cea's-Lemma-type result (Lemma~\ref{lem:cea_mg}), we can bound the norm $\|u-u_h\|_{\mathbb H(\Omega)}$ in terms of $\|u-I_h u\|_{\mathbb H(\Omega)}$.  Finally, the regularity estimate \eqref{eq:regularity_classical} comes into play to obtain the final estimate stated in Theorem~\ref{main:thm:intro}.
+
+ However, since the regularity theory for $L_\Delta$ is much less developed than that of $(-\Delta)^s$, key elements in the proofs in \cite{Bor17} have to be changed to fit into the logarithmic Laplacian setting.  For instance, the idea of \emph{trace} plays a key role in order to define the Scott-Zhang interpolator used in \cite{Bor17}. This trace is known to exist in the fractional case because, under suitable assumptions on the right-hand side $f$, regularity estimates for the fractional Laplacian imply that the corresponding weak solutions always belong to $H^{\frac{1}{2}+\eps}(\Omega)$ for some $\eps>0$ (see \cite[Theorem 2.3.6]{Bor17}), which is a Hilbert space with trace.  There is no such result for the logarithmic Laplacian $L_\Delta$.  Although Theorem~\ref{eq:regularity} implies that weak solutions are log-Hölder continuous, it is not known if these solutions belong to a suitable Hilbert space with trace.
 
  As a consequence, we use a simpler interpolator: the projection to $\mathcal V_h$ in the $L^2$-sense (see \eqref{eq:interpolator}). Because of this, in our approach, it is important to consider two discontinuous elements in the finite element basis (see \eqref{eq:def_basis_ext}).  This might seem odd, in virtue of the Dirichlet boundary conditions, but in fact this is required in our analysis and numerical experiments show that the presence of these two discontinuous elements improves the numerical approximation of logarithmic problems.
 
@@ -350,15 +353,51 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
  \begin{align*}
  \mathcal A_{h}^{L}=\partial_s \mathcal A_{h}^{s}|_{s=0},
  \end{align*}
- see Lemma \ref{lem:derivative:s:m}.  This is possible, since a closed formula for the stiffness matrix $\mathcal A_{h}^{s}$ has been obtained in \cite{BH17}.  This can be seen as a discrete version of the expansion \eqref{intro:exp} in terms of the stiffness matrix. 
+ see Lemma~\ref{lem:derivative:s:m}.  This is possible, since a closed formula for the stiffness matrix $\mathcal A_{h}^{s}$ has been obtained in \cite{BH17}.  This can be seen as a discrete version of the expansion \eqref{intro:exp} in terms of the stiffness matrix.
  
- Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, here we had to calculate only the corresponding entries, see Section \ref{sec:s:m}.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section \ref{sec:s:m:log}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ and not on the length $L$ of the interval $\Omega$.  Therefore, the formula for $\mathcal A_{h}^{L}$ applies to logarithmic problems on any interval splitted into $N+1=\frac{L}{h}$ subintervals.
+ Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, here we had to calculate only the corresponding entries, see Section~\ref{sec:s:m}.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section~\ref{sec:s:m:log}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ and not on the length $L$ of the interval $\Omega$.  Therefore, the formula for $\mathcal A_{h}^{L}$ applies to logarithmic problems on any interval splitted into $N+1=\frac{L}{h}$ subintervals.
+
+
+
+Using this approach, we also investigate the (Dirichlet) eigenvalues of the logarithmic Laplacian $L_{\Delta}$ in an interval $(-L,L)$ for some $L>0$. As shown in \cite[Theorem 1.4]{CW19}, the eigenvalues of $L_{\Delta}$ in a bounded domain are a sequence such that $\lambda_1<\lambda_2\leq \ldots\leq\lambda_n\to \infty$ for $n\to\infty$.  Moreover, by using scalings (see \cite[Lemma 2.5]{LW21}) it holds that if $\lambda_k(\Omega)$ denotes the $k$-th eigenvalue of $L_{\Delta}$ in a bounded interval $\Omega$, then $\lambda_k(R\Omega)=\lambda_k(\Omega)-2\ln(R)$ for $R>0$. In Section~\ref{eigenvalue approximation:sec} we first show that the eigenvalues of the stiffness matrix defined in \eqref{s:m:intro} converge to the eigenvalues of the logarithmic Laplacian as the discretization parameter $N$ tends to infinity, see Proposition~\ref{prop:eigen-approx} below. Knowing from the scaling properties that, by sending $L$ to infinity, there are $L_i>0$ such that $\lambda_i=0$ in $(-L_i,L_i)$  for $i\in \N$ (see Figure~\ref{L vs condition}), it is enough to estimate the cases in which $0$ is an eigenvalue of $\mathcal{A}^L_h$. Then, we use scalings to approximate the eigenvalues in a general interval. To be precise, we have the following result.
+\begin{proposition}\label{eigenvalue approximation}
+For $L>0$ the eigenvalues of $L_{\Delta}$ in $(-L,L)$ are given by $\lambda_k=2\ln(L_k/L)$, $k\in \N$, where, for each $k\in \N$, the value $L_k>0$ is such that zero is an eigenvalue of $L_{\Delta}$ in $(-L_k,L_k)$. Moreover, for $k\in\{1,\ldots,6\}$, $L_k$ is given approximately by
+\begin{equation*}
+L_1\approx 0.7090, \quad L_2\approx 2.3787,\quad L_3\approx 3.9110,\quad L_4\approx 5.5077, \quad L_5\approx 7.0608,\quad L_6\approx 8.6461.
+\end{equation*}
+\end{proposition}
+%
+%To show here the simplicity of the eigenvalues, we use the simplicity of the (Dirichlet) eigenvalues of the fractional Laplacian $(-\Delta)^s$ in the interval $(-L,L)$, see \cite{add references}.
+
+In view of Proposition~\ref{eigenvalue approximation}, the first six eigenvalues of $L_{\Delta}$ in $(-1,1)$ are given approximately by
+\begin{equation*}
+\lambda_1\approx -0.6878, \quad \lambda_2\approx 1.7331,\quad \lambda_3\approx 3.9110,\quad \lambda_4\approx 2.7276, \quad \lambda_5\approx 3.9091,\quad \lambda_6\approx 4.3142.
+\end{equation*}
+This can be seen in relation to the numerical approximation of the eigenvalues $\lambda_{k}^s$, $k\in\N$, $s\in(0,1)$ of the fractional Laplacian $(-\Delta)^s$ in $(-1,1)$ given in \cite{K12} in combination to the fact that it holds $\lambda_k^s=1+s\lambda_k+o(s)$ as $s\to 0^+$ for any $k\in\N$, see \cite{FJW22}. Indeed, from \cite[Table 1]{K12} (using only the numerical approximations) we have the following.
+\begin{center}
+\begin{tabular}{c|cc|cc|cc}
+$s$ & $\lambda_1^s$ &$1+s\lambda_1$  & $\lambda_2^s$ &$1+s\lambda_2$ & $\lambda_3^s$ &$1+s\lambda_3$\\
+\hline
+0.005 & 0.997 & 0.9966 & 1.009 & 1.0087 & 1.014 & 1.0196\\
+0.05  & 0.973 & 0.9656 & 1.092 & 1.0867 & 1.148 & 1.1956\\
+0.1   & 0.957 & 0.9312 & 1.197 & 1.1733 & 1.320 & 1.3911
+\end{tabular}
+\end{center}
+
+
+
+
+
+
+
+
+
 
 To close this introduction, we discuss some numerical approximations.  First, we analyze the torsion function, namely, the solution of the equation
 \begin{align}\label{t:p:intro}
  L_\Delta \tau = 1\quad \text{ in }(-L,L),\qquad \tau=0\quad \text{ on }\R\backslash (-L,L)
 \end{align}
-for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of \eqref{t:p:intro} does not have a closed formula. In fact, the numerical approximations show that the shape of the torsion functions changes drastically as the length of the domain $L>0$ increases, see Figure \ref{Fig:t:f}. In particular, for $L=0.1$ the torsion function is positive in $(-L,L)$.  This is consistent with the known fact that the maximum principle for the logarithmic Laplacian only holds in small domains, see \cite[Corollary 1.9]{CW19}. For $L=1$ we observe that the maximum principle does not hold anymore and the solution is \emph{negative} in $(-L,L)$ (which is sometimes referred to as an antimaximum principle) and for $L=8$ the torsion function exhibits oscillations and changes sign. These last two phenomena have not been described theoretically so far.
+for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of \eqref{t:p:intro} does not have a closed formula. In fact, the numerical approximations show that the shape of the torsion functions changes drastically as the length of the domain $L>0$ increases, see Figure~\ref{Fig:t:f}. In particular, for $L=0.1$ the torsion function is positive in $(-L,L)$.  This is consistent with the known fact that the maximum principle for the logarithmic Laplacian only holds in small domains, see \cite[Corollary 1.9]{CW19}. For $L=1$ we observe that the maximum principle does not hold anymore and the solution is \emph{negative} in $(-L,L)$ (which is sometimes referred to as an antimaximum principle) and for $L=8$ the torsion function exhibits oscillations and changes sign. These last two phenomena have not been described theoretically so far.
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -414,42 +453,14 @@ for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of
 	\label{Fig:t:f}
 \end{figure}
 
-We have also tested our algorithm with some explicit solutions. We refer to Section \ref{sec:numerics} for more approximations and a discussion on the optimality of the logarithmic rate given in Theorem \ref{main:thm:intro}.
-
-\SJ{Finally, to close the paper, we investigate the (Dirichlet) eigenvalues of the logarithmic Laplacian $L_{\Delta}$ in an interval $(-L,L)$ for some $L>0$. As shown in \cite[Theorem 1.4]{CW19}, the eigenvalues of $L_{\Delta}$ in a bounded domain are a sequence such that $\lambda_1<\lambda_2\leq \ldots\leq\lambda_n\to \infty$ for $n\to\infty$.  Moreover, by using scalings (see \cite[Lemma 2.5]{LW21}) it holds that if $\lambda_k(\Omega)$ denotes the $k$-th eigenvalue of $L_{\Delta}$ in a bounded $\Omega$, then $\lambda_k(R\Omega)=\lambda_k(\Omega)-2\ln(R)$ for $R>0$. In Section \ref{eigenvalue approximation:sec} we first show that the eigenvalues of the stiffness matrix defined in \eqref{s:m:intro} converge to the eigenvalues of the logarithmic Laplacian for $N\to \infty$, see Proposition \ref{prop:eigen-approx} below. Knowing from the scaling properties that, by sending $L$ to infinity, there are $L_i>0$ such that $\lambda_i=0$ in $(-L_i,L_i)$  for $i\in \N$, see Figure \ref{L vs condition}, it is enough to estimate the cases in which $0$ is an eigenvalue of $\mathcal{A}^L_h$. Using again the scaling properties, we may infer from this an approximation of the eigenvalues in a general interval. To be precise, we have
-\begin{proposition}\label{eigenvalue approximation}
-For $L>0$ the eigenvalues of $L_{\Delta}$ in $(-L,L)$ are given by $\lambda_k=2\ln(L_k/L)$, $k\in \N$, where for each $k\in \N$ the value $L_k>0$ is such that zero is an eigenvalue of $L_{\Delta}$ in $(-L_k,L_k)$. Moreover, for $k\in\{1,\ldots,6\}$, $L_k$ is given approximately by
-\begin{equation*}
-L_1\approx 0.7090, \quad L_2\approx 2.3787,\quad L_3\approx 3.9110,\quad L_4\approx 5.5077, \quad L_5\approx 7.0608,\quad L_6\approx 8.6461.
-\end{equation*}
-\end{proposition}
-%
-%To show here the simplicity of the eigenvalues, we use the simplicity of the (Dirichlet) eigenvalues of the fractional Laplacian $(-\Delta)^s$ in the interval $(-L,L)$, see \cite{add references}.
-
-In view of Proposition \ref{eigenvalue approximation}, the first six eigenvalues of $L_{\Delta}$ in $(-1,1)$ are given approximately by
-\begin{equation*}
-\lambda_1\approx -0.6878, \quad \lambda_2\approx 1.7331,\quad \lambda_3\approx 3.9110,\quad \lambda_4\approx 2.7276, \quad \lambda_5\approx 3.9091,\quad \lambda_6\approx 4.3142.
-\end{equation*}
-This can be seen in relation to the numerical approximation of the eigenvalues $\lambda_{k}^s$, $k\in\N$, $s\in(0,1)$ of the fractional Laplacian $(-\Delta)^s$ in $(-1,1)$ given in \cite{K12} in combination to the fact that it holds $\lambda_k^s=1+s\lambda_k+o(s)$ for $s\to 0^+$ and any $k\in\N$ in view of the results in \cite{FJW22}. Indeed, from \cite[Table 1]{K12} (using only the numerical approximations) we have the following.
-\begin{center}
-\begin{tabular}{c|cc|cc|cc}
-$s$ & $\lambda_1^s$ &$1+s\lambda_1$  & $\lambda_2^s$ &$1+s\lambda_2$ & $\lambda_3^s$ &$1+s\lambda_3$\\
-\hline
-0.005 & 0.997 & 0.9966 & 1.009 & 1.0087 & 1.014 & 1.0196\\
-0.05  & 0.973 & 0.9656 & 1.092 & 1.0867 & 1.148 & 1.1956\\
-0.1   & 0.957 & 0.9312 & 1.197 & 1.1733 & 1.320 & 1.3911
-\end{tabular}
-\end{center}
-}
-
-
-The paper is organized as follows.
-\SJ{After some introduction of our notation in Section \ref{sec:notation}, we present in Section \ref{sec:localization-norm} the tools on how to localize and discretize the $\mathbb{H}$-norm. The main goal in this section is to provide the convergence of the method, see Theorem \ref{density:thm}. In Section \ref{sec:estimates} we give several interpolation-type estimates and in Section \ref{sec:error} we complete the proof of Theorem \ref{main:thm:intro}, see Theorem \ref{thm:main-thm proof}. We complete this theoretical approach to the numerical approximation by calculating the stiffness matrix explicitly in Section \ref{sec:stiffness} and giving various numerical illustrations in Section \ref{sec:numerics}. Finally, in Section \ref{eigenvalue approximation:sec}, we give the proof of Proposition \ref{eigenvalue approximation} and show that the eigenvalues of the stiffness matrix converge to eigenvalues of $L_{\Delta}$, see Proposition \ref{prop:eigen-approx}.
-}
+We have also tested our algorithm with some explicit solutions. We refer to Section~\ref{sec:numerics} for more approximations and a discussion on the optimality of the logarithmic rate given in Theorem~\ref{main:thm:intro}.
 
 
 
-\section{Notation} \label{sec:notation}
+The paper is organized as follows. In Section~\ref{sec:localization-norm} we present the localization of the $\mathbb{H}$-norm. The main goal in this section is to provide the convergence of the method, see Theorem~\ref{density:thm} and some interpolation-type estimates. In Section~\ref{sec:error} we give the proof of Theorem~\ref{main:thm:intro}, see Theorem~\ref{thm:main-thm proof}. We calculate explicitly the stiffness matrix for the logarithmic Laplacian in Section~\ref{sec:stiffness} and we discuss the optimality of the convergence rate in Section~\ref{sec:numerics}. Finally, in Section~\ref{eigenvalue approximation:sec}, we give the proof of Proposition~\ref{eigenvalue approximation} and show that the eigenvalues of the stiffness matrix converge to eigenvalues of $L_{\Delta}$, see Proposition~\ref{prop:eigen-approx}.
+
+
+\section*{Notation} \label{sec:notation}
 
 Let
 \begin{align}\label{constants}
@@ -457,7 +468,7 @@ Let
 \end{align}
 where $\gamma=-\Gamma'(1)$ is the Euler-Mascheroni constant, and $\psi=\frac{\Gamma'}{\Gamma}$ is the Digamma function.
 
-\subsection{Log-Hölder moduli of continuity}
+\subsection*{Log-Hölder moduli of continuity}
 
 The modulus of continuity $\ell$ (defined in \eqref{ell:def}) satisfies the following property.
 
@@ -469,7 +480,7 @@ There is $c>0$ such that
 \end{lemma}
 For a proof, see \cite[Lemma 3.2]{CS22}.
 
-\subsection{Variational setting}
+\subsection*{Variational setting}
 Let $L>0$, $\Omega:=(0,L)$, $B_1(\Omega):=(-1,L+1)$. For $u\in \mH(\Omega)$, we have that
 \begin{align*}
     \|u\|^2_{\mathbb H(\Omega)}&=\int_{\R}\int_{B_1(x)}\frac{|u(x)-u(y)|^2}{|x-y|}\, dy\, dx\\
@@ -494,7 +505,7 @@ For any $\beta>0$,
 where $\delta(x)=\operatorname{dist}(x,\partial \Omega)$ and $\ell$ is given in \eqref{ell:def}. 
 
 
-\subsection{The discrete space $\mathcal V_h$}
+\subsection*{The discrete space $\mathcal V_h$}
 
 Let $N\in \mathbb N$, $h:=\frac{L}{N+1},$ $x_i:=ih,$ and 
 \begin{align*}
@@ -860,13 +871,13 @@ By making minor adjustments to the proof of  \Cref{lem:stab_dif_interp}, we can 
 \begin{equation*}
     |v-I_hv|_{L^2(\Omega_i)} \leq C h^3, \quad  v\in C_c^\infty(\Omega).
 \end{equation*}
-Indeed, let $i\in\inter{0,N}$, $U=({x_i-2h},{x_{i}+2h})$, and $\overline{v}:=\frac{1}{U}\int_U v\, dx$; then, by Lemmas \ref{lem:poincare_type} and \ref{lem:loc_norm_interp},
+Indeed, let $i\in\inter{0,N}$, $U=({x_i-2h},{x_{i}+2h})$, and $\overline{v}:=\frac{1}{U}\int_U v\, dx$; then, by Lemmas~\ref{lem:poincare_type} and~\ref{lem:loc_norm_interp},
 \begin{align}
 |v-I_hv|^2_{L^2(\Omega_i)}
 \leq C|v-\overline{v}|_{L^2(\Omega_i)}^2 +|I_h(v-\overline{v})|^2_{L^2(\Omega_i)}
 \leq Ch^3+Ch\sum_{k\in I_i^\prime}a_k^2,\label{a2}
 \end{align}
-where $a_k=\frac{1}{h}\int_{x_{k-1}}^{x_{k+1}} (v-\overline{v})\varphi_k\, dx$ and $|a_k|\leq \frac{1}{h}\int_{x_i-2h}^{x_{i}+2h}|v-\overline{v}|\, dx$. By Lemma \ref{lem:poincare_type},
+where $a_k=\frac{1}{h}\int_{x_{k-1}}^{x_{k+1}} (v-\overline{v})\varphi_k\, dx$ and $|a_k|\leq \frac{1}{h}\int_{x_i-2h}^{x_{i}+2h}|v-\overline{v}|\, dx$. By Lemma~\ref{lem:poincare_type},
 \begin{equation}
     |v-\overline{v}|_{L^2(U)}^2\leq Ch^3.
 \end{equation}
@@ -896,7 +907,7 @@ since $h=\frac{L}{N+1}$. Since $v\in C_c^\infty(\Omega)$, a direct computation a
     & \leq Ch^2+Ch^2\ell^{-1}(h)+C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1-\alpha}(\delta(x))\,dx.
 \end{align*}
 %
-Using Lemma \ref{lem:ellbeta} and since $h\leq \ell^{\frac{1+\alpha}{2}}(h)$ for any $h\leq h_0$ for some $h_0>0$ only depending on $\alpha$, we obtain
+Using Lemma~\ref{lem:ellbeta} and since $h\leq \ell^{\frac{1+\alpha}{2}}(h)$ for any $h\leq h_0$ for some $h_0>0$ only depending on $\alpha$, we obtain
 %
 \begin{align*}
     \|v-I_h v\|_{\mathbb H(\Omega)}
@@ -944,7 +955,7 @@ where we have used that $\|\Pi_h\|_*=1$ and property \eqref{eq:prop_infimo}. Las
 \end{proof}
 
 
-\section{Quasi-interpolation estimates}\label{sec:estimates}
+\subsection{Quasi-interpolation estimates}\label{sec:estimates}
 
 \begin{lemma}\label{lem:poincare_type_weight}
 Let $\alpha>0$, $U\subset \R$ be an open bounded interval, $v\in \mathbb H^{\alpha}(U;\ell)$, and $\overline v=\frac{1}{|U|}\int_{U}v\, dx$, then,
@@ -1144,13 +1155,13 @@ Since $(u_n)$ is bounded in $\mathbb H(\Omega)$, then there is $u\in \mathbb H(\
     &=\cE(u_n,u_n-u)-\cE(u,u_n-u)\notag\\
     &=\cE_L(u_n,u_n-u)-B(u_n,u_n-u)-\cE(u,u_n-u),\label{007}
 \end{align}
-where $B$ is given by \eqref{eq:bilinear_B}.  In particular, $B$ is a bilinear continuous operator in $L^2(\Omega)$.  Note that $\cE(u,u_n-u)\to 0$ as $n\to \infty$ by weak convergence in $\mathbb H(\Omega)$, $B(u_n,u_n-u)\to 0$ as $n\to \infty$ by strong convergence in $L^2(\Omega)$. By Theorem \ref{density:thm}, there is a sequence $(\widetilde u_n)$ in $\mathcal V_h$ such that $\widetilde u_n\to u$ in $\mathbb H(\Omega)$ as $n\to \infty$, as a consequence,
+where $B$ is given by \eqref{eq:bilinear_B}.  In particular, $B$ is a bilinear continuous operator in $L^2(\Omega)$.  Note that $\cE(u,u_n-u)\to 0$ as $n\to \infty$ by weak convergence in $\mathbb H(\Omega)$, $B(u_n,u_n-u)\to 0$ as $n\to \infty$ by strong convergence in $L^2(\Omega)$. By Theorem~\ref{density:thm}, there is a sequence $(\widetilde u_n)$ in $\mathcal V_h$ such that $\widetilde u_n\to u$ in $\mathbb H(\Omega)$ as $n\to \infty$, as a consequence,
 \begin{align*}
     \cE_L(u_n,u_n-u)
     &=\cE_L(u_n,u_n-\widetilde u_n)+\cE_L(u_n,\widetilde u_n-u)\\
     &\leq \frac{\cE_L(u_n,u_n-\widetilde u_n)}{\|u_n-\widetilde u_n\|_{\mathbb H(\Omega)}}\|u_n-\widetilde u_n\|_{\mathbb H(\Omega)}+\cE_L(u_n,\widetilde u_n-u) \to 0\qquad \text{ as }n\to \infty,
 \end{align*}
-by \eqref{ccea} and arguing as in \eqref{007}, because $(u_n-\widetilde u_n)_{n\in\N}$ and $(u_n)$ are bounded in $\mathbb H(\Omega)$.  As a consequence, $u_n\to u$ in $\mathbb H(\Omega)$ as $n\to\infty$. Then $\|u\|_{\mathbb H(\Omega)}=1$. Let $w\in \mathbb H(\Omega)\backslash \{0\}$ and let $(w_n)\subset \mathcal V_h$ such that $w_n\to w$ in $\mathbb H(\Omega)$ as $n\to \infty$ (see Theorem \ref{density:thm}), then
+by \eqref{ccea} and arguing as in \eqref{007}, because $(u_n-\widetilde u_n)_{n\in\N}$ and $(u_n)$ are bounded in $\mathbb H(\Omega)$.  As a consequence, $u_n\to u$ in $\mathbb H(\Omega)$ as $n\to\infty$. Then $\|u\|_{\mathbb H(\Omega)}=1$. Let $w\in \mathbb H(\Omega)\backslash \{0\}$ and let $(w_n)\subset \mathcal V_h$ such that $w_n\to w$ in $\mathbb H(\Omega)$ as $n\to \infty$ (see Theorem~\ref{density:thm}), then
 \begin{align*}
     \frac{\cE_{L}(u,w)}{\|w\|_{\mathbb H(\Omega)}}=\lim_{n\to\infty}\frac{\cE_{L}(u_n,w_n)}{\|w_n\|_{\mathbb H(\Omega)}}\leq \lim_{n\to\infty}\sup_{v\in \mathcal V_h}\frac{\cE_{L}(u_n,v)}{\|v\|_{\mathbb H(\Omega)}}\leq \lim_{n\to\infty}\frac{1}{n}=0.
 \end{align*}
@@ -1370,7 +1381,7 @@ for some constant $C>0$ uniform with respect to $h$. By \Cref{prop:more_regulari
 %     &\geq 3^{-N}\int_{\Omega_1}|u(x)|^2\int_{A_x}|x_0-y|^{-N}\, dy\, dx\geq \frac{1}{2\omega_N 3^N}\int_{\Omega_1}|u(x)|^2\int_{\delta(x)}^{r_0}\rho^{-1}\, d\rho\, dx\notag\\
 %     &=\frac{1}{2\omega_N 3^N}\int_{\Omega_1}|u(x)|^2\left|\ln\left(\frac{\delta(x)}{r_0}\right)\right|\, dx\geq C_1\int_{\Omega_1}\frac{|u(x)|^2}{\ell(\delta(x))}\, dx\label{H2}
 % \end{align}
-% for some $C_1=C_1(\Omega)>0$ (using Lemma \ref{prop1} together with the fact that $\frac{\delta(x)}{r_0}<\frac{1}{10}$) and
+% for some $C_1=C_1(\Omega)>0$ (using Lemma~\ref{prop1} together with the fact that $\frac{\delta(x)}{r_0}<\frac{1}{10}$) and
 % \begin{align}
 %     T_2&:=\int_{\Omega_2}|u(x)|^2\int_{B_R(x)\backslash (\Omega\cup B_{\delta(x)}(x_0))}|x-y|^{-N}\, dy\, dx\notag\\
 %     &\geq (3R)^{-N}|B_R| \int_{\Omega_2}|u(x)|^2\frac{\ell(\delta(x))}{\ell(\delta(x))}\, dx
@@ -1449,7 +1460,7 @@ We claim that
 \begin{align}\label{aux:1}
 \lim_{s\to 0}\left\|\frac{(-\Delta)^s \varphi_i-\varphi_i}{s}-L_\Delta \varphi_i    \right\|_{L^p(\R)}=0\qquad \text{for $i=0,\ldots,N+1$ and $1<p<\infty$.}
 \end{align}
-For $i=1,\ldots,N$, this follows directly from \cite[Theorem 1.1]{CW19}, because $\varphi_i$ is Lipschitz continuous in $\R$.  However, the functions $\phi_0$ and $\phi_{N+1}$ have a jump discontinuity at 0 and at $L$, respectively.  Nevertheless, the proof of \cite[Theorem 1.1]{CW19} can be adapted to this case with obvious changes.  For the reader's convenience we include a brief proof in the appendix (see Lemma \ref{phi0:conv}). Then, integrating by parts (see Lemma \ref{ibyp:lem}) and using \eqref{aux:1},
+For $i=1,\ldots,N$, this follows directly from \cite[Theorem 1.1]{CW19}, because $\varphi_i$ is Lipschitz continuous in $\R$.  However, the functions $\phi_0$ and $\phi_{N+1}$ have a jump discontinuity at 0 and at $L$, respectively.  Nevertheless, the proof of \cite[Theorem 1.1]{CW19} can be adapted to this case with obvious changes.  For the reader's convenience we include a brief proof in the appendix (see Lemma~\ref{phi0:conv}). Then, integrating by parts (see Lemma~\ref{ibyp:lem}) and using \eqref{aux:1},
 \begin{align*}
 \partial_s b_{ij}^s\mid_{s=0}&=\partial_s\cE_s(\varphi_i,\varphi_j)\mid_{s=0}=
 \partial_s\int_{\R} (-\Delta)^s\varphi_i \varphi_j\, dx\mid_{s=0}\\
@@ -1508,7 +1519,7 @@ Note that
 \end{align*}
 where 
 
-% In Fig. \ref{upp_dia}, we give a scheme of the regions of interactions between the basis functions $\varphi_i(x)$ and $\varphi_i(y)$ enlightening the domain of integration of the $R_i$. The regions in grey are the ones that produce a contribution to $a_{0,0}$, while on the regions in white the integrals will be zero.
+% In Fig.~\ref{upp_dia}, we give a scheme of the regions of interactions between the basis functions $\varphi_i(x)$ and $\varphi_i(y)$ enlightening the domain of integration of the $R_i$. The regions in grey are the ones that produce a contribution to $a_{0,0}$, while on the regions in white the integrals will be zero.
 % \begin{figure}
 % \figinit{0.7pt}
 % % Axes
@@ -1843,7 +1854,7 @@ and $\psi$ is the digamma function and $\gamma=-\psi(1)$
 
 \section{Numerical evidence and illustrations}\label{sec:numerics}
 
-Trying to characterize a logarithmic convergence rate numerically is a difficult and challenging problem from the numerical perspective. In this section we discuss some partial evidence for the optimality of the logarithmic convergence rate stated in Theorem \ref{main:thm:intro} and we show numerical approximations of some explicit solutions.  
+Trying to characterize a logarithmic convergence rate numerically is a difficult and challenging problem from the numerical perspective. In this section we discuss some partial evidence for the optimality of the logarithmic convergence rate stated in Theorem~\ref{main:thm:intro} and we show numerical approximations of some explicit solutions.
 
 \subsection{On the optimality of the convergence rate}
 
@@ -1860,7 +1871,7 @@ This choice is justified by the following facts
  \item $u$ has a uniformly bounded logarithmic Laplacian in $(-1,1)$ (as a direct nontrivial calculation shows),
  \item has the optimal boundary regularity\footnote{This is needed to observe the optimal convergence rate. Indeed, solutions which are smoother typically yield better convergence rates, see, for instance, \cite[Section 5 and Table 2]{AB17} for the case of the fractional Laplacian.} for logarithmic Dirichlet problems, namely, it behaves as $\ell^{1/2}(d(x))$ (see the Introduction for the definition of $d$ and $\ell$).
 \end{itemize}
- Here we only observe these facts numerically (see Figures \ref{fig:1} and \ref{fig:2}), but we will present a detailed proof in a forthcoming paper. See also \cite[Theorem 1.11]{CW19} and \cite[Remark~1.5]{FJW22}.
+ Here we only observe these facts numerically (see Figures~\ref{fig:1} and~\ref{fig:2}), but we will present a detailed proof in a forthcoming paper. See also \cite[Theorem 1.11]{CW19} and \cite[Remark~1.5]{FJW22}.
 
 
 %%%%%%%%%%%%%%%
@@ -1893,7 +1904,7 @@ where $A_h$ is the stiffness matrix for the logarithmic Laplacian given in \eqre
 \begin{align}\label{vdef}
 v_h(x):=\sum_{i=0}^{N+1}\alpha_i \phi_i(x), 
 \end{align}
-which is a good approximation for $u_h$ (defined in Theorem \ref{main:thm:intro}), see Figure \ref{fig:2}.
+which is a good approximation for $u_h$ (defined in Theorem~\ref{main:thm:intro}), see Figure~\ref{fig:2}.
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -1923,7 +1934,7 @@ which is a good approximation for $u_h$ (defined in Theorem \ref{main:thm:intro}
 	\label{fig:2}
 \end{figure}
 
-As seen in Figure \ref{fig:2}, the largest error ocurrs close to the boundary of the interval, where the function $u$ has a logarithmic behavior.  To quantify this error we compute the following quantities,
+As seen in Figure~\ref{fig:2}, the largest error ocurrs close to the boundary of the interval, where the function $u$ has a logarithmic behavior.  To quantify this error we compute the following quantities,
 \begin{align*}
  a_h&:=\left(\int_{-1}^1 |u-v_h|^2\, dx\right)^\frac{1}{2}\qquad \text{(the $L^2$-norm of the error between $u$ and $v$)},\\
  b_h&:=\left(\int_{-1+h}^{1-h} |u-v_h|^2\, dx\right)^\frac{1}{2}\qquad \text{(a local $L^2$-norm of the error between $u$ and $v$)},\\
@@ -1932,7 +1943,7 @@ As seen in Figure \ref{fig:2}, the largest error ocurrs close to the boundary of
 
 We remark that $b_h$ gives information on the error rate in the interior of the interval, slightly far away from the endpoints. 
 
-We are particularly interested in exhibiting evidence for the optimality of the logarithmic rate in Theorem \ref{main:thm:intro}.  For this, we compute these quantities for different values of $h$ and describe the behavior of the error curve, which we show in Figure \ref{fig:3}.
+We are particularly interested in exhibiting evidence for the optimality of the logarithmic rate in Theorem~\ref{main:thm:intro}.  For this, we compute these quantities for different values of $h$ and describe the behavior of the error curve, which we show in Figure~\ref{fig:3}.
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -1991,9 +2002,9 @@ We are particularly interested in exhibiting evidence for the optimality of the 
 	\label{fig:3}
 \end{figure}
 
-Note that these curves are not straight lines. This contrasts with the typical behavior of algorithms with convergence rate of order $h^p$ for some $p>0$; in particular, this is the case of the fractional Laplacian, see for instance \cite[Figure 8]{BH17}, \cite[Figure 1]{AB17}, and Table \ref{table:frac_lap} in the Appendix.  This suggests that the optimal convergence rate for the logarithmic Laplacian is \emph{not} of power-type, as suggested in Theorem \ref{main:thm:intro}.
+Note that these curves are not straight lines. This contrasts with the typical behavior of algorithms with convergence rate of order $h^p$ for some $p>0$; in particular, this is the case of the fractional Laplacian, see for instance \cite[Figure 8]{BH17}, \cite[Figure 1]{AB17}, and Table~\ref{table:frac_lap} in the Appendix.  This suggests that the optimal convergence rate for the logarithmic Laplacian is \emph{not} of power-type, as suggested in Theorem~\ref{main:thm:intro}.
 
-Although the curve in Figure \ref{l2_ah} looks almost straight, a computation of its slope (with respect to consecutive points) shows otherwise, as presented in Table \ref{table:1}.
+Although the curve in Figure~\ref{l2_ah} looks almost straight, a computation of its slope (with respect to consecutive points) shows otherwise, as presented in Table~\ref{table:1}.
 
 
 \begin{table}[h!]
@@ -2062,7 +2073,7 @@ after row=\bottomrule},
 
 We mention that this behavior is robust with respect to the size of the interval.  Below we present the same experiment for the function 
 $w(x)=\left(
--\ln\left(\frac{1}{2}-2x^2\right)\right)^{-\frac{1}{2}} \chi_{(-\frac{1}{2},\frac{1}{2})}(x)$, obtaining again nonconstant decreasing slopes, see Table \ref{table:2}. 
+-\ln\left(\frac{1}{2}-2x^2\right)\right)^{-\frac{1}{2}} \chi_{(-\frac{1}{2},\frac{1}{2})}(x)$, obtaining again nonconstant decreasing slopes, see Table~\ref{table:2}.
 
 
 
@@ -2132,7 +2143,7 @@ after row=\bottomrule},
 
 
 \begin{remark}
-Let $u$ as in \eqref{udef} and $v$ as in \eqref{vdef}.  Let $u_h$ be the FEM approximation of $u$ given by Theorem \ref{main:thm:intro}.  Then, by \eqref{c:em}, there is $C=C(\Omega)>0$ such that
+Let $u$ as in \eqref{udef} and $v$ as in \eqref{vdef}.  Let $u_h$ be the FEM approximation of $u$ given by Theorem~\ref{main:thm:intro}.  Then, by \eqref{c:em}, there is $C=C(\Omega)>0$ such that
 \begin{align*}
 C\|u-u_h\|^2_{\mathbb H(\Omega)}
 \geq
@@ -2141,7 +2152,7 @@ C\|u-u_h\|^2_{\mathbb H(\Omega)}
 +2\int_\Omega  (u-v_h)(v_h-u_h)\, dx
 +\|v_h-u_h\|^2_{L^2(\Omega)}.
 \end{align*}
-In Table \ref{table:1}, we see evidence that the norm $a_h^2:=\|u-v_h\|^2_{L^2(\Omega)}$ does not decay as $h^p$ for any $p>0$. We do not have an exact estimate for the norm $R_h:=\|v_h-u_h\|^2_{L^2(\Omega)}$, but this is not important to establish that the norm $E_h:=\|u-u_h\|^2_{\mathbb H(\Omega)}$ does not decay as a power.  Indeed, if the term $R_h=O(h^p)$ for some $p>0$, then $E_h=O(a_h^2)$, which does not decay as a power.  On the other hand, if $R_h$ has a worse decay than $a_h^2$, then this decay dominates and therefore $E_h$ does not decay as power also in this case.  Summarizing,   Table \ref{table:1} does present relevant evidence on the optimality of the type of rate shown in Theorem \ref{main:thm:intro}.
+In Table~\ref{table:1}, we see evidence that the norm $a_h^2:=\|u-v_h\|^2_{L^2(\Omega)}$ does not decay as $h^p$ for any $p>0$. We do not have an exact estimate for the norm $R_h:=\|v_h-u_h\|^2_{L^2(\Omega)}$, but this is not important to establish that the norm $E_h:=\|u-u_h\|^2_{\mathbb H(\Omega)}$ does not decay as a power.  Indeed, if the term $R_h=O(h^p)$ for some $p>0$, then $E_h=O(a_h^2)$, which does not decay as a power.  On the other hand, if $R_h$ has a worse decay than $a_h^2$, then this decay dominates and therefore $E_h$ does not decay as power also in this case.  Summarizing,   Table~\ref{table:1} does present relevant evidence on the optimality of the type of rate shown in Theorem~\ref{main:thm:intro}.
 \end{remark}
 
 
@@ -2228,14 +2239,14 @@ By \cite[Corollary 1.9]{CW19} it is stated that the (weak) maximum principle hol
 	\label{fig:comp_sol}
 \end{figure}
 
-We remark that the functions $u_1$ and $u_2$ do not satify the assumptions of Theorem~\ref{main:thm:intro}, because the right-hand side does not belong to $\mathcal Y(\Omega)$. Nevertheless, the FEM yields a good approximation also in these cases.  On the other hand, the function $u_3$ is Lipschitz in $\R$ and thus it exhibits a better convergence rate. Therefore, we cannot use $u_3$ to show the optimality of the convergence rate stated in Theorem \ref{main:thm:intro}.
+We remark that the functions $u_1$ and $u_2$ do not satify the assumptions of Theorem~\ref{main:thm:intro}, because the right-hand side does not belong to $\mathcal Y(\Omega)$. Nevertheless, the FEM yields a good approximation also in these cases.  On the other hand, the function $u_3$ is Lipschitz in $\R$ and thus it exhibits a better convergence rate. Therefore, we cannot use $u_3$ to show the optimality of the convergence rate stated in Theorem~\ref{main:thm:intro}.
 
 
 \section{Approximation of the eigenvalues of the logarithmic Laplacian}\label{eigenvalue approximation:sec}
 
-Standard Fredholm theory implies that if $0$ is not an eigenvalue of $L_\Delta$, then the Dirichlet problem with $L_{\Delta}$ is uniquely solvable for any $f\in L^2(\Omega)$. By the regularity theory, this translates to classical solutions in view of  Theorem \ref{eq:regularity}. To approximate the eigenvalues of $L_{\Delta}$ in $\Omega$, we consider first the case of Theorem \ref{eq:regularity}(ii), that is, the case in which $0$ is an eigenvalue of $L_{\Delta}$ in $\Omega$. In this case there is a nontrivial $\phi\in \mathcal X^{\alpha}(\Omega)$, for some $\alpha>0$, satisfying $L_{\Delta}\phi=0$ in  $\Omega$ and $\phi=0$ in $\R\setminus \Omega$ ---we emphasize here that the following argument can be done in any dimension. Note that if we define for $r>0$ a function $\phi_r=\phi(\cdot/r)$, then $L_{\Delta}\phi_r=-2\ln(r)\phi_r$ in $r\Omega$ and $\phi_r=0$ in $\R\setminus r\Omega$\SJ{, see \cite[Lemma 2.5]{LW21}}. Thus having $0$ as an eigenvalue for $\Omega$ gives us the eigenvalue $-2\ln(r)$ in $r\Omega$.\\
+Standard Fredholm theory implies that if $0$ is not an eigenvalue of $L_\Delta$, then the Dirichlet problem with $L_{\Delta}$ is uniquely solvable for any $f\in L^2(\Omega)$. By the regularity theory, this translates to classical solutions in view of  Theorem~\ref{eq:regularity}. To approximate the eigenvalues of $L_{\Delta}$ in $\Omega$, we consider first the case of Theorem~\ref{eq:regularity}(ii), that is, the case in which $0$ is an eigenvalue of $L_{\Delta}$ in $\Omega$. In this case there is a nontrivial $\phi\in \mathcal X^{\alpha}(\Omega)$, for some $\alpha>0$, satisfying $L_{\Delta}\phi=0$ in  $\Omega$ and $\phi=0$ in $\R\setminus \Omega$ ---we emphasize here that the following argument can be done in any dimension. Note that if we define for $r>0$ a function $\phi_r=\phi(\cdot/r)$, then $L_{\Delta}\phi_r=-2\ln(r)\phi_r$ in $r\Omega$ and $\phi_r=0$ in $\R\setminus r\Omega$, see \cite[Lemma 2.5]{LW21}. Thus having $0$ as an eigenvalue for $\Omega$ gives us the eigenvalue $-2\ln(r)$ in $r\Omega$.
 
-In this way, if we can approximate such $L>0$ such that the operator $L_{\Delta}$ has $0$ as an eigenvalue in $\Omega=(\SJ{-L},L)$, we can classify from there the eigenvalues of $(\SJ{-\tilde{L}},\tilde{L})$ for a general $\tilde{L}>0$. \SJ{Note that we consider here a symmetric interval across $0$ for the approximation of eigenvalues similarly as in Section \ref{sec:numerics} instead of the interval $(0,L)$. This, however, is simply a scaling and translation of $\mathcal{A}^L_h$ as explained before.} To find these values of $L$, we first show that the eigenvalues of the stiffness matrix $\mathcal A_h^L$ actually converge to the eigenvalues of $L_{\Delta}$ and then we use the condition of the stiffness $\mathcal{A}^L_h$ to find the cases in which there is zero as an eigenvalue. Here, we denote the condition of a matrix $A$ by
+In this way, if we can approximate the value of $L>0$ such that the operator $L_{\Delta}$ has $0$ as an eigenvalue in $\Omega=(-L,L)$, we can classify from there the eigenvalues of $(\SJ{-\tilde{L}},\tilde{L})$ for a general $\tilde{L}>0$. \SJ{Note that we consider here a symmetric interval across $0$ for the approximation of eigenvalues similarly as in Section~\ref{sec:numerics} instead of the interval $(0,L)$. This, however, is simply a scaling and translation of $\mathcal{A}^L_h$ as explained before.} To find these values of $L$, we first show that the eigenvalues of the stiffness matrix $\mathcal A_h^L$ actually converge to the eigenvalues of $L_{\Delta}$ and then we use the condition of the stiffness $\mathcal{A}^L_h$ to find the cases in which there is zero as an eigenvalue. Here, we denote the condition of a matrix $A$ by
 \begin{equation}\label{defi:condition}
 \textnormal{cond}(A):=\Big|\frac{\lambda_{\max}(A)}{\lambda_{\min}(A)}\Big|,
 \end{equation}
@@ -2265,7 +2276,7 @@ Since we already know that there is an infinite sequence of eigenvalues $\lambda
 
 We next show the convergence of the eigenvalues of $\mathcal{A}^L_h$ to eigenvalues of $L_{\Delta}$ for $h\to 0$. Then we present an approximation of $\textnormal{cond}(A^L_h)$ for small enough $h$ and give the approximations of the eigenvalues in $(0,L)$ for general $L>0$.\\
 
-For the convergence, we cannot work with Theorem \ref{main:thm:intro}, since it is not clear whether the eigenfunctions belong to the space $\mathcal{Y} (\Omega)$. We first classify the eigenvalues $\{\lambda_k\}_{k\in \N}$ of $L_{\Delta}$ with the Courant-Fischer minimax principle, see e.g. \cite[Proposition 2.3 and Remark 2.4]{FJW22}, that is it holds
+For the convergence, we cannot work with Theorem~\ref{main:thm:intro}, since it is not clear whether the eigenfunctions belong to the space $\mathcal{Y} (\Omega)$. We first classify the eigenvalues $\{\lambda_k\}_{k\in \N}$ of $L_{\Delta}$ with the Courant-Fischer minimax principle, see e.g. \cite[Proposition 2.3 and Remark 2.4]{FJW22}, that is it holds
 \begin{align}\label{CF}
 \lambda_k=\inf_{\substack{M\subset \mH(\Omega)\\ \dim(M)=k}} \max_{\substack{u\in M\setminus\{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u),\quad k\in \N, 
 \end{align}
@@ -2291,7 +2302,7 @@ Let  \SJ{$\delta\in(0,1)$}. Then there is a subspace $M_{\delta}\subset \mH(\Ome
 \begin{align}\label{delta:eq}
 \max_{\substack{ u\in M_{\delta}\setminus \{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u)=\mathcal{E}_{L}(m,m)\leq \lambda_k+\frac{\delta}{2}. 
 \end{align}
-Using Theorem \ref{density:thm} we find $h_0>0$ such that 
+Using Theorem~\ref{density:thm} we find $h_0>0$ such that
 $$
 \|m-m_h\|_{\mH(\Omega)}\leq \frac{\delta}{2C} \quad\text{for all $h\in(0,h_0)$ and for some $m_h\in {\mathcal V}_h$}.
 $$
@@ -2332,10 +2343,10 @@ From here, it is easy to see that $\lambda_{k,h}$ denotes the $k$-the eigenvalue
 
 
 \begin{remark}
-We emphasize that the scaling of the logarithmic Laplacian behaves the same in all dimensions. Due to this, and by following the proof of Proposition \ref{prop:eigen-approx} closely, the approach to estimate the eigenvalues of $L_{\Delta}$ in an arbitrary domain $\Omega\subset\R^N$ can be done in an equivalent way, once the stiffness matrix is calculated and Theorem \ref{density:thm} is verified for the corresponding approximation space $\mathcal{V}_h$.
+We emphasize that the scaling of the logarithmic Laplacian behaves the same in all dimensions. Due to this, and by following the proof of Proposition~\ref{prop:eigen-approx} closely, the approach to estimate the eigenvalues of $L_{\Delta}$ in an arbitrary domain $\Omega\subset\R^N$ can be done in an equivalent way, once the stiffness matrix is calculated and Theorem~\ref{density:thm} is verified for the corresponding approximation space $\mathcal{V}_h$.
 \end{remark}
 
-\SJ{We close this section with the explicit numerical approximations. In Figure \ref{L vs condition} the condition of $\mathcal{A}^L_h$ is plotted for a fixed $N$ and varying $L$. The singularities then indicated the relevant areas in which $L$ can be chosen to have $0$ as an eigenvalue in $(-L,L)$. To approximate the exact values, using the \textit{``Golden-section search''} in certain intervals, we find $L_i$ for $i=1,\ldots,6$ as follows.
+\SJ{We close this section with the explicit numerical approximations. In Figure~\ref{L vs condition} the condition of $\mathcal{A}^L_h$ is plotted for a fixed $N$ and varying $L$. The singularities then indicated the relevant areas in which $L$ can be chosen to have $0$ as an eigenvalue in $(-L,L)$. To approximate the exact values, using the \textit{``Golden-section search''} in certain intervals, we find $L_i$ for $i=1,\ldots,6$ as follows.
 
 %%
 %%
@@ -2358,8 +2369,8 @@ $L_6$ & $[8.5,8.7]$ & $8.6133$ &$8.6573 $ &$8.6640$ & $8.6563$ &$8.6504$ &$8.647
 \end{tabular} 
 \end{center}           
 
-\begin{proof}[Proof of Proposition \ref{eigenvalue approximation}]
-This follows immediately from Proposition \ref{eigenvalue approximation a}, the scaling properties of $L_{\Delta}$, and the above table.
+\begin{proof}[Proof of Proposition~\ref{eigenvalue approximation}]
+This follows immediately from Proposition~\ref{eigenvalue approximation a}, the scaling properties of $L_{\Delta}$, and the above table.
 \end{proof}
 }
 
@@ -2452,14 +2463,14 @@ Recall that $d(x):=\dist(x,\partial \Omega)$ and $d(x,y)=\min(d(x),d(y)).$ Then
 \begin{align*}
 \int_0^L \ell^{-1+\alpha}(d(x))\,dx&\leq \int_0^L \ell^{-1+\alpha}(x)\,dx+\int_0^L \ell^{-1+\alpha}(L-x)\,dx=:C_1<\infty,
 \end{align*}
-by Lemma \ref{lem:ellbeta}. On the other hand,
+by Lemma~\ref{lem:ellbeta}. On the other hand,
 \begin{align*}
 \int_0^L\int_0^L\frac{\ell^{1+\alpha}(|x-y|)}{|x-y|\ell^{2+2\alpha}(d(x,y))}\,dy\, dx
 &\leq 2\int_0^L\int_0^L\frac{\ell^{1+\alpha}(|x-y|)}{|x-y|\ell^{2+2\alpha}(d(x))}\,dy\, dx\\
 &\leq 4\int_0^L\left(\int_0^L\frac{\ell^{1+\alpha}(|x-y|)}{|x-y|}\,dy\right)\frac{1}{\ell^{2+2\alpha}(x)}\, dx\\
 &\leq 4\left(\int_0^L\frac{\ell^{1+\alpha}(\rho)}{\rho}\,d\rho\right)\int_0^L\frac{1}{\ell^{2+2\alpha}(x)}\, dx=:C_2<\infty,
 \end{align*}
-by Lemmas \ref{lem:over} and \ref{lem:ellbeta}.
+by Lemmas~\ref{lem:over} and~\ref{lem:ellbeta}.
 \end{proof}
 
 
@@ -2510,7 +2521,7 @@ The function
 \begin{align*}
  U(x)=\frac{(1-x^2)^s}{\Gamma(1+2s)}\chi_{(-1,1)}
 \end{align*}
-is the torsion function for the fractional Laplacian, namely, $(-\Delta)^s U(x)=1$ for $x\in (-1,1)$.  Using the stiffness matrix given in \eqref{stiff:frac}, we obtain the following table for comparison purposes (cf. Table \ref{table:1}).  We mention that these rates are optimal, as shown in \cite{Bor17} (see also \cite[Section 5]{AB17} and \cite[Section 5]{BHS19}).
+is the torsion function for the fractional Laplacian, namely, $(-\Delta)^s U(x)=1$ for $x\in (-1,1)$.  Using the stiffness matrix given in \eqref{stiff:frac}, we obtain the following table for comparison purposes (cf. Table~\ref{table:1}).  We mention that these rates are optimal, as shown in \cite{Bor17} (see also \cite[Section 5]{AB17} and \cite[Section 5]{BHS19}).
  
  
 {\color{white}.}
