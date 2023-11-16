@@ -152,8 +152,10 @@ Leonard Sinsch
 \maketitle
 
 \abstract{
-We present the numerical analysis of a finite element method (FEM) for one-dimensional Dirichlet problems involving the logarithmic Laplacian (the pseudo-differential operator that appears as a first order expansion of the fractional Laplacian as the exponent $s\to 0^+$). Our analysis exhibits new phenomena in this setting; in particular, using recently obtained regularity results, we prove rigorous error estimates and provide a logarithmic order of convergence in the energy norm using  suitable \emph{log}-weighted spaces.
-Numerical evidence suggest that this type of rate cannot be improved. Moreover, we show that the stiffness matrix of logarithmic problems can be obtained as the derivative of the fractional stiffness matrix evaluated at $s=0$. Lastly, we investigate the relationship between the discrete eigenvalue problem and its convergence to the continuous one, and we also provide several numerical examples illustrating our results.
+We present the numerical analysis of a finite element method (FEM) for one-dimensional Dirichlet problems involving the logarithmic Laplacian (the pseudo-differential operator that appears as a first-order expansion of the fractional Laplacian as the exponent $s\to 0^+$). Our analysis exhibits new phenomena in this setting; in particular, using recently obtained regularity results, we prove rigorous error estimates and provide a logarithmic order of convergence in the energy norm using  suitable \emph{log}-weighted spaces.
+Numerical evidence suggests that this type of rate cannot be improved.
+Moreover, we show that the stiffness matrix of logarithmic problems can be obtained as the derivative of the fractional stiffness matrix evaluated at $s=0$.
+Lastly, we investigate the relationship between the discrete eigenvalue problem and its convergence to the continuous one.
 }
 
 \bigskip
@@ -322,7 +324,7 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
 
  Our main result is the following.
  \begin{theorem}\label{main:thm:intro}
-    Let $L>0$, $\Omega:=(0,L)$, and $f\in \mathcal{Y}(\Omega)$.  Assume that alternative $i)$ of \Cref{eq:regularity} holds for some $\alpha\in(0,1)$. Let $u$ be the (unique weak) solution of \eqref{eq:cont_problem} and let $u_h$ be its finite element approximation given by \eqref{eq:discr_problem:intro}. Then there are constants $h_0>0$, $C>0$, and $\alpha\in(0,1)$ such that
+    Let $L>0$, $\Omega:=(0,L)$, and $f\in \mathcal{Y}(\Omega)$.  Assume that alternative $i)$ of \Cref{eq:regularity} holds for some $\alpha\in(0,1)$. Let $u$ be the (unique weak) solution of \eqref{P:intro} and let $u_h$ be its finite element approximation given by \eqref{eq:discr_problem:intro}. Then there are constants $h_0>0$, $C>0$, and $\alpha\in(0,1)$ such that
     \begin{equation*}
         \|u-u_h\|_{\mathbb H(\Omega)}\leq C\ell^{\alpha}(h)\|f\|_{\mathcal Y}\qquad \text{ for all }h\in(0,h_0),
     \end{equation*}
@@ -457,10 +459,10 @@ We have also tested our algorithm with some explicit solutions. We refer to Sect
 
 
 
-The paper is organized as follows. In Section~\ref{sec:localization-norm} we present the localization of the $\mathbb{H}$-norm. The main goal in this section is to provide the convergence of the method, see Theorem~\ref{density:thm} and some interpolation-type estimates. In Section~\ref{sec:error} we give the proof of Theorem~\ref{main:thm:intro}, see Theorem~\ref{thm:main-thm proof}. We calculate explicitly the stiffness matrix for the logarithmic Laplacian in Section~\ref{sec:stiffness} and we discuss the optimality of the convergence rate in Section~\ref{sec:numerics}. Finally, in Section~\ref{eigenvalue approximation:sec}, we give the proof of Proposition~\ref{eigenvalue approximation} and show that the eigenvalues of the stiffness matrix converge to eigenvalues of $L_{\Delta}$, see Proposition~\ref{prop:eigen-approx}.
+The paper is organized as follows. In Section~\ref{sec:localization-norm} we present the localization of the $\mathbb{H}$-norm. The main goal in this section is to provide the convergence of the method, see Theorem~\ref{density:thm} and some interpolation-type estimates. In Section~\ref{sec:error} we give the proof of Theorem~\ref{main:thm:intro}. We calculate explicitly the stiffness matrix for the logarithmic Laplacian in Section~\ref{sec:stiffness} and we discuss the optimality of the convergence rate in Section~\ref{sec:numerics}. Finally, in Section~\ref{eigenvalue approximation:sec}, we give the proof of Proposition~\ref{eigenvalue approximation} and show that the eigenvalues of the stiffness matrix converge to eigenvalues of $L_{\Delta}$ as the discretization parameter tends to zero, see Proposition~\ref{prop:eigen-approx}.
 
 
-\section*{Notation} \label{sec:notation}
+\section{Notation and framework} \label{sec:notation}
 
 Let
 \begin{align}\label{constants}
@@ -468,9 +470,9 @@ Let
 \end{align}
 where $\gamma=-\Gamma'(1)$ is the Euler-Mascheroni constant, and $\psi=\frac{\Gamma'}{\Gamma}$ is the Digamma function.
 
-\subsection*{Log-Hölder moduli of continuity}
+\subsection{Log-Hölder moduli of continuity}
 
-The modulus of continuity $\ell$ (defined in \eqref{ell:def}) satisfies the following property.
+The modulus $\ell$ (defined in \eqref{ell:def}) satisfies the following property.
 
 \begin{lemma}[Semi-homogeneity]\label{prop1}
 There is $c>0$ such that 
@@ -480,7 +482,7 @@ There is $c>0$ such that
 \end{lemma}
 For a proof, see \cite[Lemma 3.2]{CS22}.
 
-\subsection*{Variational setting}
+\subsection{Variational setting}
 Let $L>0$, $\Omega:=(0,L)$, $B_1(\Omega):=(-1,L+1)$. For $u\in \mH(\Omega)$, we have that
 \begin{align*}
     \|u\|^2_{\mathbb H(\Omega)}&=\int_{\R}\int_{B_1(x)}\frac{|u(x)-u(y)|^2}{|x-y|}\, dy\, dx\\
@@ -505,7 +507,7 @@ For any $\beta>0$,
 where $\delta(x)=\operatorname{dist}(x,\partial \Omega)$ and $\ell$ is given in \eqref{ell:def}. 
 
 
-\subsection*{The discrete space $\mathcal V_h$}
+\subsection{The discrete space $\mathcal V_h$}
 
 Let $N\in \mathbb N$, $h:=\frac{L}{N+1},$ $x_i:=ih,$ and 
 \begin{align*}
@@ -1199,17 +1201,19 @@ The claim now follows from \eqref{lem:int:bds}.
 \end{proof}
 %
 
-\begin{theorem}\label{thm:main-thm proof}
-    Assume that alternative $i)$ of \Cref{eq:regularity} holds for some $\alpha\in(0,1)$ and let $h>0$ be a sufficiently small discretization parameter. For the solution $u$ to \eqref{eq:cont_problem} and its finite element approximation $u_h$ given by \eqref{eq:discr_problem}, we have the following a priori estimate
-    %
-    \begin{equation}
-        \|u-u_h\|_{\mathbb H(\Omega)}\leq C\ell^{\alpha}(h)\|f\|_{\mathcal Y}
-    \end{equation}
-    %
-    for some $\alpha\in(0,1)$ and where $C>0$ is uniform with respect to $h$ 
-\end{theorem}
+% \begin{theorem}\label{thm:main-thm proof}
+%     Assume that alternative $i)$ of \Cref{eq:regularity} holds for some $\alpha\in(0,1)$ and let $h>0$ be a sufficiently small discretization parameter. For the solution $u$ to \eqref{eq:cont_problem} and its finite element approximation $u_h$ given by \eqref{eq:discr_problem}, we have the following a priori estimate
+%     %
+%     \begin{equation}
+%         \|u-u_h\|_{\mathbb H(\Omega)}\leq C\ell^{\alpha}(h)\|f\|_{\mathcal Y}
+%     \end{equation}
+%     %
+%     for some $\alpha\in(0,1)$ and where $C>0$ is uniform with respect to $h$
+% \end{theorem}
 
-\begin{proof}
+We are ready to show our main result, Theorem \ref{main:thm:intro}.
+
+\begin{proof}[Proof of Theorem \ref{main:thm:intro}]
 Fix $\alpha\in(0,1)$ as given by \Cref{eq:regularity}. Combining estimate \eqref{eq:interp_final} (with this particular $\alpha$) and \eqref{eq:stability_cea} we get
 %
 \begin{align}
