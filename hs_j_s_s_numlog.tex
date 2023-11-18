@@ -9,8 +9,7 @@
 \usepackage{stmaryrd}
 \usepackage{cite}
 \usepackage[colorlinks=true,urlcolor=blue,
-citecolor=red,linkcolor=blue,linktocpage,pdfpagelabels,
-bookmarksnumbered,bookmarksopen]{hyperref}
+citecolor=red,linkcolor=blue,linktocpage,pdfpagelabels,bookmarksnumbered,bookmarksopen]{hyperref}
 
 
 \input fig4tex.tex
@@ -137,12 +136,10 @@ bookmarksnumbered,bookmarksopen]{hyperref}
 
 \author{V\'ictor Hern\'andez-Santamar\'ia\footnote{The work of V. Hern\'andez-Santamar\'ia is supported by the program ``Estancias Posdoctorales por México para la Formación y Consolidación de las y los Investigadores por México'' of CONAHCYT (Mexico). He also received support from Projects A1-S-17475 and A1-S-10457 of CONAHCYT and by UNAM-DGAPA-PAPIIT grants IN109522, IN104922, and IA100324 (Mexico).} \and
  Sven Jarohs
- %\footnote{\blue{if needed add funding info}}
  \and
 Alberto Salda\~{n}a\footnote{ A. Saldaña is supported  by  
 CONAHCYT grant A1-S-10457 (Mexico) and by UNAM-DGAPA-PAPIIT grant IA100923 (Mexico).}\and
 Leonard Sinsch
-%\footnote{\blue{if needed add funding info}} 
 }
 
 \date{}
@@ -294,7 +291,7 @@ The next Fredholm-alternative-type result characterizes the existence of classic
 As a final ingredient to state our main result, we introduce the notation of the 1D FEM.  Let $N\in\mathbb N$, $h=\frac{L}{N+1}$, $x_i:=ih$, and $\Omega_i:=(x_{i},x_{i+1})$ for $i=0,\ldots,N$. Note that $\overline{\Omega}=\cup_{i=0}^N \overline{\Omega_i}$. Consider the discrete space
 %
 \begin{equation}
-    \mathcal V_h=\{v\in \mathcal C^0(\B{\Omega}): v=0 \textnormal{ in } \R\setminus \Omega, \;\; v|_{\Omega_i}\in \mathcal P_1, \;\;  i=0,\ldots,N\}.
+    \mathcal V_h=\{v\in \mathcal C^0(\Omega): v=0 \textnormal{ in } \R\setminus \Omega, \;\; v|_{\Omega_i}\in \mathcal P_1, \;\;  i=0,\ldots,N\}.
 \end{equation}
 %
 where $\mathcal P_1$ is the space of polynomials of degree less than or equal to one.
@@ -331,15 +328,13 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
     where $\ell$ is the modulus of continuity given in \eqref{ell:def}.
  \end{theorem}
 
- \Bc{We need to write a proper proof of Theorem \ref{main:thm:intro}.}
-
  Due to the nonlocal nature of $L_\Delta$, we cannot use the standard theory of FEM (note that the norms are not additive with respect to disjoint domains). Instead, for the proof of Theorem~\ref{main:thm:intro}, we follow the general strategy implemented in \cite{Bor17}, where the FEM is used to approximate solutions of the fractional Laplacian and to show the convergence of the method.  The overall scheme is as follows: If $u$ is a weak solution that we wish to approximate with a finite element approximation, one defines first an \emph{interpolator} denoted by $I_h u$.  Then, via a localization of the norms (see Lemma~\ref{lem:localization_enorm}) one can bound the global interpolation error $\|u-I_h u\|_{\mathbb H(\Omega)}$ (see Proposition~\ref{eq:estab_H_c_infty}) in terms of a Hilbert space with logarithmic weights (see \eqref{H:weights:def}).  Then, with a Cea's-Lemma-type result (Lemma~\ref{lem:cea_mg}), we can bound the norm $\|u-u_h\|_{\mathbb H(\Omega)}$ in terms of $\|u-I_h u\|_{\mathbb H(\Omega)}$.  Finally, the regularity estimate \eqref{eq:regularity_classical} comes into play to obtain the final estimate stated in Theorem~\ref{main:thm:intro}.
 
  However, since the regularity theory for $L_\Delta$ is much less developed than that of $(-\Delta)^s$, key elements in the proofs in \cite{Bor17} have to be changed to fit into the logarithmic Laplacian setting.  For instance, the idea of \emph{trace} plays a key role in order to define the Scott-Zhang interpolator used in \cite{Bor17}. This trace is known to exist in the fractional case because, under suitable assumptions on the right-hand side $f$, regularity estimates for the fractional Laplacian imply that the corresponding weak solutions always belong to $H^{\frac{1}{2}+\eps}(\Omega)$ for some $\eps>0$ (see \cite[Theorem 2.3.6]{Bor17}), which is a Hilbert space with trace.  There is no such result for the logarithmic Laplacian $L_\Delta$.  Although Theorem~\ref{eq:regularity} implies that weak solutions are log-Hölder continuous, it is not known if these solutions belong to a suitable Hilbert space with trace.
 
  As a consequence, we use a simpler interpolator: the projection to $\mathcal V_h$ in the $L^2$-sense (see \eqref{eq:interpolator}). Because of this, in our approach, it is important to consider two discontinuous elements in the finite element basis (see \eqref{eq:def_basis_ext}).  This might seem odd, in virtue of the Dirichlet boundary conditions, but in fact this is required in our analysis and numerical experiments show that the presence of these two discontinuous elements improves the numerical approximation of logarithmic problems.
 
- Finally, for the algorithmic implementation of the FEM, we also present a new perspective. Typically, in order to obtain the finite element approximation $u_h$ given by \eqref{eq:discr_problem:intro}, one needs to compute the so-called \emph{stiffness matrix}. For this, a finite element basis $(\varphi_i)_{i=0}^{N+1}$ of $\mathcal V_h$ is considered (see \eqref{eq:def_basis}-\eqref{eq:def_basis_ext}) and a matrix with entries
+ For the algorithmic implementation of the FEM, we also present a new perspective. Typically, in order to obtain the finite element approximation $u_h$ given by \eqref{eq:discr_problem:intro}, one needs to compute the so-called \emph{stiffness matrix}. For this, a finite element basis $(\varphi_i)_{i=0}^{N+1}$ of $\mathcal V_h$ is considered (see \eqref{eq:def_basis}-\eqref{eq:def_basis_ext}) and a matrix with entries
  \begin{align}\label{s:m:intro}
  \mathcal A_{h}^{L}=(\cE_L(\varphi_i,\varphi_j))_{i,j=0}^N
  \end{align}
@@ -405,7 +400,7 @@ for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of
 %%%%.        Figure       %%%
 %%%%%%%%%%%%%%%
 % DO NOT ERASE
-\begin{figure}[h!]
+\begin{figure}[htb]
 	\centering
 	%
 	\subfloat[$L=0.1$]{
@@ -675,7 +670,7 @@ where
   a_k:=\frac{1}{h}\int_{\Omega}v(x)\varphi_k(x)\,dx.
 \end{equation}
 %
-Note that this definition with the $L^2$ scalar product is particularly useful since $v\in\mathbb H(\Omega)\subset L^2(\Omega)$ is not necessarily continuous at the grid points $x_i$.  Moreover, observe that $\varphi_0$ and $\varphi_{N+1}$ have a factor $\B{\sqrt{2}}$ and have a jump discontinuity at $0$ and at $N+1$ respectively.  This allows to have the important property that
+Note that this definition with the $L^2$ scalar product is particularly useful since $v\in\mathbb H(\Omega)\subset L^2(\Omega)$ is not necessarily continuous at the grid points $x_i$.  Moreover, observe that $\varphi_0$ and $\varphi_{N+1}$ have a factor $\sqrt{2}$ and have a jump discontinuity at $0$ and at $N+1$ respectively.  This allows to have the important property that
 \begin{align}\label{Ihc}
 I_h 1 = 1\qquad \text{ in $\Omega$,}
 \end{align}
@@ -766,7 +761,7 @@ Let $x\in \Omega$ be arbitrary. From definition \eqref{eq:interpolator} and esti
 By the definition of the basis functions, we note that 
 %
 \begin{equation*}
-    \sum_{k\in\inter{0,N+1}}\varphi_k(x)\leq \B{\sqrt{2}} \quad \textnormal{ for any $x\in\Omega$}.
+    \sum_{k\in\inter{0,N+1}}\varphi_k(x)\leq \sqrt{2} \quad \textnormal{ for any $x\in\Omega$}.
 \end{equation*}
 The result then follows. 
 \end{proof}
@@ -778,14 +773,13 @@ Let $i\in\inter{0,N}$, $v\in \mathbb H(\Omega)$, and $a_k$ as in \eqref{eq:def_c
 \item $\displaystyle \int_{\Omega_i}\int_{S_i}\frac{|I_hv(x)-I_hv(y)|^2}{|x-y|}dy dx\leq Ch\sum_{k\in I_i} a_k^2$,
 \item  $\displaystyle |I_h u|^2_{L^2(\Omega_i)}\leq Ch\sum_{k\in I_i^\prime} a_k^2$,
 \end{enumerate}
-\blue{where 
+where
 %
 \begin{gather}\label{def_Ii}
 I_i:=\{j\in\inter{0,N+1}:\varphi_j(x)-\varphi_j(y) \neq 0 \ \textnormal{for $x\in \Omega_i$ and $y\in S_i$}\}, \\ \label{def_Iiprime}
 I^\prime_i:=\{j\in\inter{0,N+1}:\varphi_j(x)\neq 0 \ \textnormal{for $x\in \Omega_i$}\}.
 \end{gather}
 %
-}
 \end{lemma}
 \begin{proof}
 We begin by proving item (i). Given $i\in\inter{0,N}$, let $x\in \Omega_i$ and $y\in S_i$ such that $x\neq y$.  From definitions \eqref{eq:def_basis}, \eqref{eq:interpolator}, and \eqref{def_Ii} it can be readily seen that
@@ -851,7 +845,7 @@ On the other hand, we can use item (i) of \Cref{lem:loc_norm_interp} for $J_2$ a
     J_2 \leq Ch\sum_{k\in I_i} b_k^2,
 \end{equation}
 %
-where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ \blue{and $I_i$ as defined in \eqref{def_Ii}}. Since $|\varphi_k|\leq 1$, 
+where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and $I_i$ as defined in \eqref{def_Ii}. Since $|\varphi_k|\leq 1$,
 \begin{equation}\label{abk}
     |b_k|^2
     \leq \frac{1}{h^2}\left(\int_{S_k} |v-\overline v|dx\right)^2
@@ -1012,11 +1006,11 @@ On the other hand, we can apply \Cref{lem:loc_norm_interp} to $J_2$ and obtain
     J_2 \leq Ch\sum_{k\in I_i} b_k^2
 \end{equation}
 %
-where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and \blue{$I_i$ is defined in \eqref{def_Ii}}. As we did in \eqref{abk}, for every $k\in I_i$,
+where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and $I_i$ is defined in \eqref{def_Ii}. As we did in \eqref{abk}, for every $k\in I_i$,
 \begin{align*}
     |b_k|^2\leq \frac{C}{h}\int_{T_{i}}|v-\overline{v}|^2\, dx,
 \end{align*}
-because the support of $\varphi_k$ is in $T_{i}$ for \blue{all $k\in I_i$}. Using \Cref{lem:poincare_type_weight}, we can estimate the right-hand side of the above expression and obtain
+because the support of $\varphi_k$ is in $T_{i}$ for all $k\in I_i$. Using \Cref{lem:poincare_type_weight}, we can estimate the right-hand side of the above expression and obtain
 %
 \begin{equation}\label{eq:est_bks_weight}
     |b_k|^2\leq Ch^{-1}\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx\qquad \text{for all $k\in \inter{i-1,i+2}$}.
@@ -1627,17 +1621,17 @@ where
 % Le us now compute the terms $R_i$, $i=1,\ldots,7$, separately. First, note that $R_1=R_3=R_6=R_7=0,$ because the integrating regions are outside the support of $\varphi_0$. 
 % \subsubsection*{Computation of $R_2$}
 \begin{align*}
-	R_1 &:= 2\int_{h}^{+\infty}\int_{0}^{h} \frac{\varphi_0^2(x)}{|x-y|^{1+2s}}\,dxdy = \B{4}\int_{0}^{h}\left(1-\frac{x}{h}\right)^2\left(\int_{h}^{+\infty} \frac{1}{(y-x)^{1+2s}}\, dy\right)\,dx \\
-	&= \frac{\B{2}}{s}\int_{0}^{h}\frac{\left(1-\frac{x}{h}\right)^2}{(h-x)^{2s}}\,dx
-	=\frac{\B{2}h^{1-2 s}}{s(3-2 s)}.
+	R_1 &:= 2\int_{h}^{+\infty}\int_{0}^{h} \frac{\varphi_0^2(x)}{|x-y|^{1+2s}}\,dxdy = 4\int_{0}^{h}\left(1-\frac{x}{h}\right)^2\left(\int_{h}^{+\infty} \frac{1}{(y-x)^{1+2s}}\, dy\right)\,dx \\
+	&= \frac{2}{s}\int_{0}^{h}\frac{\left(1-\frac{x}{h}\right)^2}{(h-x)^{2s}}\,dx
+	=\frac{2h^{1-2 s}}{s(3-2 s)}.
 \end{align*}
 
 %\subsubsection*{Computation of $R_4$}
 \begin{align*}
 	R_2 &
 	:= \int_{0}^{h}\int_{0}^{h} \frac{(\varphi_0(x)-\varphi_0(y))^2}{|x-y|^{1+2s}}\,dxdy
-	= \B{2}h^{-2}\int_{0}^{h}\int_{0}^{h} |x-y|^{1-2s}\,dxdy
-	=\frac{\B{2}h^{1-2 s}}{(1-s) (3-2 s)}
+	= 2h^{-2}\int_{0}^{h}\int_{0}^{h} |x-y|^{1-2s}\,dxdy
+	=\frac{2h^{1-2 s}}{(1-s) (3-2 s)}
 \end{align*}
 
 
@@ -1645,7 +1639,7 @@ where
 %\subsubsection*{Computation of $R_5$}
 \begin{align*}
 	R_3 &:= 2\int_{-\infty}^{0}\int_{0}^{h} \frac{\varphi_0^2(x)}{|x-y|^{1+2s}}\,dxdy = 2\int_{0}^{h}\varphi_0^2(x)\left(\int_{-\infty}^{0} \frac{dy}{|x-y|^{1+2s}}\right)\,dx = \frac{1}{s}\int_{0}^{h}\frac{\varphi_0^2(x)}{x^{2s}}\,dx\\
-	&=\frac{\B{2}h^{1-2 s}}{(1-s)(3-2 s) (1-2 s)s}.
+	&=\frac{2h^{1-2 s}}{(1-s)(3-2 s) (1-2 s)s}.
 \end{align*}
 %
 as long as $s<1/2$.
@@ -1653,7 +1647,7 @@ as long as $s<1/2$.
 Therefore,
 %
 \begin{equation*}
-    a_{0,0}=\frac{\B{4}h^{1 - 2 s}}{s (3 - 2 s) (1 - 2 s)}
+    a_{0,0}=\frac{4h^{1 - 2 s}}{s (3 - 2 s) (1 - 2 s)}
 \end{equation*}
 %
 
@@ -1661,7 +1655,7 @@ Therefore,
 
 \begin{align*}
 	a_{0,j}&=-2 \int_{x_{j-1}}^{x_{j+1}}\int_{0}^{h}\frac{\varphi_0(x)\varphi_j(y)}{|x-y|^{1+2s}}\,dxdy
-=-\B{2\sqrt{2}} \int_{(j-1)h}^{(j+1)h}\int_0^{h}\frac{\left(1-\frac{x}{h}\right)\left(1-\frac{|y-jh|}{h}\right)}{|x-y|^{1+2s}}\,dxdy.
+=-2\sqrt{2} \int_{(j-1)h}^{(j+1)h}\int_0^{h}\frac{\left(1-\frac{x}{h}\right)\left(1-\frac{|y-jh|}{h}\right)}{|x-y|^{1+2s}}\,dxdy.
 \end{align*}
 
 Let us introduce the following change of variables:
@@ -1671,10 +1665,10 @@ Let us introduce the following change of variables:
 
 Then, rewriting (with some abuse of notations since there is no possibility of confusion) $\hat{x}=x$ and $\hat{y}=y$, we get 
 \begin{align}\label{elem_noint_cv}
-	a_{0,j}&=-\B{2\sqrt{2}}h^{1-2s} \int_{-1}^1\int_{0}^1\frac{(1-x)(1-|y|)}{(j+y-x)^{1+2s}}\,dxdy\\
-	&=-\B{2\sqrt{2}}h^{1-2s} \left(\int_{0}^1\int_{0}^1\frac{(1-x)(1-y)}{(j+y-x)^{1+2s}}\,dxdy
+	a_{0,j}&=-2\sqrt{2}h^{1-2s} \int_{-1}^1\int_{0}^1\frac{(1-x)(1-|y|)}{(j+y-x)^{1+2s}}\,dxdy\\
+	&=-2\sqrt{2}h^{1-2s} \left(\int_{0}^1\int_{0}^1\frac{(1-x)(1-y)}{(j+y-x)^{1+2s}}\,dxdy
 	+\int_{-1}^0\int_{0}^1\frac{(1-x)(1+y)}{(j+y-x)^{1+2s}}\,dxdy\right)\\
-	&=-\B{2\sqrt{2}}h^{1-2s}(B_1+B_3).
+	&=-2\sqrt{2}h^{1-2s}(B_1+B_3).
 \end{align}
 Integrating by parts several times, we have
 \begin{align*}
@@ -1686,7 +1680,7 @@ Integrating by parts several times, we have
 
 Therefore,
 \begin{align*}
-	a_{0,j} =-\frac{h^{1-2 s} \gamma_j^s }{\B{\sqrt{2}}(1-2 s) (1-s) s (3- 2s )}.
+	a_{0,j} =-\frac{h^{1-2 s} \gamma_j^s }{\sqrt{2}(1-2 s) (1-s) s (3- 2s )}.
 \end{align*} 
 where
 %
@@ -1702,8 +1696,8 @@ where
 
 \begin{align*}
 a_{0,N+1}&=-2 \int_{x_{N}}^{x_{N+1}}\int_{x_0}^{x_1}\frac{\varphi_0(x)\varphi_{N+1}(y)}{|x-y|^{1+2s}}\,dxdy
-=-\B{4}\int_{Nh}^{(N+1)h}\int_0^{h}\frac{\left(1-\frac{x}{h}\right)\left(\frac{y}{h}-N\right)}{(y-x)^{1+2s}}\,dxdy\\
-&=-\B{4}h^{1-2s}\int_{0}^{1}\int_0^{1}\frac{\left(1-x\right)y}{(y+N-x)^{1+2s}}\,dxdy,
+=-4\int_{Nh}^{(N+1)h}\int_0^{h}\frac{\left(1-\frac{x}{h}\right)\left(\frac{y}{h}-N\right)}{(y-x)^{1+2s}}\,dxdy\\
+&=-4h^{1-2s}\int_{0}^{1}\int_0^{1}\frac{\left(1-x\right)y}{(y+N-x)^{1+2s}}\,dxdy,
 \end{align*}
 then
 %
@@ -1743,16 +1737,16 @@ Le us now compute the terms $Q_i$, $i=1,\ldots,6$, separately.   Note that $Q_6=
 	\\
 	&= \frac{1}{s}\int_{0}^{h}\frac{\varphi_0(x)\varphi_{1}(x)}{(h-x)^{2s}}\,dx - 2\int_{h}^{2h}\int_{0}^{h} \frac{\varphi_0(x)\varphi_{1}(y)}{|x-y|^{1+2s}}\,dxdy
 	\\
-	&= \frac{\B{\sqrt{2}}}{s}\int_{0}^{h}\frac{\left(1-\frac{x}{h}\right)\left(1-\frac{h-x}{h}\right)}{(h-x)^{2s}}\,dx - \B{2\sqrt{2}}\int_{h}^{2h}\int_{0}^{h} \frac{\left(1-\frac{x}{h}\right)\left(1-\frac{y-h}{h}\right)}{|x-y|^{1+2s}}\,dxdy=:Q_2^1+Q_2^2,
+	&= \frac{\sqrt{2}}{s}\int_{0}^{h}\frac{\left(1-\frac{x}{h}\right)\left(1-\frac{h-x}{h}\right)}{(h-x)^{2s}}\,dx - 2\sqrt{2}\int_{h}^{2h}\int_{0}^{h} \frac{\left(1-\frac{x}{h}\right)\left(1-\frac{y-h}{h}\right)}{|x-y|^{1+2s}}\,dxdy=:Q_2^1+Q_2^2,
 \end{align*}
 where, using a change of variables,
 \begin{align*}
-Q_2^1&=\B{\sqrt{2}}\frac{h^{1-2s}}{s}\int_0^1 x^{1-2s}(1-x)\,dx = \frac{h^{1-2s}}{s(1-s)(3-2s)\B{\sqrt{2}}},\\
-Q_2^2 &= -\B{2\sqrt{2}}h^{1-2s}\int_0^1\int_0^1\frac{(1-x)(1-y)}{(y-x+1)^{1+2s}}\,dxdy = h^{1-2s}\frac{2^{2-2s}+2s-4}{s(1-s)(3-2s)\B{\sqrt{2}}}.
+Q_2^1&=\sqrt{2}\frac{h^{1-2s}}{s}\int_0^1 x^{1-2s}(1-x)\,dx = \frac{h^{1-2s}}{s(1-s)(3-2s)\sqrt{2}},\\
+Q_2^2 &= -2\sqrt{2}h^{1-2s}\int_0^1\int_0^1\frac{(1-x)(1-y)}{(y-x+1)^{1+2s}}\,dxdy = h^{1-2s}\frac{2^{2-2s}+2s-4}{s(1-s)(3-2s)\sqrt{2}}.
 \end{align*}
 Adding the two contributions, we get the following expression for the term $Q_2$
 \begin{align*}
-	Q_2 = h^{1-2s}\frac{2^{2-2s}+2s-3}{s(1-s)(3-2s)\B{\sqrt{2}}}.
+	Q_2 = h^{1-2s}\frac{2^{2-2s}+2s-3}{s(1-s)(3-2s)\sqrt{2}}.
 \end{align*}
 Finally, 
 \begin{align*}
@@ -1760,22 +1754,22 @@ Finally,
 \end{align*}
 Note that
 \begin{align*}
-	(\varphi_0(x)-\varphi_0(y))(\varphi_{1}(x)-\varphi_{1}(y)) = \B{\sqrt{2}}\left(\frac{y-x}{h}\right)\left(\frac{x-y}{h}\right) = -\B{\sqrt{2}}\frac{|x-y|^2}{h^2},
+	(\varphi_0(x)-\varphi_0(y))(\varphi_{1}(x)-\varphi_{1}(y)) = \sqrt{2}\left(\frac{y-x}{h}\right)\left(\frac{x-y}{h}\right) = -\sqrt{2}\frac{|x-y|^2}{h^2},
 \end{align*}
 and the integral becomes
 \begin{align*}
-	Q_4 &= -\B{\frac{\sqrt{2}}{h^2}}\int_{0}^{h}\int_{0}^{h} |x-y|^{1-2s}\,dxdy = -\B{\sqrt{2}}\frac{h^{1-2s}}{(1-s)(3-2s)}.
+	Q_4 &= -\frac{\sqrt{2}}{h^2}\int_{0}^{h}\int_{0}^{h} |x-y|^{1-2s}\,dxdy = -\sqrt{2}\frac{h^{1-2s}}{(1-s)(3-2s)}.
 \end{align*}
 
 By Fubini's theorem,
 \begin{align*}
 	Q_5 &= 2\int_{0}^{h}\varphi_0(y)\varphi_{1}(y)\left(\int_{-\infty}^{0} \frac{dx}{|x-y|^{1+2s}}\right)dy = \frac{1}{s}\int_{0}^{h}\frac{\varphi_0(y)\varphi_{1}(y)}{(y)^{2s}}\,dy \\
-	&= \frac{\B{\sqrt{2}}}{s}\int_{0}^{h}\frac{\left(1-\frac{y}{h}\right)\left(1-\frac{h-y}{h}\right)}{y^{2s}}\,dx=\frac{h^{1-2 s}}{(1-s) s (3-2 s)\B{\sqrt{2}}}.
+	&= \frac{\sqrt{2}}{s}\int_{0}^{h}\frac{\left(1-\frac{y}{h}\right)\left(1-\frac{h-y}{h}\right)}{y^{2s}}\,dx=\frac{h^{1-2 s}}{(1-s) s (3-2 s)\sqrt{2}}.
 \end{align*}
 
 Then,
 \begin{align*}
-a_{0,1}=Q_2+Q_4+Q_5=\frac{\left(2^{2-2 s}-2\right) h^{1-2 s}}{(3-2 s) (1-s) s\B{\sqrt{2}}}.
+a_{0,1}=Q_2+Q_4+Q_5=\frac{\left(2^{2-2 s}-2\right) h^{1-2 s}}{(3-2 s) (1-s) s\sqrt{2}}.
 \end{align*}
 
 \subsubsection{Conclusion}
@@ -1807,10 +1801,10 @@ In view of the symmetry of \eqref{eq:def_aijs_s} and using the basis $(\varphi_i
 \begin{equation}\label{stiff:frac}
 a_{i,j}= \frac{h^{1 - 2 s}}{2s(1-2s)(1-s)(3-2s)}
 \begin{cases}
-\B{8}(1-s) & \textnormal{$i=0$, $j=0$,} \\
-\B{\sqrt{2}}\left(2^{2-2 s}-2\right)(1-2s) & \textnormal{$i=0$, $j=1$,} \\
--\B{\sqrt{2}}\gamma_j^s  & \parbox[t]{.3\columnwidth}{$i=0$, $j\in\inter{2,N}$, where $\gamma_j^s$ is defined in \eqref{eq:def_gamma_j},}\\
--\B{2}\zeta^s_{N}  & \parbox[t]{.3\columnwidth}{$i=0$, $j=N+1$, where $\zeta_N^s$ is defined in \eqref{eq:def_zeta_N},}\\
+8(1-s) & \textnormal{$i=0$, $j=0$,} \\
+\sqrt{2}\left(2^{2-2 s}-2\right)(1-2s) & \textnormal{$i=0$, $j=1$,} \\
+-\sqrt{2}\gamma_j^s  & \parbox[t]{.3\columnwidth}{$i=0$, $j\in\inter{2,N}$, where $\gamma_j^s$ is defined in \eqref{eq:def_gamma_j},}\\
+-2\zeta^s_{N}  & \parbox[t]{.3\columnwidth}{$i=0$, $j=N+1$, where $\zeta_N^s$ is defined in \eqref{eq:def_zeta_N},}\\
 -\xi_k^s & \textnormal{ $i,j\in\inter{1,N}$ with $k\geq 2$,} \\
 3^{3-2s}-2^{5-2s}+7 & \textnormal{$i\in\inter{1,N-1}$ and $j=i+1$,} \\
 4^{2-2s}-8 & \textnormal{$i\in\inter{1,N}$ and $j=i$,}
@@ -1826,11 +1820,11 @@ The stiffness matrix $\mathcal A_{h}^{L}\in{\R^{(N+2)\times(N+2)}}$ of the logar
 \begin{equation}\label{stiff:LogLap}
 a_{i,j}= h
 \begin{cases}
-\displaystyle -\frac{\B{2} \gamma }{3}+\frac{\B{16}}{9}-\frac{\B{4}}{3}  \log (h)+\frac{\B{4}}{3}  \log
-   (2)+\frac{\B{2}}{3}  \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=0$,} \\
-\displaystyle -\frac{\gamma }{3\B{\sqrt{2}}}+\frac{5}{9\B{\sqrt{2}}}-\frac{\B{\sqrt{2}}}{3} \log (h)-\frac{\B{\sqrt{2}}}{3}  \log
-   (2)+\frac{1}{3\B{\sqrt{2}}} \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=1$,} \\
-   -\frac{\B{\sqrt {2}}}{3},
+\displaystyle -\frac{2 \gamma }{3}+\frac{16}{9}-\frac{4}{3}  \log (h)+\frac{4}{3}  \log
+   (2)+\frac{2}{3}  \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=0$,} \\
+\displaystyle -\frac{\gamma }{3\sqrt{2}}+\frac{5}{9\sqrt{2}}-\frac{\sqrt{2}}{3} \log (h)-\frac{\sqrt{2}}{3}  \log
+   (2)+\frac{1}{3\sqrt{2}} \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=1$,} \\
+   -\frac{\sqrt {2}}{3},
  & \parbox[t]{.3\columnwidth}{$i=0$, $j=2$}\\
  \mathsf{l}_k, 
  & \parbox[t]{.3\columnwidth}{$i=0$, $j\in\inter{3,N}$}\\
@@ -1845,10 +1839,10 @@ a_{i,j}= h
 where 
 %
 \begin{align} \notag
-\mathsf{l}_k:= & \frac{1}{3\B{\sqrt{2}}}  \left[-3 j^3 \log (j)+6 j^2 \log (j)+(j-2)^3 (-\log (j-2))+3
+\mathsf{l}_k:= & \frac{1}{3\sqrt{2}}  \left[-3 j^3 \log (j)+6 j^2 \log (j)+(j-2)^3 (-\log (j-2))+3
    (j-1)^2 (j-2) \log (j-1) \right. \\
    &\left. +(j+1)^2 (j-2) \log (j+1)-2\right] \\
-   \mathsf{m}_k:= & \frac{\B{1}}{3}\left[2 (N-3) N^2 \log (N)-N-(N-1)^3 \log (N-1)-(N+1) ((N-4) N+1) \log (N+1)-3\right] \\
+   \mathsf{m}_k:= & \frac{1}{3}\left[2 (N-3) N^2 \log (N)-N-(N-1)^3 \log (N-1)-(N+1) ((N-4) N+1) \log (N+1)-3\right] \\
 \mathsf{p}_k:=&  -24\log(3) - 12\log(4) - 16\log(9) + 27\log(16) + \log(144) \\ \notag
 \mathsf{q}_k:=&-(-2 + k)^3\log(-2 + k) + 4(-1 + k)^3\log(-1 + k) - 6 k^3 \log(k)  \\
 &+4(1 + k)^3\log(1 + k) - (2 + k)^3\log(2 + k)
@@ -1914,7 +1908,7 @@ which is a good approximation for $u_h$ (defined in Theorem~\ref{main:thm:intro}
 %%%%.        Figure       %%%
 %%%%%%%%%%%%%%%
 % DO NOT ERASE
-\begin{figure}[h!]
+\begin{figure}[htb]
 	\centering
 	%
 	\begin{tikzpicture}[scale=1]
@@ -1953,7 +1947,7 @@ We are particularly interested in exhibiting evidence for the optimality of the 
 %%%%.        Figure       %%%
 %%%%%%%%%%%%%%%
 % DO NOT ERASE
-\begin{figure}[h!]
+\begin{figure}[htb]
 	\centering
 	%
 	\subfloat[The $L^2$-norm $(a_h)$.]{
@@ -2011,7 +2005,7 @@ Note that these curves are not straight lines. This contrasts with the typical b
 Although the curve in Figure~\ref{l2_ah} looks almost straight, a computation of its slope (with respect to consecutive points) shows otherwise, as presented in Table~\ref{table:1}.
 
 
-\begin{table}[h!]
+\begin{table}[htb]
 \centering
 %
 \pgfplotstableread{./Programas/num_results/sol-log_convergence_data_21-06-2023_11h34.org}\data
@@ -2081,7 +2075,7 @@ $w(x)=\left(
 
 
 
-\begin{table}[h!]
+\begin{table}[htb]
 \centering
 %
 \pgfplotstableread{./Programas/num_results/sol-log_convergence_data_21-06-2023_16h57.org}\data
@@ -2188,7 +2182,7 @@ By \cite[Corollary 1.9]{CW19} it is stated that the (weak) maximum principle hol
 %%%%.        Figure       %%%
 %%%%%%%%%%%%%%%
 % DO NOT ERASE
-\begin{figure}[h!]
+\begin{figure}[htb]
 	\centering
 	%
 	\subfloat[$u_1$ and its FEM approximation.]{
@@ -2250,7 +2244,7 @@ We remark that the functions $u_1$ and $u_2$ do not satify the assumptions of Th
 
 Standard Fredholm theory implies that if $0$ is not an eigenvalue of $L_\Delta$, then the Dirichlet problem with $L_{\Delta}$ is uniquely solvable for any $f\in L^2(\Omega)$. By the regularity theory, this translates to classical solutions in view of  Theorem~\ref{eq:regularity}. To approximate the eigenvalues of $L_{\Delta}$ in $\Omega$, we consider first the case of Theorem~\ref{eq:regularity}(ii), that is, the case in which $0$ is an eigenvalue of $L_{\Delta}$ in $\Omega$. In this case there is a nontrivial $\phi\in \mathcal X^{\alpha}(\Omega)$, for some $\alpha>0$, satisfying $L_{\Delta}\phi=0$ in  $\Omega$ and $\phi=0$ in $\R\setminus \Omega$ ---we emphasize here that the following argument can be done in any dimension. Note that if we define for $r>0$ a function $\phi_r=\phi(\cdot/r)$, then $L_{\Delta}\phi_r=-2\ln(r)\phi_r$ in $r\Omega$ and $\phi_r=0$ in $\R\setminus r\Omega$, see \cite[Lemma 2.5]{LW21}. Thus having $0$ as an eigenvalue for $\Omega$ gives us the eigenvalue $-2\ln(r)$ in $r\Omega$.
 
-In this way, if we can approximate the value of $L>0$ such that the operator $L_{\Delta}$ has $0$ as an eigenvalue in $\Omega=(-L,L)$, we can classify from there the eigenvalues of $(\SJ{-\tilde{L}},\tilde{L})$ for a general $\tilde{L}>0$. \SJ{Note that we consider here a symmetric interval across $0$ for the approximation of eigenvalues similarly as in Section~\ref{sec:numerics} instead of the interval $(0,L)$. This, however, is simply a scaling and translation of $\mathcal{A}^L_h$ as explained before.} To find these values of $L$, we first show that the eigenvalues of the stiffness matrix $\mathcal A_h^L$ actually converge to the eigenvalues of $L_{\Delta}$ and then we use the condition of the stiffness $\mathcal{A}^L_h$ to find the cases in which there is zero as an eigenvalue. Here, we denote the condition of a matrix $A$ by
+In this way, if we can approximate the value of $L>0$ such that the operator $L_{\Delta}$ has $0$ as an eigenvalue in $\Omega=(-L,L)$, we can use this information to approximate the eigenvalues of $(-\tilde{L},\tilde{L})$ for a general $\tilde{L}>0$. Note that here we consider a symmetric interval centered at $0$ instead of the interval $(0,L)$. To find these values of $L$, we first show that the eigenvalues of the stiffness matrix $\mathcal A_h^L$ actually converge to the eigenvalues of $L_{\Delta}$ and then we use the condition of the stiffness $\mathcal{A}^L_h$ to find the cases in which there is zero as an eigenvalue. Here, we denote the condition of a matrix $A$ by
 \begin{equation}\label{defi:condition}
 \textnormal{cond}(A):=\Big|\frac{\lambda_{\max}(A)}{\lambda_{\min}(A)}\Big|,
 \end{equation}
@@ -2258,14 +2252,14 @@ where with $\sigma(A)=\{\lambda\in \R\;:\; \lambda\text{ is an eigenvalue of $A$
 $$
 \lambda_{\max}(A):=\max_{\lambda\in \sigma(A)}|\lambda|\quad\text{ and }\quad \lambda_{\min}(A):=\min_{\lambda\in \sigma(A)}|\lambda|.
 $$
-In this way, $\textnormal{cond}(\mathcal{A}^L_h)$ blows up while moving $L$ from $0$ to infinity every time there is $0$ as an eigenvalue of $\mathcal{A}^L_h$.\\
+In this way, $\textnormal{cond}(\mathcal{A}^L_h)$ blows up while moving $L$ from $0$ to infinity every time there is $0$ as an eigenvalue of $\mathcal{A}^L_h$.
 
-\SJ{
+
 \begin{proposition}\label{eigenvalue approximation a}
 For $L>0$ the eigenvalues of $L_{\Delta}$ in $(-L,L)$ are given by $\lambda_i=2\ln(L_i/L)$, $i\in \N$, where for each $i\in \N$ the value $L_i>0$ is such that zero is an eigenvalue of $L_{\Delta}$ in $(-L_i,L_i)$.
 \end{proposition}
 \begin{proof}
-Since we already know that there is an infinite sequence of eigenvalues $\lambda_1<\lambda_2\leq\ldots\lambda_k\to \infty$ for $k\to\infty$ of $L_{\Delta}$ in $\Omega=(-L,L)$ for some fixed $L$ by \cite[Theorem 1.4]{CW19}, it follows that we can find a sequence of values $L_i>0$, $i\in \N$ satisfying $0<L_1<L_2<\ldots$ with $L_i\to\infty$ for $i\to \infty$ such that $0$ is an eigenvalue of $L_{\Delta}$ in $(-L_i,L_i)$. With the above remark on the scaling property of the eigenvalues it then follows that the eigenvalues of $L_{\Delta}$ in $(-L,L)$ are given by $\lambda_i=2\ln(L_i/L)$ for $i\in \N$.
+We already know that there is an infinite sequence of eigenvalues $\lambda_1<\lambda_2\leq\ldots\lambda_k\to \infty$ for $k\to\infty$ of $L_{\Delta}$ in $\Omega=(-L,L)$ for some fixed $L$, by \cite[Theorem 1.4]{CW19}. By scalings, one can find a sequence of values $L_i>0$, $i\in \N$ satisfying $0<L_1<L_2<\ldots$ with $L_i\to\infty$ for $i\to \infty$ such that $0$ is an eigenvalue of $L_{\Delta}$ in $(-L_i,L_i)$. Scaling again, it follows that the eigenvalues of $L_{\Delta}$ in $(-L,L)$ are given by $\lambda_i=2\ln(L_i/L)$ for $i\in \N$.
 %\\
 %It remains to show the simplicity of the eigenvalues. For this, first note that the (Dirichlet) eigenvalues $\lambda_k^s$ of the fractional Laplacian in $(-L,L)$ are simple, \cite{add reference}. Denote the corresponding eigenfunctions as $\phi_k^s$ and we assume that $\phi_k^s$ is normalized. By \cite[Theorem 1.1]{FJW22} it holds $\phi_k^s\to \phi_k$ uniformly for $s\to 0^+$, where $\phi_k$ is an $L^2$-normalized eigenfunction of $L_{\Delta}$ in $(-L,L)$ corresponding $\lambda_k$, the $k$-th eigenvalue of $L_{\Delta}$ in $(-L,L)$. In the following, for $k\in \N$ denote by $m_k$ the multiplicity of $\lambda_k$ and we write $\phi_{ki}$, $i=1,\ldots,m_k$ for the eigenfunctions forming the orthonormal basis of the eigenspace corresponding to $\lambda_{k}$. We may put $\phi_k=\phi_{k1}$. Assume there is $k\in \N$ with $m_k>1$. Since $\{\phi_{i}^s\}_{i\in \N}$ forms an orthonormal basis of $L^2((-L,L))$, there are values $\alpha_i(s)\in \R$ such that
 %$$
@@ -2276,9 +2270,8 @@ Since we already know that there is an infinite sequence of eigenvalues $\lambda
 %\lim_{s\to 0^+}\alpha_i(s)=\lim_{s\to 0^+}\int_{(-L,L)}\phi_{k,2}\phi_i^s\,dx=\int_{(-L,L)}\phi_{k,2}\phi_i\,dx=0.
 %$$
 \end{proof}
-}
 
-We next show the convergence of the eigenvalues of $\mathcal{A}^L_h$ to eigenvalues of $L_{\Delta}$ for $h\to 0$. Then we present an approximation of $\textnormal{cond}(A^L_h)$ for small enough $h$ and give the approximations of the eigenvalues in $(0,L)$ for general $L>0$.\\
+We next show the convergence of the eigenvalues of $\mathcal{A}^L_h$ to eigenvalues of $L_{\Delta}$ for $h\to 0$. Then we present an approximation of $\textnormal{cond}(A^L_h)$ for small enough $h$ and give the approximations of the eigenvalues in $(0,L)$ for general $L>0$.
 
 For the convergence, we cannot work with Theorem~\ref{main:thm:intro}, since it is not clear whether the eigenfunctions belong to the space $\mathcal{Y} (\Omega)$. We first classify the eigenvalues $\{\lambda_k\}_{k\in \N}$ of $L_{\Delta}$ with the Courant-Fischer minimax principle, see e.g. \cite[Proposition 2.3 and Remark 2.4]{FJW22}, that is it holds
 \begin{align}\label{CF}
@@ -2302,7 +2295,7 @@ By \eqref{CF},
 $$
 \|u\|_{L^2(\Omega)}\leq C\|u\|_{\mH(\Omega)}\quad\text{for all $u\in \mH(\Omega)$.}
 $$
-Let  \SJ{$\delta\in(0,1)$}. Then there is a subspace $M_{\delta}\subset \mH(\Omega)$ with $\dim(M_{\delta})=k$ and some $m\in M_{\delta}$ with $\|m\|_{L^2(\Omega)}=1$ such that
+Let  $\delta\in(0,1)$. Then there is a subspace $M_{\delta}\subset \mH(\Omega)$ with $\dim(M_{\delta})=k$ and some $m\in M_{\delta}$ with $\|m\|_{L^2(\Omega)}=1$ such that
 \begin{align}\label{delta:eq}
 \max_{\substack{ u\in M_{\delta}\setminus \{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u)=\mathcal{E}_{L}(m,m)\leq \lambda_k+\frac{\delta}{2}. 
 \end{align}
@@ -2321,17 +2314,17 @@ $. Then, using \eqref{1st} and \eqref{delta:eq},
 By the definition of $\mathcal{E}_L$ (see \eqref{cEL:def}) and the Cauchy-Schwarz inequality, 
 \begin{align}
 \mathcal{E}_L(m_h-m,m_h+m)&\leq \mathcal{E}(m_h-m,m_h+m)\\
-&\quad +\|m_h-m\|_{L^1(\R)}\SJ{\|m_h+m\|_{L^1(\R)}}+\rho_1\|m_h-m\|_{L^2(\R)}\SJ{\|m_h+m\|_{L^2(\R)}}\notag\\
+&\quad +\|m_h-m\|_{L^1(\R)}\|m_h+m\|_{L^1(\R)}+\rho_1\|m_h-m\|_{L^2(\R)}\|m_h+m\|_{L^2(\R)}\notag\\
 &\leq \|m_h-m\|_{\mH(\Omega)}\Big(\|m_h\|_{\mH(\Omega)}+\|m\|_{\mH(\Omega)}\Big)\\
-&\quad +\Big(|\Omega|^\SJ{2}+\rho_1\Big)\|m_h-m\|_{L^2(\R)}\SJ{\Big(\|m_h\|_{L^2(\R)}+\|m\|_{L^2(\R)}\Big)}\notag\\
-&\leq \frac{\delta}{2C}\Big(\|m_h\|_{\mH(\Omega)}+\|m\|_{\mH(\Omega)}+\SJ{3}C\big(|\Omega|^\SJ{2}+\rho_1\big)\Big).\label{lambda-k-upperbound2}
+&\quad +\Big(|\Omega|^2+\rho_1\Big)\|m_h-m\|_{L^2(\R)}\Big(\|m_h\|_{L^2(\R)}+\|m\|_{L^2(\R)}\Big)\notag\\
+&\leq \frac{\delta}{2C}\Big(\|m_h\|_{\mH(\Omega)}+\|m\|_{\mH(\Omega)}+3C\big(|\Omega|^2+\rho_1\big)\Big).\label{lambda-k-upperbound2}
 \end{align}
 Since $\|m_h\|_{\mH(\Omega)}\to \|m\|_{\mH(\Omega)}$ as $h\to 0$, we can assume that
 $\|m_h\|_{\mH(\Omega)}\leq \|m\|_{\mH(\Omega)}+1$ by making $h_0$ smaller, if necessary. Then, from \eqref{lambda-k-upperbound} and \eqref{lambda-k-upperbound2}, we have
 \begin{align*}
 \lambda_k\leq \lambda_{k,h}
 \leq 
-\delta\frac{(\delta+2)^2}{8C}\Big(2\|m\|_{\mH(\Omega)}+1+\SJ{3}C\big(|\Omega|^\SJ{2}+\rho_1\big)\Big)
+\delta\frac{(\delta+2)^2}{8C}\Big(2\|m\|_{\mH(\Omega)}+1+3C\big(|\Omega|^2+\rho_1\big)\Big)
 +
 ( \frac{\delta}{2}+1)^2\big(\lambda_k+\delta\big).
 \end{align*}
@@ -2350,7 +2343,7 @@ From here, it is easy to see that $\lambda_{k,h}$ denotes the $k$-the eigenvalue
 We emphasize that the scaling of the logarithmic Laplacian behaves the same in all dimensions. Due to this, and by following the proof of Proposition~\ref{prop:eigen-approx} closely, the approach to estimate the eigenvalues of $L_{\Delta}$ in an arbitrary domain $\Omega\subset\R^N$ can be done in an equivalent way, once the stiffness matrix is calculated and Theorem~\ref{density:thm} is verified for the corresponding approximation space $\mathcal{V}_h$.
 \end{remark}
 
-\SJ{We close this section with the explicit numerical approximations. In Figure~\ref{L vs condition} the condition of $\mathcal{A}^L_h$ is plotted for a fixed $N$ and varying $L$. The singularities then indicated the relevant areas in which $L$ can be chosen to have $0$ as an eigenvalue in $(-L,L)$. To approximate the exact values, using the \textit{``Golden-section search''} in certain intervals, we find $L_i$ for $i=1,\ldots,6$ as follows.
+We close this section with some explicit numerical approximations. In Figure~\ref{L vs condition} the condition of $\mathcal{A}^L_h$ is plotted for a fixed $N$ and varying $L$. The singularities then indicated the relevant areas in which $L$ can be chosen to have $0$ as an eigenvalue in $(-L,L)$. To approximate the exact values, using the \textit{``Golden-section search''} in certain intervals, we find $L_i$ for $i=1,\ldots,6$ as follows.
 
 %%
 %%
@@ -2376,7 +2369,7 @@ $L_6$ & $[8.5,8.7]$ & $8.6133$ &$8.6573 $ &$8.6640$ & $8.6563$ &$8.6504$ &$8.647
 \begin{proof}[Proof of Proposition~\ref{eigenvalue approximation}]
 This follows immediately from Proposition~\ref{eigenvalue approximation a}, the scaling properties of $L_{\Delta}$, and the above table.
 \end{proof}
-}
+
 
 \begin{figure}[htbp]
 	\centering
@@ -2529,7 +2522,7 @@ is the torsion function for the fractional Laplacian, namely, $(-\Delta)^s U(x)=
  
  
 {\color{white}.}
-\begin{table}[h!]
+\begin{table}[htb]
 \centering
 %
 \pgfplotstableread{./Programas/num_results/sol-log_convergence_data_20-06-2023_16h35.org}\data
