@@ -446,7 +446,7 @@ for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of
 	%	
 	\end{tikzpicture}
 	}
-	\caption{Numerical aproximation of the solution to \eqref{t:p:intro} for different values of $L$.}
+	\caption{Numerical approximation of the solution to \eqref{t:p:intro} for different values of $L$.}
 	\label{Fig:t:f}
 \end{figure}
 
@@ -1441,7 +1441,7 @@ for some constant $C>0$ uniform with respect to $h$. By \Cref{prop:more_regulari
 
 
 
-\section{The stiffness matrix for the logarihtmic Laplacian}\label{sec:stiffness}
+\section{The stiffness matrix for the logarithmic Laplacian}\label{sec:stiffness}
 
 Recall that $\Omega:=(0,L)$ for some $L>0$.  We use $A^L_h$ to denote the stiffness matrix associated to the logarithmic Laplacian $L_\Delta.$   The entries of the matrix $A^L_h=(b_{ij})_{i,j=0}^{N+1}$ can be obtained by computing
 \begin{align*}
@@ -1783,7 +1783,7 @@ Recall that $\frac{c_{1,s}}{2}=\frac{\sin (\pi  s) \Gamma (2 s+1)}{2\pi}$.
 
 
 %
-In view of the symmetry of \eqref{eq:def_aijs_s} and using the basis $(\varphi_i)_{i\in\inter{0,N+1}}$ of shape funcitons \eqref{eq:def_basis}--\eqref{eq:def_basis_ext}, the coefficients $a_{i,j}$ with $i,j\in\inter{0,N+1}$ and $j\geq i$ are given by
+In view of the symmetry of \eqref{eq:def_aijs_s} and using the basis $(\varphi_i)_{i\in\inter{0,N+1}}$ of shape functions \eqref{eq:def_basis}--\eqref{eq:def_basis_ext}, the coefficients $a_{i,j}$ with $i,j\in\inter{0,N+1}$ and $j\geq i$ are given by
 %
 % \begin{equation}
 % a_{i,j}= h^{1 - 2 s}
@@ -1893,7 +1893,7 @@ This choice is justified by the following facts
 	%	
 	\end{tikzpicture}
 
-	\caption{Logarithmic laplacian.}
+	\caption{Logarithmic Laplacian.}
 	\label{fig:1}
 \end{figure}
 
@@ -1932,7 +1932,7 @@ which is a good approximation for $u_h$ (defined in Theorem~\ref{main:thm:intro}
 	\label{fig:2}
 \end{figure}
 
-As seen in Figure~\ref{fig:2}, the largest error ocurrs close to the boundary of the interval, where the function $u$ has a logarithmic behavior.  To quantify this error we compute the following quantities,
+As seen in Figure~\ref{fig:2}, the largest error occurs close to the boundary of the interval, where the function $u$ has a logarithmic behavior.  To quantify this error we compute the following quantities,
 \begin{align*}
  a_h&:=\left(\int_{-1}^1 |u-v_h|^2\, dx\right)^\frac{1}{2}\qquad \text{(the $L^2$-norm of the error between $u$ and $v$)},\\
  b_h&:=\left(\int_{-1+h}^{1-h} |u-v_h|^2\, dx\right)^\frac{1}{2}\qquad \text{(a local $L^2$-norm of the error between $u$ and $v$)},\\
