@@ -281,7 +281,7 @@ The next Fredholm-alternative-type result characterizes the existence of classic
         %
         for some constant $C>0$ only depending on $\Omega$.
         %
-        \item There is a non-trivial classical solution $u\in X^{\alpha}(\Omega)$ of $L_{\Delta} u=0$.
+        \item There is a non-trivial classical solution $u\in {\mathcal X}^{\alpha}(\Omega)$ of $L_{\Delta} u=0$.
     \end{enumerate}
 \end{theorem}
 
@@ -311,7 +311,7 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
 
  However, since the regularity theory for $L_\Delta$ is much less developed than that of $(-\Delta)^s$, key elements in the proofs in \cite{Bor17} have to be changed to fit into the logarithmic Laplacian setting.  For instance, the idea of \emph{trace} plays a key role in order to define the Scott-Zhang interpolator used in \cite{Bor17}. This trace is known to exist in the fractional case because, under suitable assumptions on the right-hand side $f$, regularity estimates for the fractional Laplacian imply that the corresponding weak solutions always belong to $H^{\frac{1}{2}+\eps}(\Omega)$ for some $\eps>0$ (see \cite[Theorem 2.3.6]{Bor17}), which is a Hilbert space with trace.  There is no such result for the logarithmic Laplacian $L_\Delta$.  Although Theorem~\ref{eq:regularity} implies that weak solutions are log-Hölder continuous, it is not known if these solutions belong to a suitable Hilbert space with trace.
 
- As a consequence, we use a simpler interpolator: the projection to $\mathcal V_h$ in the $L^2$-sense (see \eqref{eq:interpolator}). Because of this, in our approach, it is important to consider two discontinuous elements in the finite element basis (see \eqref{eq:def_basis_ext}).  This might seem odd, in virtue of the Dirichlet boundary conditions, but in fact this is required in our analysis and numerical experiments show that the presence of these two discontinuous elements improves the numerical approximation of logarithmic problems.
+ As a consequence, we use a simpler interpolator: the projection to $\mathcal V_h$ in the $L^2$-sense (see \eqref{eq:interpolator}). Because of this, in our approach, it is important to consider two discontinuous elements in the finite element basis (see \eqref{eq:def_basis_ext}).  This might seem odd, in virtue of the Dirichlet boundary conditions, but in fact this is required in our analysis and numerical experiments to show that the presence of these two discontinuous elements improves the numerical approximation of logarithmic problems.
 
  For the algorithmic implementation of the FEM, we also present a new perspective. Typically, in order to obtain the finite element approximation $u_h$ given by \eqref{eq:discr_problem:intro}, one needs to compute the so-called \emph{stiffness matrix}. For this, a finite element basis $(\varphi_i)_{i=0}^{N+1}$ of $\mathcal V_h$ is considered (see \eqref{eq:def_basis}-\eqref{eq:def_basis_ext}) and a matrix with entries
  \begin{align}\label{s:m:intro}
@@ -462,9 +462,9 @@ where
 For any $\beta>0$,
 %
 \begin{align}
-    \weH{\beta}&:=\left\{ u\in L^2(\Omega): \int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell(|x-y|)^{\beta}}dydx<+\infty \quad\textnormal{ and }\quad  \int_{\Omega}|u(x)|^2\ell^{-\beta}(\delta(x))dx <+\infty\right\},\label{H:weights:def}
+    \weH{\beta}&:=\left\{ u\in L^2(\Omega): \int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell(|x-y|)^{\beta}}dydx<+\infty \quad\textnormal{ and }\quad  \int_{\Omega}|u(x)|^2\ell^{-\beta}(d(x))dx <+\infty\right\},\label{H:weights:def}
 \end{align}
-where $\delta(x)=\operatorname{dist}(x,\partial \Omega)$ and $\ell$ is given in \eqref{ell:def}. 
+where $d(x)=\operatorname{dist}(x,\partial \Omega)$ and $\ell$ is given in \eqref{ell:def}.
 
 
 \subsection{The discrete space $\mathcal V_h$}
@@ -539,7 +539,7 @@ Let $L>0$ be fixed and $N\in\mathbb N$ be large enough such that $h\in(0,\frac{1
 %
    \begin{align*}\notag
     \|u\|^2_{\mathbb H(\Omega)} &\leq \sum_{i\in\inter{0,N}}\int_{\Omega_i}\int_{S_i}\frac{|u(x)-u(y)|^2}{|x-y|}dy\,dx+C\ell^{-1}(h)\sum_{i\in\inter{0,N}}\int_{\Omega_i}|u(x)|^2\,dx\\
-    &\quad +C\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(\delta(x))\,dx
+    &\quad +C\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(d(x))\,dx
 \end{align*}
 %
 for any $u\in \mathbb{H}(\Omega)$ and $\ell$ as in \eqref{ell:def}.
@@ -578,7 +578,9 @@ To bound $J_{i,1}$, note that
 %
 \begin{align}\notag
     J_{i,1}&\leq \int_{\Omega_i}|u(x)|^2\int_{B_{L}(x)\setminus B_{\frac{h}{2}}(x)}|x-y|^{-1}dy\,dx \\\label{eq:est_Ij1}
-    &\leq \int_{\Omega_i}|u(x)|^2\int_{\frac{h}{2}}^{L}\rho^{-1}d\rho\,dx=\left(-\log\left(\tfrac{h}{2L}\right)\right)\int_{\Omega_i}|u(x)|^2\,dx\leq C\ell^{-1} (h)\int_{\Omega_i}|u(x)|^2\,dx
+    &\leq 2\int_{\Omega_i}|u(x)|^2\int_{\frac{h}{2}}^{L}\rho^{-1}d\rho\,dx
+    =2\left(-\log\left(\tfrac{h}{2L}\right)\right)\int_{\Omega_i}|u(x)|^2\,dx
+    \leq C\ell^{-1} (h)\int_{\Omega_i}|u(x)|^2\,dx
 \end{align}
 %
 for some $C>0$ independent of $h$ depending on $\Omega$ and where we have used that $h\in(0,1/2)$ in the last inequality. Thus, we have proved that
@@ -611,14 +613,14 @@ To estimate $I_3$, we begin by writing
 where $H_i=\int_{\Omega_i}|u(x)|^2\int_{B_h(\Omega)\setminus \Omega}|x-y|^{-1}dy\,dx$ for $i\in\inter{0,N}$. Note that for $i\in\inter{1,N-1}$, we have that $\dist(\Omega_i,B_h(\Omega)\setminus\Omega)>h$ so the second sum of \eqref{eq:est_I3_init} can be estimated as we did for $I_2$. On the other hand, for indices $i\in\{0,N\}$, we have that for some $R>0$ large enough
 %
 \begin{align*}
-    H_i&\leq \int_{\Omega_i}|u(x)|^2\int_{B_R(0)\setminus B_{\delta(x)}(x)}|x-y|^{-1}dy\,dx \\
-    &\leq \int_{\Omega_i}|u(x)|^2\left(-\log\left(\tfrac{\delta(x)}{R}\right)\right)\,dx \leq C \int_{\Omega_i}|u(x)|^2\ell^{-1}(\delta(x))\,dx
+    H_i&\leq \int_{\Omega_i}|u(x)|^2\int_{B_R(0)\setminus B_{d(x)}(x)}|x-y|^{-1}dy\,dx \\
+    &\leq \int_{\Omega_i}|u(x)|^2\left(-\log\left(\tfrac{d(x)}{R}\right)\right)\,dx \leq C \int_{\Omega_i}|u(x)|^2\ell^{-1}(d(x))\,dx
 \end{align*}
 %
 where $C>0$ only depends on $\Omega$. Therefore,
 %
 \begin{align}\label{eq:est_I3}
-    I_3\leq C \sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(\delta(x))\,dx + C\ell^{-1}(h)\sum_{\in\inter{1,N-1}}\int_{\Omega_i}|u(x)|^2\,dx
+    I_3\leq C \sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(d(x))\,dx + C\ell^{-1}(h)\sum_{\in\inter{1,N-1}}\int_{\Omega_i}|u(x)|^2\,dx
 \end{align}
 %
 Finally, putting together \eqref{eq:est_I1_final}, \eqref{eq:est_I2}, and \eqref{eq:est_I3} gives the desired result. 
@@ -774,7 +776,8 @@ For (ii), note that from \eqref{eq:def_basis}, \eqref{eq:interpolator}, and \eqr
 \begin{align*}
 |I_h u|^2_{L^2(\Omega_i)}
 \leq \sum_{k\in I_i^\prime}|a_k|^2\int_{\Omega_i}|\varphi_k(x)|^2\, dx
-\leq \sum_{k\in I_i^\prime}|a_k|^2|\Omega_i|=h\sum_{k\in I_i^\prime}|a_k|^2.
+\leq C\sum_{k\in I_i^\prime}|a_k|^2|\Omega_i|
+=Ch\sum_{k\in I_i^\prime}|a_k|^2.
 \end{align*}
 %
 \end{proof}
@@ -862,14 +865,14 @@ For any $\alpha>0$, there exists $h_0>0$ only depending on $\alpha$ such that fo
 Combining \eqref{eq:approxim_estimate} and \Cref{rem:l2_stability} with \Cref{lem:localization_enorm} we obtain
 %
 \begin{align*}
-    \|v-I_h v\|_{\mathbb H(\Omega)}&\leq  C h^3(N+1)+Ch^3(N+1)\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(\delta(x))\,dx \\
-    &\leq Ch^2+Ch^2\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(\delta(x))\,dx
+    \|v-I_h v\|_{\mathbb H(\Omega)}&\leq  C h^3(N+1)+Ch^3(N+1)\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(d(x))\,dx \\
+    &\leq Ch^2+Ch^2\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(d(x))\,dx
 \end{align*}
 since $h=\frac{L}{N+1}$. Since $v\in C_c^\infty(\Omega)$, a direct computation and \Cref{lem:inter_l_infty} yield
 %
 \begin{align*}
-    \|v-I_h v\|_{\mathbb H(\Omega)} &\leq Ch^2+Ch^2\ell^{-1}(h)+C\left(\|v\|_{L^\infty(\Omega)}^2+\|I_hv\|^2_{L^\infty(\Omega)}\right)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1}(\delta(x))\,dx \\
-    & \leq Ch^2+Ch^2\ell^{-1}(h)+C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1-\alpha}(\delta(x))\,dx.
+    \|v-I_h v\|_{\mathbb H(\Omega)} &\leq Ch^2+Ch^2\ell^{-1}(h)+C\left(\|v\|_{L^\infty(\Omega)}^2+\|I_hv\|^2_{L^\infty(\Omega)}\right)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1}(d(x))\,dx \\
+    & \leq Ch^2+Ch^2\ell^{-1}(h)+C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1-\alpha}(d(x))\,dx.
 \end{align*}
 %
 Using Lemma~\ref{lem:ellbeta} and since $h\leq \ell^{\frac{1+\alpha}{2}}(h)$ for any $h\leq h_0$ for some $h_0>0$ only depending on $\alpha$, we obtain
