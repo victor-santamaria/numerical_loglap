@@ -464,7 +464,7 @@ For any $\beta>0$,
 \begin{align}
     \weH{\beta}&:=\left\{ u\in L^2(\Omega): \int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell(|x-y|)^{\beta}}dydx<+\infty \quad\textnormal{ and }\quad  \int_{\Omega}|u(x)|^2\ell^{-\beta}(d(x))dx <+\infty\right\},\label{H:weights:def}
 \end{align}
-where $d(x)=\operatorname{dist}(x,\partial \Omega)$ and $\ell$ is given in \eqref{ell:def}.
+where we recall that $d(x)=\operatorname{dist}(x,\partial \Omega)$ and $\ell$ is given in \eqref{ell:def}.
 
 
 \subsection{The discrete space $\mathcal V_h$}
@@ -687,7 +687,7 @@ This ends the proof.
 Let $U\subset \R$ be an open bounded interval and for any $v\in C_c^\infty(U)$ we write $\overline v=\frac{1}{|U|}\int_{U}v$. Then,
 %
 \begin{equation*}
-    |v-\overline{v}|_{L^2(U)}^2\leq |v'|_{L^\infty(U)}|U|^3
+    |v-\overline{v}|_{L^2(U)}^2\leq |v'|^2_{L^\infty(U)}|U|^3
 \end{equation*}
 %
 \end{lemma}
@@ -709,8 +709,8 @@ By mean value theorem
 %
 \begin{equation*}
     \int_{U}|v(x)-\overline{v}|^2dx 
-    \leq |v'|_{L^\infty(U)}\int_{U}\int_{U}|x-y|dy dx
-    \leq |v'|_{L^\infty(U)}|U|^3,
+    \leq |v'|^2_{L^\infty(U)}\int_{U}\int_{U}|x-y|dy dx
+    \leq |v'|^2_{L^\infty(U)}|U|^3,
 \end{equation*}
 %
 since $|x-y|\leq |U|$ for all $x,y\in U$.
@@ -787,7 +787,7 @@ For (ii), note that from \eqref{eq:def_basis}, \eqref{eq:interpolator}, and \eqr
 \begin{lemma}\label{lem:stab_dif_interp}
 Let $i\in\inter{0,N}$ and $v\in C_c^\infty(\Omega)$. There is $C>0$ independent of $h$ such that
 \begin{align}\label{eq:approxim_estimate}
-    \int_{\Omega_i}\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|}dy dx \leq C h^3. 
+    \int_{\Omega_i}\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|}dy dx \leq C \B{|v^\prime|^2_{\infty}} h^3. 
 \end{align}
 \end{lemma}
 %
@@ -805,7 +805,7 @@ By \eqref{Ihc}, $v-I_h v=v-\overline{v}+I_h(\overline v - v)$, thus
 Using that $\overline v$ is a constant function, we can use mean value theorem to bound $J_1$ as
 %
 \begin{equation}\label{eq:est_J1}
-    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C \int_{S_i}\int_{S_i}|x-y|dy dx \leq Ch^3,
+    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C \int_{S_i}\int_{S_i}|x-y|dy dx \leq C\B{|v^\prime|^2_{\infty}}h^3,
 \end{equation}
 since $|x-y|\leq 3h$ for $x,y\in S_i$.
 
@@ -825,7 +825,7 @@ where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and $I_i$ as de
 for $k\in I_i.$ Using \Cref{lem:poincare_type}, we can estimate the right-hand side of the above expression and obtain
 %
 \begin{equation}\label{eq:est_bks}
-    |b_k|^2\leq Ch^2.
+    |b_k|^2\leq C\B{|v^\prime|^2_{\infty}}h^2.
 \end{equation}
 %
 Collecting estimates \eqref{eq:est_dif_inter_1}--\eqref{eq:est_bks} gives the desired result. This ends the proof. 
@@ -835,18 +835,18 @@ Collecting estimates \eqref{eq:est_dif_inter_1}--\eqref{eq:est_bks} gives the de
 By making minor adjustments to the proof of  \Cref{lem:stab_dif_interp}, we can use item (ii) of \Cref{lem:loc_norm_interp} to obtain the following $L^2$-stability estimate, for $i\in\inter{0,N}$,
 %
 \begin{equation*}
-    |v-I_hv|_{L^2(\Omega_i)} \leq C h^3, \quad  v\in C_c^\infty(\Omega).
+    |v-I_hv|_{L^2(\Omega_i)} \leq C\B{|v^\prime|^2_{\infty}} h^3, \quad  v\in C_c^\infty(\Omega).
 \end{equation*}
 Indeed, let $i\in\inter{0,N}$, $U=({x_i-2h},{x_{i}+2h})$, and $\overline{v}:=\frac{1}{U}\int_U v\, dx$; then, by Lemmas~\ref{lem:poincare_type} and~\ref{lem:loc_norm_interp},
 \begin{align}
 |v-I_hv|^2_{L^2(\Omega_i)}
 \leq C|v-\overline{v}|_{L^2(\Omega_i)}^2 +|I_h(v-\overline{v})|^2_{L^2(\Omega_i)}
-\leq Ch^3+Ch\sum_{k\in I_i^\prime}a_k^2,\label{a2}
+\leq C\B{|v^\prime|^2_{\infty}}h^3+Ch\sum_{k\in I_i^\prime}a_k^2,\label{a2}
 \end{align}
 where $a_k=\frac{1}{h}\int_{x_{k-1}}^{x_{k+1}} (v-\overline{v})\varphi_k\, dx$ and $|a_k|\leq \frac{1}{h}\int_{x_i-2h}^{x_{i}+2h}|v-\overline{v}|\, dx$. By Lemma~\ref{lem:poincare_type},
 %
 \begin{equation*}
-    |v-\overline{v}|_{L^2(U)}^2\leq Ch^3.
+    |v-\overline{v}|_{L^2(U)}^2\leq C\B{|v^\prime|^2_{\infty}}h^3.
 \end{equation*}
 %
 The claim now follows from \eqref{a2}.
@@ -856,32 +856,35 @@ The claim now follows from \eqref{a2}.
 For any $\alpha>0$, there exists $h_0>0$ only depending on $\alpha$ such that for any $h<h_0$ and any $v\in C_c^\infty(\Omega)$ we have
 %
 \begin{equation}\label{eq:rate_H_c_infty}
-    \|v-I_h v\|_{\mathbb H(\Omega)}\leq C\ell^\alpha(h).
+    \|v-I_h v\|_{\mathbb H(\Omega)}\leq \B{C(|v|_{\infty},|v^\prime|_{\infty},L)}\ell^\alpha(h).
 \end{equation}
 %
+%\B{where $C>0$ is a constant that depends on $L$, $|v|_{\infty}$, $|v^\prime|_{\infty}$, but independent of $h$.}
 \end{proposition}
 
 \begin{proof}
+Along the proof, $C>0$ denotes possibly different constants that depend at most on $L$, $|v|_{\infty}$, $|v^\prime|_{\infty}$.
+
 Combining \eqref{eq:approxim_estimate} and \Cref{rem:l2_stability} with \Cref{lem:localization_enorm} we obtain
 %
 \begin{align*}
-    \|v-I_h v\|_{\mathbb H(\Omega)}&\leq  C h^3(N+1)+Ch^3(N+1)\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(d(x))\,dx \\
+    \|v-I_h v\|^2_{\mathbb H(\Omega)}&\leq  C h^3(N+1)+Ch^3(N+1)\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(d(x))\,dx \\
     &\leq Ch^2+Ch^2\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(d(x))\,dx
 \end{align*}
 since $h=\frac{L}{N+1}$. Since $v\in C_c^\infty(\Omega)$, a direct computation and \Cref{lem:inter_l_infty} yield
 %
 \begin{align*}
-    \|v-I_h v\|_{\mathbb H(\Omega)} &\leq Ch^2+Ch^2\ell^{-1}(h)+C\left(\|v\|_{L^\infty(\Omega)}^2+\|I_hv\|^2_{L^\infty(\Omega)}\right)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1}(d(x))\,dx \\
+    \|v-I_h v\|^2_{\mathbb H(\Omega)} &\leq Ch^2+Ch^2\ell^{-1}(h)+C\left(\|v\|_{L^\infty(\Omega)}^2+\|I_hv\|^2_{L^\infty(\Omega)}\right)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1}(d(x))\,dx \\
     & \leq Ch^2+Ch^2\ell^{-1}(h)+C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1-\alpha}(d(x))\,dx.
 \end{align*}
 %
 Using Lemma~\ref{lem:ellbeta} and since $h\leq \ell^{\frac{1+\alpha}{2}}(h)$ for any $h\leq h_0$ for some $h_0>0$ only depending on $\alpha$, we obtain
 %
 \begin{align*}
-    \|v-I_h v\|_{\mathbb H(\Omega)}
+    \|v-I_h v\|^2_{\mathbb H(\Omega)}
     & \leq C\ell^{1+\alpha}(h)+C\ell^{\alpha}(h)\leq C \ell^{\alpha}(h),
 \end{align*}
-which is the desired result.
+which is the desired result \B{(after adjusting the value of $\alpha$)}.
 \end{proof}
 
 \begin{remark}
@@ -916,10 +919,10 @@ By triangle inequality, we have
 %
 \begin{align*}
     \|v-v_h\|_{\mathbb H(\Omega)}&\leq \|v-w\|_{\mathbb H(\Omega)}+\|w-\Pi_h w\|_{\mathbb H(\Omega)}+\|\Pi_h w-\Pi_h v\|_{\mathbb H(\Omega)} \\
-    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)}. 
+    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)} \leq \frac{2\epsilon}{3}+\B{C(|w|_{\infty},|w^\prime|_{\infty},L)}\ell^\alpha(h). 
 \end{align*}
 %
-where we have used that $\|\Pi_h\|_*=1$ and property \eqref{eq:prop_infimo}. Lastly, using \Cref{eq:estab_H_c_infty} with $h>0$ small enough, $\|w-I_hw\|_{\mathbb H(\Omega)}\leq \epsilon/3$ and therefore $\|v-v_h\|_{\mathbb H(\Omega)}\leq \epsilon$. This yields the claim.
+where we have used that $\|\Pi_h\|_*=1$, property \eqref{eq:prop_infimo}, and \Cref{eq:estab_H_c_infty}. \B{Finally, we choose $h>0$ small enough so that ${C(|w|_{\infty},|w^\prime|_{\infty},L)}\ell^\alpha(h)\leq \frac{\epsilon}{3}$ (note that $w\in C^\infty_c(\Omega)$ is independent of $h$)}. This yields the claim.
 \end{proof}
 
 
@@ -1012,7 +1015,7 @@ By \Cref{lem:localization_enorm} and estimates \eqref{eq:approxim_estimate_weigh
     &\leq C \ell^{\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx\notag\\ 
     &\quad +C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1-\alpha}(d(x))\,dx,\label{eq:est_aprox_sum}
 \end{align}
-where we used that $\frac{\ell^{\alpha}(d(x))}{\ell^{\alpha}(h)}\leq 1$ for $x\in\Omega_i$.  
+where we used that $\frac{\ell^{\alpha}(d(x))}{\ell^{\alpha}(h)}\leq 1$ for $x\in\Omega_i$ with \B{$i\in\{0,N\}$}.  
 
 Let $x_i:=x_0=0$ if $i<0$ and $x_i:=x_{N+1}=L$ if $i>N+1$.  Then, 
 %
@@ -1482,8 +1485,8 @@ where $\chi_{\Omega}$ denotes the characteristic function in the interval $(-1,1
 
 This choice is justified by the following facts
 \begin{itemize}
- \item $u$ has a uniformly bounded logarithmic Laplacian in $(-1,1)$ (as a direct nontrivial calculation shows),
- \item has the optimal boundary regularity\footnote{This is needed to observe the optimal convergence rate. Indeed, solutions which are smoother typically yield better convergence rates, see, for instance, \cite[Section 5 and Table 2]{AB17} for the case of the fractional Laplacian.} for logarithmic Dirichlet problems, namely, it behaves as $\ell^{1/2}(d(x))$ (see the Introduction for the definition of $d$ and $\ell$).
+ \item $u$ has a uniformly bounded logarithmic Laplacian in $(-1,1)$ (as a direct nontrivial calculation shows, see \cite{HSLRS23}). Nonetheless, we remark that $L_{\Delta} u$ does not have a closed formula;
+ \item $u$ has the optimal boundary regularity\footnote{This is needed to observe the optimal convergence rate. Indeed, solutions which are smoother typically yield better convergence rates, see, for instance, \cite[Section 5 and Table 2]{AB17} for the case of the fractional Laplacian.} for logarithmic Dirichlet problems (see \cite{HSLRS23}), namely, it behaves as $\ell^{1/2}(d(x))$.
 \end{itemize}
 Here we only observe these facts numerically (see Figures~\ref{fig:1} and~\ref{fig:2}), but we we refer to \cite{HSLRS23} for a detailed proof. See also \cite[Theorem 1.11]{CW19} and \cite[Remark~1.5]{FJW22}.
 
@@ -1509,11 +1512,11 @@ Here we only observe these facts numerically (see Figures~\ref{fig:1} and~\ref{f
 	%	
 	\end{tikzpicture}
 
-	\caption{Logarithmic Laplacian.}
+	\caption{Logarithmic Laplacian of $u(x)$ as in \eqref{udef}.}
 	\label{fig:1}
 \end{figure}
 
-Now, consider $h=\frac{1}{N+1}$ for $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$. Let $f_i:=h L_\Delta u(x_i)$ for $i\in\inter{0,N+1}$, $F:=(f_i)$, and let $\alpha:=A_h^{-1}F$, 
+Now, consider $h=\frac{1}{N+1}$ for $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$. Let $f_i:=h [L_\Delta u](x_i)$ for $i\in\inter{0,N+1}$, $F:=(f_i)$, and let $\alpha:=A_h^{-1}F$, 
 where $A_h$ is the stiffness matrix for the logarithmic Laplacian given in \eqref{stiff:LogLap}. Let 
 \begin{align}\label{vdef}
 v_h(x):=\sum_{i=0}^{N+1}\alpha_i \phi_i(x), 
@@ -1544,7 +1547,7 @@ which is a good approximation for $u_h$ (defined in Theorem~\ref{main:thm:intro}
 	%	
 	\end{tikzpicture}
 
-	\caption{A comparison between $u$ given by \eqref{udef} and $v$ given by \eqref{vdef} for $N=50$.}
+	\caption{A comparison between $u$ given by \eqref{udef} and $v_h$ given by \eqref{vdef} for $N=50$. \Bc{sacar grafica plot de u-uh}}
 	\label{fig:2}
 \end{figure}
 
