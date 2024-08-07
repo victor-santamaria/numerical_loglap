@@ -4,7 +4,7 @@ clear
 L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600,3200];
+Nval=[50];
 step=[];
 dif_norm=[];
 dif_L2=[];
@@ -112,7 +112,7 @@ end
 
  %%% Write otput files
  write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
- write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,true)
+ write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,false)
 
  [xx,B0]=plt_sol_nearboundary(xi,sol_log,h);
 
@@ -334,8 +334,9 @@ if flag==true
     fprintf(outs_file_temp,'%s %s \n','#N: ', num2str(N));
     fprintf(outs_file_temp,'%s %4.4e \n','#h: ', 2*L/(N+1));
 
-    fprintf(outs_file_temp,'%s %s %s \n','xi','numsol','exsol');
-    fprintf(outs_file_temp,'%4.4f %4.4e %4.4e \n',[xi',[2*numsol(1);numsol(2:end-1);2*numsol(end)],realsol'].');
+    fprintf(outs_file_temp,'%s %s %s %s \n','xi','numsol','exsol','dif_num_real');
+    fprintf(outs_file_temp,'%4.4f %4.4e %4.4e %4.4e \n',[xi',[sqrt(2)*numsol(1);numsol(2:end-1);sqrt(2)*numsol(end)],realsol',...
+        [sqrt(2)*numsol(1);numsol(2:end-1);sqrt(2)*numsol(end)]-realsol'].');
     ST=fclose(outs_file_temp);
 end
 end

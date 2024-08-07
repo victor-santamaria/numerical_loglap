@@ -4,14 +4,18 @@ clear
 L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50];
+Nval=[25,50,100,200,400,800,1600];
 %Nval=[100];
 step=[];
 dif_norm=[];
 dif_L2=[];
 dif_linfinity=[];
-pendiente=[]; alpha=[];
+dif_L2_loc=[];
+
+pendiente=[];
+slope_inf=[];
 slope_L2=[];
+slope_L2_loc=[];
 
 for N=Nval
 
@@ -21,39 +25,48 @@ for N=Nval
     Alog=LoglapRigidity(L,N);
     mass = MassMatrix(xi,h);
 
+    M=1;
+    mass_loc=mass(M+1:end-M,M+1:end-M);
+
     %%% Right-hand side of the problem and projection over finite elements
-    f = @(x) 1+0*x; %%% Torsion
+    %f = @(x) 1+0*x; %%% Torsion
     %f = @(x) (-3*x.^2+1)+(log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*(1-x.^2); %%% (1-x^2)
     %f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
-    %f = @(x)  (2+log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*x; %%% x
+    f = @(x)  (2+log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*x; %%% x
 
     F=projection(xi,f,h);
 
-    exsol=@(x) 0*1+0*x+0*(1-x.^2);
+    exsol=@(x) 0*1+1*x+0*(1-x.^2);
 
     sol_log=Alog\F;
 
-    err_temp=exsol(xi)'-sol_log;
+    temp_err=exsol(xi)'-sol_log;
+    %temp_err=temp_err(2:end-1); %%Removiendo el ultimo punto
+   
+    error_norm=E_norm(xi,temp_err,L);
+    err_linf=norm(temp_err,Inf);
+    err_L2=sqrt(temp_err'*mass*temp_err);
+    %err_L2=norm(temp_err,2);
 
-    error_norm=sqrt(E_norm(xi(1:end),err_temp,1));
-    err_linf=norm(err_temp,Inf);
-    %err_L2=norm(err_temp,2);
-    err_L2=sqrt(err_temp'*mass*err_temp);
+    err_L2_loc=sqrt(temp_err(M+1:end-M)'*mass_loc*temp_err(M+1:end-M));
 
     dif_norm=[dif_norm;error_norm];
     dif_linfinity=[dif_linfinity;err_linf];
     dif_L2=[dif_L2;err_L2];
+    dif_L2_loc=[dif_L2_loc;err_L2_loc];
     
     step=[step;h];
 
     if length(dif_norm)== 1
         pendiente=[pendiente,NaN];
-        alpha=[alpha,NaN];
+        slope_inf=[slope_inf,NaN];
         slope_L2=[slope_L2,NaN];
+        slope_L2_loc=[slope_L2_loc,NaN];
     else
-        pendiente=[pendiente,log(dif_norm(end)/dif_norm(end-1))/log(step(end)/step(end-1))];
-        alpha=[alpha,abs(log(dif_norm(end)/dif_norm(end-1)))/abs(log(abs(log(step(end))/abs(log(step(end-1))))))];
-        slope_L2=[slope_L2,log(dif_L2(end)/dif_L2(end-1))/log(step(end)/step(end-1))];
+       pendiente=[pendiente,log(dif_norm(end)/dif_norm(end-1))/log(step(end)/step(end-1))];
+       slope_inf=[slope_inf,log(dif_linfinity(end)/dif_linfinity(end-1))/log(step(end)/step(end-1))];
+       slope_L2=[slope_L2,log(dif_L2(end)/dif_L2(end-1))/log(step(end)/step(end-1))];
+       slope_L2_loc=[slope_L2_loc,log(dif_L2_loc(end)/dif_L2_loc(end-1))/log(step(end)/step(end-1))];
     end
 
     figure(1)
@@ -63,20 +76,24 @@ for N=Nval
 end
 
 figure(2)
-loglog(step,dif_linfinity,'LineWidth',2.5);
+loglog(step,dif_linfinity,step,0.33./(-log(step)).^(0.35),'LineWidth',2.5);
 sl_dif=log(dif_linfinity(1)/dif_linfinity(end))/log(step(1)/step(end));
-legend("Slope: "+num2str(sl_dif)); title("Error L infinity norm")
+legend("Slope: "+num2str(sl_dif)); title('error L_inf')
 
 figure(3)
 loglog(step,dif_norm,'LineWidth',2.5);
-sl_dif=log(dif_norm(1)/dif_norm(end))/log(step(1)/step(end));
-legend("Slope: "+num2str(sl_dif)); title("Error norm quadrature")
+sl_quad=log(dif_norm(1)/dif_norm(end))/log(step(1)/step(end));
+legend("Slope: "+num2str(sl_quad)); title('error H quadrature')
 
 figure(4)
 loglog(step,dif_L2,'LineWidth',2.5);
-sl_dif=log(dif_L2(1)/dif_L2(end))/log(step(1)/step(end));
-legend("Slope: "+num2str(sl_dif)); title("Error L^2")
+sl_quad=log(dif_L2(1)/dif_L2(end))/log(step(1)/step(end));
+legend("Slope: "+num2str(sl_quad)); title('error L^2')
 
+figure(5)
+loglog(step,dif_L2_loc,'LineWidth',2.5);
+sl_quad=log(dif_L2_loc(1)/dif_L2_loc(end))/log(step(1)/step(end));
+legend("Slope: "+num2str(sl_quad)); title('error L^2_{loc}')
 
 %%% Descomentar si queremos guardar la solución
 write_sol(xi,sol_log,false);
@@ -84,6 +101,8 @@ write_sol(xi,sol_log,false);
 write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
 
 [xx,B0]=plt_sol_nearboundary(xi,f(xi),h);
+
+write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,true)
 
 
 %%% Auxiliary functions
@@ -317,5 +336,26 @@ for i=1:N
     end
 end
 
+end
+
+function write_convergence_data(xi,step,dif_norm_1,dif_norm_2,dif_norm_3,slope_1,slope_2,slope_3,flag)
+if flag==true
+    [dt,ht,mt]=obtain_date();
+    L=max(abs(xi));
+
+    name_result = strcat('num_results/','sol-log_convergence_data_',...
+        dt,'_',ht,'h',mt,'.org');
+    file_result_temp=name_result;
+    outs_file_temp=fopen(file_result_temp,'w');
+
+    fprintf(outs_file_temp,'%s %s \n','#domain: ', ...
+        strcat('(-',num2str(L),',',num2str(L),')'));
+
+    fprintf(outs_file_temp,'% s %s %s %s %s %s %s %s \n', 'N','h','L2norm', ...
+        'L2locnorm','Linfnorm','slopeL2','slopeL2loc','slopeinf');
+    fprintf(outs_file_temp,'%4.4e %4.4e %4.4e %4.4e %4.4e %4.4e %4.4e %4.4e \n' ...
+        ,[2*L./step-1,step,dif_norm_1,dif_norm_2,dif_norm_3,slope_1',slope_2',slope_3'].');
+    ST=fclose(outs_file_temp);
+end
 end
 
