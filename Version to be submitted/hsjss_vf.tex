@@ -1532,12 +1532,13 @@ which is a way to approximate $u_h$ (defined in Theorem~\ref{main:thm:intro}), n
 \begin{figure}[htb]
 	\centering
 	%
-	\begin{tikzpicture}[scale=1]
+	\subfloat[]{
+	\begin{tikzpicture}[scale=0.9]
 	\begin{axis}[xlabel={$x$},xmin=-1.001,xmax=1.001,legend pos=outer north east,
 	legend plot pos=left, xtick={-1,0,1},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{sol-log_num-vs-exact_20-06-2023_12h48.org}\solution   
+	\pgfplotstableread{sol-log_num-vs-exact_07-08-2024_14h04.org}\solution   
 	\pgfplotstableread{sol-log_num-vs-exact_21-06-2023_16h18.org}\solutionfine         
 	      
 	\addplot[thick,color=blue] table[x=xi,y=exsol] \solutionfine; %\label{cost}
@@ -1548,8 +1549,25 @@ which is a way to approximate $u_h$ (defined in Theorem~\ref{main:thm:intro}), n
 	\end{axis}
 	%	
 	\end{tikzpicture}
+	}\quad 
+	\subfloat[]{
+	\begin{tikzpicture}[scale=0.9]
+	\begin{axis}[xlabel={$x$},xmin=-1.001,xmax=1.001,legend pos=outer north east,
+	legend plot pos=left, xtick={-1,0,1},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{sol-log_num-vs-exact_07-08-2024_14h04.org}\solution   
+	\pgfplotstableread{sol-log_num-vs-exact_21-06-2023_16h18.org}\solutionfine         
+	      
+	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, mark=x] table[x=xi,y=dif_num_real] \solution; %\label{cost}
+	 \addlegendentry{$u-v_h$};
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	}
 
-	\caption{A comparison between $u$ given by \eqref{udef} and $v_h$ given by \eqref{vdef} for $N=50$. \Bc{sacar grafica plot de u-uh}}
+	\caption{A comparison between $u$ given by \eqref{udef} and $v_h$ given by \eqref{vdef} for $N=50$.}
 	\label{fig:2}
 \end{figure}
 
@@ -1803,23 +1821,8 @@ By \cite[Corollary 1.9]{CW19} it is stated that the (weak) maximum principle hol
 \begin{figure}[htb]
 	\centering
 	%
-	\subfloat[$u_1$ and its FEM approximation.]{
-	\begin{tikzpicture}[scale=0.8]
-	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
-	legend plot pos=left, xtick={-1,0,1},
-	legend style={cells={anchor=west},draw=none}]
-	%	    
-	\pgfplotstableread{sol-log_num-vs-exact_20-06-2023_16h03.org}\solution      
-	      
-	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
-	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, only marks, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
-	
-	\end{axis}
-	%	
-	\end{tikzpicture}
-	}
 	%
-	\subfloat[$u_2$ and its FEM approximation.]{
+	\subfloat[$u_1$ and its FEM approximation.]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,ymin=0.0,legend pos=outer north east,
 	legend plot pos=left, xtick={-1,0,1},
@@ -1833,8 +1836,8 @@ By \cite[Corollary 1.9]{CW19} it is stated that the (weak) maximum principle hol
 	\end{axis}
 	%	
 	\end{tikzpicture}
-	}\\ \bigskip
-	\subfloat[The function $u_3$ and its FEM approximation.]{
+	} \bigskip
+	\subfloat[The function $u_2$ and its FEM approximation.]{
 	\begin{tikzpicture}[scale=0.8]
 	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
 	legend plot pos=left, xtick={-1,0,1},
@@ -1843,19 +1846,125 @@ By \cite[Corollary 1.9]{CW19} it is stated that the (weak) maximum principle hol
 	\pgfplotstableread{sol-log_num-vs-exact_20-06-2023_15h59.org}\solution      
 	      
 	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
+	
+	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, only marks, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	} \\
+	\subfloat[$u_3$ and its FEM approximation.]{
+	\begin{tikzpicture}[scale=0.8]
+	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
+	legend plot pos=left, xtick={-1,0,1},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{sol-log_num-vs-exact_20-06-2023_16h03.org}\solution      
+	      
+	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
 	\addlegendentry{Exact solution};
 	\addplot[thick,color=red,every mark/.append style={solid, fill=none}, only marks, mark=x] table[x=xi,y=numsol] \solution; %\label{cost}
-	 \addlegendentry{Numerical approximation};
+	\addlegendentry{Numerical approximation};
 	
 	\end{axis}
 	%	
 	\end{tikzpicture}
-	} 
+	}
 	\caption{Exact solutions and their numerical approximations for $N=50$.}
 	\label{fig:comp_sol}
 \end{figure}
 
-We remark that the functions $u_1$ and $u_2$ do not satify the assumptions of Theorem~\ref{main:thm:intro}, because the right-hand side does not belong to $\mathcal Y(\Omega)$. Nevertheless, the FEM produces an approximation also in these cases.  On the other hand, the function $u_3$ is Lipschitz in $\R$ and thus it exhibits a better convergence rate. Therefore, we cannot use $u_3$ to show the optimality of the convergence rate stated in Theorem~\ref{main:thm:intro}. \Bc{Agregar tablas de convergencia para los tres experimentos.}
+We remark that the functions $u_1$ and $u_2$ do not satify the assumptions of Theorem~\ref{main:thm:intro}, because the right-hand side does not belong to $\mathcal Y(\Omega)$. Nevertheless, the FEM produces an approximation also in these cases, see \Cref{fig:comp_sol} and \Cref{table:u1u2u3} for further information on the approximation quality.  We shall mention that the function $u_3$ is Lipschitz in $\R$ and thus it exhibits a better convergence rate. Therefore, we cannot use $u_3$ to show the optimality of the convergence rate stated in Theorem~\ref{main:thm:intro}.
+
+\begin{table}[htb!]
+\centering
+%
+\pgfplotstableread{sol-log_convergence_data_07-08-2024_15h45.org}\data
+%
+\pgfplotstableset{
+columns={N,h,L2norm,slopeL2},
+%%%
+columns/N/.style={
+column name=$N$,
+},	
+%%% 
+columns/h/.style={
+column name=$h$,
+sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+columns/L2norm/.style={
+column name=$L^2$--norm,
+sci,sci zerofill,sci subscript,
+precision=3},
+%%%
+columns/slopeL2/.style={
+column name=slope,
+%sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+}
+%
+\pgfplotstabletypeset[clear infinite, empty cells with={\ensuremath{-}}, 
+every head row/.style={before row={ \toprule & & \multicolumn{2}{c}{$u_1(x)$}  \\ },after row=\midrule},
+every last row/.style={
+after row=\bottomrule},
+]{\data}
+%
+\pgfplotstableread{sol-log_convergence_data_07-08-2024_15h45.org}\data
+%
+\pgfplotstableset{
+columns={L2norm,slopeL2},
+%%%
+columns/L2norm/.style={
+column name=$L^2$--norm,
+sci,sci zerofill,sci subscript,
+precision=3},
+%%%
+columns/slopeL2/.style={
+column name=slope,
+%sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{|}},	
+%%%
+}
+%
+\hspace{-0.35cm}
+\pgfplotstabletypeset[clear infinite, empty cells with={\ensuremath{-}},
+every head row/.style={before row={ \toprule \multicolumn{2}{c}{$u_2(x)$}  \\ },after row=\midrule},
+every last row/.style={
+after row=\bottomrule},
+]{\data}
+%
+\pgfplotstableread{sol-log_convergence_data_07-08-2024_15h03.org}\data
+%
+\pgfplotstableset{
+columns={L2norm,slopeL2},
+%%%
+columns/L2norm/.style={
+column name=$L^2$--norm,
+sci,sci zerofill,sci subscript,
+precision=3},
+%%%
+columns/slopeL2/.style={
+column name=slope,
+%sci,sci zerofill,sci subscript,
+precision=2,
+column type/.add={}{}},	
+%%%
+}
+%
+\hspace{-0.35cm}
+\pgfplotstabletypeset[clear infinite, empty cells with={\ensuremath{-}},
+every head row/.style={before row={ \toprule \multicolumn{2}{c}{$u_3(x)$}  \\ },after row=\midrule},
+every last row/.style={
+after row=\bottomrule},
+]{\data}
+%
+\caption{Error data for the approximation of $u_1$, $u_2$ and $u_3$.}
+\label{table:u1u2u3}
+\end{table}
 
 
 \section{Approximation of the eigenvalues of the logarithmic Laplacian}\label{eigenvalue approximation:sec}
@@ -2159,7 +2268,7 @@ precision=3},
 %%%
 columns/slopeL2/.style={
 column name=slope,
-sci,sci zerofill,sci subscript,
+%sci,sci zerofill,sci subscript,
 precision=2,
 column type/.add={}{|}},	
 %%%
