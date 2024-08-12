@@ -716,7 +716,7 @@ By \eqref{Ihc}, $v-I_h v=v-\overline{v}+I_h(\overline v - v)$, thus
 Using that $\overline v$ is a constant function, we can use mean value theorem to bound $J_1$ as
 %
 \begin{equation}\label{eq:est_J1}
-    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C \int_{S_i}\int_{S_i}|x-y|dy dx \leq C\B{|v^\prime|^2_{\infty}}h^3,
+    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C \int_{S_i}\int_{S_i}|x-y|dy dx \leq C{|v^\prime|^2_{\infty}}h^3,
 \end{equation}
 since $|x-y|\leq 3h$ for $x,y\in S_i$.
 
@@ -736,7 +736,7 @@ where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and $I_i$ as de
 for $k\in I_i.$ Using \Cref{lem:poincare_type}, we can estimate the right-hand side of the above expression and obtain
 %
 \begin{equation}\label{eq:est_bks}
-    |b_k|^2\leq C\B{|v^\prime|^2_{\infty}}h^2.
+    |b_k|^2\leq C{|v^\prime|^2_{\infty}}h^2.
 \end{equation}
 %
 Collecting estimates \eqref{eq:est_dif_inter_1}--\eqref{eq:est_bks} gives the desired result. This ends the proof. 
@@ -746,16 +746,16 @@ Collecting estimates \eqref{eq:est_dif_inter_1}--\eqref{eq:est_bks} gives the de
 By making minor adjustments to the proof of  \Cref{lem:stab_dif_interp}, we can use item (ii) of \Cref{lem:loc_norm_interp} to obtain the following $L^2$-stability estimate, for $i\in\inter{0,N}$,
 %
 \begin{equation*}
-    |v-I_hv|_{L^2(\Omega_i)} \leq C\B{|v^\prime|^2_{\infty}} h^3, \quad  v\in C_c^\infty(\Omega).
+    |v-I_hv|_{L^2(\Omega_i)} \leq C{|v^\prime|^2_{\infty}} h^3, \quad  v\in C_c^\infty(\Omega).
 \end{equation*}
 Indeed, let $i\in\inter{0,N}$, $U=({x_i-2h},{x_{i}+2h})$, and $\overline{v}:=\frac{1}{U}\int_U v\, dx$; then, by Lemmas~\ref{lem:poincare_type} and~\ref{lem:loc_norm_interp},
 \begin{align}
 |v-I_hv|^2_{L^2(\Omega_i)}
 \leq C|v-\overline{v}|_{L^2(\Omega_i)}^2 +|I_h(v-\overline{v})|^2_{L^2(\Omega_i)}
-\leq C\B{|v^\prime|^2_{\infty}}h^3+Ch\sum_{k\in I_i^\prime}a_k^2,\label{a2}
+\leq C{|v^\prime|^2_{\infty}}h^3+Ch\sum_{k\in I_i^\prime}a_k^2,\label{a2}
 \end{align}
 where $a_k=\frac{1}{h}\int_{x_{k-1}}^{x_{k+1}} (v-\overline{v})\varphi_k\, dx$ and $|a_k|\leq \frac{1}{h}\int_{x_i-2h}^{x_{i}+2h}|v-\overline{v}|\, dx$. By Lemma~\ref{lem:poincare_type}, $
-    |v-\overline{v}|_{L^2(U)}^2\leq C\B{|v^\prime|^2_{\infty}}h^3.$ The claim now follows from \eqref{a2}.
+    |v-\overline{v}|_{L^2(U)}^2\leq C{|v^\prime|^2_{\infty}}h^3.$ The claim now follows from \eqref{a2}.
 \end{remark}
 
 \begin{proposition}\label{eq:estab_H_c_infty}
@@ -790,7 +790,7 @@ Using Lemma~\ref{lem:ellbeta} and that $h\leq \ell^{\frac{1+\alpha}{2}}(h)$ for 
     \|v-I_h v\|^2_{\mathbb H(\Omega)}
     & \leq C\ell^{1+\alpha}(h)+C\ell^{\alpha}(h)\leq C \ell^{\alpha}(h),
 \end{align*}
-which is the desired result \B{(after adjusting the value of $\alpha$)}.
+which is the desired result {(after adjusting the value of $\alpha$)}.
 \end{proof}
 
 \begin{remark}
@@ -820,10 +820,10 @@ Let $\epsilon>0$. We recall that $C_c^\infty(\Omega)$ is dense in $\mathbb H(\Om
 %
 \begin{align*}
     \|v-v_h\|_{\mathbb H(\Omega)}&\leq \|v-w\|_{\mathbb H(\Omega)}+\|w-\Pi_h w\|_{\mathbb H(\Omega)}+\|\Pi_h w-\Pi_h v\|_{\mathbb H(\Omega)} \\
-    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)} \leq \frac{2\epsilon}{3}+\B{C(|w|_{\infty},|w^\prime|_{\infty},L)}\ell^\alpha(h),
+    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)} \leq \frac{2\epsilon}{3}+{C(|w|_{\infty},|w^\prime|_{\infty},L)}\ell^\alpha(h),
 \end{align*}
 %
-where we have used that $\|\Pi_h\|_*=1$, property \eqref{eq:prop_infimo}, and \Cref{eq:estab_H_c_infty}. \B{Finally, we choose $h>0$ small enough so that ${C(|w|_{\infty},|w^\prime|_{\infty},L)}\ell^\alpha(h)\leq \frac{\epsilon}{3}$ (note that $w\in C^\infty_c(\Omega)$ is independent of $h$)}. This yields the claim.
+where we have used that $\|\Pi_h\|_*=1$, property \eqref{eq:prop_infimo}, and \Cref{eq:estab_H_c_infty}. {Finally, we choose $h>0$ small enough so that ${C(|w|_{\infty},|w^\prime|_{\infty},L)}\ell^\alpha(h)\leq \frac{\epsilon}{3}$ (note that $w\in C^\infty_c(\Omega)$ is independent of $h$)}. This yields the claim.
 \end{proof}
 
 
@@ -1062,7 +1062,7 @@ For $i=1,\ldots,N$, this follows directly from \cite[Theorem 1.1]{CW19}, because
 \end{proof}
 
 
-In \cite{L22}, a numerical approximation of these coefficients is done using a trapeze formula.  The error involved in this approximation is of the order $O(\frac{1}{N^2})$.  
+%In \cite{L22}, a numerical approximation of these coefficients is done using a trapeze formula.  The error involved in this approximation is of the order $O(\frac{1}{N^2})$.  
 
 %
 % \subsection{Computation of the stiffness matrix}\label{sec:s:m}
@@ -1279,9 +1279,9 @@ In \cite{L22}, a numerical approximation of these coefficients is done using a t
 % where $k:=j-i$ and $\xi^s_k:=4(k+1)^{3-2s} + 4(k-1)^{3-2s}-6k^{3-2s}-(k+2)^{3-2s}-(k-2)^{3-2s}$
 
 
-\subsection{Stiffness matrix of the logarithmic Laplacian}\label{sec:s:m:log}
+%\subsection{Stiffness matrix of the logarithmic Laplacian}\label{sec:s:m:log}
 
-Using Lemma \ref{lem:derivative:s:m} and an explicit computation of the stiffness matrix for the fractional Laplacian, one obtains the stiffness matrix $\mathcal A_{h}^{L}=(a_{i,j})\in{\R^{(N+2)\times(N+2)}}$ of the logarithmic Laplacian. A detailed computation of these matrices can be found in the extended preprint of this paper, see \cite[Section 5]{HSJSS23}.
+Using Lemma \ref{lem:derivative:s:m} and an explicit computation of the stiffness matrix for the fractional Laplacian, one obtains the stiffness matrix $\mathcal A_{h}^{L}=(b_{ij})\in{\R^{(N+2)\times(N+2)}}$ of the logarithmic Laplacian. A detailed computation of these matrices can be found in the extended preprint of this paper, see \cite[Section 5]{HSJSS23}.
 
 Let
 \begin{align*} \notag
@@ -1291,10 +1291,10 @@ Let
 \mathsf{p}_k:=&  -24\log(3) - 12\log(4) - 16\log(9) + 27\log(16) + \log(144), \\ \notag
 \mathsf{q}_k:=&-(-2 + k)^3\log(-2 + k) + 4(-1 + k)^3\log(-1 + k) - 6 k^3 \log(k) +4(1 + k)^3\log(1 + k) - (2 + k)^3\log(2 + k),
 \end{align*}
-where $\psi$ is the digamma function and $\gamma=-\psi(1)$.  The coefficients $a_{i,j}$ with $i,j\in\inter{0,N+1}$ and $j\geq 1$ are given by
+where $\psi$ is the digamma function and $\gamma=-\psi(1)$.  The coefficients $b_{ij}$ with $i,j\in\inter{0,N+1}$ and $j\geq 1$ are given by
 %
 \begin{equation}\label{stiff:LogLap}
-a_{i,j}= h
+b_{ij}= h
 \begin{cases}
 \displaystyle -\frac{2 \gamma }{3}+\frac{16}{9}-\frac{4}{3}  \log (h)+\frac{4}{3}  \log
    (2)+\frac{2}{3}  \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=0$,} \\
@@ -1339,9 +1339,10 @@ Here we only observe these facts numerically (see Figures~\ref{fig:1} and~\ref{f
 %%%%%%%%%%%%%%%
 % DO NOT ERASE
 \begin{figure}[htbp]
+\small
 	\centering
 	%
-	\begin{tikzpicture}[scale=0.5]
+	\begin{tikzpicture}[scale=0.7]
 	\begin{axis}[xlabel={$x$},xmin=-1.001,xmax=1.001,legend pos=outer north east,
 	legend plot pos=left, xtick={-1,0,1},
 	legend style={cells={anchor=west},draw=none}]
@@ -1355,7 +1356,7 @@ Here we only observe these facts numerically (see Figures~\ref{fig:1} and~\ref{f
 	%	
 	\end{tikzpicture}
 
-	\caption{Logarithmic Laplacian of $u(x)$ as in \eqref{udef}.}
+	\caption{Logarithmic Laplacian of $u(x)$ as in \eqref{udef} computed with Mathematica.}
 	\label{fig:1}
 \end{figure}
 
@@ -1371,10 +1372,11 @@ which is a way to approximate $u_h$ (defined in Theorem~\ref{main:thm:intro}), n
 %%%%%%%%%%%%%%%
 % DO NOT ERASE
 \begin{figure}[htb]
+\small
 	\centering
 	%
 	\subfloat[]{
-	\begin{tikzpicture}[scale=0.6]
+	\begin{tikzpicture}[scale=0.7]
 	\begin{axis}[xlabel={$x$},xmin=-1.001,xmax=1.001,legend pos=outer north east,
 	legend plot pos=left, xtick={-1,0,1},
 	legend style={cells={anchor=west},draw=none}]
@@ -1392,7 +1394,7 @@ which is a way to approximate $u_h$ (defined in Theorem~\ref{main:thm:intro}), n
 	\end{tikzpicture}
 	}\quad 
 	\subfloat[]{
-	\begin{tikzpicture}[scale=0.6]
+	\begin{tikzpicture}[scale=0.7]
 	\begin{axis}[xlabel={$x$},xmin=-1.001,xmax=1.001,legend pos=outer north east,
 	legend plot pos=left, xtick={-1,0,1},
 	legend style={cells={anchor=west},draw=none}]
@@ -1428,6 +1430,7 @@ We are particularly interested in exhibiting evidence for the optimality of the 
 %%%%%%%%%%%%%%%
 % DO NOT ERASE
 \begin{figure}[htb]
+\small
 	\centering
 	%
 	\subfloat[The $L^2$-norm $(a_h)$.]{
@@ -1443,7 +1446,7 @@ We are particularly interested in exhibiting evidence for the optimality of the 
 	\end{loglogaxis}\label{l2_ah}
 	%	
 	\end{tikzpicture}
-	} \quad 
+	}  
 	\subfloat[The $L_{loc}^2$-norm $(b_h)$.]{
 	\begin{tikzpicture}[scale=0.6]
 	\begin{loglogaxis}[xlabel={$h$},legend pos=outer north east,
@@ -1486,6 +1489,7 @@ The discussion above suggests that the optimal convergence rate for the logarith
 
 
 \begin{table}[htb]
+\small
 \centering
 %
 \pgfplotstableread{sol-log_convergence_data_21-06-2023_11h34.org}\data
@@ -1553,6 +1557,7 @@ after row=\bottomrule},
 
 
 \begin{table}[htb]
+\small
 \centering
 %
 \pgfplotstableread{sol-log_convergence_data_21-06-2023_16h57.org}\data
@@ -1717,6 +1722,7 @@ Then, for $x\in \Omega$, it is not difficult to check that
 We remark that the functions $u_1$ and $u_2$ do not satisfy the assumptions of Theorem~\ref{main:thm:intro}, because the right-hand side does not belong to $\mathcal Y(\Omega)$. Nevertheless, the FEM produces an approximation also in these cases, see \Cref{table:u1u2u3} for further information on the quality of approximation.  We shall mention that the function $u_3$ is Lipschitz in $\R$ and thus it exhibits a better convergence rate. Therefore, we cannot use $u_3$ to show the optimality of the convergence rate stated in Theorem~\ref{main:thm:intro}.
 
 \begin{table}[htb!]
+\small
 \centering
 %
 \pgfplotstableread{sol-log_convergence_data_07-08-2024_15h10.org}\data
@@ -1806,6 +1812,7 @@ after row=\bottomrule},
 \caption{Error data for the approximation of $u_1$, $u_2$ and $u_3$.}
 \label{table:u1u2u3}
 \end{table}
+
 
 
 \section{Approximation of the eigenvalues of the logarithmic Laplacian}\label{eigenvalue approximation:sec}
