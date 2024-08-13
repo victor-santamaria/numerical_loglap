@@ -236,10 +236,10 @@ The analysis of FEM in nonlocal problems relies strongly on fine regularity prop
 \end{align}
 Note that $\ell$ is a non-decreasing concave function with $\ell(0) := \lim_{r\to0^+}\ell(r)=0$. Given $\alpha\in(0,1)$, let
 %
-\begin{align*}
-    \mathcal X^\alpha(\Omega)&:=\left\{u:\mathbb R\to \mathbb R:\|u\|_{X^\alpha(\Omega)}<+\infty \;\textnormal{ and $u=0$ in }\; \R\setminus \Omega\right\}, \\
-    \mathcal Y(\Omega)&:=\{f:\Omega\to \mathbb R:\|f\|_{\mathcal Y(\Omega)}<+\infty\},
-\end{align*}
+\begin{align}
+    \mathcal X^\alpha(\Omega)&:=\left\{u:\mathbb R\to \mathbb R:\|u\|_{X^\alpha(\Omega)}<+\infty \;\textnormal{ and $u=0$ in }\; \R\setminus \Omega\right\}, \label{Xdef}\\
+    \mathcal Y(\Omega)&:=\{f:\Omega\to \mathbb R:\|f\|_{\mathcal Y(\Omega)}<+\infty\},\notag
+\end{align}
 %
 where
 %
@@ -316,7 +316,7 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
  \end{align*}
  see Lemma~\ref{lem:derivative:s:m}.  This is possible, since a closed formula for the stiffness matrix $\mathcal A_{h}^{s}$ has been obtained in \cite{BH17}\footnote{This reference is an extended preprint version of the published article \cite{BHS19}.}.  This can be seen as a discrete version of the expansion \eqref{intro:exp} in terms of the stiffness matrix.
  
- Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, one needs to calculate only the corresponding entries.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section~\ref{sec:s:m:log}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ and not on the length $L$ of the interval $\Omega$.  Therefore, the formula for $\mathcal A_{h}^{L}$ applies to logarithmic problems on any interval splitted into $N+1=\frac{L}{h}$ subintervals. As mentioned before, another way to obtain the stiffness matrix $\mathcal A_{h}^{L}$ is to compute the entries \eqref{s:m:intro} either directly or numerically. Both approaches yield the same results.
+ Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, one needs to calculate only the corresponding entries.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section~\ref{sec:stiffness}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ and not on the length $L$ of the interval $\Omega$.  Therefore, the formula for $\mathcal A_{h}^{L}$ applies to logarithmic problems on any interval splitted into $N+1=\frac{L}{h}$ subintervals. As mentioned before, another way to obtain the stiffness matrix $\mathcal A_{h}^{L}$ is to compute the entries \eqref{s:m:intro} either directly or numerically. Both approaches yield the same results.
 
 
 Using these ideas, we also investigate the (Dirichlet) eigenvalues of the logarithmic Laplacian $L_{\Delta}$ in an interval $(-L,L)$ for some $L>0$. As shown in \cite[Theorem 1.4]{CW19}, the eigenvalues of $L_{\Delta}$ in a bounded domain are a sequence such that $\lambda_1<\lambda_2\leq \ldots\leq\lambda_n\to \infty$ for $n\to\infty$.  Moreover, by using scalings (see \cite[Lemma 2.5]{LW21}) it holds that if $\lambda_k(\Omega)$ denotes the $k$-th eigenvalue of $L_{\Delta}$ in a bounded interval $\Omega$, then $\lambda_k(R\Omega)=\lambda_k(\Omega)-2\ln(R)$ for $R>0$. In Section~\ref{eigenvalue approximation:sec} we first show that the eigenvalues of the stiffness matrix defined in \eqref{s:m:intro} converge to the eigenvalues of the logarithmic Laplacian as the discretization parameter $N$ tends to infinity, see Proposition~\ref{prop:eigen-approx} below. Knowing from the scaling properties that, by sending $L$ to infinity, there are $L_i>0$ such that $\lambda_i=0$ in $(-L_i,L_i)$  for $i\in \N$ (see Figure~\ref{L vs condition}), it is enough to estimate the cases in which $0$ is an eigenvalue of $\mathcal{A}^L_h$. Then, we use scalings to approximate the eigenvalues in a general interval. To be precise, we have the following result.
@@ -552,7 +552,7 @@ for some $C>0$ independent of $h$ depending on $\Omega$ and where we have used t
 \end{equation}
 %
 
-For $I_2$, we see that it can be written as $I_2=\sum_{i\in\inter{0,N}}\int_{\Omega_i}|u(x)|^2\int_{B_2(\Omega)\setminus B_{h}(\Omega)}|x-y|^{-1}dy\,dx.$ Since $\dist(\Omega_i,B_2(\Omega)\setminus B_h(\Omega))>h$ for all $i\in\inter{0,N}$, we can argue as we did for \eqref{eq:est_Ij1} to obtain
+For $I_2$, note that $I_2=\sum_{i\in\inter{0,N}}\int_{\Omega_i}|u(x)|^2\int_{B_2(\Omega)\setminus B_{h}(\Omega)}|x-y|^{-1}dy\,dx.$ Since $\dist(\Omega_i,B_2(\Omega)\setminus B_h(\Omega))>h$ for all $i\in\inter{0,N}$, we can argue as we did for \eqref{eq:est_Ij1} to obtain
 %
 \begin{align}\label{eq:est_I2}
     I_2\leq C^\prime\ell^{-1}(h)\sum_{i\in\inter{0,N}}\int_{\Omega_i}|u(x)|^2\,dx
@@ -564,7 +564,7 @@ for some $C^\prime>0$ only depending on $\Omega$. To estimate $I_3$, we begin by
     I_3=H_0+H_N+\sum_{i\in\inter{1,N-1}}H_i,
 \end{align}
 %
-where $H_i=\int_{\Omega_i}|u(x)|^2\int_{B_h(\Omega)\setminus \Omega}|x-y|^{-1}dy\,dx$ for $i\in\inter{0,N}$. Note that for $i\in\inter{1,N-1}$, we have that $\dist(\Omega_i,B_h(\Omega)\setminus\Omega)>h$ so the second sum of \eqref{eq:est_I3_init} can be estimated as we did for $I_2$. On the other hand, for indices $i\in\{0,N\}$, we have that for some $R>0$ large enough
+where $H_i=\int_{\Omega_i}|u(x)|^2\int_{B_h(\Omega)\setminus \Omega}|x-y|^{-1}dy\,dx$ for $i\in\inter{0,N}$. Note that $\dist(\Omega_i,B_h(\Omega)\setminus\Omega)>h$ for $i\in\inter{1,N-1}$, so the second sum of \eqref{eq:est_I3_init} can be estimated as we did for $I_2$. On the other hand, for indices $i\in\{0,N\}$, we have that for some $R>0$ large enough
 %
 \begin{align*}
     H_i&\leq \int_{\Omega_i}|u(x)|^2\int_{B_R(0)\setminus B_{d(x)}(x)}|x-y|^{-1}dy\,dx \\
@@ -739,16 +739,11 @@ for $k\in I_i.$ Using \Cref{lem:poincare_type}, we can estimate the right-hand s
     |b_k|^2\leq C{|v^\prime|^2_{\infty}}h^2.
 \end{equation}
 %
-Collecting estimates \eqref{eq:est_dif_inter_1}--\eqref{eq:est_bks} gives the desired result. This ends the proof. 
+Collecting estimates \eqref{eq:est_dif_inter_1}--\eqref{eq:est_bks} gives the desired result.
 \end{proof}
 
 \begin{remark}\label{rem:l2_stability}
-By making minor adjustments to the proof of  \Cref{lem:stab_dif_interp}, we can use item (ii) of \Cref{lem:loc_norm_interp} to obtain the following $L^2$-stability estimate, for $i\in\inter{0,N}$,
-%
-\begin{equation*}
-    |v-I_hv|_{L^2(\Omega_i)} \leq C{|v^\prime|^2_{\infty}} h^3, \quad  v\in C_c^\infty(\Omega).
-\end{equation*}
-Indeed, let $i\in\inter{0,N}$, $U=({x_i-2h},{x_{i}+2h})$, and $\overline{v}:=\frac{1}{U}\int_U v\, dx$; then, by Lemmas~\ref{lem:poincare_type} and~\ref{lem:loc_norm_interp},
+By making minor adjustments to the proof of  \Cref{lem:stab_dif_interp}, we can use item (ii) of \Cref{lem:loc_norm_interp} to obtain the following $L^2$-stability estimate: for $i\in\inter{0,N}$, $|v-I_hv|_{L^2(\Omega_i)} \leq C{|v^\prime|^2_{\infty}} h^3$ with $v\in C_c^\infty(\Omega).$ Indeed, let $i\in\inter{0,N}$, $U=({x_i-2h},{x_{i}+2h})$, and $\overline{v}:=\frac{1}{U}\int_U v\, dx$; then, by Lemmas~\ref{lem:poincare_type} and~\ref{lem:loc_norm_interp},
 \begin{align}
 |v-I_hv|^2_{L^2(\Omega_i)}
 \leq C|v-\overline{v}|_{L^2(\Omega_i)}^2 +|I_h(v-\overline{v})|^2_{L^2(\Omega_i)}
@@ -1015,7 +1010,7 @@ Since $w$ is arbitrary, this implies that $u$ is a nontrivial weak solution of $
 
 
 \begin{proposition}\label{prop:more_regularity}
-Assume that alternative $i)$ of \Cref{eq:regularity} holds for some $\alpha\in(0,1)$. Then, $u\in \mathbb H^{1+\alpha}(\Omega;\ell)$. Moreover, there is $C>0$ only depending on $\Omega$ and $\alpha$ such that $\|u\|_{H^{1+\alpha}(\Omega;\ell)}\leq C\|u\|_{\mathcal X^{\alpha}(\Omega)}$.
+Assume that alternative $i)$ of \Cref{eq:regularity} holds for some $\alpha\in(0,1)$. Then, $u\in \mathbb H^{1+\alpha}(\Omega;\ell)$. Moreover, there is $C>0$ only depending on $\Omega$ and $\alpha$ such that $\|u\|_{\mathbb H^{1+\alpha}(\Omega;\ell)}\leq C\|u\|_{\mathcal X^{\alpha}(\Omega)}$.
 \end{proposition}
 %
 \begin{proof}
@@ -1025,7 +1020,7 @@ Fix $\alpha\in(0,1)$ as given by \Cref{eq:regularity}. Let $x\in \Omega$ and let
     \frac{|u(x)|}{\ell^{\alpha}(d(x))}=\frac{|u(x)-u(y)|}{\ell^{\alpha}(|x-y|)}.
 \end{align}
 %
-From the definition of the spaces $H^{1+\alpha}(\Omega;\ell)$ and $\mathcal X^\alpha(\Omega)$ and identity \eqref{eq:iden_fro}, we have
+From the definition of the spaces ${\mathbb H}^{1+\alpha}(\Omega;\ell)$ (see \eqref{H:weights:def}), $\mathcal X^\alpha(\Omega)$ (see \eqref{Xdef}), and identity \eqref{eq:iden_fro}, we have that
 %
 \begin{align*}\notag
     \|u\|^2_{H^{1+\alpha}(\Omega;\ell)}&=\int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}\, \d{y} \d{x}+\int_{\Omega}|u(x)|^2\ell^{-1-\alpha}(d(x))\,\d{x} \\
@@ -1328,37 +1323,38 @@ Because of this, we propose the following. Let $\Omega:=(-1,1)$ and consider the
 \end{align}
 where $\chi_{\Omega}$ denotes the characteristic function in the interval $(-1,1)$.  This choice is justified by the following facts
 \begin{itemize}
- \item $u$ has a uniformly bounded logarithmic Laplacian in $(-1,1)$ (as a direct nontrivial calculation shows, see \cite{HSLRS23}). Nonetheless, we remark that $L_{\Delta} u$ does not have a closed formula;
- \item $u$ has the optimal boundary regularity\footnote{This is needed to observe the optimal convergence rate. Indeed, solutions which are smoother typically yield better convergence rates, see, for instance, \cite[Section 5 and Table 2]{AB17} for the case of the fractional Laplacian.} for logarithmic Dirichlet problems (see \cite{HSLRS23}), namely, it behaves as $\ell^{1/2}(d(x))$.
+ \item $u$ has a uniformly bounded logarithmic Laplacian in $(-1,1)$ (as a direct calculation shows, see \cite[Theorem 2.4]{HSLRS23}). Nonetheless, we remark that $L_{\Delta} u$ does not have a closed formula;
+ \item $u$ has the optimal boundary regularity\footnote{This is needed to observe the optimal convergence rate. Indeed, solutions which are smoother typically yield better convergence rates, see, for instance, \cite[Section 5 and Table 2]{AB17} for the case of the fractional Laplacian.} for logarithmic Dirichlet problems (see \cite[Theorem 1.2]{HSLRS23}), namely, it behaves as $\ell^{1/2}(d(x))$.
 \end{itemize}
-Here we only observe these facts numerically (see Figures~\ref{fig:1} and~\ref{fig:2}), but we we refer to \cite{HSLRS23} for a detailed proof. %See also \cite[Theorem 1.11]{CW19} and \cite[Remark~1.5]{FJW22}.
 
-
-%%%%%%%%%%%%%%%
-%%%%.        Figure       %%%
-%%%%%%%%%%%%%%%
-% DO NOT ERASE
-\begin{figure}[htbp]
-\small
-	\centering
-	%
-	\begin{tikzpicture}[scale=0.7]
-	\begin{axis}[xlabel={$x$},xmin=-1.001,xmax=1.001,legend pos=outer north east,
-	legend plot pos=left, xtick={-1,0,1},
-	legend style={cells={anchor=west},draw=none}]
-	%	    
-	\pgfplotstableread{file200_lambda1.org}\solution      
-	      
-	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
-	%\addlegendentry{Exact solution};
-	
-	\end{axis}
-	%	
-	\end{tikzpicture}
-
-	\caption{Logarithmic Laplacian of $u(x)$ as in \eqref{udef} computed with Mathematica.}
-	\label{fig:1}
-\end{figure}
+% Here we only observe these facts numerically (see Figures~\ref{fig:1} and~\ref{fig:2}), but we we refer to \cite{HSLRS23} for a detailed proof. %See also \cite[Theorem 1.11]{CW19} and \cite[Remark~1.5]{FJW22}.
+%
+%
+% %%%%%%%%%%%%%%%
+% %%%%.        Figure       %%%
+% %%%%%%%%%%%%%%%
+% % DO NOT ERASE
+% \begin{figure}[htbp]
+% \small
+% 	\centering
+% 	%
+% 	\begin{tikzpicture}[scale=0.7]
+% 	\begin{axis}[xlabel={$x$},xmin=-1.001,xmax=1.001,legend pos=outer north east,
+% 	legend plot pos=left, xtick={-1,0,1},
+% 	legend style={cells={anchor=west},draw=none}]
+% 	%
+% 	\pgfplotstableread{file200_lambda1.org}\solution
+%
+% 	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
+% 	%\addlegendentry{Exact solution};
+%
+% 	\end{axis}
+% 	%
+% 	\end{tikzpicture}
+%
+% 	\caption{Logarithmic Laplacian of $u(x)$ as in \eqref{udef} computed with Mathematica.}
+% 	\label{fig:1}
+% \end{figure}
 
 Now, consider $h=\frac{1}{N+1}$ for $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$. Let $f_i:=h [L_\Delta u](x_i)$ for $i\in\inter{0,N+1}$, $F:=(f_i)$, and let $\alpha:=A_h^{-1}F$, 
 where $A_h$ is the stiffness matrix for the logarithmic Laplacian given in \eqref{stiff:LogLap}. Let 
