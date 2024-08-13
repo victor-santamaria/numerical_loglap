@@ -786,7 +786,7 @@ For (ii), note that from \eqref{eq:def_basis}, \eqref{eq:interpolator}, and \eqr
 \begin{lemma}\label{lem:stab_dif_interp}
 Let $i\in\inter{0,N}$ and $v\in C_c^\infty(\Omega)$. There is $C>0$ independent of $h$ such that
 \begin{align}\label{eq:approxim_estimate}
-    \int_{\Omega_i}\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|}dy dx \leq C \B{|v^\prime|^2_{\infty}} h^3. 
+    \int_{\Omega_i}\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|}dy dx \leq C {|v^\prime|^2_{\infty}} h^3. 
 \end{align}
 \end{lemma}
 %
@@ -804,7 +804,7 @@ By \eqref{Ihc}, $v-I_h v=v-\overline{v}+I_h(\overline v - v)$, thus
 Using that $\overline v$ is a constant function, we can use mean value theorem to bound $J_1$ as
 %
 \begin{equation}\label{eq:est_J1}
-    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C \int_{S_i}\int_{S_i}|x-y|dy dx \leq C\B{|v^\prime|^2_{\infty}}h^3,
+    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C \int_{S_i}\int_{S_i}|x-y|dy dx \leq C{|v^\prime|^2_{\infty}}h^3,
 \end{equation}
 since $|x-y|\leq 3h$ for $x,y\in S_i$.
 
@@ -824,7 +824,7 @@ where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and $I_i$ as de
 for $k\in I_i.$ Using \Cref{lem:poincare_type}, we can estimate the right-hand side of the above expression and obtain
 %
 \begin{equation}\label{eq:est_bks}
-    |b_k|^2\leq C\B{|v^\prime|^2_{\infty}}h^2.
+    |b_k|^2\leq C{|v^\prime|^2_{\infty}}h^2.
 \end{equation}
 %
 Collecting estimates \eqref{eq:est_dif_inter_1}--\eqref{eq:est_bks} gives the desired result. This ends the proof. 
@@ -834,18 +834,18 @@ Collecting estimates \eqref{eq:est_dif_inter_1}--\eqref{eq:est_bks} gives the de
 By making minor adjustments to the proof of  \Cref{lem:stab_dif_interp}, we can use item (ii) of \Cref{lem:loc_norm_interp} to obtain the following $L^2$-stability estimate, for $i\in\inter{0,N}$,
 %
 \begin{equation*}
-    |v-I_hv|_{L^2(\Omega_i)} \leq C\B{|v^\prime|^2_{\infty}} h^3, \quad  v\in C_c^\infty(\Omega).
+    |v-I_hv|_{L^2(\Omega_i)} \leq C{|v^\prime|^2_{\infty}} h^3, \quad  v\in C_c^\infty(\Omega).
 \end{equation*}
 Indeed, let $i\in\inter{0,N}$, $U=({x_i-2h},{x_{i}+2h})$, and $\overline{v}:=\frac{1}{U}\int_U v\, dx$; then, by Lemmas~\ref{lem:poincare_type} and~\ref{lem:loc_norm_interp},
 \begin{align}
 |v-I_hv|^2_{L^2(\Omega_i)}
 \leq C|v-\overline{v}|_{L^2(\Omega_i)}^2 +|I_h(v-\overline{v})|^2_{L^2(\Omega_i)}
-\leq C\B{|v^\prime|^2_{\infty}}h^3+Ch\sum_{k\in I_i^\prime}a_k^2,\label{a2}
+\leq C{|v^\prime|^2_{\infty}}h^3+Ch\sum_{k\in I_i^\prime}a_k^2,\label{a2}
 \end{align}
 where $a_k=\frac{1}{h}\int_{x_{k-1}}^{x_{k+1}} (v-\overline{v})\varphi_k\, dx$ and $|a_k|\leq \frac{1}{h}\int_{x_i-2h}^{x_{i}+2h}|v-\overline{v}|\, dx$. By Lemma~\ref{lem:poincare_type},
 %
 \begin{equation*}
-    |v-\overline{v}|_{L^2(U)}^2\leq C\B{|v^\prime|^2_{\infty}}h^3.
+    |v-\overline{v}|_{L^2(U)}^2\leq C{|v^\prime|^2_{\infty}}h^3.
 \end{equation*}
 %
 The claim now follows from \eqref{a2}.
@@ -883,7 +883,7 @@ Using Lemma~\ref{lem:ellbeta} and that $h\leq \ell^{\frac{1+\alpha}{2}}(h)$ for 
     \|v-I_h v\|^2_{\mathbb H(\Omega)}
     & \leq C\ell^{1+\alpha}(h)+C\ell^{\alpha}(h)\leq C \ell^{\alpha}(h),
 \end{align*}
-which is the desired result \B{(after adjusting the value of $\alpha$)}.
+which is the desired result {(after adjusting the value of $\alpha$)}.
 \end{proof}
 
 \begin{remark}
@@ -918,10 +918,10 @@ By triangle inequality, we have
 %
 \begin{align*}
     \|v-v_h\|_{\mathbb H(\Omega)}&\leq \|v-w\|_{\mathbb H(\Omega)}+\|w-\Pi_h w\|_{\mathbb H(\Omega)}+\|\Pi_h w-\Pi_h v\|_{\mathbb H(\Omega)} \\
-    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)} \leq \frac{2\epsilon}{3}+\B{C(|w|_{\infty},|w^\prime|_{\infty},L)}\ell^\alpha(h),
+    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)} \leq \frac{2\epsilon}{3}+{C(|w|_{\infty},|w^\prime|_{\infty},L)}\ell^\alpha(h),
 \end{align*}
 %
-where we have used that $\|\Pi_h\|_*=1$, property \eqref{eq:prop_infimo}, and \Cref{eq:estab_H_c_infty}. \B{Finally, we choose $h>0$ small enough so that ${C(|w|_{\infty},|w^\prime|_{\infty},L)}\ell^\alpha(h)\leq \frac{\epsilon}{3}$ (note that $w\in C^\infty_c(\Omega)$ is independent of $h$)}. This yields the claim.
+where we have used that $\|\Pi_h\|_*=1$, property \eqref{eq:prop_infimo}, and \Cref{eq:estab_H_c_infty}. {Finally, we choose $h>0$ small enough so that ${C(|w|_{\infty},|w^\prime|_{\infty},L)}\ell^\alpha(h)\leq \frac{\epsilon}{3}$ (note that $w\in C^\infty_c(\Omega)$ is independent of $h$)}. This yields the claim.
 \end{proof}
 
 
@@ -1014,7 +1014,7 @@ By \Cref{lem:localization_enorm} and estimates \eqref{eq:approxim_estimate_weigh
     &\leq C \ell^{\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx\notag\\ 
     &\quad +C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1-\alpha}(d(x))\,dx,\label{eq:est_aprox_sum}
 \end{align}
-where we used that $\frac{\ell^{\alpha}(d(x))}{\ell^{\alpha}(h)}\leq 1$ for $x\in\Omega_i$ with \B{$i\in\{0,N\}$}.  
+where we used that $\frac{\ell^{\alpha}(d(x))}{\ell^{\alpha}(h)}\leq 1$ for $x\in\Omega_i$ with {$i\in\{0,N\}$}.  
 
 Let $x_i:=x_0=0$ if $i<0$ and $x_i:=x_{N+1}=L$ if $i>N+1$.  Then, 
 %
@@ -1177,14 +1177,14 @@ for some constant $C>0$ uniform with respect to $h$. By \Cref{prop:more_regulari
 
 \section{The stiffness matrix for the logarithmic Laplacian}\label{sec:stiffness}
 
-Recall that $\Omega:=(0,L)$ for some $L>0$.  We use $A^L_h$ to denote the stiffness matrix associated to the logarithmic Laplacian $L_\Delta.$   The entries of the matrix $A^L_h=(b_{ij})_{i,j=0}^{N+1}$ can be obtained by computing
+Recall that $\Omega:=(0,L)$ for some $L>0$.  We use $A^L_h$ to denote the stiffness matrix associated to the logarithmic Laplacian $L_\Delta.$   The entries of the matrix $A^L_h=(b_{i,j})_{i,j=0}^{N+1}$ can be obtained by computing
 \begin{align*}
-b_{ij}=\cE_L(\varphi_i,\varphi_j)\qquad \text{ for }i,j=0,\ldots,N+1.
+b_{i,j}=\cE_L(\varphi_i,\varphi_j)\qquad \text{ for }i,j=0,\ldots,N+1.
 \end{align*}
-Instead of doing this computation directly, we obtain a closed formula for $b_{ij}$ by differentiating the entries of the stiffness matrix for the fractional Laplacian (which were explicitly computed in \cite{BH17}) and evaluating them at $s=0$.  To be more precise, let $A^s_h=(b_{ij}^s)_{i,j=0}^{N+1}$ be the stiffness matrix for $(-\Delta)^s$. We show the following. 
+Instead of doing this computation directly, we obtain a closed formula for $b_{ij}$ by differentiating the entries of the stiffness matrix for the fractional Laplacian (which were explicitly computed in \cite{BH17}) and evaluating them at $s=0$.  To be more precise, let $A^s_h=(b_{i,j}^s)_{i,j=0}^{N+1}$ be the stiffness matrix for $(-\Delta)^s$. We show the following. 
 \begin{lemma}\label{lem:derivative:s:m} For $i,j=0,\ldots,N+1,$
 \begin{align*}
-    b_{ij}=\partial_s b_{ij}^s \mid_{s=0}.
+    b_{i,j}=\partial_s b_{i,j}^s \mid_{s=0}.
 \end{align*}
 \end{lemma}
 \begin{proof}
@@ -1194,11 +1194,11 @@ We claim that
 \end{align}
 For $i=1,\ldots,N$, this follows directly from \cite[Theorem 1.1]{CW19}, because $\varphi_i$ is Lipschitz continuous in $\R$.  However, the functions $\phi_0$ and $\phi_{N+1}$ have a jump discontinuity at 0 and at $L$, respectively.  Nevertheless, the proof of \cite[Theorem 1.1]{CW19} can be adapted to this case with obvious changes.  For the reader's convenience we include a brief proof in the appendix (see Lemma~\ref{phi0:conv}). Then, integrating by parts (see Lemma~\ref{ibyp:lem}) and using \eqref{aux:1},
 \begin{align*}
-\partial_s b_{ij}^s\mid_{s=0}&=\partial_s\cE_s(\varphi_i,\varphi_j)\mid_{s=0}=
+\partial_s b_{i,j}^s\mid_{s=0}&=\partial_s\cE_s(\varphi_i,\varphi_j)\mid_{s=0}=
 \partial_s\int_{\R} (-\Delta)^s\varphi_i \varphi_j\, dx\mid_{s=0}\\
 &=\int_{\R} \partial_s(-\Delta)^s\varphi_i\mid_{s=0} \varphi_j\, dx
 =\int_{\R} L_\Delta\varphi_i \varphi_j\, dx
-=\cE_L(\varphi_i,\varphi_j)=b_{ij},
+=\cE_L(\varphi_i,\varphi_j)=b_{i,j},
 \end{align*}
 where we used that
 \begin{align*}
@@ -1209,17 +1209,11 @@ as $s\to 0^+,$ since $\Omega$ is bounded.
 \end{proof}
 
 
-In \cite{L22}, a numerical approximation of these coefficients is done using a trapeze formula.  The error involved in this approximation is of the order $O(\frac{1}{N^2})$.  
-
-
-
-
-
 \subsection{Computation of the stiffness matrix}\label{sec:s:m}
 
 In this section we construct the stiffness matrix associated to the fractional Laplacian $(-\Delta)^s$ with $s\in(0,\frac{1}{2})$. We follow the computations done in \cite{BH17}.  In particular, we want to calculate
 \begin{align*}
-a_{ij}:=\frac{2}{c_{1,s}}\cE_s(\varphi_i,\varphi_j)\qquad \text{ for }i,j=0,\ldots, N+1,
+a_{i,j}:=\frac{2}{c_{1,s}}\cE_s(\varphi_i,\varphi_j) \qquad \text{ for }i,j=0,\ldots, N+1,
 \end{align*}
 where $c_{1,s}=4^s\pi^{-1/2}s(1-s)\frac{\Gamma(1/2+s)}{\Gamma(2-s)}=\frac{\sin (\pi  s) \Gamma (2 s+1)}{\pi }$.
 
@@ -1239,7 +1233,7 @@ and, for  $i\in\inter{1,N}$,
 			\displaystyle h^{1-2s}\,\frac{2^{3-2s}-4}{s(1-2s)(1-s)(3-2s)}.
 \end{align*}
 
-Let $\mathcal A^s_h=\frac{c_{1,s}}{2}(a_{ij})_{i,j=0}^{N+1}$. It remains to calculate $a_{0,i}$ for $i\in\inter{0,N+1}$.  By symmetry, we have that $a_{0,0}=a_{N+1,N+1}$, $a_{0,i}=a_{i,0}=a_{N+1-i,N+1}=a_{N+1,N+1-i}$ for $i\in\inter{1,N}$. Therefore, we only consider the following cases.
+Let $\mathcal A^s_h=\frac{c_{1,s}}{2}(a_{i,j})_{i,j=0}^{N+1}$. It remains to calculate $a_{0,i}$ for $i\in\inter{0,N+1}$.  By symmetry, we have that $a_{0,0}=a_{N+1,N+1}$, $a_{0,i}=a_{i,0}=a_{N+1-i,N+1}=a_{N+1,N+1-i}$ for $i\in\inter{1,N}$. Therefore, we only consider the following cases.
 
 \subsubsection{Case 1: $a_{0,0}$.}
 
@@ -1402,16 +1396,16 @@ a_{0,1}=Q_2+Q_4+Q_5=\frac{\left(2^{2-2 s}-2\right) h^{1-2 s}}{(3-2 s) (1-s) s\sq
 
 \subsubsection{Conclusion}
 
-The stiffness matrix $\mathcal A_h^s\in\mathbb R^{(N+2)\times (N+2)}$ has components
+The stiffness matrix $\mathcal A_h^s = (b_{i,j}^s)_{i,j=0}^{N+1}\in\mathbb R^{(N+2)\times (N+2)}$ has components
 %
 \begin{equation}\label{eq:def_aijs_s}
-a_{i,j}=\frac{c_{1,s}}{2}\int_{\R}\int_{\R}\frac{(\phi_i(x)-\phi_i(y)(\phi_j(x)-\phi_j(y))}{|x-y|^{1+2s}}dx dy, \quad i,j\in\inter{0,1}, 
+b_{i,j}^s=\frac{c_{1,s}}{2}\int_{\R}\int_{\R}\frac{(\phi_i(x)-\phi_i(y)(\phi_j(x)-\phi_j(y))}{|x-y|^{1+2s}}dx dy, \quad i,j\in\inter{0,1}, 
 \end{equation}
 Recall that $\frac{c_{1,s}}{2}=\frac{\sin (\pi  s) \Gamma (2 s+1)}{2\pi}$.
 
 
 %
-In view of the symmetry of \eqref{eq:def_aijs_s} and using the basis $(\varphi_i)_{i\in\inter{0,N+1}}$ of shape functions \eqref{eq:def_basis}--\eqref{eq:def_basis_ext}, the coefficients $a_{i,j}$ with $i,j\in\inter{0,N+1}$ and $j\geq i$ are given by
+In view of the symmetry of \eqref{eq:def_aijs_s} and using the basis $(\varphi_i)_{i\in\inter{0,N+1}}$ of shape functions \eqref{eq:def_basis}--\eqref{eq:def_basis_ext}, the coefficients $a_{i,j}=\frac{2}{c_{1,s}}\mathcal E_s(\varphi_i,\varphi_j)$ with $i,j\in\inter{0,N+1}$ and $j\geq i$ are given by
 %
 %
 \begin{equation}\label{stiff:frac}
@@ -1431,10 +1425,10 @@ where $k:=j-i$ and $\xi^s_k:=4(k+1)^{3-2s} + 4(k-1)^{3-2s}-6k^{3-2s}-(k+2)^{3-2s
 
 \subsection{Stiffness matrix of the logarithmic Laplacian}\label{sec:s:m:log}
 
-The stiffness matrix $\mathcal A_{h}^{L}\in{\R^{(N+2)\times(N+2)}}$ of the logarithmic Laplacian has coefficients $a_{i,j}$ with $i,j\in\inter{0,N+1}$ and $j\geq 1$ given by
+The stiffness matrix $\mathcal A_{h}^{L}\in{\R^{(N+2)\times(N+2)}}$ of the logarithmic Laplacian has coefficients $b_{i,j}=\mathcal E_{L}(\varphi_i,\varphi_j)=\partial_s b_{i,j}^s \mid_{s=0}$ (see \Cref{lem:derivative:s:m}) with $i,j\in\inter{0,N+1}$ and $j\geq 1$ given by
 %
 \begin{equation}\label{stiff:LogLap}
-a_{i,j}= h
+b_{i,j}= h
 \begin{cases}
 \displaystyle -\frac{2 \gamma }{3}+\frac{16}{9}-\frac{4}{3}  \log (h)+\frac{4}{3}  \log
    (2)+\frac{2}{3}  \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=0$,} \\
