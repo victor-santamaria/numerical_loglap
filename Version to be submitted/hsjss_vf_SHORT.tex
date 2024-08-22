@@ -1,4 +1,4 @@
-\documentclass[10 pt]{article}  
+\documentclass[11 pt]{article}  
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -1485,7 +1485,7 @@ The discussion above suggests that the optimal convergence rate for the logarith
 
 
 \begin{table}[htb]
-\small
+%\small
 \centering
 %
 \pgfplotstableread{sol-log_convergence_data_21-06-2023_11h34.org}\data
@@ -1553,7 +1553,7 @@ after row=\bottomrule},
 
 
 \begin{table}[htb]
-\small
+%\small
 \centering
 %
 \pgfplotstableread{sol-log_convergence_data_21-06-2023_16h57.org}\data
@@ -1718,7 +1718,7 @@ Then, for $x\in \Omega$, it is not difficult to check that
 We remark that the functions $u_1$ and $u_2$ do not satisfy the assumptions of Theorem~\ref{main:thm:intro}, because the right-hand side does not belong to $\mathcal Y(\Omega)$. Nevertheless, the FEM produces an approximation also in these cases, see \Cref{table:u1u2u3} for further information on the quality of approximation.  We shall mention that the function $u_3$ is Lipschitz in $\R$ and thus it exhibits a better convergence rate. Therefore, we cannot use $u_3$ to show the optimality of the convergence rate stated in Theorem~\ref{main:thm:intro}.
 
 \begin{table}[htb!]
-\small
+%\small
 \centering
 %
 \pgfplotstableread{sol-log_convergence_data_07-08-2024_15h10.org}\data
@@ -1864,8 +1864,10 @@ $. Then, using \eqref{1st} and \eqref{delta:eq},
 By the definition of $\mathcal{E}_L$ (see \eqref{cEL:def}) and the Cauchy-Schwarz inequality,
 % 
 \begin{align}\notag 
-\mathcal{E}_L(m_h-m,m_h+m)&\leq \mathcal{E}(m_h-m,m_h+m)+\|m_h-m\|_{L^1(\R)}\|m_h+m\|_{L^1(\R)}+\rho_1\|m_h-m\|_{L^2(\R)}\|m_h+m\|_{L^2(\R)}\notag\\
-&\leq \|m_h-m\|_{\mH(\Omega)}\Big(\|m_h\|_{\mH(\Omega)}+\|m\|_{\mH(\Omega)}\Big)+\Big(|\Omega|^2+\rho_1\Big)\|m_h-m\|_{L^2(\R)}\Big(\|m_h\|_{L^2(\R)}+\|m\|_{L^2(\R)}\Big)\notag\\
+\mathcal{E}_L(m_h-m,m_h+m)&\leq \mathcal{E}(m_h-m,m_h+m)+\|m_h-m\|_{L^1(\R)}\|m_h+m\|_{L^1(\R)}\\ \notag
+&\quad +\rho_1\|m_h-m\|_{L^2(\R)}\|m_h+m\|_{L^2(\R)}\notag \\
+&\leq \|m_h-m\|_{\mH(\Omega)}\Big(\|m_h\|_{\mH(\Omega)}+\|m\|_{\mH(\Omega)}\Big)\notag \\ 
+&\quad +\Big(|\Omega|^2+\rho_1\Big)\|m_h-m\|_{L^2(\R)}\Big(\|m_h\|_{L^2(\R)}+\|m\|_{L^2(\R)}\Big)\notag\\
 &\leq \frac{\delta}{2C}\Big(\|m_h\|_{\mH(\Omega)}+\|m\|_{\mH(\Omega)}+3C\big(|\Omega|^2+\rho_1\big)\Big).\label{lambda-k-upperbound2}
 \end{align}
 %
