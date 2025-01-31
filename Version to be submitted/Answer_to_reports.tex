@@ -171,9 +171,9 @@ We agree. We removed this unnecessary condition.
 \item \emph{Second line of first inequality in the proof of Proposition 3.13: $u_h$ should not be there.}\\
 We agree. We removed this term and we gave more details on the proof of Proposition 3.13.
 \item \emph{Proposition 3.8 makes sense for regular functions, I would expect higher order in that context. Is that estimate sharp?.}\\
-Thank you for your comment. Indeed, Proposition 3.8 is meaningful for regular functions, and we agree that higher-order estimates might be expected in this context. To address this, we have improved Lemma A.2, which concerns the behavior of functions near the boundary with the $\ell$ function. This improvement has been incorporated into the revised version of Proposition 3.8. However, determining the optimality of such estimates requires a deeper understanding of the regularity of functions in the space $u \in \mathbb{H}(\Omega)$ near the boundary and how this affects the decomposition of the norm carried out in Lemma 3.1. This remains an open question.
-
+Thank you for your comment. Indeed, Proposition 3.8 is meaningful for regular functions, and we agree that higher-order estimates might be expected in this context. To address this, we have improved Lemma A.2, which concerns the behavior of functions near the boundary with the $\ell$ function. This improvement has been incorporated into the revised version of Proposition 3.8.  Unfortunately, we were not able to show the optimality (or not) of this estimate.
 \item \emph{Given the poor order of approximation, wouldn't it be advisable to use piecewise constant functions?}\\
+We have considered this option as future work.  In this paper we wanted to take advantage of the computations already available for the 1D fractional Laplacian. It will be interesting to compare the FEM analysis in both cases, although we expect that the converge rate will not change drastically.
 \end{enumerate}
 
 
@@ -183,8 +183,53 @@ Thank you for your comment. Indeed, Proposition 3.8 is meaningful for regular fu
 
 \subsubsection*{Report 4}
 
+\begin{enumerate}
+ \item
+\emph{
+Please reconsider the paragraph "Due to the nonlocal nature..." in page 4. The scheme described there is the standard methodology for deriving error estimates in a FEM.
+}
+
+We agree.  We have rewritten this paragraph.
+
+\item \emph{
+ Why is the analysis restricted to dimension one? Do the authors have ideas on how to extend the techniques to two dimensions?
+}
+
+We have focused to dimension one for three reasons:
+\begin{itemize}
+ \item First, we wanted to take advantage of the computations that were available for the 1D fractional Laplacian and establishing a new relationship from the FEM point of view between the logarithmic Laplacian and the fractional Laplacian.
+ \item  Second, and most importantly, because this is the first FEM analysis in the logarithmic setting, and we believe that before considering higher dimensions, a full understanding of the 1D case could be a good starting point.  Our results are hitherto the only available in the literature and some important (and hard) questions remain open even in the 1D case.
+ \item Third, because since the stiffness matrix is explicit, the implementation of the FEM is straightforward and fast in just a few lines of code. Thus, these formulas provide the interested community with an easy-to-use tool to explore new phenomena in the nonlocal logarithmic setting.
+\end{itemize}
 
 
+We do recognize several elements in our proofs that have a clear extension to higher dimensions. We expect to elaborate more on this in future work.
+
+
+\item \emph{
+ The stiffness matrix associated with the proposed finite element method is computed as the derivative of the stiffness matrix associated with the same finite element discretization of the fractional Laplacian, evaluated at $s=0$. I find that this is a limitation of the proposed method, since the reference [4] strongly exploits the fact that the problem is posed in one dimension. I do not believe that it is possible to extend the results of [4] to general meshes in two dimensions. Could you please comment on these issues?
+}
+
+
+The stiffness matrix for the logarithmic Laplacian in 1D can be obtained in three ways: with a computer, with direct computations, or with the derivative approach that we have explained in the paper. As expected, the stiffness matrix always coincides and we have checked this carefully during our studies. We decided to present the derivative approach because we believe that this is a new element in the FEM setting (whereas the other two were well known). It is a FEM analogue of the formula
+$(-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)$, and we found this connection interesting.  This is mostly of interest in 1D problems, where the stiffness matrix can be computed explicitly, but note that problems in other 1D domains could be considered with this approach (for instance, the union of two disjoint intervals), or perhaps one can consider other nonlocal boundary conditions, such as nonlocal Neumann.  Many interesting questions are still open in these settings, where a numerical approximation of the solutions would be helpful.
+
+For higher dimensions, the most natural way to obtain the stiffness matrix would be to use a computer, which should not represent a big challenge to implement.
+
+\item \emph{
+ The order of convergence derived by the authors in Theorem 1.2 is extremely slow. I understand that this is probably the best they can do with the regularity results available in the literature using quasi-uniform meshes. However, the numerical results obtained for Example 1 suggest that graded meshes near the boundary can help improve such a deteriorated convergence rate.
+}
+
+We agree that a careful study of graded meshes would be very interesting. Theoretically, we also would expect that some refinement would improve the convergence rate.  We expect to elucidate, as future work, what kind of refinement is needed and how much does the convergence rate can be improved in this way.
+
+We did not followed this direction in the present paper because we wanted to use the computations that were available for the 1D fractional Laplacian, seize the advantages mentioned above in point 2, and because the paper was already a bit long to include both approaches.
+
+\item
+\emph{Page 2. The optimal convergence rate $h^2$ for the standard Laplacian occurs when the error is measured in the $L^2$ norm. Please correct.
+}
+
+We agree and we have corrected this. Thank you.
+\end{enumerate}
 
 \end{document}
 

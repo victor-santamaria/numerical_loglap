@@ -204,7 +204,7 @@ In this work, we focus our analysis to dimension one. This simplified setting al
 
 Although several of the ideas involved in our 1D analysis can be generalized to dimensions 2 and 3, we believe that there are still important open questions in the 1D case that should be solved before attempting a more ambitious analysis in higher-dimensions.
 
-Our main result (see Theorem~\ref{main:thm:intro} below) states that the FEM numerical approximation of the weak solution converges logarithmically; in particular, we show that the norm of the numerical error can be bounded in terms of $|\ln(h)|^{-\alpha}$, where $h$ is the discretization parameter and $\alpha\in(0,1)$. We also provide numerical evidence that suggests that this kind of logarithmic bounds could be optimal, in the sense that no polynomial bound of the type $h^\beta$ for some $\beta>0$ can be expected in general in this setting.  This contrasts with the convergence rate $h^\frac{1}{2}|\ln h|$ observed for the fractional Laplacian for $s\in(0,\frac{1}{2})$ (see \cite[Theorem 3.31]{Bor17}) and the well-known rate $h^2$ for the standard Laplacian.
+Our main result (see Theorem~\ref{main:thm:intro} below) states that the FEM numerical approximation of the weak solution converges logarithmically; in particular, we show that the norm of the numerical error can be bounded in terms of $|\ln(h)|^{-\alpha}$, where $h$ is the discretization parameter and $\alpha\in(0,1)$. We also provide numerical evidence that suggests that this kind of logarithmic bounds could be optimal, in the sense that no polynomial bound of the type $h^\beta$ for some $\beta>0$ can be expected in general in this setting.  This contrasts with the convergence rate $h^\frac{1}{2}|\ln h|$ observed for the fractional Laplacian for $s\in(0,\frac{1}{2})$ (see \cite[Theorem 3.31]{Bor17}) and the well-known rate $h$ for the standard Laplacian.
 
 To state our main result in more detail, let us introduce some notation. Let $L>0$, $\Omega:=(0,L),$ $B_1(\Omega):=(-1,L+1)$. Following \cite{CW19}, consider the Hilbert space
 \begin{align*}
@@ -300,7 +300,7 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
     where $\ell$ is the modulus of continuity given in \eqref{ell:def}.
  \end{theorem}
 
- Due to the nonlocal nature of $L_\Delta$, we cannot use the standard theory of FEM (note that the norms are not additive with respect to disjoint domains). Instead, for the proof of Theorem~\ref{main:thm:intro}, we extend the general strategy implemented in \cite{Bor17}, where the FEM is analyzed and used to approximate solutions of the fractional Laplacian.  The overall scheme is as follows: If $u$ is a weak solution that we wish to approximate with finite elements, one defines first an \emph{interpolator} denoted by $I_h u$.  Then, via a localization of the norms (see Lemma~\ref{lem:localization_enorm}) one can bound the global interpolation error $\|u-I_h u\|_{\mathbb H(\Omega)}$ (see Proposition~\ref{eq:estab_H_c_infty}) in terms of a Hilbert space with logarithmic weights (see \eqref{H:weights:def}).  Then, with a Cea's-Lemma-type result (Lemma~\ref{lem:cea_mg}), we can bound the norm $\|u-u_h\|_{\mathbb H(\Omega)}$ in terms of $\|u-I_h u\|_{\mathbb H(\Omega)}$.  Finally, the regularity estimate \eqref{eq:regularity_classical} comes into play to obtain the final estimate stated in Theorem~\ref{main:thm:intro}.
+ For the proof of Theorem~\ref{main:thm:intro}, we extend the general strategy implemented in \cite{Bor17}, where the FEM is analyzed and used to approximate solutions of the fractional Laplacian.  The overall scheme is as follows: If $u$ is a weak solution that we wish to approximate with finite elements, one defines first an \emph{interpolator} denoted by $I_h u$.  Then, via a localization of the norms (a step needed due to the nonlocal nature of the operator, see Lemma~\ref{lem:localization_enorm}) one can bound the global interpolation error $\|u-I_h u\|_{\mathbb H(\Omega)}$ (see Proposition~\ref{eq:estab_H_c_infty}) in terms of a Hilbert space with logarithmic weights (see \eqref{H:weights:def}).  Then, with a Cea's-Lemma-type result (Lemma~\ref{lem:cea_mg}), we can bound the norm $\|u-u_h\|_{\mathbb H(\Omega)}$ in terms of $\|u-I_h u\|_{\mathbb H(\Omega)}$.  Finally, the regularity estimate \eqref{eq:regularity_classical} comes into play to obtain the final estimate stated in Theorem~\ref{main:thm:intro}.
 
  However, since the regularity theory for $L_\Delta$ is much less developed than that of $(-\Delta)^s$, key elements in the proofs in \cite{Bor17} have to be changed to fit into the logarithmic Laplacian setting.  For instance, the idea of \emph{trace} plays a key role in order to define the Scott-Zhang interpolator used in \cite{Bor17}. This trace is known to exist in the fractional case because, under suitable assumptions on the right-hand side $f$, regularity estimates for the fractional Laplacian imply that the corresponding weak solutions always belong to $H^{\frac{1}{2}+\eps}(\Omega)$ for some $\eps>0$ (see \cite[Theorem 2.3.6]{Bor17}), which is a Hilbert space with trace.  There is no such result for the logarithmic Laplacian $L_\Delta$.  Although Theorem~\ref{eq:regularity} implies that weak solutions are log-Hölder continuous, it is not known if these solutions belong to a suitable Hilbert space with trace.
 
@@ -762,10 +762,10 @@ where $a_k=\frac{1}{h}\int_{x_{k-1}}^{x_{k+1}} (v-\overline{v})\varphi_k\, dx$ a
 \end{remark}
 
 \begin{proposition}\label{eq:estab_H_c_infty}
-For any $h<1/2$ and any $v\in C_c^\infty(\Omega)$,
+For any $h\in(0,1/2)$ and any $v\in C_c^\infty(\Omega)$,
 %
 \begin{equation}\label{eq:rate_H_c_infty}
-    \|v-I_h v\|^2_{\mathbb H(\Omega)}\leq C(|v|_{\infty},|v^\prime|_{\infty},L)\frac{h}{\ell(h)},
+    \|v-I_h v\|^2_{\mathbb H(\Omega)}\leq C(|v|_{\infty},|v^\prime|_{\infty},L)h\,\ell^{-1}(h),
 \end{equation}
 %
 where $C(|v|_{\infty},|v^\prime|_{\infty},L)>0$ is a constant that only depends on $L$, $|v|_{\infty}$, $|v^\prime|_{\infty}$.
@@ -781,7 +781,7 @@ Along the proof, $C>0$ denotes possibly different constants that depend at most 
 because $h=\frac{L}{N+1}$. Since $v\in L^\infty(\Omega)$, Lemmas \ref{lem:inter_l_infty} and \ref{lem:ellbeta} yield that
 %
 \begin{align*}
-    \|v-I_h v\|^2_{\mathbb H(\Omega)} &\leq Ch^2+Ch^2\ell^{-1}(h)+C\left(\|v\|_{L^\infty(\Omega)}^2+\|I_hv\|^2_{L^\infty(\Omega)}\right)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1}(d(x))\,dx\leq C \frac{h}{\ell(h)},
+    \|v-I_h v\|^2_{\mathbb H(\Omega)} &\leq Ch^2+Ch^2\ell^{-1}(h)+C\left(\|v\|_{L^\infty(\Omega)}^2+\|I_hv\|^2_{L^\infty(\Omega)}\right)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1}(d(x))\,dx\leq C h\,\ell^{-1}(h),
 \end{align*}
 as claimed.
 \end{proof}
@@ -813,10 +813,10 @@ Let $\epsilon>0$. We recall that $C_c^\infty(\Omega)$ is dense in $\mathbb H(\Om
 %
 \begin{align*}
     \|v-v_h\|_{\mathbb H(\Omega)}&\leq \|v-w\|_{\mathbb H(\Omega)}+\|w-\Pi_h w\|_{\mathbb H(\Omega)}+\|\Pi_h w-\Pi_h v\|_{\mathbb H(\Omega)} \\
-    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)} \leq \frac{2\epsilon}{3}+{C(|w|_{\infty},|w^\prime|_{\infty},L)}h/\ell(h),
+    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)} \leq \frac{2\epsilon}{3}+{C(|w|_{\infty},|w^\prime|_{\infty},L)}h\, \ell^{-1}(h),
 \end{align*}
 %
-where we have used that $\|\Pi_h\|_*=1$, property \eqref{eq:prop_infimo}, and \Cref{eq:estab_H_c_infty}. {Finally, we choose $h>0$ small enough so that ${C(|w|_{\infty},|w^\prime|_{\infty},L)}h/\ell(h)\leq \frac{\epsilon}{3}$ (note that $w\in C^\infty_c(\Omega)$ is independent of $h$)}. This yields the claim.
+where we have used that $\|\Pi_h\|_*=1$, property \eqref{eq:prop_infimo}, and \Cref{eq:estab_H_c_infty}. {Finally, we choose $h>0$ small enough so that ${C(|w|_{\infty},|w^\prime|_{\infty},L)}h\, \ell^{-1}(h)\leq \frac{\epsilon}{3}$ (note that $w\in C^\infty_c(\Omega)$ is independent of $h$)}. This yields the claim.
 \end{proof}
 
 
