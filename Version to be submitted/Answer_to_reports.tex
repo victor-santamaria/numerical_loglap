@@ -153,11 +153,170 @@ We thank all the referees for the careful reading of our manuscript and for all 
 \subsubsection*{Report 1}
 
 
+\section*{Main remarks}
+
+\begin{enumerate}
+    \item Given the low regularity of the problem and its solutions, it is not clear to me why the authors use linear finite elements instead of piecewise constants. Actually, the computation of the stiffness matrix seems to be simpler for \(P_{0}\) elements, and it seems convergence rates would not deteriorate by such a choice. Is there any reason to prefer \(P_{1}\) elements over \(P_{0}\) in this problem?
+
+    \item The choice of the interpolation operator is not clear to me. The authors use a sort of localized \(L^{2}\) interpolation operator, and to have the constant-preservation property (3.10), they need to modify the standard Lagrange basis at the interval endpoints. It seems to me that what is required on the interpolation is its localization (this property is exploited in Lemma 3.5) and stability in \(L^{\infty}\) (this is used in Proposition 3.8, but it seems to me that it can be weakened to stability in \(L^{p}\) for some \(p>2\)). Therefore, I wonder why not using Clement interpolation on the whole mesh (including the domain boundary). Note also that for \(P_{0}\) elements the choice of the interpolation operator would be simpler, as one can just use localized averages and these in turn satisfy the two desired properties.
+
+    \item The authors prove logarithmic convergence rates (in energy norm), and claim that numerical evidence support that this is the case. While I agree with the statement if applied to the \(L^{\infty}\) norm, I disagree with it when applied to the \(L^{2}\) norm. The results in Figure 2 and Tables 2 and 3 seem to indicate convergence with order \(h^{1/2}\) in \(L^{2}(\Omega)\). This is consistent with the fact that the solution of the problem is continuous and therefore in \(\bigcap_{\epsilon>0}H^{1/2-\epsilon}(\mathbb{R})\). In the same vein, in my opinion Remark 6.1 is not correct, as I think the integral in the right-hand side does not have a sign. I suggest to rewrite the discussion about convergence in pages 17-18.
+\end{enumerate}
+
+\section*{Other comments and questions}
+
+\begin{enumerate}
+    \item[4.] I wonder why in the definition of weak solutions (page 3, line 6) the authors assume \(f\in L^{2}(\Omega)\) instead of \(f\in\mathbb{H}(\Omega)^{\prime}\).
+
+    \item[5.] Clarify the sentence in page 5, lines 1-2: the entries of the matrix \({\mathcal{A}}_{h}^{L}\) only depend on \(h\), but the matrix itself does depend on \(L\), as its size obviously changes if one modifies \(L\).
+
+    \item[6.] The first part of Lemma 3.2 does not use that \(v\in\mathbb{H}(\Omega)\); this hypothesis can be weakened to \(v\in L^{2}(\Omega)\).
+
+    \item[7.] I find definitions (3.13) and (3.14) a little confusing. I think it would be clearer if these sets were defined explicitly in terms of indices. The sets \(I_{i}\) seem to be related with the sets \(T_{i}\) in Lemma 3.12 (although the former are indices sets and the latter are subsets of \(\Omega\)) and that such sets are actually used already in Lemma 3.6, albeit without a definition. I think the paper would benefit if the authors unified the notation for these sets.
+
+    \item[8.] The proof of Lemma 3.12 is almost the same than the proof of Lemma 3.6. The difference lies in the estimation of \(|b_{k}|\), namely, in whether using (3.22) or (3.32), and a very minor modification in the right-hand side of (3.30) with respect to (3.20). I suggest to shorten the proof of Lemma 3.12.
+
+    \item[9.] I think the proofs of Lemmas 4.1 and Lemma 4.2 would become a little more clear if the authors made a few modifications.
+    \begin{itemize}
+        \item Lemma 4.1 assumes a discrete inf-sup condition, which is clearly equivalent to the uniform well-posedness of the discrete problems, and Lemma 4.2 in turn gives a sufficient condition for such a hypothesis to hold. This is interesting, the sufficient condition boils down to the well-posedness of the continuous problem (which depends on the domain size) and having a sufficiently fine partition. I suggest to make this point explicit, adding a few lines between the two lemmas.
+        \item I think it is convenient to use an \(h\) subindex to distinguish functions in \({\mathcal{V}}_{h}\) from arbitrary functions in \(\mathbb{H}(\Omega)\). The same comment applies to Proposition 7.2 as well.
+        \item In formula (4.3) I would change \(u_{h}\mapsto v_{h}\) to avoid confusion with the solution of the discrete problem.
+        \item In the first sentence of the proof of Lemma 4.1, I think there is no need to take an arbitrary basis of \({\mathcal{V}}_{h}\), as one can simply take the finite element basis already introduced (and which is the one actually employed in practice).
+        \item Isn't the assumption in Lemma 4.2 equivalent with alternative i) in Theorem 1.1?
+    \end{itemize}
+
+    \item[10.] Proposition 4.3 does not quite belong to Section 4, as it does not involve the stability of the error. I think the authors decided to have it there because it is instrumental for the proof of Theorem 1.2, but I think it should be moved to the Introduction, after Theorem 1.1. Even though it can be a little strange to have a result proven in the introduction, the point of the paper is not the regularity of solutions and readership of CAMWA already know that regularity of solutions is one of the basic ingredients needed to prove convergence rates.
+
+    \item[11.] Lemma 5.1 deals with the interesting fact that the stiffness matrices for the logarithmic Laplacian can be computed by differentiation with respect to \(s\) of the stiffness matrices for the fractional Laplacian. While in the paper the authors apply this result for a specific setting (intervals and uniform meshes) by direct differentiation, I think it would be interesting to consider its application in more general situations. In that sense, I wonder if the consistency error of replacing the derivative by a forward difference can be estimated. Namely, my question is what can be said about replacing \(L_{\Delta}\varphi_{i}\) by \(\frac{(-\Delta)^{s}\varphi_{i}-\varphi_{i}}{s}\) for small \(s\). I guess the error in \(L^{p}(\mathbb{R})\) should be linear in \(s\); is that correct?
+
+    \item[12.] I think the discussion along the setting of the experiment in Section 6.1 should be polished.
+    \begin{itemize}
+        \item It seems the authors are considering \(v_{h}\) to be the finite element solution of a problem with right-hand side \(\tilde{f}:=\sum_{i=0}^{N+1}f_{i}\varphi_{i}\), where the coefficients \(f_{i}\) are computed numerically. I think it would be convenient to provide evidence on why setting \(f_{i}:=hL_{\Delta}u(x_{i})\) is a good choice: is \(f\) expected to be constant? A plot of the computed values of \(f_{i}\) would be helpful. If that is not the case, then I wonder why the authors chose \(f_{i}\) the way they did instead of using quadrature to approximate \(\int_{\Omega}L_{\Delta}u\varphi_{i}\). The midpoint rule for this quadrature would give \(2hL_{\Delta}u(x_{i})\), which may not be convenient if \(f\) was about constant. Additionally, I think it should not be too difficult to bound \(\|f-\tilde{f}\|_{L^{2}(\Omega)}\) and use the stability of the discrete problems to bound \(\|u_{h}-v_{h}\|\).
+        \item I find strange the choice of \(b_{h}\) on page 17. Leaving only the boundary-touching elements does not provide information about local convergence, as the domains in which the \(b_{h}\) are measured change as \(h\to 0\). I think it would be more illuminating to have \(b_{h}\) to be the \(L^{2}\) error on some fixed subdomain.
+    \end{itemize}
+
+    \item[13.] The first paragraph on page 18 mentions the use of graded meshes to enhance convergence rates. Given that one of the authors implemented these meshes numerically in their Master's thesis, I think it could be useful to expand the discussion on the topic a little and include some numerical results, even if they fall beyond the scope of the theory in the paper.
+
+    \item[14.] In page 21, the authors mention the use of golden section search for the approximation of the values of \(L\) such that \(L_{\Delta}\) has a zero eigenvalue on \((-L,L)\). I think it would be convenient to add a few lines detailing on this topic: did the authors look for local maxima of \(cond(A_{h}^{L})\)? Why is that any better than simply using a root-finding method to search values of \(L\) having zero as an eigenvalue? On the other hand, I think it would be interesting to see the plot of one of these eigenfunctions, for example for \(L=L_{1}\approx 0.709\), and to report on the behavior of the solution to the torsion problem as \(L\to L_{1}\).
+\end{enumerate}
+
+\section*{Minor remarks and typos}
+
+\begin{itemize}
+    \item \emph{In the table shown in page 5, the numerical values of \(\lambda_{i}^{s}\) (\(i=1,2,3\)) have one digit less than the \(1+s\lambda_{i}\). Correct for consistency.}
+
+    We have adjusted this as suggested.
+
+    \item Page 6, sentence before (2.3): instead of \((\varphi_{i})_{i\in[[0,N+1]]}\), it should be \((\varphi_{i})_{i\in[[1,N]]}\). Remove the 'for \(i\in[[1,N]]\)' after (2.3).
+    \item Page 7, second line in the proof of Lemma 3.1: there is an \({\mathbb{H}}(\Omega)\) subscript missing in the norm.
+    \item Page 8: there are two exponents \(N\) that should be removed, one in line 2 and the other in formula (3.5).
+    \item Formula (3.8): the index \(i\) is missing in the second summation.
+    \item Page 9, sentence before (3.16): 'elements' \(\mapsto\) 'indices'.
+    \item Remark 3.7: a square is missing in the left-hand side of the inequality in the second line.
+    \item Pages 15-16: it is not clear what \(k\) is in the definitions of \(l_{k},m_{k},p_{k},q_{k}\). Note that only \(q_{k}\) depends on \(k\), while \(l_{k}\) depends on some variable \(j\) and \(m_{k},p_{k}\) are constants. Moreover, the first line in page 16 refers to a digamma function, which is not employed in these definitions, and in formula (5.2) there appear some \(k\) indices that are not related to \(i,j\).
+    \item Page 19, above (7.1): condition \(\mapsto\) condition number (twice).
+    \item Page 20, after (7.2): 'where \(U\subset{\mathbb{H}}(\Omega)\) ...' should be removed.
+    \item Lemma A.5: Why does one need \(s<1/4\)? I guess the result is true for all \(s\in(0,1)\).
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 \subsubsection*{Report 2}
 
+
+\begin{enumerate}
+    \item \emph{ Starting from the definition of the operator (1.2), there is a lot of mystery behind this definition. Why is the first integral on an interval of radius 1 centered at the point? How is this done in more dimensions?}
+
+    The logarithmic Laplacian has several representations as singular integrals. The one we present, is one of the most useful ones, and it was derived in [11] (Chen, Weth, 2019) from the Fourier symbol of the operator. The interval of radius 1 is not special. It can be replaced by any interval around $x$, but then the other terms and constants most be adjusted.
+
+    In more dimensions, the interval of radius one would be substituted with a ball of radius one around $x$.
+
+    We did not deepen in this kind of details, because this was done and explained in [11], which is the first reference we quote in the introduction.
+
+    \item \emph{Related to the previous point: why is the whole paper dedicated to one dimension only? There are many cancellations, simplifications, etc., that are possible in one dimension only.}
+
+    We have focused in dimension one for three reasons:
+\begin{itemize}
+ \item First, we wanted to take advantage of the computations that were available for the 1D fractional Laplacian and establishing a new relationship from the FEM point of view between the logarithmic Laplacian and the fractional Laplacian.
+ \item  Second, and most importantly, because this is the first FEM analysis in the logarithmic setting, and we believe that before considering higher dimensions, a full understanding of the 1D case could be a good starting point.  Our results are hitherto the only available in the literature and some important (and hard) questions remain open even in the 1D case.
+ \item Third, because since the stiffness matrix is explicit, the implementation of the FEM is straightforward and fast in just a few lines of code. Thus, these formulas provide the interested community with an easy-to-use tool to explore new phenomena in the nonlocal logarithmic setting.
+\end{itemize}
+
+The stiffness matrix for the logarithmic Laplacian in 1D can be obtained in three ways: with a computer, with direct computations, or with the derivative approach that we have explained in the paper. As expected, the stiffness matrix always coincides and we have checked this carefully during our studies. We decided to present the derivative approach because we believe that this is a new element in the FEM setting (whereas the other two were well known). It is a FEM analogue of the formula
+$(-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)$, and we found this connection interesting.  This is mostly of interest in 1D problems, where the stiffness matrix can be computed explicitly, but note that problems in other 1D domains could be considered with this approach (for instance, the union of two disjoint intervals), or perhaps one can consider other nonlocal boundary conditions, such as nonlocal Neumann.  Many interesting questions about the qualitative behavior of solutions are still open in these settings, where a numerical approximation of the solutions can be helpful.
+
+For higher dimensions, the most natural way to obtain the stiffness matrix would be to use a computer (as in the case of the fractional Laplacian).
+
+    \item \emph{In the middle of page 4, there is a discussion about the need to introduce another interpolant due to the lack of traces. This is because the authors only consider the so-called Scott-Zhang interpolant with averages on faces. There are other versions of this interpolant, and other interpolants, that do not require traces for their definition. Did the authors consider any of these? How did these perform?}
+
+    We did not followed this direction in the present paper because we wanted to use the computations that were available for the 1D fractional Laplacian, seize the advantages mentioned above, and because the paper was already a bit long to include substantially more material.  But we do expect to explore these other research directions in future work.
+
+    \item \emph{Formula (3.20) is not correct. The mere fact that the function \( v \) appears after the first \( \leq \) and reappears after the second one should be an obvious red flag.}
+
+    There is a typo after the second inequality in (3.20), where $|v^\prime|^2_{\infty}$ is omitted. We have corrected it, and it now reads
+    \begin{equation*}
+    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C {
+    \color{red}|v^\prime|^2_{\infty}}\int_{S_i}\int_{S_i}|x-y|dy dx \leq C{|v^\prime|^2_{\infty}}h^3.
+\end{equation*}
+This change does not affect anything else in the proofs.
+
+    \item \emph{The statement about the \( L^2 \) stability estimate is not correct. At the very least, the left-hand side is missing a square.}
+
+    There is a typo in Remark 3.7, where a square is missing. We have corrected this typo. Everything else is correct.
+
+    \item \emph{Is Remark 3.9 about experimental observations? If so, this must be explicitly mentioned.}
+
+    Proposition 3.8 has been now been improved and now Remark 3.9 is not longer relevant.
+
+    \item \emph{Lemmas 4.1 and 4.2 are completely standard and unnecessary. In fact, the authors refer here to some unpublished lecture notes. A standard reference would have been preferred.}
+
+    We agree that these Lemmas are standard, but we prefer to include proofs for completeness.
+
+    \item \emph{As mentioned above, the content of Section 5 is specific to one dimension and, thus, of little general interest.}
+
+    We have explained in point 2 our interest in 1D problems and the relevance of Section 5.
+
+    \item \emph{Formulas (1.2) and (1.3) are in one dimension, but the text before (1.3) speaks of a function in \( N \) dimensions.}
+
+    There is a typo just before (1.3), it should be $\varphi\in C^\infty_c(\R)$ instead of $\varphi\in C^\infty_c(\R^N)$.  We have corrected this.
+
+    \item \emph{The statement below (1.4) that says "Note that the space \(\mathbb H(\Omega) \) imposes very little regularity restrictions on its elements and in particular step functions belong to \( \mathbb H(\Omega) \)" is true but a little hyperbolic. Step functions are also in spaces \( H^s(\Omega) \) for \( s < 1/2 \).}
+
+    It is true that step functions are also in spaces \( H^s(\Omega) \) for \( s < 1/2 \). However, this does not imply that step functions belong to \( \mathbb H(\Omega) \). Hence, we do not think that this statement is redundant.
+
+    \item \emph{In (1.8) there is a $X^\alpha(\Omega)$ and it should read $\mathcal X^\alpha(\Omega)$.}
+
+    We agree and we have corrected this typo.
+
+    \item \emph{In (1.12) and other places, the entries of the stiffness matrix are in the right order. It should be
+    \[
+    A_L^h = (\mathcal E_L(\varphi_j, \varphi_i))_{i,j=0}^{N}.
+    \]}
+    The bilinear form $\mathcal E_L$ is symmetric, so $\mathcal E_L(\varphi_j, \varphi_i)=\mathcal E_L(\varphi_i, \varphi_j)$.
+
+    \item \emph{What is the meaning of, for instance, \( |v|_{L^2(S_k)} \)? It is tradition to indicate norms with a double bar.}
+
+To avoid any confusion, we have out double bars in all of our norms.
+\end{enumerate}
 
 
 
@@ -175,9 +334,6 @@ Thank you for your comment. Indeed, Proposition 3.8 is meaningful for regular fu
 \item \emph{Given the poor order of approximation, wouldn't it be advisable to use piecewise constant functions?}\\
 We have considered this option as future work.  In this paper we wanted to take advantage of the computations already available for the 1D fractional Laplacian. It will be interesting to compare the FEM analysis in both cases, although we expect that the converge rate will not change drastically.
 \end{enumerate}
-
-
-
 
 
 
@@ -211,8 +367,8 @@ We do recognize several elements in our proofs that have a clear extension to hi
 }
 
 
-The stiffness matrix for the logarithmic Laplacian in 1D can be obtained in three ways: with a computer, with direct computations, or with the derivative approach that we have explained in the paper. As expected, the stiffness matrix always coincides and we have checked this carefully during our studies. We decided to present the derivative approach because we believe that this is a new element in the FEM setting (whereas the other two were well known). It is a FEM analogue of the formula
-$(-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)$, and we found this connection interesting.  This is mostly of interest in 1D problems, where the stiffness matrix can be computed explicitly, but note that problems in other 1D domains could be considered with this approach (for instance, the union of two disjoint intervals), or perhaps one can consider other nonlocal boundary conditions, such as nonlocal Neumann.  Many interesting questions are still open in these settings, where a numerical approximation of the solutions would be helpful.
+The stiffness matrix for the logarithmic Laplacian in 1D can be obtained in three ways: with a computer, with direct computations, or with the derivative approach that we have explained in the paper. As expected, the stiffness matrix always coincides and we have checked this carefully during our studies. We decided to present the derivative approach because we believe that this is a new element in the FEM setting (whereas the other two are well known). It is a FEM analogue of the formula
+$(-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)$, and we found this connection interesting.  This is mostly of interest in 1D problems, where the stiffness matrix can be computed explicitly, but note that problems in other 1D domains could be considered with this approach (for instance, the union of two disjoint intervals), or perhaps one can consider other nonlocal boundary conditions, such as nonlocal Neumann.  Many interesting questions about the qualitative behavior of solutions are still open in these settings, where a numerical approximation of the solutions would be helpful.
 
 For higher dimensions, the most natural way to obtain the stiffness matrix would be to use a computer, which should not represent a big challenge to implement.
 
@@ -222,7 +378,7 @@ For higher dimensions, the most natural way to obtain the stiffness matrix would
 
 We agree that a careful study of graded meshes would be very interesting. Theoretically, we also would expect that some refinement would improve the convergence rate.  We expect to elucidate, as future work, what kind of refinement is needed and how much does the convergence rate can be improved in this way.
 
-We did not followed this direction in the present paper because we wanted to use the computations that were available for the 1D fractional Laplacian, seize the advantages mentioned above in point 2, and because the paper was already a bit long to include both approaches.
+We did not followed this direction in the present paper because we wanted to use the computations that are available for the 1D fractional Laplacian, seize the advantages mentioned above in point 2, and because the paper was already a bit long to include both approaches.
 
 \item
 \emph{Page 2. The optimal convergence rate $h^2$ for the standard Laplacian occurs when the error is measured in the $L^2$ norm. Please correct.

@@ -182,7 +182,7 @@ where $\Omega$ is an open interval, $f$ belongs to a suitable (log-Hölder) spac
      -\int_{\R\backslash(x-1,x+1)}\frac{u(y)}{|x-y|}\, dy
      +\rho_1\, u(x)\qquad \text{ for }x\in \Omega.
  \end{align}
- Here $\rho_1\approx-1.15$ is an explicit negative constant given in Section \ref{sec:notation}. The logarithmic Laplacian $L_\Delta$ is a pseudo-differential operator with Fourier symbol $2\ln|\xi|$, namely, ${\mathcal F}(L_\Delta \varphi)(\xi)=2\ln|\xi| {\mathcal F}(\varphi)(\xi)$ for all $\varphi\in C^\infty_c(\R),$ where ${\mathcal F}$ denotes the Fourier transform.  This operator appears naturally as a first order expansion of the (integral) fractional Laplacian $(-\Delta)^s$ (the pseudo-differential operator with Fourier symbol $|\xi|^{2s}$) as $s\to 0^+$; in particular, in \cite[Theorem 1.1]{CW19} it is shown that, for all $\varphi\in C^\infty_c(\R^N)$,
+ Here $\rho_1\approx-1.15$ is an explicit negative constant given in Section \ref{sec:notation}. The logarithmic Laplacian $L_\Delta$ is a pseudo-differential operator with Fourier symbol $2\ln|\xi|$, namely, ${\mathcal F}(L_\Delta \varphi)(\xi)=2\ln|\xi| {\mathcal F}(\varphi)(\xi)$ for all $\varphi\in C^\infty_c(\R),$ where ${\mathcal F}$ denotes the Fourier transform.  This operator appears naturally as a first order expansion of the (integral) fractional Laplacian $(-\Delta)^s$ (the pseudo-differential operator with Fourier symbol $|\xi|^{2s}$) as $s\to 0^+$; in particular, in \cite[Theorem 1.1]{CW19} it is shown that, for all $\varphi\in C^\infty_c(\R)$,
 \begin{align}\label{intro:exp}
 (-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)\qquad \text{as $s\to 0^+$ in }L^p(\R) \text{ with }1<p\leq \infty.
 \end{align}
@@ -237,7 +237,7 @@ The analysis of FEM in nonlocal problems relies strongly on fine regularity prop
 Note that $\ell$ is a non-decreasing concave function with $\ell(0) := \lim_{r\to0^+}\ell(r)=0$. Given $\alpha\in(0,1)$, let
 %
 \begin{align}
-    \mathcal X^\alpha(\Omega)&:=\left\{u:\mathbb R\to \mathbb R:\|u\|_{X^\alpha(\Omega)}<+\infty \;\textnormal{ and $u=0$ in }\; \R\setminus \Omega\right\}, \label{Xdef}\\
+    \mathcal X^\alpha(\Omega)&:=\left\{u:\mathbb R\to \mathbb R:\|u\|_{\mathcal{X}^\alpha(\Omega)}<+\infty \;\textnormal{ and $u=0$ in }\; \R\setminus \Omega\right\}, \label{Xdef}\\
     \mathcal Y(\Omega)&:=\{f:\Omega\to \mathbb R:\|f\|_{\mathcal Y(\Omega)}<+\infty\},\notag
 \end{align}
 %
@@ -306,15 +306,15 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
 
  As a consequence, we use a simpler interpolator: the projection to $\mathcal V_h$ in the $L^2$-sense (see \eqref{eq:interpolator}). Because of this, in our approach, it is important to consider two discontinuous elements in the finite element basis (see \eqref{eq:def_basis_ext}).  This might seem odd, in virtue of the Dirichlet boundary conditions, but in fact this is required in our analysis and numerical experiments show that the presence of these two discontinuous elements improves the numerical approximation of logarithmic problems.
 
- The algorithmic implementation of the FEM can be done, as usual, by computing the entries of the corresponding stiffness matrix numerically. However, here we present an alternative, which we believe that also gives a new perspective on how to understand the expansion \eqref{intro:exp} from the FEM point of view. Let us be more precise. Typically, in order to obtain the finite element approximation $u_h$ given by \eqref{eq:discr_problem:intro}, a finite element basis $(\varphi_i)_{i=0}^{N+1}$ of $\mathcal V_h$ is considered (see \eqref{eq:def_basis}-\eqref{eq:def_basis_ext}) and a matrix with entries
+ The algorithmic implementation of the FEM can be done, as usual, by computing the entries of the corresponding stiffness matrix numerically. However, here we present a new alternative, which we believe that also gives a new perspective on how to understand the expansion \eqref{intro:exp} from the FEM point of view. Let us be more precise. Typically, in order to obtain the finite element approximation $u_h$ given by \eqref{eq:discr_problem:intro}, a finite element basis $(\varphi_i)_{i=0}^{N+1}$ of $\mathcal V_h$ is considered (see \eqref{eq:def_basis}-\eqref{eq:def_basis_ext}) and a matrix with entries
  \begin{align}\label{s:m:intro}
  \mathcal A_{h}^{L}=(\cE_L(\varphi_i,\varphi_j))_{i,j=0}^N
  \end{align}
  is calculated.  The matrix $\mathcal A_{h}^{L}$ is called the stiffness matrix for the logarithmic Laplacian.  Then, solving the linear algebraic problem $\mathcal A_{h}^{L}\alpha = F,$  where $F=(f_i)_{i=0}^{N+1}$ and $f_i=\int_{\Omega}f(x)\varphi_i(x)\, dx$, one finds a vector $\alpha=(\alpha_i)_{i=0}^{N+1}$ and then $u_h(x):=\sum_{i=0}^{N+1}\alpha_i \varphi_i(x)$  is the finite element approximation and satisfies \eqref{eq:discr_problem:intro}. In this paper, instead of calculating \eqref{s:m:intro} (either directly or numerically), we use the stiffness matrix $\mathcal A_{h}^{s}$ for the fractional Laplacian $(-\Delta)^s$ and show that
- \begin{align*}
+ \begin{align}\label{Ahds}
  \mathcal A_{h}^{L}=\partial_s \mathcal A_{h}^{s}|_{s=0},
- \end{align*}
- see Lemma~\ref{lem:derivative:s:m}.  This is possible, since a closed formula for the stiffness matrix $\mathcal A_{h}^{s}$ has been obtained in \cite{BH17}\footnote{This reference is an extended preprint version of the published article \cite{BHS19}.}.  This can be seen as a discrete version of the expansion \eqref{intro:exp} in terms of the stiffness matrix.
+ \end{align}
+ see Lemma~\ref{lem:derivative:s:m}.  This is possible, since a closed formula for the stiffness matrix $\mathcal A_{h}^{s}$ has been obtained in \cite{BH17}\footnote{This reference is an extended preprint version of the published article \cite{BHS19}.}.  Formula \eqref{Ahds} can be seen as a discrete version of the expansion \eqref{intro:exp} in terms of the stiffness matrix.
  
  Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, one needs to calculate only the corresponding entries.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section~\ref{sec:stiffness}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ and not on the length $L$ of the interval $\Omega$.  Therefore, the formula for $\mathcal A_{h}^{L}$ applies to logarithmic problems on any interval splitted into $N+1=\frac{L}{h}$ subintervals. As mentioned before, another way to obtain the stiffness matrix $\mathcal A_{h}^{L}$ is to compute the entries \eqref{s:m:intro} either directly or numerically. Both approaches yield the same results.
 
@@ -337,9 +337,9 @@ This can be seen in relation to the numerical approximation of the eigenvalues $
 \begin{tabular}{c|cc|cc|cc}
 $s$ & $\lambda_1^s$ &$1+s\lambda_1$  & $\lambda_2^s$ &$1+s\lambda_2$ & $\lambda_3^s$ &$1+s\lambda_3$\\
 \hline
-0.005 & 0.997 & 0.9966 & 1.009 & 1.0087 & 1.014 & 1.0196\\
-0.05  & 0.973 & 0.9656 & 1.092 & 1.0867 & 1.148 & 1.1956\\
-0.1   & 0.957 & 0.9312 & 1.197 & 1.1733 & 1.320 & 1.3911
+0.005 & 0.997 & 0.996 & 1.009 & 1.008 & 1.014 & 1.019\\
+0.05  & 0.973 & 0.965 & 1.092 & 1.086 & 1.148 & 1.195\\
+0.1   & 0.957 & 0.931 & 1.197 & 1.173 & 1.320 & 1.391
 \end{tabular}
 \end{center}
 
@@ -409,7 +409,7 @@ The paper is organized as follows. In \Cref{sec:three}, we present the localizat
 
 \section{Notation and framework} \label{sec:notation}
 
-Let $\rho_1:=2\ln 2 + \psi(\tfrac{1}{2})-\gamma\approx -1.15,$ where $\gamma=-\Gamma'(1)$ is the Euler-Mascheroni constant, and $\psi=\frac{\Gamma'}{\Gamma}$ is the Digamma function.
+Let $\rho_1:=2\ln 2 + \psi(\tfrac{1}{2})-\gamma\approx -1.15,$ where $\gamma=-\Gamma'(1)$ is the Euler-Mascheroni constant, and $\psi=\frac{\Gamma'}{\Gamma}$ is the Digamma function.  We use $\|\cdot\|_{L^p(\Omega)}$ to denote the usual $L^p(\Omega)$ norm for $p\in[1,\infty]$.
 
 \subsection{Log-Hölder moduli of continuity}
 
@@ -518,7 +518,7 @@ for any $u\in \mathbb{H}(\Omega)$ and $\ell$ as in \eqref{ell:def}.
 We note that for $x\in B_1(\Omega)$, $B_1(x)\subset B_2(\Omega)$, therefore
 %
 \begin{align}\notag
-    \|u\|^2&\leq \int_{B_2(\Omega)}\int_{B_2(\Omega)}\frac{|u(x)-u(y)|^2}{|x-y|}dy\, dx\\ \notag
+    \|u\|_{\mathbb H(\Omega)}^2&\leq \int_{B_2(\Omega)}\int_{B_2(\Omega)}\frac{|u(x)-u(y)|^2}{|x-y|}dy\, dx\\ \notag
     &=\int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|}dy\,dx+2\int_{\Omega}|u(x)|^2\int_{B_2(\Omega)\setminus B_h(\Omega)}\frac{1}{|x-y|}dy\,dx+2\int_{\Omega}|u(x)|^2\int_{B_h(\Omega)\setminus \Omega}\frac{1}{|x-y|}dy\,dx\\ &=: I_1+2I_2+2I_3,\label{eq:part_init}
 \end{align}
 %
@@ -608,22 +608,22 @@ namely, that the interpolation of a constant function in $\Omega$ is the constan
 Let $v\in \mathbb H(\Omega)$ and $a_k$ as in \eqref{eq:interpolator}. There is $C>0$ independent of $h$ such that
 %
 \begin{equation}\label{eq:est_ak_H}
-    |a_k|\leq C h^{-1/2} |v|_{L^2(S_k)}\qquad \text{ for all } k\in\inter{0,N+1}
+    |a_k|\leq C h^{-1/2} \|v\|_{L^2(S_k)}\qquad \text{ for all } k\in\inter{0,N+1}
 \end{equation}
 %
 with $S_k$ as defined in \eqref{eq:def_Si}. If in addition $v\in L^\infty(\Omega)$, we have
 \begin{equation}\label{eq:est_ak_Linf}
-    |a_k|\leq C |v|_{L^\infty(\Omega)} \quad\text{ for all } k\in\inter{0,N+1}.
+    |a_k|\leq C \|v\|_{L^\infty(\Omega)} \quad\text{ for all } k\in\inter{0,N+1}.
 \end{equation}
 \end{lemma}
 %
 \begin{proof}
-Let $k\in\inter{0,N+1}$ and $v\in\mathbb H(\Omega)$ be an arbitrary given function. We have that $|a_k|\leq \frac{1}{h}\int_{\Omega}|v||\varphi_k|dx.$ Note that $\textnormal{supp}\,\varphi_k\subset S_k$ for each $k\in\inter{0,N+1}$. Using H\"older's inequality, $|a_k|\leq h^{-1}|v|_{L^1(S_k)}\leq \sqrt{3}h^{-1/2}|v|_{L^2(S_k)},$ where we have used the fact that $|\varphi_k|_{L^\infty(\Omega)}=1$ for all $k\in\inter{0,N+1}$. Note that the right-hand side of the previous expression is finite since $\mathbb H(\Omega)\hookrightarrow L^2(\Omega)$. This proves \eqref{eq:est_ak_H}. To prove \eqref{eq:est_ak_Linf}, we use again that $|\varphi_k|_{L^\infty(\Omega)}=1$ for all $k\in\inter{0,N+1}$ to get $|a_k|\leq \frac{1}{h}|v|_{L^\infty(\Omega)}\int_{S_k}|\varphi_k| dx \leq C|v|_{L^\infty(\Omega)}.$ This ends the proof.
+Let $k\in\inter{0,N+1}$ and $v\in\mathbb H(\Omega)$ be an arbitrary given function. We have that $|a_k|\leq \frac{1}{h}\int_{\Omega}|v||\varphi_k|dx.$ Note that $\textnormal{supp}\,\varphi_k\subset S_k$ for each $k\in\inter{0,N+1}$. Using H\"older's inequality, $|a_k|\leq h^{-1}\|v\|_{L^1(S_k)}\leq \sqrt{3}h^{-1/2}\|v\|_{L^2(S_k)},$ where we have used the fact that $\|\varphi_k\|_{L^\infty(\Omega)}=1$ for all $k\in\inter{0,N+1}$. Note that the right-hand side of the previous expression is finite since $\mathbb H(\Omega)\hookrightarrow L^2(\Omega)$. This proves \eqref{eq:est_ak_H}. To prove \eqref{eq:est_ak_Linf}, we use again that $\|\varphi_k\|_{L^\infty(\Omega)}=1$ for all $k\in\inter{0,N+1}$ to get $|a_k|\leq \frac{1}{h}\|v\|_{L^\infty(\Omega)}\int_{S_k}|\varphi_k| dx \leq C\|v\|_{L^\infty(\Omega)}.$ This ends the proof.
 \end{proof}
 
 \begin{lemma}\label{lem:poincare_type}
 Let $U\subset \R$ be an open bounded interval, $v\in C^1(\overline{U})$, and $\overline v=\frac{1}{|U|}\int_{U}v$; then, $
-    |v-\overline{v}|_{L^2(U)}^2\leq |v'|^2_{L^\infty(U)}|U|^3.$
+    \|v-\overline{v}\|_{L^2(U)}^2\leq \|v'\|^2_{L^\infty(U)}|U|^3.$
 %
 \end{lemma}
 %
@@ -638,19 +638,19 @@ whence $\int_{U}|v(x)-\overline{v}|^2dx \leq \int_{U}\int_{U}\frac{|v(x)-v(y)|^2
 %
 \begin{equation*}
     \int_{U}|v(x)-\overline{v}|^2dx 
-    \leq |v'|^2_{L^\infty(U)}\int_{U}\int_{U}|x-y|dy dx
-    \leq |v'|^2_{L^\infty(U)}|U|^3.
+    \leq \|v'\|^2_{L^\infty(U)}\int_{U}\int_{U}|x-y|dy dx
+    \leq \|v'\|^2_{L^\infty(U)}|U|^3.
 \end{equation*}
 \end{proof}
 
 \begin{lemma}\label{lem:inter_l_infty}
-    Let $v\in L^\infty(\Omega)$. Then, $|I_h v|_{L^\infty(\Omega)}\leq C|v|_{L^\infty(\Omega)}$ for some $C>0$ uniform with respect to $h$.
+    Let $v\in L^\infty(\Omega)$. Then, $\|I_h v\|_{L^\infty(\Omega)}\leq C\|v\|_{L^\infty(\Omega)}$ for some $C>0$ uniform with respect to $h$.
 \end{lemma}
 %
 \begin{proof}
 Let $x\in \Omega$ be arbitrary. From \eqref{eq:interpolator} and \eqref{eq:est_ak_Linf},
 \begin{align*}
-|I_h v(x)|=\left|\sum_{k\in\inter{0,N+1}}a_k \varphi_k(x)\right| \leq C|v|_{L^\infty(\Omega)}\sum_{k\in\inter{0,N+1}}\varphi_k(x).
+|I_h v(x)|=\left|\sum_{k\in\inter{0,N+1}}a_k \varphi_k(x)\right| \leq C\|v\|_{L^\infty(\Omega)}\sum_{k\in\inter{0,N+1}}\varphi_k(x).
 \end{align*}
 By the definition of the basis functions, we note that $\sum_{k\in\inter{0,N+1}}\varphi_k(x)\leq \sqrt{2}$ for any $x\in\Omega$. The result then follows.
 \end{proof}
@@ -660,7 +660,7 @@ Let $i\in\inter{0,N}$, $v\in \mathbb H(\Omega)$, and $a_k$ as in \eqref{eq:inter
 %
 \begin{enumerate}[label=\upshape(\roman*)]
 \item $\displaystyle \int_{\Omega_i}\int_{S_i}\frac{|I_hv(x)-I_hv(y)|^2}{|x-y|}dy dx\leq Ch\sum_{k\in I_i} a_k^2$,
-\item  $\displaystyle |I_h u|^2_{L^2(\Omega_i)}\leq Ch\sum_{k\in I_i^\prime} a_k^2$,
+\item  $\displaystyle \|I_h u\|^2_{L^2(\Omega_i)}\leq Ch\sum_{k\in I_i^\prime} a_k^2$,
 \end{enumerate}
 where
 %
@@ -694,7 +694,7 @@ since $|x-y|\leq 2h$ for all $x\in \Omega_i$ and $y\in S_i$. Combining \eqref{eq
 
 For (ii), note that from \eqref{eq:def_basis}, \eqref{eq:interpolator}, and \eqref{def_Iiprime}, we have
 \begin{align*}
-|I_h u|^2_{L^2(\Omega_i)}
+\|I_h u\|^2_{L^2(\Omega_i)}
 \leq \sum_{k\in I_i^\prime}|a_k|^2\int_{\Omega_i}|\varphi_k(x)|^2\, dx
 \leq C\sum_{k\in I_i^\prime}|a_k|^2|\Omega_i|
 =Ch\sum_{k\in I_i^\prime}|a_k|^2.
@@ -705,9 +705,9 @@ For (ii), note that from \eqref{eq:def_basis}, \eqref{eq:interpolator}, and \eqr
 
 
 \begin{lemma}\label{lem:stab_dif_interp}
-Let $i\in\inter{0,N}$ and $v\in C_c^\infty(\Omega)$. There is $C>0$ independent of $h$ such that
+Let $i\in\inter{0,N}$ and $v\in C_c^\infty(\Omega)$. There is $C>0$ independent of $h$ and $v$ such that
 \begin{align}\label{eq:approxim_estimate}
-    \int_{\Omega_i}\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|}dy dx \leq C |v^\prime|^2_{\infty} h^3.
+    \int_{\Omega_i}\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|}dy dx \leq C \|v^\prime\|^2_{L^\infty(\Omega)} h^3.
 \end{align}
 \end{lemma}
 %
@@ -724,7 +724,7 @@ By \eqref{Ihc}, $v-I_h v=v-\overline{v}+I_h(\overline v - v)$, thus
 Using that $\overline v$ is a constant function, we can use mean value theorem to bound $J_1$ as
 %
 \begin{equation}\label{eq:est_J1}
-    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C \int_{S_i}\int_{S_i}|x-y|dy dx \leq C{|v^\prime|^2_{\infty}}h^3,
+    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C |v^\prime|^2_{\infty}\int_{S_i}\int_{S_i}|x-y|dy dx \leq C{|v^\prime|^2_{\infty}}h^3,
 \end{equation}
 since $|x-y|\leq 3h$ for $x,y\in S_i$.
 
@@ -744,35 +744,35 @@ where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and $I_i$ as de
 for $k\in I_i.$ Using \Cref{lem:poincare_type}, we can estimate the right-hand side of the above expression and obtain
 %
 \begin{equation}\label{eq:est_bks}
-    |b_k|^2\leq C{|v^\prime|^2_{\infty}}h^2.
+    |b_k|^2\leq C{\|v^\prime\|^2_{L^\infty(\Omega)}}h^2.
 \end{equation}
 %
 Collecting estimates \eqref{eq:est_dif_inter_1}--\eqref{eq:est_bks} gives the desired result.
 \end{proof}
 
 \begin{remark}\label{rem:l2_stability}
-By making minor adjustments to the proof of  \Cref{lem:stab_dif_interp}, we can use item (ii) of \Cref{lem:loc_norm_interp} to obtain the following $L^2$-stability estimate: for $i\in\inter{0,N}$, $|v-I_hv|_{L^2(\Omega_i)} \leq C{|v^\prime|^2_{\infty}} h^3$ with $v\in C_c^\infty(\Omega).$ Indeed, let $i\in\inter{0,N}$, $U=({x_i-2h},{x_{i}+2h})$, and $\overline{v}:=\frac{1}{U}\int_U v\, dx$; then, by Lemmas~\ref{lem:poincare_type} and~\ref{lem:loc_norm_interp},
+By making minor adjustments to the proof of  \Cref{lem:stab_dif_interp}, we can use item (ii) of \Cref{lem:loc_norm_interp} to obtain the following $L^2$-stability estimate: for $i\in\inter{0,N}$, $\|v-I_hv\|^2_{L^2(\Omega_i)} \leq C{\|v^\prime\|^2_{L^\infty(\Omega)}} h^3$ with $v\in C_c^\infty(\Omega).$ Indeed, let $i\in\inter{0,N}$, $U=({x_i-2h},{x_{i}+2h})$, and $\overline{v}:=\frac{1}{U}\int_U v\, dx$; then, by Lemmas~\ref{lem:poincare_type} and~\ref{lem:loc_norm_interp},
 \begin{align}
-|v-I_hv|^2_{L^2(\Omega_i)}
-\leq C|v-\overline{v}|_{L^2(\Omega_i)}^2 +|I_h(v-\overline{v})|^2_{L^2(\Omega_i)}
-\leq C{|v^\prime|^2_{\infty}}h^3+Ch\sum_{k\in I_i^\prime}a_k^2,\label{a2}
+\|v-I_hv\|^2_{L^2(\Omega_i)}
+\leq C\|v-\overline{v}\|_{L^2(\Omega_i)}^2 + \|I_h(v-\overline{v})\|^2_{L^2(\Omega_i)}
+\leq C{\|v^\prime\|^2_{L^\infty(\Omega)}}h^3+Ch\sum_{k\in I_i^\prime}a_k^2,\label{a2}
 \end{align}
 where $a_k=\frac{1}{h}\int_{x_{k-1}}^{x_{k+1}} (v-\overline{v})\varphi_k\, dx$ and $|a_k|\leq \frac{1}{h}\int_{x_i-2h}^{x_{i}+2h}|v-\overline{v}|\, dx$. By Lemma~\ref{lem:poincare_type}, $
-    |v-\overline{v}|_{L^2(U)}^2\leq C{|v^\prime|^2_{\infty}}h^3.$ The claim now follows from \eqref{a2}.
+    \|v-\overline{v}\|_{L^2(U)}^2\leq C{\|v^\prime\|^2_{L^\infty(\Omega)}}h^3.$ The claim now follows from \eqref{a2}.
 \end{remark}
 
 \begin{proposition}\label{eq:estab_H_c_infty}
 For any $h\in(0,1/2)$ and any $v\in C_c^\infty(\Omega)$,
 %
 \begin{equation}\label{eq:rate_H_c_infty}
-    \|v-I_h v\|^2_{\mathbb H(\Omega)}\leq C(|v|_{\infty},|v^\prime|_{\infty},L)h\,\ell^{-1}(h),
+    \|v-I_h v\|^2_{\mathbb H(\Omega)}\leq C(\|v\|_{L^\infty(\Omega)},\|v'\|_{L^\infty(\Omega)},L)h\,\ell^{-1}(h),
 \end{equation}
 %
-where $C(|v|_{\infty},|v^\prime|_{\infty},L)>0$ is a constant that only depends on $L$, $|v|_{\infty}$, $|v^\prime|_{\infty}$.
+where $C(\|v\|_{L^\infty(\Omega)},\|v'\|_{L^\infty(\Omega)},L)>0$ is a constant that only depends on $L$, $\|v\|_{L^\infty(\Omega)}$, $\|v'\|_{L^\infty(\Omega)}$.
 \end{proposition}
 
 \begin{proof}
-Along the proof, $C>0$ denotes possibly different constants that depend at most on $L$, $|v|_{\infty}$, and $|v^\prime|_{\infty}$.  Combining \eqref{eq:approxim_estimate} and \Cref{rem:l2_stability} with \Cref{lem:localization_enorm} we obtain
+Along the proof, $C>0$ denotes possibly different constants that depend at most on $L$, $\|v\|_{L^\infty(\Omega)}$, and $\|v'\|_{L^\infty(\Omega)}$.  Combining \eqref{eq:approxim_estimate} and \Cref{rem:l2_stability} with \Cref{lem:localization_enorm} we obtain
 %
 \begin{align*}
     \|v-I_h v\|^2_{\mathbb H(\Omega)}&\leq  C h^3(N+1)+Ch^3(N+1)\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(d(x))\,dx \\
@@ -786,9 +786,9 @@ because $h=\frac{L}{N+1}$. Since $v\in L^\infty(\Omega)$, Lemmas \ref{lem:inter_
 as claimed.
 \end{proof}
 
-\begin{remark}
-We shall note that even if the previous result is valid for any $\alpha>0$, there is a trade-off between the rate of convergence \eqref{eq:rate_H_c_infty} and the smallness of the parameter $h_0$. Indeed, the bigger $\alpha$ is, the smaller $h_0$ is. For instance, for $\alpha=1$, $h_0=(\log(2)+\log(5))^{-1}\approx 0.4342$ while for $\alpha=9$, $h_0\approx 3\times 10^{-6}$. Note however that the decay rate \eqref{eq:rate_H_c_infty} would still be logarithmic and there is not really much improvement in the speed of convergence.  
-\end{remark}
+% \begin{remark}
+% We shall note that even if the previous result is valid for any $\alpha>0$, there is a trade-off between the rate of convergence \eqref{eq:rate_H_c_infty} and the smallness of the parameter $h_0$. Indeed, the bigger $\alpha$ is, the smaller $h_0$ is. For instance, for $\alpha=1$, $h_0=(\log(2)+\log(5))^{-1}\approx 0.4342$ while for $\alpha=9$, $h_0\approx 3\times 10^{-6}$. Note however that the decay rate \eqref{eq:rate_H_c_infty} would still be logarithmic and there is not really much improvement in the speed of convergence.
+% \end{remark}
 
 We are in position to prove the main result of this section.
 
@@ -813,10 +813,10 @@ Let $\epsilon>0$. We recall that $C_c^\infty(\Omega)$ is dense in $\mathbb H(\Om
 %
 \begin{align*}
     \|v-v_h\|_{\mathbb H(\Omega)}&\leq \|v-w\|_{\mathbb H(\Omega)}+\|w-\Pi_h w\|_{\mathbb H(\Omega)}+\|\Pi_h w-\Pi_h v\|_{\mathbb H(\Omega)} \\
-    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)} \leq \frac{2\epsilon}{3}+{C(|w|_{\infty},|w^\prime|_{\infty},L)}h\, \ell^{-1}(h),
+    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)} \leq \frac{2\epsilon}{3}+{C(\|w\|_{L^\infty(\Omega)},\|w'\|_{L^\infty(\Omega)},L)}h\, \ell^{-1}(h),
 \end{align*}
 %
-where we have used that $\|\Pi_h\|_*=1$, property \eqref{eq:prop_infimo}, and \Cref{eq:estab_H_c_infty}. {Finally, we choose $h>0$ small enough so that ${C(|w|_{\infty},|w^\prime|_{\infty},L)}h\, \ell^{-1}(h)\leq \frac{\epsilon}{3}$ (note that $w\in C^\infty_c(\Omega)$ is independent of $h$)}. This yields the claim.
+where we have used that $\|\Pi_h\|_*=1$, property \eqref{eq:prop_infimo}, and \Cref{eq:estab_H_c_infty}. {Finally, we choose $h>0$ small enough so that ${C(\|w\|_{L^\infty(\Omega)},\|w'\|_{L^\infty(\Omega)},L)}h\, \ell^{-1}(h)\leq \frac{\epsilon}{3}$ (note that $w\in C^\infty_c(\Omega)$ is independent of $h$)}. This yields the claim.
 \end{proof}
 
 
@@ -826,7 +826,7 @@ where we have used that $\|\Pi_h\|_*=1$, property \eqref{eq:prop_infimo}, and \C
 Let $\alpha>0$, $U\subset \R$ be an open bounded interval, $v\in \mathbb H^{\alpha}(U;\ell)$, and $\overline v=\frac{1}{|U|}\int_{U}v\, dx$, then,
 %
 \begin{equation*}
-    |v-\overline{v}|_{L^2(U)}^2\leq \ell^{\alpha}(|U|)\int_{U}\int_{U}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
+    \|v-\overline{v}\|_{L^2(U)}^2\leq \ell^{\alpha}(|U|)\int_{U}\int_{U}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
 \end{equation*}
 %
 \end{lemma}
@@ -849,7 +849,7 @@ This ends the proof.
 Let $\alpha>0$, $i\in\inter{0,N}$, $v\in \weH{\alpha}$, then
 \begin{align}
     \int_{\Omega_i}\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|}dy dx &\leq C  \ell^{\alpha}(h)\int_{T_i}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx, \label{eq:approxim_estimate_weight}\\
-    |v-I_h v|_{L^2(\Omega_i)}^2&\leq C\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx,\label{a4}
+    \|v-I_h v\|_{L^2(\Omega_i)}^2&\leq C\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx,\label{a4}
 \end{align}
 where $T_i:=S_{i-1}\cup S_{i+1}$ and $S_i$ as in \eqref{eq:def_Si}.
 \end{lemma}
@@ -885,7 +885,7 @@ Collecting estimates \eqref{eq:est_dif_inter_1_weight}--\eqref{eq:est_bks_weight
 
 Finally, for \eqref{a4}, by \Cref{lem:poincare_type_weight}, item (ii) of \Cref{lem:loc_norm_interp}, and \eqref{eq:est_bks_weight}, 
 \begin{align*}
-    |v-I_h v|_{L^2(\Omega_i)}^2&\leq 2|v-\overline{v}|_{L^2(\Omega_i)}^2+2|I_h(\overline{v}-v)|_{L^2(\Omega_i)}^2\leq C\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
+    \|v-I_h v\|_{L^2(\Omega_i)}^2&\leq 2\|v-\overline{v}\|_{L^2(\Omega_i)}^2+2\|I_h(\overline{v}-v)\|_{L^2(\Omega_i)}^2\leq C\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
 \end{align*}
 \end{proof}
 
@@ -1103,7 +1103,7 @@ For $i=1,\ldots,N$, this follows directly from \cite[Theorem 1.1]{CW19}, because
 =\int_{\R} \partial_s(-\Delta)^s\varphi_i\mid_{s=0} \varphi_j\, dx
 =\int_{\R} L_\Delta\varphi_i \varphi_j\, dx
 =\cE_L(\varphi_i,\varphi_j)=b_{ij},$ where we used that $\int_{\R}\left(\frac{(-\Delta)^s \varphi_i-\varphi_i}{s}-L_\Delta \varphi_i  \right)\varphi_j\, dx
-\leq \|\varphi_j\|_\infty\int_{\Omega}\left|\frac{(-\Delta)^s \varphi_i-\varphi_i}{s}-L_\Delta \varphi_i  \right|\, dx\to 0$ as $s\to 0^+,$ since $\Omega$ is bounded.
+\leq \|\varphi_j\|_{L^\infty(\Omega)}\int_{\Omega}\left|\frac{(-\Delta)^s \varphi_i-\varphi_i}{s}-L_\Delta \varphi_i  \right|\, dx\to 0$ as $s\to 0^+,$ since $\Omega$ is bounded.
 \end{proof}
 
 
