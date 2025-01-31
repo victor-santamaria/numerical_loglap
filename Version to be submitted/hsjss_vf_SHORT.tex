@@ -533,7 +533,7 @@ where $D_i=\Omega\setminus S_i$. We keep the first integrals as they are. For th
 Following \cite[Prop. 1.2.24]{Bor17}, it is not difficult to see that $\sum_{i}{J_{i,1}}=\sum_{i}{J_{i,2}}$. Hence,
 %
 \begin{align*}
-    I_1\leq \sum_{i\in\inter{0,N}}\left(\int_{\Omega_i}\int_{S_i}\frac{|u(x)-u(y)|^2}{|x-y|^N}dy\,dx+4 J_{i,1}\right).
+    I_1\leq \sum_{i\in\inter{0,N}}\left(\int_{\Omega_i}\int_{S_i}\frac{|u(x)-u(y)|^2}{|x-y|}dy\,dx+4 J_{i,1}\right).
 \end{align*}
 %
 To bound $J_{i,1}$, note that
@@ -548,7 +548,7 @@ To bound $J_{i,1}$, note that
 for some $C>0$ independent of $h$ depending on $\Omega$ and where we have used that $h\in(0,1/2)$ in the last inequality. Thus, we have proved that
 %
 \begin{equation}\label{eq:est_I1_final}
-    I_1\leq \sum_{i\in\inter{0,N}}\left(\int_{\Omega_i}\int_{S_i}\frac{|u(x)-u(y)|^2}{|x-y|^N}dy\,dx + C\ell^{-1}(h)\int_{\Omega_i}|u(x)|^2\,dx\right).
+    I_1\leq \sum_{i\in\inter{0,N}}\left(\int_{\Omega_i}\int_{S_i}\frac{|u(x)-u(y)|^2}{|x-y|}dy\,dx + C\ell^{-1}(h)\int_{\Omega_i}|u(x)|^2\,dx\right).
 \end{equation}
 %
 
@@ -616,7 +616,7 @@ Let $k\in\inter{0,N+1}$ and $v\in\mathbb H(\Omega)$ be an arbitrary given functi
 \end{proof}
 
 \begin{lemma}\label{lem:poincare_type}
-Let $U\subset \R$ be an open bounded interval, $v\in C_c^\infty(U)$, and $\overline v=\frac{1}{|U|}\int_{U}v$; then, $
+Let $U\subset \R$ be an open bounded interval, $v\in C^1(\overline{U})$, and $\overline v=\frac{1}{|U|}\int_{U}v$; then, $
     |v-\overline{v}|_{L^2(U)}^2\leq |v'|^2_{L^\infty(U)}|U|^3.$
 %
 \end{lemma}
@@ -903,7 +903,7 @@ Using \Cref{lem:localization_enorm}, estimates \eqref{eq:approxim_estimate_weigh
 %
 \begin{align}
     \|u-I_h u\|^2_{\mathbb H(\Omega)}&\leq C \ell^{1+\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx\notag\\
-    &\quad +C\ell^{-1}(h)\sum_{i\in\inter{0,N}}|u-u_h|_{L^2(\Omega_i)}^2+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(d(x))\,dx\notag\\
+    &\quad +C\ell^{-1}(h)\sum_{i\in\inter{0,N}}|u-I_hu|_{L^2(\Omega_i)}^2+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(d(x))\,dx\notag\\
     &\leq C \ell^{\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx+C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1-\alpha}(d(x))\,dx.\label{eq:est_aprox_sum}
 \end{align}
 Let $x_i:=x_0=0$ if $i<0$ and $x_i:=x_{N+1}=L$ if $i>N+1$.  Then,
