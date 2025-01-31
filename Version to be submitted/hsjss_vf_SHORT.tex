@@ -191,7 +191,7 @@ where $\Omega$ is an open interval, $f$ belongs to a suitable (log-Hölder) spac
 
 The problem \eqref{P:intro} has a variational structure (see \cite{CW19}), which allows the use of powerful functional analysis tools to explore its solvability. Nevertheless, the operator $L_\Delta$ exhibits several pathologies that make its study difficult. Here is a short list of some of them:
 \begin{enumerate}
-    \item It lacks good scaling properties (see the discussion in \cite{CS22}).  In particular, scalings produce zero-order terms. 
+    \item It lacks good scaling properties (see the discussion in \cite{CS22}).  In particular, scalings in this setting produce zero-order terms (see \cite[Appendix A.1]{HSLRS23}).
     \item For every bounded open set $U\subset \R$ there is $\lambda>0$ such that the problem \eqref{P:intro} does not have a solution for $f\equiv 1$ and $\Omega=\lambda U$, see \cite[Remark 5.9]{CS22}.
     \item The operator $L_\Delta$ does not satisfy the maximum principle in general. Nevertheless, positivity preserving properties do hold under additional assumptions on the size of the domain, see \cite[Theorem 1.8 and Corollary 1.9]{CW19}.
     \item Classical solutions of \eqref{P:intro} can be very irregular, in particular, they may not belong to any Hölder space $C^\alpha(\Omega)$ with $\alpha\in(0,1)$, see \cite[Remark 5.6]{CS22}.
@@ -648,8 +648,10 @@ whence $\int_{U}|v(x)-\overline{v}|^2dx \leq \int_{U}\int_{U}\frac{|v(x)-v(y)|^2
 \end{lemma}
 %
 \begin{proof}
-Let $x\in \Omega$ be arbitrary. From \eqref{eq:interpolator} and \eqref{eq:est_ak_Linf}, $
-    |I_h v(x)|=\left|\sum_{k\in\inter{0,N+1}}a_k \varphi_k(x)\right| \leq C|v|_{L^\infty(\Omega)}\sum_{k\in\inter{0,N+1}}\varphi_k(x).$
+Let $x\in \Omega$ be arbitrary. From \eqref{eq:interpolator} and \eqref{eq:est_ak_Linf},
+\begin{align*}
+|I_h v(x)|=\left|\sum_{k\in\inter{0,N+1}}a_k \varphi_k(x)\right| \leq C|v|_{L^\infty(\Omega)}\sum_{k\in\inter{0,N+1}}\varphi_k(x).
+\end{align*}
 By the definition of the basis functions, we note that $\sum_{k\in\inter{0,N+1}}\varphi_k(x)\leq \sqrt{2}$ for any $x\in\Omega$. The result then follows.
 \end{proof}
 
@@ -760,10 +762,10 @@ where $a_k=\frac{1}{h}\int_{x_{k-1}}^{x_{k+1}} (v-\overline{v})\varphi_k\, dx$ a
 \end{remark}
 
 \begin{proposition}\label{eq:estab_H_c_infty}
-For any $\alpha>0$, there exists $h_0>0$ only depending on $\alpha$ such that for any $h<h_0$ and any $v\in C_c^\infty(\Omega)$ we have
+For any $h<1/2$ and any $v\in C_c^\infty(\Omega)$,
 %
 \begin{equation}\label{eq:rate_H_c_infty}
-    \|v-I_h v\|_{\mathbb H(\Omega)}\leq C(|v|_{\infty},|v^\prime|_{\infty},L)\ell^\alpha(h).
+    \|v-I_h v\|^2_{\mathbb H(\Omega)}\leq C(|v|_{\infty},|v^\prime|_{\infty},L)\frac{h}{\ell(h)},
 \end{equation}
 %
 where $C(|v|_{\infty},|v^\prime|_{\infty},L)>0$ is a constant that only depends on $L$, $|v|_{\infty}$, $|v^\prime|_{\infty}$.
@@ -776,20 +778,12 @@ Along the proof, $C>0$ denotes possibly different constants that depend at most 
     \|v-I_h v\|^2_{\mathbb H(\Omega)}&\leq  C h^3(N+1)+Ch^3(N+1)\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(d(x))\,dx \\
     &\leq Ch^2+Ch^2\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(d(x))\,dx,
 \end{align*}
-because $h=\frac{L}{N+1}$. Since $v\in C_c^\infty(\Omega)$, a direct computation and \Cref{lem:inter_l_infty} yield
+because $h=\frac{L}{N+1}$. Since $v\in L^\infty(\Omega)$, Lemmas \ref{lem:inter_l_infty} and \ref{lem:ellbeta} yield that
 %
 \begin{align*}
-    \|v-I_h v\|^2_{\mathbb H(\Omega)} &\leq Ch^2+Ch^2\ell^{-1}(h)+C\left(\|v\|_{L^\infty(\Omega)}^2+\|I_hv\|^2_{L^\infty(\Omega)}\right)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1}(d(x))\,dx \\
-    & \leq Ch^2+Ch^2\ell^{-1}(h)+C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1-\alpha}(d(x))\,dx.
+    \|v-I_h v\|^2_{\mathbb H(\Omega)} &\leq Ch^2+Ch^2\ell^{-1}(h)+C\left(\|v\|_{L^\infty(\Omega)}^2+\|I_hv\|^2_{L^\infty(\Omega)}\right)\sum_{i\in\{0,N\}}\int_{\Omega_i}\ell^{-1}(d(x))\,dx\leq C \frac{h}{\ell(h)},
 \end{align*}
-%
-Using Lemma~\ref{lem:ellbeta} and that $h\leq \ell^{\frac{1+\alpha}{2}}(h)$ for any $h\leq h_0$ for some $h_0>0$ only depending on $\alpha$, we obtain
-%
-\begin{align*}
-    \|v-I_h v\|^2_{\mathbb H(\Omega)}
-    & \leq C\ell^{1+\alpha}(h)+C\ell^{\alpha}(h)\leq C \ell^{\alpha}(h),
-\end{align*}
-which is the desired result {(after adjusting the value of $\alpha$)}.
+as claimed.
 \end{proof}
 
 \begin{remark}
@@ -819,10 +813,10 @@ Let $\epsilon>0$. We recall that $C_c^\infty(\Omega)$ is dense in $\mathbb H(\Om
 %
 \begin{align*}
     \|v-v_h\|_{\mathbb H(\Omega)}&\leq \|v-w\|_{\mathbb H(\Omega)}+\|w-\Pi_h w\|_{\mathbb H(\Omega)}+\|\Pi_h w-\Pi_h v\|_{\mathbb H(\Omega)} \\
-    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)} \leq \frac{2\epsilon}{3}+{C(|w|_{\infty},|w^\prime|_{\infty},L)}\ell^\alpha(h),
+    &\leq \frac{2\epsilon}{3}+\|w-I_hw\|_{\mathbb H(\Omega)} \leq \frac{2\epsilon}{3}+{C(|w|_{\infty},|w^\prime|_{\infty},L)}h/\ell(h),
 \end{align*}
 %
-where we have used that $\|\Pi_h\|_*=1$, property \eqref{eq:prop_infimo}, and \Cref{eq:estab_H_c_infty}. {Finally, we choose $h>0$ small enough so that ${C(|w|_{\infty},|w^\prime|_{\infty},L)}\ell^\alpha(h)\leq \frac{\epsilon}{3}$ (note that $w\in C^\infty_c(\Omega)$ is independent of $h$)}. This yields the claim.
+where we have used that $\|\Pi_h\|_*=1$, property \eqref{eq:prop_infimo}, and \Cref{eq:estab_H_c_infty}. {Finally, we choose $h>0$ small enough so that ${C(|w|_{\infty},|w^\prime|_{\infty},L)}h/\ell(h)\leq \frac{\epsilon}{3}$ (note that $w\in C^\infty_c(\Omega)$ is independent of $h$)}. This yields the claim.
 \end{proof}
 
 
@@ -896,18 +890,18 @@ Finally, for \eqref{a4}, by \Cref{lem:poincare_type_weight}, item (ii) of \Cref{
 \end{proof}
 
 Recall the definition of $\|\cdot\|_{\mathbb H^{\beta}(\Omega;\ell)}$ given in \eqref{Hbetanorm}.
-\begin{lemma}
+\begin{lemma}\label{new:lem}
 For every $\beta>0$, there is $C=C(\beta)>0$ such that
-\begin{align*}
+\begin{align}\label{bdr:est}
  \int_{0}^h |I_h u(x)|^2 \ell^{-\beta}(x)\, dx\leq C\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}.
-\end{align*}
-In particular, $\sum_{i\in\{0,N\}}\int_{\Omega_i}|(u-I_h u)(x)|^2\ell^{-1}(d(x))\,dx\leq C\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}.$
+\end{align}
+In particular,  $\sum_{i\in\{0,N\}}\int_{\Omega_i}|(u-I_h u)(x)|^2\ell^{-1}(d(x))\,dx\leq C\ell^a(h)\|u\|^2_{\mathbb H^{1+a}(\Omega;\ell)}$ for every $a>0$.
 \end{lemma}
 \begin{proof}
 In this proof, $C$ denotes possibly different positive contants independent of $h$ and $u$. Note that
 \begin{align*}
  \int_{0}^h |I_h u(x)|^2 \ell^{-\beta}(x)\, dx
- \leq 2\int_{0}^h (a_0^2\varphi_0^2+a_1\varphi_1^2) \ell^{-\beta}(x)\, dx,
+ \leq 2\int_{0}^h (a_0^2\varphi_0^2+a_1^2\varphi_1^2) \ell^{-\beta}(x)\, dx,
 \end{align*}
 where
 \begin{align*}
@@ -915,15 +909,22 @@ where
  =\frac{1}{h^2}\left(\int_0^h u\varphi_0\, dx \right)^2
  \leq\frac{|\varphi_0|^2_{L^2(\Omega_0)}}{h^2}|u|^2_{L^2(\Omega_0)}
  \leq C\frac{1}{h}\ell^\beta(h)\int_0^h|u(x)|^2\ell^{-\beta}(x)\, dx
- \leq C\frac{\ell^\beta(h)}{h}\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}
+ \leq C\frac{\ell^\beta(h)}{h}\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}.
 \end{align*}
-and, similarly, $a_1^2=\frac{1}{h^2}\left(\int_0^{2h} u\varphi_1\, dx \right)^2\leq C\frac{\ell^\beta(h)}{h}\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}$. Observe that, by Lemma \ref{lem:ellbeta},
+Here we used Cauchy-Schwarz inequality and that $|\varphi_0|^2_{L^2(\Omega_0)}=Ch$. Similarly, $a_1^2=\frac{1}{h^2}\left(\int_0^{2h} u\varphi_1\, dx \right)^2\leq C\frac{\ell^\beta(h)}{h}\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}$. Observe that, by Lemma \ref{lem:ellbeta},
 \begin{align*}
  \int_{0}^h a_0^2\varphi_0^2\ell^{-\beta}(x)\, dx
  \leq a_0^2\int_{0}^h \ell^{-\beta}(x)\, dx
  \leq C\frac{\ell^\beta(h)}{h}\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)} h \ell^{-\beta}(h)=C\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}.
 \end{align*}
-
+Analogously, $\int_{0}^{h} a_1^2\varphi_1^2\ell^{-\beta}(x)\, dx \leq C\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)},$ and \eqref{bdr:est} follows. By the definition of $\|u\|^2_{\mathbb H^{1}(\Omega;\ell)}$, \eqref{bdr:est}, the fact that
+$\ell^{\alpha}(d(x))\leq \ell^{\alpha}(h)$ for $x\in\Omega_i$ with $i\in\{0,N\}$, and by  symmetry, we easily deduce that
+\begin{align*}
+\int_{\Omega_i}|(u-I_h u)(x)|^2\ell^{-1}(d(x))\,dx
+ \leq \ell^a(h)\int_{\Omega_i}|(u-I_h u)(x)|^2\ell^{-1-a}(d(x))\,dx
+ \leq C \ell^a(h)\|u\|^2_{\mathbb H^{1+a}(\Omega;\ell)}
+\end{align*}
+for $i\in\{0,N\}$, as claimed.
 \end{proof}
 
 
@@ -941,26 +942,20 @@ Using \Cref{lem:localization_enorm}, we have that
     &\leq \sum_{i\in\inter{0,N}}\int_{\Omega_i}\int_{S_i}\frac{|(u-I_h u)(x)-(u-I_h u)(y)|^2}{|x-y|}dy\,dx\\
     &+C\ell^{-1}(h)\sum_{i\in\inter{0,N}}\int_{\Omega_i}|(u-I_h u)(x)|^2\,dx +C\sum_{i\in\{0,N\}}\int_{\Omega_i}|(u-I_h u)(x)|^2\ell^{-1}(d(x))\,dx.
 \end{align*}
-Using estimates \eqref{eq:approxim_estimate_weight}-\eqref{a4},
+Using estimates \eqref{eq:approxim_estimate_weight}, \eqref{a4}, and Lemma \ref{new:lem},
 \begin{align*}
  \sum_{i\in\inter{0,N}}\int_{\Omega_i}\int_{S_i}\frac{|(u-I_h u)(x)-(u-I_h u)(y)|^2}{|x-y|}dy\,dx &\leq
  \ell^{1+\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx,
  \\
-\ell^{-1}(h)\sum_{i\in\inter{0,N}}\int_{\Omega_i}|(u-I_h u)(x)|^2\,dx &\leq \ell^{a}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx.
+\ell^{-1}(h)\sum_{i\in\inter{0,N}}\int_{\Omega_i}|(u-I_h u)(x)|^2\,dx &\leq \ell^{a}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx,\\
+ \sum_{i\in\{0,N\}}\int_{\Omega_i}|(u-I_h u)(x)|^2\ell^{-1}(d(x))\,dx
+ &\leq C \ell^a(h)\|u\|^2_{\mathbb H^{1+a}(\Omega;\ell)}.
 \end{align*}
-To estimate the term
-\begin{align*}
- \int_{\Omega_0}|(u-I_h u)(x)|^2\ell^{-1}(d(x))\,dx
- =\int_{0}^h|(u-I_h u)(x)|^2\ell^{-1}(x)\,dx
-\end{align*}
-observe that... and the fact that $\frac{\ell^{\alpha}(d(x))}{\ell^{\alpha}(h)}\leq 1$ for $x\in\Omega_i$ with $i\in\{0,N\}$...
-
-
 Thus,
 %
 \begin{align}
     \|u-I_h u\|^2_{\mathbb H(\Omega)}&\leq
-    C \ell^{\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx+C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1-\alpha}(d(x))\,dx.\label{eq:est_aprox_sum}
+    C \ell^{\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx+C\ell^{\alpha}(h)\|u\|^2_{\mathbb H^{1+a}(\Omega;\ell)}.\label{eq:est_aprox_sum}
 \end{align}
 Let $x_i:=x_0=0$ if $i<0$ and $x_i:=x_{N+1}=L$ if $i>N+1$.  Then,
 %
@@ -969,8 +964,7 @@ Let $x_i:=x_0=0$ if $i<0$ and $x_i:=x_{N+1}=L$ if $i>N+1$.  Then,
    \leq \sum_{i\in\inter{0,N}} \int_{x_{i-2}}^{x_{i+3}}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx\notag\\
    &\leq \sum_{i\in\inter{0,N}} \sum_{j\in \inter{i-2,i+3}}\int_{\Omega_j}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx\leq 5\int_{\Omega}\int_{\Omega} \frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx. \label{eq:est_aprox_omega}
 \end{align}
-
-Noting that the last integral in \eqref{eq:est_aprox_sum} can be directly extended to the set $\Omega$, we can put together estimates \eqref{eq:est_aprox_sum} and \eqref{eq:est_aprox_omega} and obtain \eqref{eq:interp_final}.
+The claim now follows from \eqref{eq:est_aprox_sum} and \eqref{eq:est_aprox_omega}.
 \end{proof}
 %
 
@@ -1537,7 +1531,7 @@ We mention that this behavior is robust with respect to the size of the interval
 $w(x)=\left(
 -\ln\left(\frac{1}{2}-2x^2\right)\right)^{-\frac{1}{2}} \chi_{(-\frac{1}{2},\frac{1}{2})}(x)$, obtaining again nonconstant decreasing slopes, see Table~\ref{table:2}.
 
-The discussion above suggests that the optimal convergence rate for the logarithmic Laplacian is \emph{not} of power-type. This is consistent with the rate shown in Theorem~\ref{main:thm:intro}. Intuitively, the optimal error rate has an intrinsic connection with the optimal regularity of weak solutions, which in this case is of logarithmic type (see \cite[Theorem 1.2]{HSLRS23}). Therefore, we do not know if the error rate can be enhanced (e.g. to a polynomial rate), even with the use of standard techniques employed to improve convergence rates (such as graded meshes\footnote{For more details on the use of graded meshes in nonlocal problems we refer to \cite[Section 3.4]{Bor17}, where  of weighted Sobolev spaces are used to improve the error; however, we remark that there is no analogue of these results for the logarithmic Laplacian, for which the regularity theory is not well understood yet, see the discussion in \cite[Section 2]{CS22}.  Graded meshes where implemented numerically in \cite{L22} for the logarithmic Laplacian.}). More research in this direction and a better understanding of the regularity of logarithmic problems is required to address these interesting open problems.
+The discussion above suggests that the optimal convergence rate for the logarithmic Laplacian is \emph{not} of power-type. This is consistent with the rate shown in Theorem~\ref{main:thm:intro}. Intuitively, the optimal error rate has an intrinsic connection with the optimal regularity of weak solutions, which in this case is of logarithmic type (see \cite[Theorem 1.2]{HSLRS23}). Therefore, we do not know if the error rate can be enhanced (e.g. to a polynomial rate), even with the use of standard techniques employed to improve convergence rates (such as graded meshes\footnote{For more details on the use of graded meshes in nonlocal problems we refer to \cite[Section 3.4]{Bor17}, where weighted Sobolev spaces are used to improve the error; however, we remark that there is no analogue of these results for the logarithmic Laplacian, for which the regularity theory is not well understood yet, see the discussion in \cite[Section 2]{CS22}.  Graded meshes where implemented numerically in \cite{L22} for the logarithmic Laplacian.}). More research in this direction and a better understanding of the regularity of logarithmic problems is required to address these interesting open problems.
 
 
 \begin{table}[htb]
@@ -1675,7 +1669,7 @@ after row=\bottomrule},
 
 
 \begin{remark}
-Let $u$ as in \eqref{udef} and $v$ as in \eqref{vdef}.  Let $u_h$ be the FEM approximation of $u$ given by Theorem~\ref{main:thm:intro}.  Then, by \eqref{c:em}, there is $C=C(\Omega)>0$ such that
+Let $u$ be as in \eqref{udef} and $v$ be as in \eqref{vdef}.  Let $u_h$ be the FEM approximation of $u$ given by Theorem~\ref{main:thm:intro}.  Then, by \eqref{c:em}, there is $C=C(\Omega)>0$ such that
 \begin{align*}
 C\|u-u_h\|^2_{\mathbb H(\Omega)}
 \geq
@@ -2157,6 +2151,7 @@ For $i,j=0,\ldots,N+1$ and $s<\frac{1}{4}$, we have that $\cE_s(\varphi_i,\varph
 
  \bibliographystyle{plain}
  \bibliography{biblio}
+
 
 \bigskip
 \begin{flushleft}
