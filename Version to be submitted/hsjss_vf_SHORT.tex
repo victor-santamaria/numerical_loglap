@@ -432,7 +432,13 @@ where $h_\Omega(x):=\left(\int_{B_1(x)\backslash \Omega}|x-y|^{-1}\, dy - \int_{
 \begin{align}
     \weH{\beta}&:=\left\{ u\in L^2(\Omega): \int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell(|x-y|)^{\beta}}dydx<+\infty \quad\textnormal{ and }\quad  \int_{\Omega}|u(x)|^2\ell^{-\beta}(d(x))dx <+\infty\right\},\label{H:weights:def}
 \end{align}
-where we recall that $d(x)=\operatorname{dist}(x,\partial \Omega)$ and $\ell$ is given in \eqref{ell:def}.
+where we recall that $d(x)=\operatorname{dist}(x,\partial \Omega)$ and $\ell$ is given in \eqref{ell:def}.  We endow this space with the norm
+\begin{align}\label{Hbetanorm}
+ \|u\|_{\mathbb H^\beta(\Omega;\ell)}:=\left(
+ \int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell(|x-y|)^{\beta}}dydx+\int_{\Omega}|u(x)|^2\ell^{-\beta}(d(x))dx
+ \right)^\frac{1}{2}.
+\end{align}
+
 
 
 \subsection{The discrete space
@@ -764,9 +770,7 @@ where $C(|v|_{\infty},|v^\prime|_{\infty},L)>0$ is a constant that only depends 
 \end{proposition}
 
 \begin{proof}
-Along the proof, $C>0$ denotes possibly different constants that depend at most on $L$, $|v|_{\infty}$, $|v^\prime|_{\infty}$.
-
-Combining \eqref{eq:approxim_estimate} and \Cref{rem:l2_stability} with \Cref{lem:localization_enorm} we obtain
+Along the proof, $C>0$ denotes possibly different constants that depend at most on $L$, $|v|_{\infty}$, and $|v^\prime|_{\infty}$.  Combining \eqref{eq:approxim_estimate} and \Cref{rem:l2_stability} with \Cref{lem:localization_enorm} we obtain
 %
 \begin{align*}
     \|v-I_h v\|^2_{\mathbb H(\Omega)}&\leq  C h^3(N+1)+Ch^3(N+1)\ell^{-1}(h)+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|v-I_h v|^2\ell^{-1}(d(x))\,dx \\
@@ -891,20 +895,72 @@ Finally, for \eqref{a4}, by \Cref{lem:poincare_type_weight}, item (ii) of \Cref{
 \end{align*}
 \end{proof}
 
+Recall the definition of $\|\cdot\|_{\mathbb H^{\beta}(\Omega;\ell)}$ given in \eqref{Hbetanorm}.
+\begin{lemma}
+For every $\beta>0$, there is $C=C(\beta)>0$ such that
+\begin{align*}
+ \int_{0}^h |I_h u(x)|^2 \ell^{-\beta}(x)\, dx\leq C\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}.
+\end{align*}
+In particular, $\sum_{i\in\{0,N\}}\int_{\Omega_i}|(u-I_h u)(x)|^2\ell^{-1}(d(x))\,dx\leq C\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}.$
+\end{lemma}
+\begin{proof}
+In this proof, $C$ denotes possibly different positive contants independent of $h$ and $u$. Note that
+\begin{align*}
+ \int_{0}^h |I_h u(x)|^2 \ell^{-\beta}(x)\, dx
+ \leq 2\int_{0}^h (a_0^2\varphi_0^2+a_1\varphi_1^2) \ell^{-\beta}(x)\, dx,
+\end{align*}
+where
+\begin{align*}
+ a_0^2
+ =\frac{1}{h^2}\left(\int_0^h u\varphi_0\, dx \right)^2
+ \leq\frac{|\varphi_0|^2_{L^2(\Omega_0)}}{h^2}|u|^2_{L^2(\Omega_0)}
+ \leq C\frac{1}{h}\ell^\beta(h)\int_0^h|u(x)|^2\ell^{-\beta}(x)\, dx
+ \leq C\frac{\ell^\beta(h)}{h}\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}
+\end{align*}
+and, similarly, $a_1^2=\frac{1}{h^2}\left(\int_0^{2h} u\varphi_1\, dx \right)^2\leq C\frac{\ell^\beta(h)}{h}\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}$. Observe that, by Lemma \ref{lem:ellbeta},
+\begin{align*}
+ \int_{0}^h a_0^2\varphi_0^2\ell^{-\beta}(x)\, dx
+ \leq a_0^2\int_{0}^h \ell^{-\beta}(x)\, dx
+ \leq C\frac{\ell^\beta(h)}{h}\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)} h \ell^{-\beta}(h)=C\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}.
+\end{align*}
+
+\end{proof}
+
+
 
 \begin{proposition}\label{prop:est_interpolator}
 Let $\alpha>0$ and $u\in\weH{1+\alpha}$, then
 \begin{align}\label{eq:interp_final}
-    \|u-I_hu\|^2_{\mathbb H(\Omega)}&\leq C\ell^{\alpha}(h) \|u\|^2_{\weH{1+\alpha}},
+    \|u-I_hu\|^2_{\mathbb H(\Omega)}&\leq C\ell^{\alpha}(h) \|u\|^2_{\mathbb H^{1+\alpha}(\Omega;\ell)},
 \end{align}
 \end{proposition}
 \begin{proof}
-Using \Cref{lem:localization_enorm}, estimates \eqref{eq:approxim_estimate_weight}-\eqref{a4}, and the fact that $\frac{\ell^{\alpha}(d(x))}{\ell^{\alpha}(h)}\leq 1$ for $x\in\Omega_i$ with $i\in\{0,N\}$,
+Using \Cref{lem:localization_enorm}, we have that
+\begin{align*}
+    \|u-I_h u\|^2_{\mathbb H(\Omega)}
+    &\leq \sum_{i\in\inter{0,N}}\int_{\Omega_i}\int_{S_i}\frac{|(u-I_h u)(x)-(u-I_h u)(y)|^2}{|x-y|}dy\,dx\\
+    &+C\ell^{-1}(h)\sum_{i\in\inter{0,N}}\int_{\Omega_i}|(u-I_h u)(x)|^2\,dx +C\sum_{i\in\{0,N\}}\int_{\Omega_i}|(u-I_h u)(x)|^2\ell^{-1}(d(x))\,dx.
+\end{align*}
+Using estimates \eqref{eq:approxim_estimate_weight}-\eqref{a4},
+\begin{align*}
+ \sum_{i\in\inter{0,N}}\int_{\Omega_i}\int_{S_i}\frac{|(u-I_h u)(x)-(u-I_h u)(y)|^2}{|x-y|}dy\,dx &\leq
+ \ell^{1+\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx,
+ \\
+\ell^{-1}(h)\sum_{i\in\inter{0,N}}\int_{\Omega_i}|(u-I_h u)(x)|^2\,dx &\leq \ell^{a}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx.
+\end{align*}
+To estimate the term
+\begin{align*}
+ \int_{\Omega_0}|(u-I_h u)(x)|^2\ell^{-1}(d(x))\,dx
+ =\int_{0}^h|(u-I_h u)(x)|^2\ell^{-1}(x)\,dx
+\end{align*}
+observe that... and the fact that $\frac{\ell^{\alpha}(d(x))}{\ell^{\alpha}(h)}\leq 1$ for $x\in\Omega_i$ with $i\in\{0,N\}$...
+
+
+Thus,
 %
 \begin{align}
-    \|u-I_h u\|^2_{\mathbb H(\Omega)}&\leq C \ell^{1+\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx\notag\\
-    &\quad +C\ell^{-1}(h)\sum_{i\in\inter{0,N}}|u-I_hu|_{L^2(\Omega_i)}^2+C\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(d(x))\,dx\notag\\
-    &\leq C \ell^{\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx+C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1-\alpha}(d(x))\,dx.\label{eq:est_aprox_sum}
+    \|u-I_h u\|^2_{\mathbb H(\Omega)}&\leq
+    C \ell^{\alpha}(h)\sum_{i\in\inter{0,N}}\int_{T_i}\int_{T_i}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx+C\ell^{\alpha}(h)\sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1-\alpha}(d(x))\,dx.\label{eq:est_aprox_sum}
 \end{align}
 Let $x_i:=x_0=0$ if $i<0$ and $x_i:=x_{N+1}=L$ if $i>N+1$.  Then,
 %
@@ -914,7 +970,7 @@ Let $x_i:=x_0=0$ if $i<0$ and $x_i:=x_{N+1}=L$ if $i>N+1$.  Then,
    &\leq \sum_{i\in\inter{0,N}} \sum_{j\in \inter{i-2,i+3}}\int_{\Omega_j}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx\leq 5\int_{\Omega}\int_{\Omega} \frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}dy dx. \label{eq:est_aprox_omega}
 \end{align}
 
-Noting that the last integral in \eqref{eq:est_aprox_sum} can be directly extended to the set $\Omega$, we can put together estimates \eqref{eq:est_aprox_sum} and \eqref{eq:est_aprox_omega} and obtain \eqref{eq:interp_final}
+Noting that the last integral in \eqref{eq:est_aprox_sum} can be directly extended to the set $\Omega$, we can put together estimates \eqref{eq:est_aprox_sum} and \eqref{eq:est_aprox_omega} and obtain \eqref{eq:interp_final}.
 \end{proof}
 %
 
@@ -1954,22 +2010,43 @@ Let $r\in(0,0.1)$ be fixed and assume that $R>0.1$. We split the integral into t
 %
 The case $R\leq 0.1$ follows similarly. This ends the proof. 
 \end{proof}
+%
+% \begin{lemma}\label{lem:ellbeta}
+% For every $R>0$ and $\beta>0$ there is $C=C(R,\beta)>0$ such that $\int_0^R \ell^{-\beta}(\rho)\, d\rho<C.$
+% \end{lemma}
+% \begin{proof}
+%  It is well known that the Gamma function has the following integral representation $
+%      \Gamma(z)=\int_0^1\left(\ln \frac{1}{t}\right)^{z-1}\, dt$ for $z>0.$ Then, using \eqref{ell:def}, $\int_0^R \ell^{-\beta}(\rho)\,d\rho
+% =
+% \int_0^{\rho_0} |\ln(x)|^{\beta}\,dx
+% +
+% \frac{R}{\ell^{\beta}(\rho_0)}
+% \leq
+% \int_0^{1} |\ln(x)|^{\beta}\,dx
+% +
+% \frac{R}{\ell^{\beta}(\rho_0)}=\Gamma(1+\beta)+\ell^{-\beta}(\rho_0)R.$
+% \end{proof}
+%
 
 \begin{lemma}\label{lem:ellbeta}
-For every $R>0$ and $\beta>0$ there is $C=C(R,\beta)>0$ such that $\int_0^R \ell^{-\beta}(\rho)\, d\rho<C.$
+For every $\beta>0$,
+\begin{align*}
+\int_0^h \ell^{-\beta}(\rho)\, d\rho = O\left(\frac{h}{\ell^{\beta}(h)}\right)\qquad \text{ as $h\to 0$.}
+\end{align*}
+In particular, for every $R>0$ there is $C=C(R,\beta)>0$ such that $\int_0^R \ell^{-\beta}(\rho)\, d\rho<C.$
 \end{lemma}
 \begin{proof}
- It is well known that the Gamma function has the following integral representation $
-     \Gamma(z)=\int_0^1\left(\ln \frac{1}{t}\right)^{z-1}\, dt$ for $z>0.$ Then, using \eqref{ell:def}, $\int_0^R \ell^{-\beta}(\rho)\,d\rho
-=
-\int_0^{\rho_0} |\ln(x)|^{\beta}\,dx
-+
-\frac{R}{\ell^{\beta}(\rho_0)}
-\leq
-\int_0^{1} |\ln(x)|^{\beta}\,dx
-+
-\frac{R}{\ell^{\beta}(\rho_0)}=\Gamma(1+\beta)+\ell^{-\beta}(\rho_0)R.$
+Observe that, for $h$ small enough and $\beta>0$, using a change of variables $\rho=e^{-t}$ ($t=-\ln \rho,$ $d\rho=-e^{-t} dt$),
+\begin{align*}
+\int_0^h \ell^{-\beta}(\rho)\, d\rho
+=\int_0^h -\ln^{\beta}(\rho)\, d\rho
+=\int_{-\ln h}^\infty t^{\beta}e^{-t}\, dt=\Gamma(\beta+1,-\ln h),
+\end{align*}
+where $\Gamma(\beta+1,-\ln h)$ denotes the (upper) incomplete Gamma function. It is known (see, for instance, \cite{Tem75}) that $\Gamma(s,x)= O\left(x^{s-1}e^{-x}\right)$ as $h\to 0$, and the first claim follows. Hence, if $F(R):=\int_0^R \ell^{-\beta}(\rho)\, d\rho$, then $F$ is continuous in $[0,\infty)$ and $F(0)=0$, from which the second claim easily follows.
 \end{proof}
+
+
+
 
 
 \begin{lemma}\label{lem:int:bds}

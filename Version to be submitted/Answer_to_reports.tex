@@ -1,0 +1,190 @@
+\documentclass[11 pt]{article}  
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{upref,amsthm,amsxtra,exscale}
+\usepackage{stmaryrd}
+\usepackage{cite}
+\usepackage[colorlinks=true,urlcolor=blue,
+citecolor=red,linkcolor=blue,linktocpage,pdfpagelabels,bookmarksnumbered,bookmarksopen]{hyperref}
+
+
+\newcommand\blue[1]{{\color{blue}\textbf{#1}}}
+
+\newcommand\inter[1]{\llbracket #1\rrbracket}
+
+
+
+\usepackage[cm]{fullpage}
+
+\usepackage{subcaption}
+\usepackage{caption}
+\usepackage{cleveref}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\numberwithin{equation}{section}
+
+\usepackage{enumitem}
+
+\def\N{\mathbb{N}}
+
+\def\r{\mathbb{R}}
+\def\diam{\operatorname{diam}}
+\def\dist{\operatorname{dist}}
+\def\rn{\mathbb{R}^N}
+\def\rt{\mathbb{R}^3}
+\def\z{\mathbb{Z}}
+\def\zn{\mathbb{Z}^N}
+\def\n{\mathbb{N}}
+\def\cc{\mathbb{C}}
+\def\eps{\varepsilon}
+\def\rh{\rightharpoonup}
+\def\io{\int_{\Omega}}
+\def\irn{\int_{\r^N}}
+\def\irt{\int_{\rt}}
+\def\vp{\varphi}
+\def\tilde{\widetilde}
+\def\cD{\mathcal{D}}
+\def\cI{\mathcal{I}}
+\def\cJ{\mathcal{J}}
+\def\cM{\mathcal{M}}
+\def\cN{\mathcal{N}}
+\def\cO{\mathcal{O}}
+\def\cU{\mathcal{U}}
+\def\cV{\mathcal{V}}
+\def\cW{\mathcal{W}}
+
+\newcommand{\norm}[2]{{\left\|#1\right\|}_{#2}}
+\newcommand{\fl}[2]{(-d_x^2)^{#1}#2}
+\newcommand{\rfl}[2]{A^{#1}_{\Omega}#2}
+\newcommand{\hp}[1]{\hphantom{#1}}
+\newcommand{\cns}{c_{N,s}}
+\newcommand{\ccs}{c_{1,s}}
+\newcommand{\ffl}[2]{(-d_x^{\,2})^{#1}#2}
+\newcommand{\flh}[2]{\frac{1}{\Gamma(-s)}\int_0^{+\infty}\Big(e^{t\Delta}#2 - #2\Big)\frac{dt}{t^{1+#1}}}
+\newcommand{\kernel}[1]{|x-y|^{#1}}
+\newcommand{\dkj}{\delta_{kj}}
+\newcommand{\intr}[1]{\underset{#1}{\int}}
+\newcommand{\Do}[1]{D_{#1}}
+\newcommand{\Hs}{H^s_0(\Omega)}
+\newcommand{\ue}[1]{#1^{\,\varepsilon}}
+\newcommand{\xHdot}[1]{\dot{H}^{#1}}
+\newcommand{\ha}[2]{\mathbf{H}_{#1}^{#2}}
+\newcommand{\lhi}{\mathcal{L}_i^h}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\TT}{\mathbf{T}}
+\newcommand\mesh{\mathfrak{M}}
+
+
+\newcommand{\weH}[1]{\mathbb H^{#1}(\Omega;\ell)}
+
+
+%Alberto's defs
+\def\R{\mathbb{R}}
+\def\S{\mathbb{S}}
+\def\cP{\mathcal{P}}
+\def\cM{\mathcal{M}}
+\def\cL{\mathcal{L}}
+\def\mH{\mathbb{H}}
+\def\cE{\mathcal{E}}
+\def\cC{\mathcal{C}}
+\def\cH{\mathcal{H}}
+\def\weakto{\rightharpoonup}
+\def\d{\textnormal{d}}
+
+
+\def\sideremark#1{\ifvmode\leavevmode\fi\vadjust{\vbox to0pt{\vss% the remark
+ \hbox to 0pt{\hskip\hsize\hskip1em%                          will appear only
+ \vbox{\hsize2.1cm\tiny\raggedright\pretolerance10000%          on the side
+  \noindent #1\hfill}\hss}\vbox to15pt{\vfil}\vss}}}%
+\newcommand{\edz}[1]{\sideremark{#1}}
+    
+    \usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\newcommand{\B}[1]{{\color{red} #1}}  %for paper content
+\newcommand{\Bc}[1]{{\color{red}\textbf{#1}}}  %for comments
+\newcommand{\SJ}[1]{{\color{ForestGreen} #1}}  %for paper content
+\newcommand{\SJc}[1]{{\color{green}\textbf{#1}}}  %for comments
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usetikzlibrary{positioning}
+\usepackage{booktabs}
+%\usepackage{subfig}
+
+
+\newcommand{\weakly}{\rightharpoonup}
+
+\title{FEM for 1D-problems involving the logarithmic Laplacian: error estimates and numerical implementation}
+
+\author{V\'ictor Hern\'andez-Santamar\'ia\footnote{The work of V. Hern\'andez-Santamar\'ia is supported by the program ``Estancias Posdoctorales por México para la Formación y Consolidación de las y los Investigadores por México'' of CONAHCYT (Mexico). He also received support from Projects A1-S-17475 and A1-S-10457 of CONAHCYT and by UNAM-DGAPA-PAPIIT grants IN109522, IN104922, and IA100324 (Mexico).} \and
+ Sven Jarohs
+ \and
+Alberto Salda\~{n}a\footnote{ A. Saldaña is supported  by  
+CONAHCYT grants A1-S-10457 and  CBF2023-2024-116 (Mexico) and by UNAM-DGAPA-PAPIIT grant IA100923 (Mexico).}\and
+Leonard Sinsch
+}
+
+\date{}
+
+\begin{document}
+
+\begin{center}
+ Answers to the referee reports.
+\end{center}
+
+We thank all the referees for the careful reading of our manuscript and for all the helpful comments and suggestions that substantially improved our paper. Below we include a point-by-point answer to each of the reports.
+
+
+Report 1:
+
+
+
+
+
+Report 2:
+
+
+
+
+Report 3:
+
+\begin{enumerate}
+\item \emph{Eq. (3.5) the power $N$ should be removed.}\\
+We agree. We corrected the typo.
+\item \emph{Lemma 3.3 , $v$ does not need to be compactly supported.}\\
+We agree. We removed this unnecessary condition.
+\item \emph{Second line of first inequality in the proof of Proposition 3.13: $u_h$ should not be there.}\\
+We agree. We removed this term and we gave more details on the proof of Proposition 3.13.
+\item \emph{Proposition 3.8 makes sense for regular functions, I would expect higher order in that context. Is that estimate sharp?.}\\
+
+\item \emph{Given the poor order of approximation, wouldn't it be advisable to use piecewise constant functions?}\\
+\end{enumerate}
+
+
+
+
+
+
+Report 4:
+
+
+
+
+
+\end{document}
+
