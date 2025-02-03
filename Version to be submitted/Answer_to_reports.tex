@@ -147,7 +147,7 @@ Leonard Sinsch
  Answers to the referee reports.
 \end{center}
 
-We thank all the referees for the careful reading of our manuscript and for all the helpful comments and suggestions that substantially improved our paper. Below we include a point-by-point answer to each of the reports.
+We thank all the referees for the careful reading of our manuscript and for all the helpful comments and suggestions that substantially improved our paper. Below we include a point-by-point answer to each of the reports.  For clarity, we have copied all the items from the reports and answered them one by one below.
 
 
 \subsubsection*{Report 1}
@@ -156,48 +156,86 @@ We thank all the referees for the careful reading of our manuscript and for all 
 \section*{Main remarks}
 
 \begin{enumerate}
-    \item Given the low regularity of the problem and its solutions, it is not clear to me why the authors use linear finite elements instead of piecewise constants. Actually, the computation of the stiffness matrix seems to be simpler for \(P_{0}\) elements, and it seems convergence rates would not deteriorate by such a choice. Is there any reason to prefer \(P_{1}\) elements over \(P_{0}\) in this problem?
+    \item \emph{Given the low regularity of the problem and its solutions, it is not clear to me why the authors use linear finite elements instead of piecewise constants. Actually, the computation of the stiffness matrix seems to be simpler for \(P_{0}\) elements, and it seems convergence rates would not deteriorate by such a choice. Is there any reason to prefer \(P_{1}\) elements over \(P_{0}\) in this problem?}
 
-    \item The choice of the interpolation operator is not clear to me. The authors use a sort of localized \(L^{2}\) interpolation operator, and to have the constant-preservation property (3.10), they need to modify the standard Lagrange basis at the interval endpoints. It seems to me that what is required on the interpolation is its localization (this property is exploited in Lemma 3.5) and stability in \(L^{\infty}\) (this is used in Proposition 3.8, but it seems to me that it can be weakened to stability in \(L^{p}\) for some \(p>2\)). Therefore, I wonder why not using Clement interpolation on the whole mesh (including the domain boundary). Note also that for \(P_{0}\) elements the choice of the interpolation operator would be simpler, as one can just use localized averages and these in turn satisfy the two desired properties.
+    Our main reason to use $P_1$ elements in this work is to connect our work with previous works in the literature for the fractional Laplacian, where $P_1$ elements have been used. In this sense, we can use the stiffness matrix that was calculated before, take its derivative, and show that this procedure gives an stiffness matrix for the logarithmic Laplacian.
 
-    \item The authors prove logarithmic convergence rates (in energy norm), and claim that numerical evidence support that this is the case. While I agree with the statement if applied to the \(L^{\infty}\) norm, I disagree with it when applied to the \(L^{2}\) norm. The results in Figure 2 and Tables 2 and 3 seem to indicate convergence with order \(h^{1/2}\) in \(L^{2}(\Omega)\). This is consistent with the fact that the solution of the problem is continuous and therefore in \(\bigcap_{\epsilon>0}H^{1/2-\epsilon}(\mathbb{R})\). In the same vein, in my opinion Remark 6.1 is not correct, as I think the integral in the right-hand side does not have a sign. I suggest to rewrite the discussion about convergence in pages 17-18.
+    Nevertheless, we agree with the referee that using $P_0$ elements is somewhat simpler and we also agree that probably teh convergence rates would not change much.  We do plan to do this in future work.
+
+
+
+    \item \emph{The choice of the interpolation operator is not clear to me. The authors use a sort of localized \(L^{2}\) interpolation operator, and to have the constant-preservation property (3.10), they need to modify the standard Lagrange basis at the interval endpoints. It seems to me that what is required on the interpolation is its localization (this property is exploited in Lemma 3.5) and stability in \(L^{\infty}\) (this is used in Proposition 3.8, but it seems to me that it can be weakened to stability in \(L^{p}\) for some \(p>2\)). Therefore, I wonder why not using Clement interpolation on the whole mesh (including the domain boundary). Note also that for \(P_{0}\) elements the choice of the interpolation operator would be simpler, as one can just use localized averages and these in turn satisfy the two desired properties.}
+
+    {\color{red}To be answered}
+
+    \item \emph{The authors prove logarithmic convergence rates (in energy norm), and claim that numerical evidence support that this is the case. While I agree with the statement if applied to the \(L^{\infty}\) norm, I disagree with it when applied to the \(L^{2}\) norm. The results in Figure 2 and Tables 2 and 3 seem to indicate convergence with order \(h^{1/2}\) in \(L^{2}(\Omega)\). This is consistent with the fact that the solution of the problem is continuous and therefore in \(\bigcap_{\epsilon>0}H^{1/2-\epsilon}(\mathbb{R})\). In the same vein, in my opinion Remark 6.1 is not correct, as I think the integral in the right-hand side does not have a sign. I suggest to rewrite the discussion about convergence in pages 17-18.}
+
+    {\color{red}To be answered}
+
 \end{enumerate}
 
 \section*{Other comments and questions}
 
 \begin{enumerate}
-    \item[4.] I wonder why in the definition of weak solutions (page 3, line 6) the authors assume \(f\in L^{2}(\Omega)\) instead of \(f\in\mathbb{H}(\Omega)^{\prime}\).
+    \item[4.] \emph{I wonder why in the definition of weak solutions (page 3, line 6) the authors assume \(f\in L^{2}(\Omega)\) instead of \(f\in\mathbb{H}(\Omega)^{\prime}\).}
 
-    \item[5.] Clarify the sentence in page 5, lines 1-2: the entries of the matrix \({\mathcal{A}}_{h}^{L}\) only depend on \(h\), but the matrix itself does depend on \(L\), as its size obviously changes if one modifies \(L\).
+    We agree that one can take \(f\in\mathbb{H}(\Omega)^{\prime}\). In this paper we do not intend to obtain the most generality everywhere. Since this work is the first FEM analysis for the logarithmic Laplacian, we prefer to fix a simplified framework, to identify the key questions, to answer them in the best way possible with the estimates at our disposal, and to pose the open questions that may deepen our knowledge for these problems.
 
-    \item[6.] The first part of Lemma 3.2 does not use that \(v\in\mathbb{H}(\Omega)\); this hypothesis can be weakened to \(v\in L^{2}(\Omega)\).
+    \item[5.] \emph{Clarify the sentence in page 5, lines 1-2: the entries of the matrix \({\mathcal{A}}_{h}^{L}\) only depend on \(h\), but the matrix itself does depend on \(L\), as its size obviously changes if one modifies \(L\).}
 
-    \item[7.] I find definitions (3.13) and (3.14) a little confusing. I think it would be clearer if these sets were defined explicitly in terms of indices. The sets \(I_{i}\) seem to be related with the sets \(T_{i}\) in Lemma 3.12 (although the former are indices sets and the latter are subsets of \(\Omega\)) and that such sets are actually used already in Lemma 3.6, albeit without a definition. I think the paper would benefit if the authors unified the notation for these sets.
+    Here we mean that the matrix \({\mathcal{A}}_{h}^{L}\) does not depend on $h$ \emph{and} on the interval $L$ in the following sense: for two different intervals splitted in the same number of subintervles one would obtain the same matrix \({\mathcal{A}}_{h}^{L}\).
 
-    \item[8.] The proof of Lemma 3.12 is almost the same than the proof of Lemma 3.6. The difference lies in the estimation of \(|b_{k}|\), namely, in whether using (3.22) or (3.32), and a very minor modification in the right-hand side of (3.30) with respect to (3.20). I suggest to shorten the proof of Lemma 3.12.
+    We have changed the wording in this part of the introduction.
 
-    \item[9.] I think the proofs of Lemmas 4.1 and Lemma 4.2 would become a little more clear if the authors made a few modifications.
+    \item[6.] \emph{The first part of Lemma 3.2 does not use that \(v\in\mathbb{H}(\Omega)\); this hypothesis can be weakened to \(v\in L^{2}(\Omega)\).}
+
+    We agree and we have changed this as suggested.
+
+    \item[7.] \emph{I find definitions (3.13) and (3.14) a little confusing. I think it would be clearer if these sets were defined explicitly in terms of indices. The sets \(I_{i}\) seem to be related with the sets \(T_{i}\) in Lemma 3.12 (although the former are indices sets and the latter are subsets of \(\Omega\)) and that such sets are actually used already in Lemma 3.6, albeit without a definition. I think the paper would benefit if the authors unified the notation for these sets.}
+
+    {\color{red}To be answered, probably we should add this}
+
+    \item[8.] \emph{The proof of Lemma 3.12 is almost the same than the proof of Lemma 3.6. The difference lies in the estimation of \(|b_{k}|\), namely, in whether using (3.22) or (3.32), and a very minor modification in the right-hand side of (3.30) with respect to (3.20). I suggest to shorten the proof of Lemma 3.12.}
+
+    {\color{red}To be answered, probably we should add this}
+
+    \item[9.] \emph{I think the proofs of Lemmas 4.1 and Lemma 4.2 would become a little more clear if the authors made a few modifications.}
     \begin{itemize}
-        \item Lemma 4.1 assumes a discrete inf-sup condition, which is clearly equivalent to the uniform well-posedness of the discrete problems, and Lemma 4.2 in turn gives a sufficient condition for such a hypothesis to hold. This is interesting, the sufficient condition boils down to the well-posedness of the continuous problem (which depends on the domain size) and having a sufficiently fine partition. I suggest to make this point explicit, adding a few lines between the two lemmas.
-        \item I think it is convenient to use an \(h\) subindex to distinguish functions in \({\mathcal{V}}_{h}\) from arbitrary functions in \(\mathbb{H}(\Omega)\). The same comment applies to Proposition 7.2 as well.
-        \item In formula (4.3) I would change \(u_{h}\mapsto v_{h}\) to avoid confusion with the solution of the discrete problem.
-        \item In the first sentence of the proof of Lemma 4.1, I think there is no need to take an arbitrary basis of \({\mathcal{V}}_{h}\), as one can simply take the finite element basis already introduced (and which is the one actually employed in practice).
-        \item Isn't the assumption in Lemma 4.2 equivalent with alternative i) in Theorem 1.1?
+        \item \emph{Lemma 4.1 assumes a discrete inf-sup condition, which is clearly equivalent to the uniform well-posedness of the discrete problems, and Lemma 4.2 in turn gives a sufficient condition for such a hypothesis to hold. This is interesting, the sufficient condition boils down to the well-posedness of the continuous problem (which depends on the domain size) and having a sufficiently fine partition. I suggest to make this point explicit, adding a few lines between the two lemmas.}
+        \item \emph{I think it is convenient to use an \(h\) subindex to distinguish functions in \({\mathcal{V}}_{h}\) from arbitrary functions in \(\mathbb{H}(\Omega)\). The same comment applies to Proposition 7.2 as well.}
+        \item \emph{In formula (4.3) I would change \(u_{h}\mapsto v_{h}\) to avoid confusion with the solution of the discrete problem.}
+        \item \emph{In the first sentence of the proof of Lemma 4.1, I think there is no need to take an arbitrary basis of \({\mathcal{V}}_{h}\), as one can simply take the finite element basis already introduced (and which is the one actually employed in practice).}
+        \item \emph{Isn't the assumption in Lemma 4.2 equivalent with alternative i) in Theorem 1.1?}
     \end{itemize}
 
-    \item[10.] Proposition 4.3 does not quite belong to Section 4, as it does not involve the stability of the error. I think the authors decided to have it there because it is instrumental for the proof of Theorem 1.2, but I think it should be moved to the Introduction, after Theorem 1.1. Even though it can be a little strange to have a result proven in the introduction, the point of the paper is not the regularity of solutions and readership of CAMWA already know that regularity of solutions is one of the basic ingredients needed to prove convergence rates.
+    {\color{red}To be answered, probably we should add this}
 
-    \item[11.] Lemma 5.1 deals with the interesting fact that the stiffness matrices for the logarithmic Laplacian can be computed by differentiation with respect to \(s\) of the stiffness matrices for the fractional Laplacian. While in the paper the authors apply this result for a specific setting (intervals and uniform meshes) by direct differentiation, I think it would be interesting to consider its application in more general situations. In that sense, I wonder if the consistency error of replacing the derivative by a forward difference can be estimated. Namely, my question is what can be said about replacing \(L_{\Delta}\varphi_{i}\) by \(\frac{(-\Delta)^{s}\varphi_{i}-\varphi_{i}}{s}\) for small \(s\). I guess the error in \(L^{p}(\mathbb{R})\) should be linear in \(s\); is that correct?
+    \item[10.] \emph{Proposition 4.3 does not quite belong to Section 4, as it does not involve the stability of the error. I think the authors decided to have it there because it is instrumental for the proof of Theorem 1.2, but I think it should be moved to the Introduction, after Theorem 1.1. Even though it can be a little strange to have a result proven in the introduction, the point of the paper is not the regularity of solutions and readership of CAMWA already know that regularity of solutions is one of the basic ingredients needed to prove convergence rates.}
 
-    \item[12.] I think the discussion along the setting of the experiment in Section 6.1 should be polished.
+    We agree with the referee.  We have relocated Proposition 4.3 in Section 2.2 (Variational Setting), right after the space $\mathbb H^{\beta}(\Omega)$ has been defined.
+
+
+    \item[11.] \emph{Lemma 5.1 deals with the interesting fact that the stiffness matrices for the logarithmic Laplacian can be computed by differentiation with respect to \(s\) of the stiffness matrices for the fractional Laplacian. While in the paper the authors apply this result for a specific setting (intervals and uniform meshes) by direct differentiation, I think it would be interesting to consider its application in more general situations. In that sense, I wonder if the consistency error of replacing the derivative by a forward difference can be estimated. Namely, my question is what can be said about replacing \(L_{\Delta}\varphi_{i}\) by \(\frac{(-\Delta)^{s}\varphi_{i}-\varphi_{i}}{s}\) for small \(s\). I guess the error in \(L^{p}(\mathbb{R})\) should be linear in \(s\); is that correct?}
+
+        {\color{red}To be answered}
+
+    \item[12.] \emph{I think the discussion along the setting of the experiment in Section 6.1 should be polished.}
     \begin{itemize}
-        \item It seems the authors are considering \(v_{h}\) to be the finite element solution of a problem with right-hand side \(\tilde{f}:=\sum_{i=0}^{N+1}f_{i}\varphi_{i}\), where the coefficients \(f_{i}\) are computed numerically. I think it would be convenient to provide evidence on why setting \(f_{i}:=hL_{\Delta}u(x_{i})\) is a good choice: is \(f\) expected to be constant? A plot of the computed values of \(f_{i}\) would be helpful. If that is not the case, then I wonder why the authors chose \(f_{i}\) the way they did instead of using quadrature to approximate \(\int_{\Omega}L_{\Delta}u\varphi_{i}\). The midpoint rule for this quadrature would give \(2hL_{\Delta}u(x_{i})\), which may not be convenient if \(f\) was about constant. Additionally, I think it should not be too difficult to bound \(\|f-\tilde{f}\|_{L^{2}(\Omega)}\) and use the stability of the discrete problems to bound \(\|u_{h}-v_{h}\|\).
-        \item I find strange the choice of \(b_{h}\) on page 17. Leaving only the boundary-touching elements does not provide information about local convergence, as the domains in which the \(b_{h}\) are measured change as \(h\to 0\). I think it would be more illuminating to have \(b_{h}\) to be the \(L^{2}\) error on some fixed subdomain.
+        \item \emph{It seems the authors are considering \(v_{h}\) to be the finite element solution of a problem with right-hand side \(\tilde{f}:=\sum_{i=0}^{N+1}f_{i}\varphi_{i}\), where the coefficients \(f_{i}\) are computed numerically. I think it would be convenient to provide evidence on why setting \(f_{i}:=hL_{\Delta}u(x_{i})\) is a good choice: is \(f\) expected to be constant? A plot of the computed values of \(f_{i}\) would be helpful. If that is not the case, then I wonder why the authors chose \(f_{i}\) the way they did instead of using quadrature to approximate \(\int_{\Omega}L_{\Delta}u\varphi_{i}\). The midpoint rule for this quadrature would give \(2hL_{\Delta}u(x_{i})\), which may not be convenient if \(f\) was about constant. Additionally, I think it should not be too difficult to bound \(\|f-\tilde{f}\|_{L^{2}(\Omega)}\) and use the stability of the discrete problems to bound \(\|u_{h}-v_{h}\|\).
+        \item I find strange the choice of \(b_{h}\) on page 17. Leaving only the boundary-touching elements does not provide information about local convergence, as the domains in which the \(b_{h}\) are measured change as \(h\to 0\). I think it would be more illuminating to have \(b_{h}\) to be the \(L^{2}\) error on some fixed subdomain.}
     \end{itemize}
 
-    \item[13.] The first paragraph on page 18 mentions the use of graded meshes to enhance convergence rates. Given that one of the authors implemented these meshes numerically in their Master's thesis, I think it could be useful to expand the discussion on the topic a little and include some numerical results, even if they fall beyond the scope of the theory in the paper.
+    {\color{red}To be answered}
 
-    \item[14.] In page 21, the authors mention the use of golden section search for the approximation of the values of \(L\) such that \(L_{\Delta}\) has a zero eigenvalue on \((-L,L)\). I think it would be convenient to add a few lines detailing on this topic: did the authors look for local maxima of \(cond(A_{h}^{L})\)? Why is that any better than simply using a root-finding method to search values of \(L\) having zero as an eigenvalue? On the other hand, I think it would be interesting to see the plot of one of these eigenfunctions, for example for \(L=L_{1}\approx 0.709\), and to report on the behavior of the solution to the torsion problem as \(L\to L_{1}\).
+    \item[13.] \emph{The first paragraph on page 18 mentions the use of graded meshes to enhance convergence rates. Given that one of the authors implemented these meshes numerically in their Master's thesis, I think it could be useful to expand the discussion on the topic a little and include some numerical results, even if they fall beyond the scope of the theory in the paper.}
+
+    {\color{red}Ask Sven for help}
+
+    \item[14.] \emph{In page 21, the authors mention the use of golden section search for the approximation of the values of \(L\) such that \(L_{\Delta}\) has a zero eigenvalue on \((-L,L)\). I think it would be convenient to add a few lines detailing on this topic: did the authors look for local maxima of \(cond(A_{h}^{L})\)? Why is that any better than simply using a root-finding method to search values of \(L\) having zero as an eigenvalue? On the other hand, I think it would be interesting to see the plot of one of these eigenfunctions, for example for \(L=L_{1}\approx 0.709\), and to report on the behavior of the solution to the torsion problem as \(L\to L_{1}\).}
+
+    {\color{red}Ask Sven for help}
+
+
 \end{enumerate}
 
 \section*{Minor remarks and typos}
@@ -205,18 +243,72 @@ We thank all the referees for the careful reading of our manuscript and for all 
 \begin{itemize}
     \item \emph{In the table shown in page 5, the numerical values of \(\lambda_{i}^{s}\) (\(i=1,2,3\)) have one digit less than the \(1+s\lambda_{i}\). Correct for consistency.}
 
-    We have adjusted this as suggested.
+    We agree and we have adjusted this as suggested.
 
-    \item Page 6, sentence before (2.3): instead of \((\varphi_{i})_{i\in[[0,N+1]]}\), it should be \((\varphi_{i})_{i\in[[1,N]]}\). Remove the 'for \(i\in[[1,N]]\)' after (2.3).
-    \item Page 7, second line in the proof of Lemma 3.1: there is an \({\mathbb{H}}(\Omega)\) subscript missing in the norm.
-    \item Page 8: there are two exponents \(N\) that should be removed, one in line 2 and the other in formula (3.5).
-    \item Formula (3.8): the index \(i\) is missing in the second summation.
-    \item Page 9, sentence before (3.16): 'elements' \(\mapsto\) 'indices'.
-    \item Remark 3.7: a square is missing in the left-hand side of the inequality in the second line.
-    \item Pages 15-16: it is not clear what \(k\) is in the definitions of \(l_{k},m_{k},p_{k},q_{k}\). Note that only \(q_{k}\) depends on \(k\), while \(l_{k}\) depends on some variable \(j\) and \(m_{k},p_{k}\) are constants. Moreover, the first line in page 16 refers to a digamma function, which is not employed in these definitions, and in formula (5.2) there appear some \(k\) indices that are not related to \(i,j\).
-    \item Page 19, above (7.1): condition \(\mapsto\) condition number (twice).
-    \item Page 20, after (7.2): 'where \(U\subset{\mathbb{H}}(\Omega)\) ...' should be removed.
-    \item Lemma A.5: Why does one need \(s<1/4\)? I guess the result is true for all \(s\in(0,1)\).
+    \item \emph{Page 6, sentence before (2.3): instead of \((\varphi_{i})_{i\in[[0,N+1]]}\), it should be \((\varphi_{i})_{i\in[[1,N]]}\). Remove the 'for \(i\in[[1,N]]\)' after (2.3).}
+
+    We agree and we have changed this as suggested.
+
+    \item \emph{Page 7, second line in the proof of Lemma 3.1: there is an \({\mathbb{H}}(\Omega)\) subscript missing in the norm.}
+
+    We agree and we have changed this as suggested.
+
+    \item \emph{Page 8: there are two exponents \(N\) that should be removed, one in line 2 and the other in formula (3.5).}
+
+        We agree and we have changed this as suggested.
+
+    \item \emph{Formula (3.8): the index \(i\) is missing in the second summation.}
+
+    We agree and we have changed this as suggested.
+
+    \item \emph{Page 9, sentence before (3.16): 'elements' \(\mapsto\) 'indices'.}
+
+    We agree and we have changed this as suggested.
+
+    \item \emph{Remark 3.7: a square is missing in the left-hand side of the inequality in the second line.}
+
+    We agree and we have changed this as suggested.
+
+    \item \emph{Pages 15-16: it is not clear what \(k\) is in the definitions of \(l_{k},m_{k},p_{k},q_{k}\). Note that only \(q_{k}\) depends on \(k\), while \(l_{k}\) depends on some variable \(j\) and \(m_{k},p_{k}\) are constants. Moreover, the first line in page 16 refers to a digamma function, which is not employed in these definitions, and in formula (5.2) there appear some \(k\) indices that are not related to \(i,j\).}
+
+    {\color{red}To be fixed}
+
+    \item \emph{Page 19, above (7.1): condition \(\mapsto\) condition number (twice).}
+
+    We agree and we have changed this as suggested.
+
+    \item \emph{Page 20, after (7.2): 'where \(U\subset{\mathbb{H}}(\Omega)\) ...' should be removed.}
+
+        We agree and we have changed this as suggested.
+
+    \item \emph{Lemma A.5: Why does one need \(s<1/4\)? I guess the result is true for all \(s\in(0,1)\).}
+
+    This Lemma states that $\cE_s(\varphi_i,\varphi_j)=\int_{\R}(-\Delta)^s\varphi_i\varphi_j\, dx$ for $i,j=0,\ldots,N+1$.  The hypothesis $s<1/4$ is needed to justify, for instance, that $(-\Delta)^s\varphi_0\in L^2(\R)$, so that the right hand side in the claim makes sense.
+
+%     Let us consider the case $i=j=0$. Then, for $x<0$,
+%     \begin{align*}
+%      (-\Delta)^s\varphi_i(x)
+%  &    =c_{1,s}\int_\r\frac{\varphi_0(x)-\varphi_0(y)}{|x-y|^{1+2s}}\, dy
+%      =-c_{1,s}\int_\r\frac{\varphi_0(y)}{|x-y|^{1+2s}}\, dy
+%     =-c_{1,s}\sqrt{2}\int_0^h\frac{\frac{h-y}{h}}{|x-y|^{1+2s}}\, dy\\
+% &    =-c_{1,s}\sqrt{2}\int_0^h\frac{1}{|x-y|^{1+2s}}\, dy
+%     -c_{1,s}\frac{\sqrt{2}}{h}\int_0^h\frac{y}{|x-y|^{1+2s}}\, dy.
+%     \end{align*}
+% Note that
+% \begin{align*}
+%  \int_0^h\frac{1}{|x-y|^{1+2s}}\, dy
+%  =\int_0^h\frac{1}{(y-x)^{1+2s}}\, dy
+%   =\int_{-x}^{h-x}\frac{1}{z^{1+2s}}\, dz
+%   =-\frac{1}{2s}((h-x)^{-2s}-(-x)^{-2s}).
+% \end{align*}
+%
+% Moreover,
+% \begin{align*}
+%  \int_0^1 x^{-4s} = \frac{x^{1-4s}}{1-4s}|_0^1<\infty
+% \end{align*}
+% if $1-4s>0$, namely, $s<1/4$.
+
+
 \end{itemize}
 
 
@@ -226,7 +318,7 @@ We thank all the referees for the careful reading of our manuscript and for all 
 
 
 
-
+\newpage
 
 
 
@@ -319,6 +411,8 @@ To avoid any confusion, we have out double bars in all of our norms.
 \end{enumerate}
 
 
+\newpage
+
 
 \subsubsection*{Report 3}
 
@@ -335,6 +429,8 @@ Thank you for your comment. Indeed, Proposition 3.8 is meaningful for regular fu
 We have considered this option as future work.  In this paper we wanted to take advantage of the computations already available for the 1D fractional Laplacian. It will be interesting to compare the FEM analysis in both cases, although we expect that the converge rate will not change drastically.
 \end{enumerate}
 
+
+\newpage
 
 
 \subsubsection*{Report 4}

@@ -316,7 +316,7 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
  \end{align}
  see Lemma~\ref{lem:derivative:s:m}.  This is possible, since a closed formula for the stiffness matrix $\mathcal A_{h}^{s}$ has been obtained in \cite{BH17}\footnote{This reference is an extended preprint version of the published article \cite{BHS19}.}.  Formula \eqref{Ahds} can be seen as a discrete version of the expansion \eqref{intro:exp} in terms of the stiffness matrix.
  
- Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, one needs to calculate only the corresponding entries.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section~\ref{sec:stiffness}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ and not on the length $L$ of the interval $\Omega$.  Therefore, the formula for $\mathcal A_{h}^{L}$ applies to logarithmic problems on any interval splitted into $N+1=\frac{L}{h}$ subintervals. As mentioned before, another way to obtain the stiffness matrix $\mathcal A_{h}^{L}$ is to compute the entries \eqref{s:m:intro} either directly or numerically. Both approaches yield the same results.
+ Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, one needs to calculate only the corresponding entries.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section~\ref{sec:stiffness}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ in the sense that, for a fixed value of $h$, any interval of length $L$ splitted into $N+1=\frac{L}{h}$ subintervals has thes same formula for $\mathcal A_{h}^{L}$. As mentioned before, another way to obtain the stiffness matrix $\mathcal A_{h}^{L}$ is to compute the entries \eqref{s:m:intro} either directly or numerically. Both approaches yield the same results.
 
 
 Using these ideas, we also investigate the (Dirichlet) eigenvalues of the logarithmic Laplacian $L_{\Delta}$ in an interval $(-L,L)$ for some $L>0$. As shown in \cite[Theorem 1.4]{CW19}, the eigenvalues of $L_{\Delta}$ in a bounded domain are a sequence such that $\lambda_1<\lambda_2\leq \ldots\leq\lambda_n\to \infty$ for $n\to\infty$.  Moreover, by using scalings (see \cite[Lemma 2.5]{LW21}) it holds that if $\lambda_k(\Omega)$ denotes the $k$-th eigenvalue of $L_{\Delta}$ in a bounded interval $\Omega$, then $\lambda_k(R\Omega)=\lambda_k(\Omega)-2\ln(R)$ for $R>0$. In Section~\ref{eigenvalue approximation:sec} we first show that the eigenvalues of the stiffness matrix defined in \eqref{s:m:intro} converge to the eigenvalues of the logarithmic Laplacian as the discretization parameter $N$ tends to infinity, see Proposition~\ref{prop:eigen-approx} below. Knowing from the scaling properties that, by sending $L$ to infinity, there are $L_i>0$ such that $\lambda_i=0$ in $(-L_i,L_i)$  for $i\in \N$ (see Figure~\ref{L vs condition}), it is enough to estimate the cases in which $0$ is an eigenvalue of $\mathcal{A}^L_h$. Then, we use scalings to approximate the eigenvalues in a general interval. To be precise, we have the following result.
@@ -441,6 +441,29 @@ where we recall that $d(x)=\operatorname{dist}(x,\partial \Omega)$ and $\ell$ is
 
 
 
+\begin{proposition}\label{prop:more_regularity}
+Assume that alternative $i)$ of \Cref{eq:regularity} holds for some $\alpha\in(0,1)$. Then, $u\in \mathbb H^{1+\alpha}(\Omega;\ell)$. Moreover, there is $C>0$ only depending on $\Omega$ and $\alpha$ such that $\|u\|_{\mathbb H^{1+\alpha}(\Omega;\ell)}\leq C\|u\|_{\mathcal X^{\alpha}(\Omega)}$.
+\end{proposition}
+%
+\begin{proof}
+Fix $\alpha\in(0,1)$ as given by \Cref{eq:regularity}. Let $x\in \Omega$ and let $y\in\partial \Omega$ be such that $d(x)=|x-y|$. Then $u(y)=0$ and
+%
+\begin{align}\label{eq:iden_fro}
+    \frac{|u(x)|}{\ell^{\alpha}(d(x))}=\frac{|u(x)-u(y)|}{\ell^{\alpha}(|x-y|)}.
+\end{align}
+%
+From the definition of the spaces ${\mathbb H}^{1+\alpha}(\Omega;\ell)$ (see \eqref{H:weights:def}), $\mathcal X^\alpha(\Omega)$ (see \eqref{Xdef}), and identity \eqref{eq:iden_fro}, we have that
+%
+\begin{align*}\notag
+    \|u\|^2_{H^{1+\alpha}(\Omega;\ell)}&=\int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}\, \d{y} \d{x}+\int_{\Omega}|u(x)|^2\ell^{-1-\alpha}(d(x))\,\d{x} \\
+    &\leq \|u\|^2_{\mathcal X^{\alpha}(\Omega)}\left(\int_{\Omega}\int_{\Omega}\frac{\ell^{1+\alpha}(|x-y|)}{|x-y|\ell^{2+2\alpha}(d(x,y))}\,\d{y}\d{x}+ \int_{\Omega}\ell^{-1+\alpha}(d(x))\,\d{x}\right). %\label{a6}
+\end{align*}
+%
+The claim now follows from \eqref{lem:int:bds}.
+\end{proof}
+%
+
+
 \subsection{The discrete space
 \texorpdfstring{$\mathcal V_h$}{Vh}
 }
@@ -453,16 +476,16 @@ Let $N\in \mathbb N$, $h:=\frac{L}{N+1},$ $x_i:=ih,$ and $\Omega_i:=(x_i,x_{i+1}
 %
 where $\mathcal P_1$ is the space of polynomials of degree less than or equal to one. 
 
-Let $(\varphi_i)_{i\in\inter{0,N+1}}$ be the basis of shape functions $\varphi_i$ with compact support in each interval $[x_{i-1},x_{i+1}]$ given by
+Let $(\varphi_i)_{i\in\inter{1,N}}$ be the basis of shape functions $\varphi_i$ with compact support in each interval $[x_{i-1},x_{i+1}]$ given by
 %
 \begin{align}\label{eq:def_basis}
  \varphi_i(x)=\begin{cases}
         \displaystyle \frac{x-x_{i-1}}{h}, &x\in[x_{i-1},x_i], \\
         \displaystyle \frac{x_{i+1}-x}{h}, &x\in [x_i,x_{i+1}], \\
-        0, &\textnormal{elsewhere},
+        0, &\textnormal{elsewhere}.
     \end{cases}
 \end{align}
-for $i\in\inter{1,N}$.  Note that $\varphi_i(x_j)=\delta_{ji}$.  As explained in the introduction, we also need to consider 
+Note that $\varphi_i(x_j)=\delta_{ji}$.  As explained in the introduction, we also need to consider
 %
 \begin{align}\label{eq:def_basis_ext}
     \varphi_0(x)=\sqrt{2}\begin{cases}
@@ -580,7 +603,7 @@ where $H_i=\int_{\Omega_i}|u(x)|^2\int_{B_h(\Omega)\setminus \Omega}|x-y|^{-1}dy
 where $C>0$ only depends on $\Omega$. Therefore,
 %
 \begin{align}\label{eq:est_I3}
-    I_3\leq C \sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(d(x))\,dx + C\ell^{-1}(h)\sum_{\in\inter{1,N-1}}\int_{\Omega_i}|u(x)|^2\,dx.
+    I_3\leq C \sum_{i\in\{0,N\}}\int_{\Omega_i}|u(x)|^2\ell^{-1}(d(x))\,dx + C\ell^{-1}(h)\sum_{i\in\inter{1,N-1}}\int_{\Omega_i}|u(x)|^2\,dx.
 \end{align}
 %
 Finally, putting together \eqref{eq:est_I1_final}, \eqref{eq:est_I2}, and \eqref{eq:est_I3} gives the desired result. 
@@ -605,7 +628,7 @@ namely, that the interpolation of a constant function in $\Omega$ is the constan
 
 %
 \begin{lemma}\label{lem:bounds_aks}
-Let $v\in \mathbb H(\Omega)$ and $a_k$ as in \eqref{eq:interpolator}. There is $C>0$ independent of $h$ such that
+Let $v\in L^2(\Omega)$ and $a_k$ as in \eqref{eq:interpolator}. There is $C>0$ independent of $h$ such that
 %
 \begin{equation}\label{eq:est_ak_H}
     |a_k|\leq C h^{-1/2} \|v\|_{L^2(S_k)}\qquad \text{ for all } k\in\inter{0,N+1}
@@ -618,7 +641,7 @@ with $S_k$ as defined in \eqref{eq:def_Si}. If in addition $v\in L^\infty(\Omega
 \end{lemma}
 %
 \begin{proof}
-Let $k\in\inter{0,N+1}$ and $v\in\mathbb H(\Omega)$ be an arbitrary given function. We have that $|a_k|\leq \frac{1}{h}\int_{\Omega}|v||\varphi_k|dx.$ Note that $\textnormal{supp}\,\varphi_k\subset S_k$ for each $k\in\inter{0,N+1}$. Using H\"older's inequality, $|a_k|\leq h^{-1}\|v\|_{L^1(S_k)}\leq \sqrt{3}h^{-1/2}\|v\|_{L^2(S_k)},$ where we have used the fact that $\|\varphi_k\|_{L^\infty(\Omega)}=1$ for all $k\in\inter{0,N+1}$. Note that the right-hand side of the previous expression is finite since $\mathbb H(\Omega)\hookrightarrow L^2(\Omega)$. This proves \eqref{eq:est_ak_H}. To prove \eqref{eq:est_ak_Linf}, we use again that $\|\varphi_k\|_{L^\infty(\Omega)}=1$ for all $k\in\inter{0,N+1}$ to get $|a_k|\leq \frac{1}{h}\|v\|_{L^\infty(\Omega)}\int_{S_k}|\varphi_k| dx \leq C\|v\|_{L^\infty(\Omega)}.$ This ends the proof.
+Let $k\in\inter{0,N+1}$ and $v\in L^2(\Omega)$ be an arbitrary given function. We have that $|a_k|\leq \frac{1}{h}\int_{\Omega}|v||\varphi_k|dx.$ Note that $\textnormal{supp}\,\varphi_k\subset S_k$ for each $k\in\inter{0,N+1}$. Using H\"older's inequality, $|a_k|\leq h^{-1}\|v\|_{L^1(S_k)}\leq \sqrt{3}h^{-1/2}\|v\|_{L^2(S_k)},$ where we have used the fact that $\|\varphi_k\|_{L^\infty(\Omega)}=1$ for all $k\in\inter{0,N+1}$.  This proves \eqref{eq:est_ak_H}. To prove \eqref{eq:est_ak_Linf}, we use again that $\|\varphi_k\|_{L^\infty(\Omega)}=1$ for all $k\in\inter{0,N+1}$ to get $|a_k|\leq \frac{1}{h}\|v\|_{L^\infty(\Omega)}\int_{S_k}|\varphi_k| dx \leq C\|v\|_{L^\infty(\Omega)}.$ This ends the proof.
 \end{proof}
 
 \begin{lemma}\label{lem:poincare_type}
@@ -677,7 +700,7 @@ We begin by proving item (i). Given $i\in\inter{0,N}$, let $x\in \Omega_i$ and $
     I_hv(x)-I_hv(y)=\sum_{k\in I_i} a_k(\varphi_k(x)-\varphi_k(y)).
 \end{equation}
 %
-Since $I_i$ has at most 4 elements, squaring both sides of \eqref{a1} and using triangle inequality,
+Since $I_i$ has at most 4 indices, squaring both sides of \eqref{a1} and using triangle inequality,
 %
 \begin{equation}\label{eq:est_interp_1}
     \int_{\Omega_i}\int_{S_i}\frac{|I_hv(x)- I_hv(y)|^2}{|x-y|} dy dx \leq C \sum_{k\in I_i} a_k^2\int_{\Omega_i}\int_{S_i} \frac{|\varphi_k(x)- \varphi_k(y)|^2}{|x-y|} dy dx.
@@ -1057,29 +1080,6 @@ as $n\to \infty$, by \eqref{ccea} and arguing as in \eqref{007}, because $(u_n-\
 \end{align*}
 Since $w$ is arbitrary, this implies that $u$ is a nontrivial weak solution of $L_\Delta u=0$ in $\Omega$ with $u=0$ in $\R\backslash  \Omega$, but this contradicts our assumption and the claim follows. 
 \end{proof}
-
-
-\begin{proposition}\label{prop:more_regularity}
-Assume that alternative $i)$ of \Cref{eq:regularity} holds for some $\alpha\in(0,1)$. Then, $u\in \mathbb H^{1+\alpha}(\Omega;\ell)$. Moreover, there is $C>0$ only depending on $\Omega$ and $\alpha$ such that $\|u\|_{\mathbb H^{1+\alpha}(\Omega;\ell)}\leq C\|u\|_{\mathcal X^{\alpha}(\Omega)}$.
-\end{proposition}
-%
-\begin{proof}
-Fix $\alpha\in(0,1)$ as given by \Cref{eq:regularity}. Let $x\in \Omega$ and let $y\in\partial \Omega$ be such that $d(x)=|x-y|$. Then $u(y)=0$ and 
-%
-\begin{align}\label{eq:iden_fro}
-    \frac{|u(x)|}{\ell^{\alpha}(d(x))}=\frac{|u(x)-u(y)|}{\ell^{\alpha}(|x-y|)}.
-\end{align}
-%
-From the definition of the spaces ${\mathbb H}^{1+\alpha}(\Omega;\ell)$ (see \eqref{H:weights:def}), $\mathcal X^\alpha(\Omega)$ (see \eqref{Xdef}), and identity \eqref{eq:iden_fro}, we have that
-%
-\begin{align*}\notag
-    \|u\|^2_{H^{1+\alpha}(\Omega;\ell)}&=\int_{\Omega}\int_{\Omega}\frac{|u(x)-u(y)|^2}{|x-y|\ell^{1+\alpha}(|x-y|)}\, \d{y} \d{x}+\int_{\Omega}|u(x)|^2\ell^{-1-\alpha}(d(x))\,\d{x} \\
-    &\leq \|u\|^2_{\mathcal X^{\alpha}(\Omega)}\left(\int_{\Omega}\int_{\Omega}\frac{\ell^{1+\alpha}(|x-y|)}{|x-y|\ell^{2+2\alpha}(d(x,y))}\,\d{y}\d{x}+ \int_{\Omega}\ell^{-1+\alpha}(d(x))\,\d{x}\right). %\label{a6}
-\end{align*}
-%
-The claim now follows from \eqref{lem:int:bds}.
-\end{proof}
-%
 
 
 We are ready to show our main result, Theorem \ref{main:thm:intro}.
@@ -1865,7 +1865,7 @@ after row=\bottomrule},
 
 Standard Fredholm theory implies that if $0$ is not an eigenvalue of $L_\Delta$, then the Dirichlet problem with $L_{\Delta}$ is uniquely solvable for any $f\in L^2(\Omega)$. By the regularity theory, this translates to classical solutions in view of  Theorem~\ref{eq:regularity}. To approximate the eigenvalues of $L_{\Delta}$ in $\Omega$, we consider first the case of Theorem~\ref{eq:regularity}(ii), that is, the case in which $0$ is an eigenvalue of $L_{\Delta}$ in $\Omega$. In this case there is a nontrivial $\phi\in \mathcal X^{\alpha}(\Omega)$, for some $\alpha>0$, satisfying $L_{\Delta}\phi=0$ in  $\Omega$ and $\phi=0$ in $\R\setminus \Omega$ ---we emphasize here that the following argument can be done in any dimension. Note that if we define for $r>0$ a function $\phi_r=\phi(\cdot/r)$, then $L_{\Delta}\phi_r=-2\ln(r)\phi_r$ in $r\Omega$ and $\phi_r=0$ in $\R\setminus r\Omega$, see \cite[Lemma 2.5]{LW21}. Thus having $0$ as an eigenvalue for $\Omega$ gives us the eigenvalue $-2\ln(r)$ in $r\Omega$.
 
-In this way, if we can approximate the value of $L>0$ such that the operator $L_{\Delta}$ has $0$ as an eigenvalue in $\Omega=(-L,L)$, we can use this information to approximate the eigenvalues of $(-\tilde{L},\tilde{L})$ for a general $\tilde{L}>0$. Note that here we consider a symmetric interval centered at $0$ instead of the interval $(0,L)$. To find these values of $L$, we first show that the eigenvalues of the stiffness matrix $\mathcal A_h^L$ actually converge to the eigenvalues of $L_{\Delta}$ and then we use the condition of the stiffness $\mathcal{A}^L_h$ to find the cases in which there is zero as an eigenvalue. Here, we denote the condition of a matrix $A$ by
+In this way, if we can approximate the value of $L>0$ such that the operator $L_{\Delta}$ has $0$ as an eigenvalue in $\Omega=(-L,L)$, we can use this information to approximate the eigenvalues of $(-\tilde{L},\tilde{L})$ for a general $\tilde{L}>0$. Note that here we consider a symmetric interval centered at $0$ instead of the interval $(0,L)$. To find these values of $L$, we first show that the eigenvalues of the stiffness matrix $\mathcal A_h^L$ actually converge to the eigenvalues of $L_{\Delta}$ and then we use the condition number of the stiffness $\mathcal{A}^L_h$ to find the cases in which there is zero as an eigenvalue. Here, we denote the condition number of a matrix $A$ by
 \begin{equation}\label{defi:condition}
 \textnormal{cond}(A):=\Big|\frac{\lambda_{\max}(A)}{\lambda_{\min}(A)}\Big|,
 \end{equation}
@@ -1884,9 +1884,8 @@ We next show the convergence of the eigenvalues of $\mathcal{A}^L_h$ to eigenval
 
 For the convergence, we cannot work with Theorem~\ref{main:thm:intro}, since it is not clear whether the eigenfunctions belong to the space $\mathcal{Y} (\Omega)$. We first classify the eigenvalues $\{\lambda_k\}_{k\in \N}$ of $L_{\Delta}$ with the Courant-Fischer minimax principle, see e.g. \cite[Proposition 2.3 and Remark 2.4]{FJW22}, that is it holds
 \begin{align}\label{CF}
-\lambda_k=\inf_{\substack{M\subset \mH(\Omega)\\ \dim(M)=k}} \max_{\substack{u\in M\setminus\{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u),\quad k\in \N, 
+\lambda_k=\inf_{\substack{M\subset \mH(\Omega)\\ \dim(M)=k}} \max_{\substack{u\in M\setminus\{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u),\quad k\in \N.
 \end{align}
-where $U\subset\mH(\Omega)$ is any dense subspace of $\mH(\Omega)$.
 
 \begin{proposition}\label{prop:eigen-approx}
 Let $N\in \mathbb N$ and $h:=\frac{L}{N+1}>0$. Then
