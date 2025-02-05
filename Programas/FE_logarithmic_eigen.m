@@ -71,18 +71,18 @@ emc=-psi(1); %%Euler-Mascheroni constant
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% Entry a(\phi_0,\phi_j) with j=2
-A(1,3)=h*(-sqrt(2)/3);
+A(1,3)=h*(-1/3);
 A(N+2,N)=A(1,3);
 
 %%% Entry a(\phi_0,\phi_j) with j\in\inter{3,N}
 for j=4:N+1
-    A(1,j)=h*(1/3*(-3*j^3*log(j)+6*j^2*log(j)+(j-2)^3*(-log(j-2))...
-            +3*(j-1)^2*(j-2)*log(j-1)+(j+1)^2*(j-2)*log(j+1)-2))/sqrt(2);
+    A(1,j)=h*(1/6*(-3*j^3*log(j)+6*j^2*log(j)+(j-2)^3*(-log(j-2))...
+            +3*(j-1)^2*(j-2)*log(j-1)+(j+1)^2*(j-2)*log(j+1)-2));
     A(N+2,N+3-j)= A(1,j);
 end
 
 %%% Entry a(\phi_0,\phi_j) with j=N+1
-A(1,N+2)= h*(2/3*(2*(N-3)*N^2*log(N)-N-(N-1)^3*log(N-1)-(N+1)*((N-4)*N+1)*log(N+1)-3))/2;
+A(1,N+2)= h*(1/6*(2*(N-3)*N^2*log(N)-N-(N-1)^3*log(N-1)-(N+1)*((N-4)*N+1)*log(N+1)-3));
 
 
 %%% Case: inner upper triangle 
@@ -108,7 +108,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% Entry a(\phi_0,\phi_j) with j=1
-A(1,2)= h*(-emc/3+5/9-2/3*log(h)-2/3*log(2)+1/3*psi(1/2))/sqrt(2);
+A(1,2)= h*(-emc/3+5/9-2/3*log(h)-2/3*log(2)+1/3*psi(1/2))/2;
 A(N+2,N+1)=A(1,2);
 
 %%% Inner superdiagonal
@@ -125,12 +125,38 @@ A = A+A';
 
 %%% Entry a(\phi_0,\phi_0) 
 
-A(1,1)=h*(-(4*emc)/3+32/9-8/3*log(h)+8/3*log(2)+4/3*psi(1/2))/2;
+A(1,1)=h*(-(1*emc)/3+8/9-2/3*log(h)+2/3*log(2)+1/3*psi(1/2));
 A(N+2,N+2)=A(1,1);
 
 for i=2:N+1
     A(i,i) = -2/9*h*(6*log(h) + 3*emc - 11 + log(64) - 3*psi(1/2));
 end
+
+end
+
+function M = MassMatrix(x,hx)
+
+Nx = length(x);
+
+M=zeros(Nx,Nx);
+
+M(1,2)=1/6;
+M(Nx,Nx-1)=M(1,2);
+
+for i=2:Nx-2
+    M(i,i+1)=1/6;
+end
+
+M=M+M';
+
+M(1,1)=2/3;
+M(Nx,Nx)=M(1,1);
+ 
+for i=2:Nx-1
+    M(i,i)=2/3;
+end
+
+M = sparse(hx*M);
 
 end
 
