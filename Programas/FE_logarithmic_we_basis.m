@@ -4,7 +4,7 @@ clear
 L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[25,50,100,200,400,800,1600];
+Nval=[25];
 %Nval=[100];
 step=[];
 dif_norm=[];
@@ -29,14 +29,14 @@ for N=Nval
     mass_loc=mass(M+1:end-M,M+1:end-M);
 
     %%% Right-hand side of the problem and projection over finite elements
-    %f = @(x) 1+0*x; %%% Torsion
+    f = @(x) 1+0*x; %%% Torsion
     %f = @(x) (-3*x.^2+1)+(log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*(1-x.^2); %%% (1-x^2)
     %f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
-    f = @(x)  (2+log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*x; %%% x
+    %f = @(x)  (2+log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*x; %%% x
 
     F=projection(xi,f,h);
 
-    exsol=@(x) 0*1+1*x+0*(1-x.^2);
+    exsol=@(x) 0*1+0*x+0*(1-x.^2);
 
     sol_log=Alog\F;
 
@@ -124,14 +124,14 @@ for i=1:N
     if i==1
         xx = linspace(xi(i),xi(i)+h,N+1);
         xx = 0.5*(xx(2:end)+xx(1:end-1));
-        B1 = sqrt(2)*f(xx).*Phi((xx-xi(i))/h);
+        B1 = f(xx).*Phi((xx-xi(i))/h);
         F(i) = ((h)/N)*sum(B1);
     end
 
     if i==N
         xx = linspace(xi(i)-h,xi(i),N+1);
         xx = 0.5*(xx(2:end)+xx(1:end-1));
-        B1 = sqrt(2)*f(xx).*Phi((xx-xi(i))/h);
+        B1 = f(xx).*Phi((xx-xi(i))/h);
         F(i) = ((h)/N)*sum(B1);
     end
 
