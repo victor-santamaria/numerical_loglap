@@ -41,7 +41,7 @@ for N=Nval
     T=table2array(T);
 
     f=T(:,2);
-    F=h*f; F(1)=F(1)*1/sqrt(2); F(end)=F(end)*1/sqrt(2);
+    F=h*f;
 
     %exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2*L^2)));
 
@@ -265,7 +265,7 @@ Nx = length(x);
 
 M=zeros(Nx,Nx);
 
-M(1,2)=1/3;
+M(1,2)=1/6;
 M(Nx,Nx-1)=M(1,2);
 
 for i=2:Nx-2
@@ -274,7 +274,7 @@ end
 
 M=M+M';
 
-M(1,1)=4/3;
+M(1,1)=2/3;
 M(Nx,Nx)=M(1,1);
  
 for i=2:Nx-1
