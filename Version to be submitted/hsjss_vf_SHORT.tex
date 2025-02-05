@@ -1330,10 +1330,10 @@ Using Lemma \ref{lem:derivative:s:m} and an explicit computation of the stiffnes
 
 Let
 \begin{align*} \notag
-\mathsf{l}_k:= & \frac{-3 j^3 \log (j)+6 j^2 \log (j)+(j-2)^3 (-\log (j-2))+3
-   (j-1)^2 (j-2) \log (j-1)+(j+1)^2 (j-2) \log (j+1)-2}{3\sqrt{2}}, \\
-   \mathsf{m}_k:= & \frac{1}{3}\left[2 (N-3) N^2 \log (N)-N-(N-1)^3 \log (N-1)-(N+1) ((N-4) N+1) \log (N+1)-3\right], \\
-\mathsf{p}_k:=&  -24\log(3) - 12\log(4) - 16\log(9) + 27\log(16) + \log(144), \\ \notag
+\mathsf{l}_{\blue{j}}:= & \frac{-3 j^3 \log (j)+6 j^2 \log (j)+(j-2)^3 (-\log (j-2))+3
+   (j-1)^2 (j-2) \log (j-1)+(j+1)^2 (j-2) \log (j+1)-2}{\blue{6}}, \\
+   \mathsf{m}_{\blue N}:= & \frac{1}{\blue{6}}\left[2 (N-3) N^2 \log (N)-N-(N-1)^3 \log (N-1)-(N+1) ((N-4) N+1) \log (N+1)-3\right], \\
+\mathsf{p}:=&  -24\log(3) - 12\log(4) - 16\log(9) + 27\log(16) + \log(144), \\ \notag
 \mathsf{q}_k:=&-(-2 + k)^3\log(-2 + k) + 4(-1 + k)^3\log(-1 + k) - 6 k^3 \log(k) +4(1 + k)^3\log(1 + k) - (2 + k)^3\log(2 + k),
 \end{align*}
 where $\psi$ is the digamma function and $\gamma=-\psi(1)$.  The coefficients $b_{ij}$ with $i,j\in\inter{0,N+1}$ and $j\geq 1$ are given by
@@ -1341,17 +1341,17 @@ where $\psi$ is the digamma function and $\gamma=-\psi(1)$.  The coefficients $b
 \begin{equation}\label{stiff:LogLap}
 b_{ij}= h
 \begin{cases}
-\displaystyle -\frac{2 \gamma }{3}+\frac{16}{9}-\frac{4}{3}  \log (h)+\frac{4}{3}  \log
-   (2)+\frac{2}{3}  \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=0$,} \\
-\displaystyle -\frac{\gamma }{3\sqrt{2}}+\frac{5}{9\sqrt{2}}-\frac{\sqrt{2}}{3} \log (h)-\frac{\sqrt{2}}{3}  \log
-   (2)+\frac{1}{3\sqrt{2}} \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=1$,} \\
-   -\frac{\sqrt {2}}{3},
+\displaystyle -\frac{\gamma }{\blue{3}}+\frac{\blue{8}}{9}-\frac{\blue{2}}{3}  \log (h)+\frac{\blue{2}}{3}  \log
+   (2)+\frac{\blue{1}}{3}  \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=0$,} \\
+\displaystyle -\frac{\gamma }{\blue{6}}+\frac{5}{\blue{18}}-\frac{\blue{1}}{3} \log (h)-\frac{\blue{1}}{3}  \log
+   (2)+\frac{1}{\blue{6}} \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=1$,} \\
+   -\frac{\blue{1}}{3},
  & \parbox[t]{.3\columnwidth}{$i=0$, $j=2$,}\\
- \mathsf{l}_k, 
+ \mathsf{l}_{\blue{j}}, 
  & \parbox[t]{.3\columnwidth}{$i=0$, $j\in\inter{3,N}$,}\\
- \mathsf{m}_k, &  \parbox[t]{.3\columnwidth}{$i=0$, $j=N+1$,}\\
-\displaystyle -\frac{\mathsf p_k}{3}, & \textnormal{$i,j\in\inter{1,N}$ and $j-i=2$,} \\
-\displaystyle \frac{\mathsf q_k}{6}, & \textnormal{$i,j\in\inter{1,N}$ and $j-i> 2$,} \\
+ \mathsf{m}_{\blue{N}}, &  \parbox[t]{.3\columnwidth}{$i=0$, $j=N+1$,}\\
+\displaystyle -\frac{\mathsf p}{3}, & \textnormal{$i,j\in\inter{1,N}$ and $j-i=2$,} \\
+\displaystyle \frac{\mathsf q_k}{6}, & \textnormal{$i,j\in\inter{1,N}$ and $\blue{k:=}j-i> 2$,} \\
 \displaystyle -\frac{\gamma}{6} + \frac{11}{18} - \frac{\log(h)}{3}  + \frac{64\log(2) - 54\log(3)}{12} + \frac{\log(2)}{3}  + \frac{1}{6} \psi(\frac 12), & \textnormal{$i\in\inter{1,N-1}$ and $j=i+1$,} \\
 \displaystyle -\frac{2}{9}\left[6\log(h) + 3\gamma - 11 + \log(64) - 3\psi(\frac12)\right], & \textnormal{$i\in\inter{1,N}$ and $j=i$.}
 \end{cases}
