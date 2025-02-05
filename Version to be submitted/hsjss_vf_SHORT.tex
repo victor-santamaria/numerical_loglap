@@ -358,11 +358,11 @@ for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of
 	%
 	\subfloat[$L=0.1$]{
 	\begin{tikzpicture}[scale=0.6]
-	\begin{axis}[xlabel={$x$},xmin=0,xmax=0.2,legend pos=outer north east,
-	legend plot pos=left, xtick={0,0.1,0.2}, xticklabels={-0.1,0,0.1} , ymin=-0.01,
+	\begin{axis}[xlabel={$x$},xmin=-0.1,xmax=0.1,legend pos=outer north east,
+	legend plot pos=left, xtick={-0.1,0,0.1}, xticklabels={-0.1,0,0.1} , ymin=-0.01,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{sol-log_20-06-2023_12h20.org}\solution      
+	\pgfplotstableread{sol-log_04-02-2025_19h05.org}\solution      
 	      
 	\addplot[very thick,color=blue] table[x,y] \solution; %\label{cost}
 	
@@ -372,11 +372,11 @@ for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of
 	}
 	\subfloat[$L=1$]{
 	\begin{tikzpicture}[scale=0.6]
-	\begin{axis}[xlabel={$x$},xmin=0,xmax=2,legend pos=outer north east,
-	legend plot pos=left, xtick={0,1,2}, xticklabels={-1,0,1}, ymax=0.01,
+	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
+	legend plot pos=left, xtick={-1,0,1}, xticklabels={-1,0,1}, ymax=0.01,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{sol-log_20-06-2023_12h25.org}\solution      
+	\pgfplotstableread{sol-log_04-02-2025_19h08.org}\solution      
 	      
 	\addplot[very thick,color=blue] table[x,y] \solution; %\label{cost}
 	
@@ -386,11 +386,11 @@ for $L>0$.  In contrast to the case of the fractional Laplacian, the solution of
 	} 
 	\subfloat[$L=8$]{
 	\begin{tikzpicture}[scale=0.6]
-	\begin{axis}[xlabel={$x$},xmin=0,xmax=16,legend pos=outer north east,
-	legend plot pos=left, xtick={0,8,16}, xticklabels={-8,0,8},
+	\begin{axis}[xlabel={$x$},xmin=-8,xmax=8,legend pos=outer north east,
+	legend plot pos=left, xtick={-8,0,8}, xticklabels={-8,0,8},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{sol-log_20-06-2023_17h12.org}\solution      
+	\pgfplotstableread{sol-log_04-02-2025_19h10.org}\solution      
 	      
 	\addplot[very thick,color=blue] table[x,y] \solution; %\label{cost}
 	

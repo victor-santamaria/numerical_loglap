@@ -1,10 +1,10 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=1;
+L=8;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[25];
+Nval=[100];
 %Nval=[100];
 step=[];
 dif_norm=[];
@@ -96,7 +96,7 @@ sl_quad=log(dif_L2_loc(1)/dif_L2_loc(end))/log(step(1)/step(end));
 legend("Slope: "+num2str(sl_quad)); title('error L^2_{loc}')
 
 %%% Descomentar si queremos guardar la solución
-write_sol(xi,sol_log,false);
+write_sol(xi,sol_log,true);
 
 write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
 
@@ -242,7 +242,7 @@ Nx = length(x);
 
 M=zeros(Nx,Nx);
 
-M(1,2)=1/(sqrt(2)*3);
+M(1,2)=1/6;
 M(Nx,Nx-1)=M(1,2);
 
 for i=2:Nx-2
@@ -284,7 +284,7 @@ if flag==true
     fprintf(outs_file_temp,'%s %s \n','#N: ', num2str(N));
     fprintf(outs_file_temp,'%s %4.4e \n','#h: ', 2*L/(N+1));
 
-    fprintf(outs_file_temp,'%4.4f %4.4e \n',[xi',[2*solution(1);solution(2:end-1);2*solution(end)]].');
+    fprintf(outs_file_temp,'%4.4f %4.4e \n',[xi',[solution(1);solution(2:end-1);solution(end)]].');
     ST=fclose(outs_file_temp);
 end
 end
@@ -311,7 +311,7 @@ if flag==true
     fprintf(outs_file_temp,'%s %4.4e \n','#h: ', 2*L/(N+1));
 
     fprintf(outs_file_temp,'%s %s %s \n','xi','numsol','exsol');
-    fprintf(outs_file_temp,'%4.4f %4.4e %4.4e \n',[xi',[2*numsol(1);numsol(2:end-1);2*numsol(end)],realsol'].');
+    fprintf(outs_file_temp,'%4.4f %4.4e %4.4e \n',[xi',[numsol(1);numsol(2:end-1);numsol(end)],realsol'].');
     ST=fclose(outs_file_temp);
 end
 end
@@ -322,21 +322,6 @@ ht = datestr(now,'HH');
 mt = datestr(now,'MM');
 end
 
-
-function [xx,B0]=plt_sol_nearboundary(xi,ui,h)
-
-N=size(xi,2);
-
-for i=1:N
-
-    if i==1
-        xx = linspace(xi(i),xi(i)+h,N+1);
-        B0=ui(i)*(2*(h-1)/h-2*xx/h)+ui(i+1)*(xx/h+1/h);
-        
-    end
-end
-
-end
 
 function write_convergence_data(xi,step,dif_norm_1,dif_norm_2,dif_norm_3,slope_1,slope_2,slope_3,flag)
 if flag==true

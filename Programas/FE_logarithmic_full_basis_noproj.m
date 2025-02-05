@@ -42,9 +42,7 @@ for N=Nval
 
     f=T(:,2);
     F=h*f;
-
-    %exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2*L^2)));
-
+    
     exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2*L^2)));
 
     sol_log=(Alog)\F;
