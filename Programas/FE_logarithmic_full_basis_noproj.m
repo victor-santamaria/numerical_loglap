@@ -1,10 +1,10 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=1;
+L=1/2;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50];
+Nval=[50,100,200,400,800,1600,3200];
 step=[];
 dif_norm=[];
 dif_L2=[];
@@ -35,7 +35,7 @@ for N=Nval
 
 
 
-    tabname="./datos_sim/file"+num2str(N)+".txt";
+    tabname="./datos_sim/file"+num2str(N)+"_lambda0p5.txt";
 
     T=readtable(tabname);
     T=table2array(T);
@@ -110,9 +110,7 @@ end
 
  %%% Write otput files
  write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
- write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,false)
-
- [xx,B0]=plt_sol_nearboundary(xi,sol_log,h);
+ write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,true)
 
 
 %%% Auxiliary functions

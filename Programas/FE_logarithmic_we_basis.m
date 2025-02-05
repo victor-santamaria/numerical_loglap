@@ -1,10 +1,10 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=8;
+L=1;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[100];
+Nval=[25,50,100,200,400,800,1600];
 %Nval=[100];
 step=[];
 dif_norm=[];
@@ -29,14 +29,14 @@ for N=Nval
     mass_loc=mass(M+1:end-M,M+1:end-M);
 
     %%% Right-hand side of the problem and projection over finite elements
-    f = @(x) 1+0*x; %%% Torsion
-    %f = @(x) (-3*x.^2+1)+(log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*(1-x.^2); %%% (1-x^2)
+    %f = @(x) 1+0*x; %%% Torsion
+    f = @(x) (-3*x.^2+1)+(log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*(1-x.^2); %%% (1-x^2)
     %f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
     %f = @(x)  (2+log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*x; %%% x
 
     F=projection(xi,f,h);
 
-    exsol=@(x) 0*1+0*x+0*(1-x.^2);
+    exsol=@(x) 0*1+0*x+1*(1-x.^2);
 
     sol_log=Alog\F;
 
@@ -96,11 +96,9 @@ sl_quad=log(dif_L2_loc(1)/dif_L2_loc(end))/log(step(1)/step(end));
 legend("Slope: "+num2str(sl_quad)); title('error L^2_{loc}')
 
 %%% Descomentar si queremos guardar la solución
-write_sol(xi,sol_log,true);
+write_sol(xi,sol_log,false);
 
 write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
-
-[xx,B0]=plt_sol_nearboundary(xi,f(xi),h);
 
 write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,true)
 

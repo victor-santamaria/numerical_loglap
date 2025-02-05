@@ -1485,7 +1485,7 @@ We are particularly interested in exhibiting evidence for the optimality of the 
 	legend plot pos=left,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{sol-log_convergence_data_20-06-2023_13h27.org}\solution      
+	\pgfplotstableread{sol-log_convergence_data_04-02-2025_19h19.org}\solution      
 	      
 	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=L2norm] \solution; %\label{cost}
 	
@@ -1499,7 +1499,7 @@ We are particularly interested in exhibiting evidence for the optimality of the 
 	legend plot pos=left,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{sol-log_convergence_data_20-06-2023_13h27.org}\data      
+	\pgfplotstableread{sol-log_convergence_data_04-02-2025_19h19.org}\data      
 	      
 	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=L2locnorm] \data; %\label{cost}
 	
@@ -1513,7 +1513,7 @@ We are particularly interested in exhibiting evidence for the optimality of the 
 	legend plot pos=left,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{sol-log_convergence_data_21-06-2023_11h34.org}\data      
+	\pgfplotstableread{sol-log_convergence_data_04-02-2025_19h19.org}\data      
 	      
 	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=Linfnorm] \data; %\label{cost}
 		
@@ -1533,12 +1533,11 @@ $w(x)=\left(
 
 The discussion above suggests that the optimal convergence rate for the logarithmic Laplacian is \emph{not} of power-type. This is consistent with the rate shown in Theorem~\ref{main:thm:intro}. Intuitively, the optimal error rate has an intrinsic connection with the optimal regularity of weak solutions, which in this case is of logarithmic type (see \cite[Theorem 1.2]{HSLRS23}). Therefore, we do not know if the error rate can be enhanced (e.g. to a polynomial rate), even with the use of standard techniques employed to improve convergence rates (such as graded meshes\footnote{For more details on the use of graded meshes in nonlocal problems we refer to \cite[Section 3.4]{Bor17}, where weighted Sobolev spaces are used to improve the error; however, we remark that there is no analogue of these results for the logarithmic Laplacian, for which the regularity theory is not well understood yet, see the discussion in \cite[Section 2]{CS22}.  Graded meshes where implemented numerically in \cite{L22} for the logarithmic Laplacian.}). More research in this direction and a better understanding of the regularity of logarithmic problems is required to address these interesting open problems.
 
-
 \begin{table}[htb]
 %\small
 \centering
 %
-\pgfplotstableread{sol-log_convergence_data_21-06-2023_11h34.org}\data
+\pgfplotstableread{sol-log_convergence_data_04-02-2025_19h19.org}\data
 %
 \pgfplotstableset{
 columns={N,h,L2norm,slopeL2,L2locnorm,slopeL2loc,Linfnorm,slopeinf},
@@ -1601,12 +1600,11 @@ after row=\bottomrule},
 
 
 
-
 \begin{table}[htb]
 %\small
 \centering
 %
-\pgfplotstableread{sol-log_convergence_data_21-06-2023_16h57.org}\data
+\pgfplotstableread{sol-log_convergence_data_04-02-2025_19h41.org}\data
 %
 \pgfplotstableset{
 columns={N,h,L2norm,slopeL2,L2locnorm,slopeL2loc,Linfnorm,slopeinf},
@@ -1771,7 +1769,7 @@ We remark that the functions $u_1$ and $u_2$ do not satisfy the assumptions of T
 %\small
 \centering
 %
-\pgfplotstableread{sol-log_convergence_data_07-08-2024_15h10.org}\data
+\pgfplotstableread{sol-log_convergence_data_04-02-2025_19h30.org}\data
 %
 \pgfplotstableset{
 columns={N,h,L2norm,slopeL2},
@@ -1805,7 +1803,7 @@ every last row/.style={
 after row=\bottomrule},
 ]{\data}
 %
-\pgfplotstableread{sol-log_convergence_data_07-08-2024_15h45.org}\data
+\pgfplotstableread{sol-log_convergence_data_04-02-2025_19h35.org}\data
 %
 \pgfplotstableset{
 columns={L2norm,slopeL2},
@@ -1830,7 +1828,7 @@ every last row/.style={
 after row=\bottomrule},
 ]{\data}
 %
-\pgfplotstableread{sol-log_convergence_data_07-08-2024_15h03.org}\data
+\pgfplotstableread{sol-log_convergence_data_04-02-2025_19h36.org}\data
 %
 \pgfplotstableset{
 columns={L2norm,slopeL2},
