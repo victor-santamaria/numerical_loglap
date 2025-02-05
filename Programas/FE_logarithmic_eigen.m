@@ -1,10 +1,10 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=1;
+L=8;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50];
+Nval=[1200];
 
 for N=Nval
 
@@ -12,6 +12,8 @@ for N=Nval
     h=xi(2)-xi(1);
 
     Alog=LoglapRigidity(L,N); %Computing the stiffness matrix
+
+    mass = MassMatrix(xi,h); %Computing the mass matrix
 
     %%% Right-hand side of the problem and projection over finite elements
     f = @(x) 1+0*x; %%% Torsion
@@ -21,8 +23,12 @@ for N=Nval
     sol_log=Alog\F;
 
     plotsol(xi, sol_log); %Plot solution taking into account the FE basis
+
+    [V,D] = eigs(Alog,mass,6,'smallestabs');
     
 end
+
+write_sol(xi,V,false);
 
 %%% Auxiliary functions
 
@@ -162,11 +168,41 @@ end
 
 function plotsol(xi,sol_log)
 
-    sol_log(1)=sqrt(2)*sol_log(1);
+    sol_log(1)=sol_log(1);
 
-    sol_log(end)=sqrt(2)*sol_log(end);
+    sol_log(end)=sol_log(end);
 
     plot(xi, sol_log,xi,sol_log*0,'LineWidth',1);
     
+end
+
+function [dt,ht,mt]=obtain_date()
+dt = datestr(now,'dd-mm-yyyy');
+ht = datestr(now,'HH');
+mt = datestr(now,'MM');
+end
+
+
+function write_sol(xi,eigen,flag)
+if flag==true
+    [dt,ht,mt]=obtain_date();
+
+    L=max(abs(xi));
+    h=xi(2)-xi(1);
+    N=2*L/h-1;
+
+    name_result = strcat('num_results/','eig-log_',...
+        dt,'_',ht,'h',mt,'.org');
+    file_result_temp=name_result;
+    outs_file_temp=fopen(file_result_temp,'w');
+
+    fprintf(outs_file_temp,'%s %s \n','#domain: ', ...
+        strcat('(-',num2str(L),',',num2str(L),')'));
+    fprintf(outs_file_temp,'%s %s \n','#N: ', num2str(N));
+    fprintf(outs_file_temp,'%s %4.4e \n','#h: ', 2*L/(N+1));
+
+    fprintf(outs_file_temp,'%4.4f %4.4e %4.4e \n',[xi',eigen(:,1),eigen(:,2)].');
+    ST=fclose(outs_file_temp);
+end
 end
 

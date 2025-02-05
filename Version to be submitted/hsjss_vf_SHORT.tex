@@ -328,7 +328,7 @@ L_1\approx 0.7090, \quad L_2\approx 2.3787,\quad L_3\approx 3.9110,\quad L_4\app
 \end{proposition}
 %
 
-In view of Proposition~\ref{eigenvalue approximation}, the first six eigenvalues of $L_{\Delta}$ in $(-1,1)$ are given approximately by
+In view of Proposition~\ref{eigenvalue approximation}, the first six eigenvalues of $L_{\Delta}$ in $(-1,1)$ are given approximately by \blue{There is an error here}
 \begin{equation*}
 \lambda_1\approx -0.6878, \quad \lambda_2\approx 1.7331,\quad \lambda_3\approx 3.9110,\quad \lambda_4\approx 2.7276, \quad \lambda_5\approx 3.9091,\quad \lambda_6\approx 4.3142.
 \end{equation*}
@@ -1981,6 +1981,77 @@ This follows immediately from Proposition~\ref{eigenvalue approximation a}, the 
 	\caption{The condition of $\mathcal{A}^L_h$ for $L\in(0.1,10)$ with $N=2000$.}
 	\label{L vs condition}
 \end{figure}
+
+
+%%%%%%%%%%%%%%%
+%%%%.        Figure       %%%
+%%%%%%%%%%%%%%%
+% DO NOT ERASE
+\begin{figure}[htb]
+	\centering
+	%
+	\subfloat[$\lambda_1$]{
+	\begin{tikzpicture}[scale=0.6]
+	\begin{axis}[xlabel={$x$},xmin=-0.1,xmax=0.1,legend pos=outer north east,
+	legend plot pos=left, xtick={-0.1,0,0.1}, xticklabels={-0.1,0,0.1}, ymin=-0.02,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{eig-log_05-02-2025_17h41.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	}\quad
+	\subfloat[$\lambda_2$]{
+	\begin{tikzpicture}[scale=0.6]
+	\begin{axis}[xlabel={$x$},xmin=-0.1,xmax=0.1,legend pos=outer north east,
+	legend plot pos=left, xtick={-0.1,0,0.1}, xticklabels={-0.1,0,0.1},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{eig-log_05-02-2025_17h41.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x index=0, y index=2] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	}\\
+	\subfloat[$\lambda_1$]{
+	\begin{tikzpicture}[scale=0.6]
+	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
+	legend plot pos=left, xtick={-1,0,1}, xticklabels={-1,0,1}, ymax=0,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{eig-log_05-02-2025_17h20.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	}\quad
+	\subfloat[$\lambda_2$]{
+	\begin{tikzpicture}[scale=0.6]
+	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
+	legend plot pos=left, xtick={-1,0,1}, xticklabels={-1,0,1},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{eig-log_05-02-2025_17h20.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x index=0, y index=2] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	} 
+	\caption{Numerical approximation of the first and second eigenfunctions of \( L_{\Delta} \) for  $L = 0.1$ (top) and $L = 1$ (bottom).
+}
+	\label{Fig:eigen}
+\end{figure}
+
+
 
 
  \appendix
