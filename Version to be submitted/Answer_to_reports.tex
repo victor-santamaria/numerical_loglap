@@ -201,7 +201,9 @@ We thank all the referees for the careful reading of our manuscript and for all 
 %
 %
 
-We find this remark very interesting. As far as we know, the claim that solutions belong to \(\bigcap_{\epsilon>0}H^{1/2-\epsilon}(\mathbb{R})\) has not been shown (although we agree that this sounds reasonable and it is true for the few explicit cases that are known).  We also agree that there is enough reasonable doubt regarding the convergence rate of the $L^2$ norm and that the numerical experiments that we provide do not settle this question. We have emphasized this in the new version. Moreover, we also agree that Remark 6.1 is not correct and it has been removed.
+We find this remark very interesting. As far as we know, the claim that solutions belong to \(\bigcap_{\epsilon>0}H^{1/2-\epsilon}(\mathbb{R})\) has not been shown (although this is indeed true for the few explicit cases that are known). It would be very interesting to find estimates in this direction that can be used to show a better convergence rate. However, we do not believe that these estimates are immediate or easy to obtain.
+
+We also agree that there is enough reasonable doubt regarding the convergence rate of the $L^2$ norm and that the numerical experiments that we provide do not settle this question. We have emphasized this in the new version. Moreover, we also agree that Remark 6.1 is not correct and it has been removed.
 
 \end{enumerate}
 
@@ -210,7 +212,7 @@ We find this remark very interesting. As far as we know, the claim that solution
 \begin{enumerate}
     \item[4.] \emph{I wonder why in the definition of weak solutions (page 3, line 6) the authors assume \(f\in L^{2}(\Omega)\) instead of \(f\in\mathbb{H}(\Omega)^{\prime}\).}
 
-    We agree that one can take \(f\in\mathbb{H}(\Omega)^{\prime}\). In this paper we do not intend to obtain the most generality everywhere. Since this work is the first FEM analysis for the logarithmic Laplacian, we prefer to fix a simplified framework, to identify the key questions, to answer them in the best way possible with the estimates at our disposal, and to pose the open questions that may deepen our knowledge for these problems.
+    We agree that one can take \(f\in\mathbb{H}(\Omega)^{\prime}\). In this paper we do not intend to obtain the most generality everywhere. Since this work is the first FEM analysis for the logarithmic Laplacian, we prefer to fix a simplified framework, to identify the key questions, to answer them in the best way possible with the estimates at our disposal, and to pose the main open questions that in our opinion can unlock the general theory for these problems.
 
     \item[5.] \emph{Clarify the sentence in page 5, lines 1-2: the entries of the matrix \({\mathcal{A}}_{h}^{L}\) only depend on \(h\), but the matrix itself does depend on \(L\), as its size obviously changes if one modifies \(L\).}
 
@@ -224,7 +226,7 @@ We find this remark very interesting. As far as we know, the claim that solution
 
     \item[7.] \emph{I find definitions (3.13) and (3.14) a little confusing. I think it would be clearer if these sets were defined explicitly in terms of indices. The sets \(I_{i}\) seem to be related with the sets \(T_{i}\) in Lemma 3.12 (although the former are indices sets and the latter are subsets of \(\Omega\)) and that such sets are actually used already in Lemma 3.6, albeit without a definition. I think the paper would benefit if the authors unified the notation for these sets.}
 
-    {\color{red}To be answered, probably we should add this}
+    We have simplified the notation in this revised version, and now the definitions of $T_i$, $I_i$, and $I_i'$ are explicit.  Moreover, the relationship between $T_i$ and $I_i$ is now explicitly stated.
 
     \item[8.] \emph{The proof of Lemma 3.12 is almost the same than the proof of Lemma 3.6. The difference lies in the estimation of \(|b_{k}|\), namely, in whether using (3.22) or (3.32), and a very minor modification in the right-hand side of (3.30) with respect to (3.20). I suggest to shorten the proof of Lemma 3.12.}
 
@@ -513,6 +515,46 @@ We did not followed this direction in the present paper because we wanted to use
 
 We agree and we have corrected this. Thank you.
 \end{enumerate}
+
+
+\setlength{\unitlength}{1cm}
+
+% lolo
+%
+% \begin{figure}[h!]
+% \begin{center}
+% \begin{picture}(5,5)
+% \put(0,0.1){\includegraphics[width=5cm]{ex.pdf}}
+% \put(0,0){$x_0$}
+% \put(0,3.3){$\varphi_0$}
+% \put(0.4,0.4){$\Omega_0$}
+% \put(0.9,0){$x_1$}
+% \put(0.9,3.3){$\varphi_1$}
+% \put(1.4,0.4){$\Omega_1$}
+% \put(1.8,0){$x_2$}
+% \put(1.8,3.3){$\varphi_2$}
+% \put(2.3,0.4){$\Omega_2$}
+% \put(2.7,0){$x_3$}
+% \put(2.7,3.3){$\varphi_3$}
+% \put(3.25,0.4){$\Omega_3$}
+% \put(3.7,0){$x_4$}
+% \put(3.7,3.3){$\varphi_4$}
+% \put(4.2,0.4){$\Omega_4$}
+% \put(4.7,3.3){$\varphi_5$}
+% \put(4.7,0){$x_5$}
+% \put(0,-0.2){\makebox(2,0){$\underbrace{\hspace{2cm}}^{}$}}
+% \put(0.8,-0.8){$S_0$}
+% \put(0,-1){\makebox(3,0){$\underbrace{\hspace{3cm}}^{}$}}
+% \put(1.3,-1.5){$S_1$}
+% \put(1.1,-2){\makebox(3,0){$\underbrace{\hspace{2.8cm}}^{}$}}
+% \put(2.3,-2.5){$S_2$}
+% \put(2.5,-0.2){\makebox(2,0){$\underbrace{\hspace{2.8cm}}^{}$}}
+% \put(3.3,-0.8){$S_3$}
+% \end{picture}
+% \end{center}
+% \end{figure}
+%
+% lolo
 
 \end{document}
 
