@@ -895,41 +895,50 @@ Let $\alpha>0$, $i\in\inter{0,N}$, $v\in \weH{\alpha}$, then
 \end{align}
 \end{lemma}
 %
-\begin{proof}
-Let $\overline{v}:=\frac{1}{5h}\int_{T_{i}} v\, dx$. Note that $v-I_h v=v-\overline{v}+I_h(\overline v - v)$, thus
-%
-\begin{align}\notag
-    \int_{\Omega_i}&\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|} dy dx \\
-    &\leq 2\int_{\Omega_i}\int_{S_i}\frac{|(v-\overline{v})(x)-(v-\overline{v})(y)|^2}{|x-y|}dy dx + 2 \int_{\Omega_i}\int_{S_i}\frac{|I_h(\overline v-{v})(x)-I_h(\overline v-{v})(y)|^2}{|x-y|}dy dx :=2J_1+2J_2.\label{eq:est_dif_inter_1_weight}
-\end{align}
-%
-Using that $\overline v$ is a constant function, we can readily estimate $J_1$ as
-%
+
+The proof of \Cref{lem:stab_dif_interp_weight} is analogous to the one of \Cref{lem:stab_dif_interp} and few changes are needed. More precisely, $J_1$ can be directly estimated as 
 \begin{equation}\label{eq:est_J1_weight}
     J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C\ell^{\alpha}(h)\int_{T_i}\int_{T_i}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
 \end{equation}
+and $J_2$ can be estimated with the help of \Cref{lem:poincare_type_weight}. For brevity, we skip the details. 
 
-On the other hand, we can apply \Cref{lem:loc_norm_interp} to $J_2$ and obtain
-%
-\begin{equation}\label{eq:est_J2_weight}
-    J_2 \leq Ch\sum_{k\in I_i} b_k^2,
-\end{equation}
-%
-where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and $I_i$ is defined in \eqref{def_Ii}. As we did in \eqref{abk}, for every $k\in I_i$, $
-    |b_k|^2\leq \frac{C}{h}\int_{T_{i}}|v-\overline{v}|^2\, dx,$ because the support of $\varphi_k$ is in $T_{i}$ for all $k\in I_i$. Using \Cref{lem:poincare_type_weight}, we can estimate the right-hand side of the above expression and obtain
-%
-\begin{equation}\label{eq:est_bks_weight}
-    |b_k|^2\leq Ch^{-1}\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx\qquad \text{for all $k\in \inter{i-1,i+2}$}.
-\end{equation}
-%
-Collecting estimates \eqref{eq:est_dif_inter_1_weight}--\eqref{eq:est_bks_weight} yields \eqref{eq:approxim_estimate_weight}. 
 
-Finally, for \eqref{a4}, by \Cref{lem:poincare_type_weight}, item (ii) of \Cref{lem:loc_norm_interp}, and \eqref{eq:est_bks_weight}, 
-\begin{align*}
-    \|v-I_h v\|_{L^2(\Omega_i)}^2&\leq 2\|v-\overline{v}\|_{L^2(\Omega_i)}^2+2\|I_h(\overline{v}-v)\|_{L^2(\Omega_i)}^2\leq C\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
-\end{align*}
-\end{proof}
 
+%\begin{proof}
+%Let $\overline{v}:=\frac{1}{5h}\int_{T_{i}} v\, dx$. Note that $v-I_h v=v-\overline{v}+I_h(\overline v - v)$, thus
+%%
+%\begin{align}\notag
+%    \int_{\Omega_i}&\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|} dy dx \\
+%    &\leq 2\int_{\Omega_i}\int_{S_i}\frac{|(v-\overline{v})(x)-(v-\overline{v})(y)|^2}{|x-y|}dy dx + 2 \int_{\Omega_i}\int_{S_i}\frac{|I_h(\overline v-{v})(x)-I_h(\overline v-{v})(y)|^2}{|x-y|}dy dx :=2J_1+2J_2.\label{eq:est_dif_inter_1_weight}
+%\end{align}
+%%
+%Using that $\overline v$ is a constant function, we can readily estimate $J_1$ as
+%%
+%\begin{equation}\label{eq:est_J1_weight}
+%    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C\ell^{\alpha}(h)\int_{T_i}\int_{T_i}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
+%\end{equation}
+%
+%On the other hand, we can apply \Cref{lem:loc_norm_interp} to $J_2$ and obtain
+%%
+%\begin{equation}\label{eq:est_J2_weight}
+%    J_2 \leq Ch\sum_{k\in I_i} b_k^2,
+%\end{equation}
+%%
+%where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and $I_i$ is defined in \eqref{def_Ii}. As we did in \eqref{abk}, for every $k\in I_i$, $
+%    |b_k|^2\leq \frac{C}{h}\int_{T_{i}}|v-\overline{v}|^2\, dx,$ because the support of $\varphi_k$ is in $T_{i}$ for all $k\in I_i$. Using \Cref{lem:poincare_type_weight}, we can estimate the right-hand side of the above expression and obtain
+%%
+%\begin{equation}\label{eq:est_bks_weight}
+%    |b_k|^2\leq Ch^{-1}\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx\qquad \text{for all $k\in \inter{i-1,i+2}$}.
+%\end{equation}
+%%
+%Collecting estimates \eqref{eq:est_dif_inter_1_weight}--\eqref{eq:est_bks_weight} yields \eqref{eq:approxim_estimate_weight}. 
+%
+%Finally, for \eqref{a4}, by \Cref{lem:poincare_type_weight}, item (ii) of \Cref{lem:loc_norm_interp}, and \eqref{eq:est_bks_weight}, 
+%\begin{align*}
+%    \|v-I_h v\|_{L^2(\Omega_i)}^2&\leq 2\|v-\overline{v}\|_{L^2(\Omega_i)}^2+2\|I_h(\overline{v}-v)\|_{L^2(\Omega_i)}^2\leq C\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
+%\end{align*}
+%\end{proof}
+%
 Recall the definition of $\|\cdot\|_{\mathbb H^{\beta}(\Omega;\ell)}$ given in \eqref{Hbetanorm}.
 \begin{lemma}\label{new:lem}
 For every $\beta>0$, there is $C=C(\beta)>0$ such that
