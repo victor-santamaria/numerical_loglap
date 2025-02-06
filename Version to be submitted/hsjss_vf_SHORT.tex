@@ -1991,12 +1991,12 @@ This follows immediately from Proposition~\ref{eigenvalue approximation a}, the 
 	\centering
 	%
 	\subfloat[$\lambda_1$]{
-	\begin{tikzpicture}[scale=0.6]
+	\begin{tikzpicture}[scale=0.5]
 	\begin{axis}[xlabel={$x$},xmin=-0.1,xmax=0.1,legend pos=outer north east,
-	legend plot pos=left, xtick={-0.1,0,0.1}, xticklabels={-0.1,0,0.1}, ymin=-0.02,
+	legend plot pos=left, xtick={-0.1,0,0.1}, xticklabels={-0.1,0,0.1}, ymin=0,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{eig-log_05-02-2025_17h41.org}\solution      
+	\pgfplotstableread{eig-log_05-02-2025_20h04.org}\solution      
 	      
 	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
 	
@@ -2005,12 +2005,12 @@ This follows immediately from Proposition~\ref{eigenvalue approximation a}, the 
 	\end{tikzpicture}
 	}\quad
 	\subfloat[$\lambda_2$]{
-	\begin{tikzpicture}[scale=0.6]
+	\begin{tikzpicture}[scale=0.5]
 	\begin{axis}[xlabel={$x$},xmin=-0.1,xmax=0.1,legend pos=outer north east,
 	legend plot pos=left, xtick={-0.1,0,0.1}, xticklabels={-0.1,0,0.1},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{eig-log_05-02-2025_17h41.org}\solution      
+	\pgfplotstableread{eig-log_05-02-2025_20h04.org}\solution      
 	      
 	\addplot[very thick,color=blue] table[x index=0, y index=2] \solution; %\label{cost}
 	
@@ -2019,12 +2019,12 @@ This follows immediately from Proposition~\ref{eigenvalue approximation a}, the 
 	\end{tikzpicture}
 	}\\
 	\subfloat[$\lambda_1$]{
-	\begin{tikzpicture}[scale=0.6]
+	\begin{tikzpicture}[scale=0.5]
 	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
-	legend plot pos=left, xtick={-1,0,1}, xticklabels={-1,0,1}, ymax=0,
+	legend plot pos=left, xtick={-1,0,1}, xticklabels={-1,0,1}, ymin=0,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{eig-log_05-02-2025_17h20.org}\solution      
+	\pgfplotstableread{eig-log_05-02-2025_18h55.org}\solution      
 	      
 	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
 	
@@ -2033,12 +2033,40 @@ This follows immediately from Proposition~\ref{eigenvalue approximation a}, the 
 	\end{tikzpicture}
 	}\quad
 	\subfloat[$\lambda_2$]{
-	\begin{tikzpicture}[scale=0.6]
+	\begin{tikzpicture}[scale=0.5]
 	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
 	legend plot pos=left, xtick={-1,0,1}, xticklabels={-1,0,1},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{eig-log_05-02-2025_17h20.org}\solution      
+	\pgfplotstableread{eig-log_05-02-2025_18h55.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x index=0, y index=2] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	} \\
+	\subfloat[$\lambda_1$]{
+	\begin{tikzpicture}[scale=0.5]
+	\begin{axis}[xlabel={$x$},xmin=-8,xmax=8,legend pos=outer north east,
+	legend plot pos=left, xtick={-8,0,8}, xticklabels={-8,0,8}, ymin=0,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{eig-log_05-02-2025_18h51.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	}\quad
+	\subfloat[$\lambda_2$]{
+	\begin{tikzpicture}[scale=0.5]
+	\begin{axis}[xlabel={$x$},xmin=-8,xmax=8,legend pos=outer north east,
+	legend plot pos=left, xtick={-8,0,8}, xticklabels={-8,0,8},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{eig-log_05-02-2025_18h51.org}\solution      
 	      
 	\addplot[very thick,color=blue] table[x index=0, y index=2] \solution; %\label{cost}
 	
@@ -2046,7 +2074,7 @@ This follows immediately from Proposition~\ref{eigenvalue approximation a}, the 
 	%	
 	\end{tikzpicture}
 	} 
-	\caption{Numerical approximation of the first and second eigenfunctions of \( L_{\Delta} \) for  $L = 0.1$ (top) and $L = 1$ (bottom).
+	\caption{Numerical approximation of the first and second eigenfunctions of \( L_{\Delta} \) for  $L = 0.1$ (top), $L=1$ (middle), and $L = 8$ (bottom).
 }
 	\label{Fig:eigen}
 \end{figure}
