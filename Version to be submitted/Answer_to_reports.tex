@@ -166,11 +166,42 @@ We thank all the referees for the careful reading of our manuscript and for all 
 
     \item \emph{The choice of the interpolation operator is not clear to me. The authors use a sort of localized \(L^{2}\) interpolation operator, and to have the constant-preservation property (3.10), they need to modify the standard Lagrange basis at the interval endpoints. It seems to me that what is required on the interpolation is its localization (this property is exploited in Lemma 3.5) and stability in \(L^{\infty}\) (this is used in Proposition 3.8, but it seems to me that it can be weakened to stability in \(L^{p}\) for some \(p>2\)). Therefore, I wonder why not using Clement interpolation on the whole mesh (including the domain boundary). Note also that for \(P_{0}\) elements the choice of the interpolation operator would be simpler, as one can just use localized averages and these in turn satisfy the two desired properties.}
 
-    {\color{red}To be answered}
+    Indeed, we only require the constant-preservation property (3.10), the localization bonds (Lemma 3.5) and the stability (Proposition 3.8). This can be achieved with different choices of interpolators and basis. With the referee's comment, we now realize that a modification of the basis can be confusing and it is, in fact, not needed. One can use  the standard basis, plus an adjustment to the interpolator. In this revised version we have implemented this change: we now use the standard basis and modified the interpolator accordingly.
+
+    Regarding the use of other interpolators and other finite elements, we agree that this is possible, but we do not believe that this would make an important improvement in our results or that would greatly simplify the computations. Our main motivation to use $P_1$ elements is to link this work with previous work on the fractional Laplacian where $P_1$ elements have been used.
+
 
     \item \emph{The authors prove logarithmic convergence rates (in energy norm), and claim that numerical evidence support that this is the case. While I agree with the statement if applied to the \(L^{\infty}\) norm, I disagree with it when applied to the \(L^{2}\) norm. The results in Figure 2 and Tables 2 and 3 seem to indicate convergence with order \(h^{1/2}\) in \(L^{2}(\Omega)\). This is consistent with the fact that the solution of the problem is continuous and therefore in \(\bigcap_{\epsilon>0}H^{1/2-\epsilon}(\mathbb{R})\). In the same vein, in my opinion Remark 6.1 is not correct, as I think the integral in the right-hand side does not have a sign. I suggest to rewrite the discussion about convergence in pages 17-18.}
 
-    {\color{red}To be answered}
+%     We disagree on the claim that the solution always belongs to $\bigcap_{\epsilon>0}H^{1/2-\epsilon}(\mathbb{R})$.  For instance, let
+%     \begin{align*}
+%      \mathcal{H}_0^{s}((0,2)):=\{u\in H^{s}(\r)\::\: u=0\text{ in }\r\backslash (0,2)\}.
+%     \end{align*}
+% In
+% \begin{center}
+%  V. Hernández-Santamaría, L.F. López Ríos, and A. Saldaña, ''Optimal boundary regularity and a Hopf-type lemma for Dirichlet problems involving the logarithmic Laplacian'', Discrete and Continuous Dynamical Systems (2025),
+% \end{center}
+% it is shown that the function
+% \begin{align*}
+%  u(x):=\frac{1}{\sqrt{\ln(\frac{x}{2})}}\varphi(x)\chi_{[0,\infty)}
+% \end{align*}
+% (here $\varphi\in C^\infty_c(\r)$, $\varphi=1$ in $[0,1]$, and $\chi_{[0,\infty]}$ is the characteristic function in $[0,\infty)$) is a classical solution of
+% \begin{align*}
+%  L_\Delta u =f\quad \text{ in }[0,2],\qquad u=0\quad \text{ in }\r\backslash[0,2],
+% \end{align*}
+% for some $f\in L^\infty([0,2])$. Now, let $C$ denote possibly different constants independent of $\eps$; then,
+% \begin{align*}
+%  \|u\|_{\mathcal{H}_0^{1/2-\eps}((0,2))}^2
+%  &=C\int_{\r}\int_{\r}\frac{|u(x)-u(y)|^2}{|x-y|^{1+2(\frac{1}{2}-\eps)}}\, dy\, dx
+%  \geq C\int_{-1}^0\int_{0}^1\frac{1}{|\ln (\frac{y}{2})||x-y|^{2-2\eps}}\, dy\, dx\\
+% & =C\int_{0}^1\frac{1}{|\ln (\frac{y}{2})|}\int_{0}^1\frac{1}{(x+y)^{2-2\eps}}\, dx\, dy
+%  \geq C\int_{0}^{\frac{1}{2}}\frac{y^{2\eps-1}}{|\ln (y)|}\, dy\to \infty
+% \end{align*}
+% as $\eps\to 0$.
+%
+%
+
+We find this remark very interesting. As far as we know, the claim that solutions belong to \(\bigcap_{\epsilon>0}H^{1/2-\epsilon}(\mathbb{R})\) has not been shown (although we agree that this sounds reasonable and it is true for the few explicit cases that are known).  We also agree that there is enough reasonable doubt regarding the convergence rate of the $L^2$ norm and that the numerical experiments that we provide do not settle this question. We have emphasized this in the new version. Moreover, we also agree that Remark 6.1 is not correct and it has been removed.
 
 \end{enumerate}
 

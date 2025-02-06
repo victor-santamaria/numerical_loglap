@@ -304,7 +304,7 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
 
  However, since the regularity theory for $L_\Delta$ is much less developed than that of $(-\Delta)^s$, key elements in the proofs in \cite{Bor17} have to be changed to fit into the logarithmic Laplacian setting.  For instance, the idea of \emph{trace} plays a key role in order to define the Scott-Zhang interpolator used in \cite{Bor17}. This trace is known to exist in the fractional case because, under suitable assumptions on the right-hand side $f$, regularity estimates for the fractional Laplacian imply that the corresponding weak solutions always belong to $H^{\frac{1}{2}+\eps}(\Omega)$ for some $\eps>0$ (see \cite[Theorem 2.3.6]{Bor17}), which is a Hilbert space with trace.  There is no such result for the logarithmic Laplacian $L_\Delta$.  Although Theorem~\ref{eq:regularity} implies that weak solutions are log-Hölder continuous, it is not known if these solutions belong to a suitable Hilbert space with trace.
 
- As a consequence, we use a simpler interpolator: the projection to $\mathcal V_h$ in the $L^2$-sense (see \eqref{eq:interpolator}). Because of this, in our approach, it is important to consider two discontinuous elements in the finite element basis (see \eqref{eq:def_basis_ext}).  This might seem odd, in virtue of the Dirichlet boundary conditions, but in fact this is required in our analysis and numerical experiments show that the presence of these two discontinuous elements improves the numerical approximation of logarithmic problems.
+ As a consequence, we use an interpolator which does not need the notion of trace (see \eqref{eq:interpolator}) but requires two discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ at the endpoints of the interval. This interpolator satisfies the constant-preservation property \eqref{Ihc}, localization bounds (Lemma \ref{lem:loc_norm_interp}), and stability in \(L^{\infty}\)-sense (Proposition \ref{eq:estab_H_c_infty}), which are the properties that we need.
 
  The algorithmic implementation of the FEM can be done, as usual, by computing the entries of the corresponding stiffness matrix numerically. However, here we present a new alternative, which we believe that also gives a new perspective on how to understand the expansion \eqref{intro:exp} from the FEM point of view. Let us be more precise. Typically, in order to obtain the finite element approximation $u_h$ given by \eqref{eq:discr_problem:intro}, a finite element basis $(\varphi_i)_{i=0}^{N+1}$ of $\mathcal V_h$ is considered (see \eqref{eq:def_basis}-\eqref{eq:def_basis_ext}) and a matrix with entries
  \begin{align}\label{s:m:intro}
@@ -485,13 +485,13 @@ Let $(\varphi_i)_{i\in\inter{1,N}}$ be the basis of shape functions $\varphi_i$ 
         0, &\textnormal{elsewhere}.
     \end{cases}
 \end{align}
-Note that $\varphi_i(x_j)=\delta_{ji}$.  As explained in the introduction, we also need to consider
+Note that $\varphi_i(x_j)=\delta_{ji}$.  As explained in the introduction, we also consider
 %
 \begin{align}\label{eq:def_basis_ext}
-    \varphi_0(x)=\sqrt{2}\begin{cases}
+    \varphi_0(x)=\begin{cases}
         \displaystyle \frac{x_{1}-x}{h}, &x\in [x_0,x_{1}], \\
         0, &\textnormal{elsewhere},
-    \end{cases} \qquad \varphi_{N+1}(x)=\sqrt{2}\begin{cases}
+    \end{cases} \qquad \varphi_{N+1}(x)=\begin{cases}
         \displaystyle \frac{x-x_{N}}{h}, &x\in[x_{N},x_{N+1}], \\
         0, &\textnormal{elsewhere.}
     \end{cases}
@@ -617,10 +617,10 @@ Recall the shape functions given in \eqref{eq:def_basis} and the space $\mathcal
 %
 \begin{equation}\label{eq:interpolator}
 I_h v(x)=\sum_{k\in\inter{0,N+1}}a_k \varphi_k(x),\qquad \text{ where }
-a_k:=\frac{1}{h}\int_{\Omega}v(x)\varphi_k(x)\,dx.
+a_k:=\frac{\int_{\Omega}v(x)\varphi_k(x)\,dx}{\int_{\Omega}\varphi_k(x)\,dx}.
 \end{equation}
 %
-Note that this definition with the $L^2$-scalar product is particularly useful since $v\in\mathbb H(\Omega)\subset L^2(\Omega)$ is not necessarily continuous at the grid points $x_i$.  Moreover, observe that $\varphi_0$ and $\varphi_{N+1}$ have a factor $\sqrt{2}$ and have a jump discontinuity at $0$ and at $N+1$ respectively.  This allows to have the important property that
+This allows to have the important property that
 \begin{align}\label{Ihc}
 I_h 1 = 1\qquad \text{ in $\Omega$,}
 \end{align}
@@ -628,26 +628,27 @@ namely, that the interpolation of a constant function in $\Omega$ is the constan
 
 %
 \begin{lemma}\label{lem:bounds_aks}
-Let $v\in L^2(\Omega)$ and $a_k$ as in \eqref{eq:interpolator}. There is $C>0$ independent of $h$ such that
+Let $v\in L^2(\Omega)$ and $a_k$ as in \eqref{eq:interpolator}. There is $C>0$ independent of $h$ and $v$ such that
 %
 \begin{equation}\label{eq:est_ak_H}
     |a_k|\leq C h^{-1/2} \|v\|_{L^2(S_k)}\qquad \text{ for all } k\in\inter{0,N+1}
 \end{equation}
 %
-with $S_k$ as defined in \eqref{eq:def_Si}. If in addition $v\in L^\infty(\Omega)$, we have
+with $S_k$ as defined in \eqref{eq:def_Si}. If, in addition, $v\in L^\infty(\Omega)$, we have
 \begin{equation}\label{eq:est_ak_Linf}
     |a_k|\leq C \|v\|_{L^\infty(\Omega)} \quad\text{ for all } k\in\inter{0,N+1}.
 \end{equation}
 \end{lemma}
 %
 \begin{proof}
-Let $k\in\inter{0,N+1}$ and $v\in L^2(\Omega)$ be an arbitrary given function. We have that $|a_k|\leq \frac{1}{h}\int_{\Omega}|v||\varphi_k|dx.$ Note that $\textnormal{supp}\,\varphi_k\subset S_k$ for each $k\in\inter{0,N+1}$. Using H\"older's inequality, $|a_k|\leq h^{-1}\|v\|_{L^1(S_k)}\leq \sqrt{3}h^{-1/2}\|v\|_{L^2(S_k)},$ where we have used the fact that $\|\varphi_k\|_{L^\infty(\Omega)}=1$ for all $k\in\inter{0,N+1}$.  This proves \eqref{eq:est_ak_H}. To prove \eqref{eq:est_ak_Linf}, we use again that $\|\varphi_k\|_{L^\infty(\Omega)}=1$ for all $k\in\inter{0,N+1}$ to get $|a_k|\leq \frac{1}{h}\|v\|_{L^\infty(\Omega)}\int_{S_k}|\varphi_k| dx \leq C\|v\|_{L^\infty(\Omega)}.$ This ends the proof.
+Let $k\in\inter{0,N+1}$ and $v\in L^2(\Omega)$ be an arbitrary given function. We have that $|a_k|\leq \frac{C}{h}\int_{\Omega}|v||\varphi_k|dx.$ Note that $\textnormal{supp}\,\varphi_k\subset S_k$ for each $k\in\inter{0,N+1}$. Using H\"older's inequality, $|a_k|\leq C h^{-1}\|v\|_{L^1(S_k)}\leq Ch^{-1/2}\|v\|_{L^2(S_k)}.$ Similarly,   $|a_k|\leq \frac{C}{h}\|v\|_{L^\infty(\Omega)}\int_{S_k}|\varphi_k| dx \leq C\|v\|_{L^\infty(\Omega)}.$
 \end{proof}
 
 \begin{lemma}\label{lem:poincare_type}
-Let $U\subset \R$ be an open bounded interval, $v\in C^1(\overline{U})$, and $\overline v=\frac{1}{|U|}\int_{U}v$; then, $
-    \|v-\overline{v}\|_{L^2(U)}^2\leq \|v'\|^2_{L^\infty(U)}|U|^3.$
-%
+Let $U\subset \R$ be an open bounded interval, $v\in C^1(\overline{U})$, and $\overline v=\frac{1}{|U|}\int_{U}v$; then,
+\begin{align*}
+\|v-\overline{v}\|_{L^2(U)}^2\leq \|v'\|^2_{L^\infty(U)}|U|^3.
+\end{align*}
 \end{lemma}
 %
 \begin{proof}
@@ -662,7 +663,7 @@ whence $\int_{U}|v(x)-\overline{v}|^2dx \leq \int_{U}\int_{U}\frac{|v(x)-v(y)|^2
 \begin{equation*}
     \int_{U}|v(x)-\overline{v}|^2dx 
     \leq \|v'\|^2_{L^\infty(U)}\int_{U}\int_{U}|x-y|dy dx
-    \leq \|v'\|^2_{L^\infty(U)}|U|^3.
+    \leq \|v'\|^2_{L^\infty(U)}|U|^3.\qedhere
 \end{equation*}
 \end{proof}
 
@@ -672,10 +673,11 @@ whence $\int_{U}|v(x)-\overline{v}|^2dx \leq \int_{U}\int_{U}\frac{|v(x)-v(y)|^2
 %
 \begin{proof}
 Let $x\in \Omega$ be arbitrary. From \eqref{eq:interpolator} and \eqref{eq:est_ak_Linf},
-\begin{align*}
-|I_h v(x)|=\left|\sum_{k\in\inter{0,N+1}}a_k \varphi_k(x)\right| \leq C\|v\|_{L^\infty(\Omega)}\sum_{k\in\inter{0,N+1}}\varphi_k(x).
-\end{align*}
-By the definition of the basis functions, we note that $\sum_{k\in\inter{0,N+1}}\varphi_k(x)\leq \sqrt{2}$ for any $x\in\Omega$. The result then follows.
+\begin{equation*}
+|I_h v(x)|
+=\left|\sum_{k\in\inter{0,N+1}}a_k \varphi_k(x)\right|
+\leq C\|v\|_{L^\infty(\Omega)}\sum_{k\in\inter{0,N+1}}\varphi_k(x)=C\|v\|_{L^\infty(\Omega)}. \qedhere
+\end{equation*}
 \end{proof}
 
 \begin{lemma}\label{lem:loc_norm_interp}
@@ -707,10 +709,10 @@ Since $I_i$ has at most 4 indices, squaring both sides of \eqref{a1} and using t
 \end{equation}
 %
 
-Noting that the functions $\varphi_k$ are Lipschitz continuous and verify that $|\varphi_k^\prime|\leq C/h$ for all $k\in\inter{0,N+1}$, we can use the mean value theorem to deduce
+Noting that the functions $\varphi_k$ are Lipschitz continuous and verify that $|\varphi_k^\prime|\leq 1/h$ for all $k\in\inter{0,N+1}$, we can use the mean value theorem to deduce
 %
 \begin{equation}\label{eq:est_interp_2}
-    \int_{\Omega_i}\int_{S_i}\frac{|\varphi_k(x)-\varphi_k(y)|^2}{|x-y|}dy dx \leq \frac{C}{h^2}\int_{\Omega_i}\int_{S_i}|x-y|dy dx \leq Ch,
+    \int_{\Omega_i}\int_{S_i}\frac{|\varphi_k(x)-\varphi_k(y)|^2}{|x-y|}dy dx \leq \frac{1}{h^2}\int_{\Omega_i}\int_{S_i}|x-y|dy dx \leq Ch,
 \end{equation}
 %
 since $|x-y|\leq 2h$ for all $x\in \Omega_i$ and $y\in S_i$. Combining \eqref{eq:est_interp_1} and \eqref{eq:est_interp_2} yields (i). 
@@ -740,7 +742,8 @@ By \eqref{Ihc}, $v-I_h v=v-\overline{v}+I_h(\overline v - v)$, thus
 %
 \begin{align}\notag
     \int_{\Omega_i}&\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|} dy dx \\
-    &\leq 2\int_{\Omega_i}\int_{S_i}\frac{|(v-\overline{v})(x)-(v-\overline{v})(y)|^2}{|x-y|}dy dx + 2 \int_{\Omega_i}\int_{S_i}\frac{|I_h(\overline v-{v})(x)-I_h(\overline v-{v})(y)|^2}{|x-y|}dy dx =:2J_1+2J_2.\label{eq:est_dif_inter_1}
+    &\leq 2\int_{\Omega_i}\int_{S_i}\frac{|(v-\overline{v})(x)-(v-\overline{v})(y)|^2}{|x-y|}dy dx + 2 \int_{\Omega_i}\int_{S_i}\frac{|I_h(\overline v-{v})(x)-I_h(\overline v-{v})(y)|^2}{|x-y|}dy dx\notag
+    \\& =:2J_1+2J_2.\label{eq:est_dif_inter_1}
 \end{align}
 %
 
@@ -926,22 +929,22 @@ In this proof, $C$ denotes possibly different positive contants independent of $
  \int_{0}^h |I_h u(x)|^2 \ell^{-\beta}(x)\, dx
  \leq 2\int_{0}^h (a_0^2\varphi_0^2+a_1^2\varphi_1^2) \ell^{-\beta}(x)\, dx,
 \end{align*}
-where
+where, by Cauchy-Schwarz inequality,
 \begin{align*}
  a_0^2
- =\frac{1}{h^2}\left(\int_0^h u\varphi_0\, dx \right)^2
- \leq\frac{|\varphi_0|^2_{L^2(\Omega_0)}}{h^2}|u|^2_{L^2(\Omega_0)}
+ =\frac{C}{h^2}\left(\int_0^h u\varphi_0\, dx \right)^2
+ \leq C\frac{\|\varphi_0\|^2_{L^2(\Omega_0)}}{h^2}\|u\|^2_{L^2(\Omega_0)}
  \leq C\frac{1}{h}\ell^\beta(h)\int_0^h|u(x)|^2\ell^{-\beta}(x)\, dx
  \leq C\frac{\ell^\beta(h)}{h}\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}.
 \end{align*}
-Here we used Cauchy-Schwarz inequality and that $|\varphi_0|^2_{L^2(\Omega_0)}=Ch$. Similarly, $a_1^2=\frac{1}{h^2}\left(\int_0^{2h} u\varphi_1\, dx \right)^2\leq C\frac{\ell^\beta(h)}{h}\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}$. Observe that, by Lemma \ref{lem:ellbeta},
+Similarly, $a_1^2=\frac{C}{h^2}\left(\int_0^{2h} u\varphi_1\, dx \right)^2\leq C\frac{\ell^\beta(h)}{h}\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}$. Observe that, by Lemma \ref{lem:ellbeta},
 \begin{align*}
  \int_{0}^h a_0^2\varphi_0^2\ell^{-\beta}(x)\, dx
  \leq a_0^2\int_{0}^h \ell^{-\beta}(x)\, dx
  \leq C\frac{\ell^\beta(h)}{h}\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)} h \ell^{-\beta}(h)=C\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)}.
 \end{align*}
 Analogously, $\int_{0}^{h} a_1^2\varphi_1^2\ell^{-\beta}(x)\, dx \leq C\|u\|^2_{\mathbb H^{\beta}(\Omega;\ell)},$ and \eqref{bdr:est} follows. By the definition of $\|u\|^2_{\mathbb H^{1}(\Omega;\ell)}$, \eqref{bdr:est}, the fact that
-$\ell^{\alpha}(d(x))\leq \ell^{\alpha}(h)$ for $x\in\Omega_i$ with $i\in\{0,N\}$, and by  symmetry, we easily deduce that
+$\ell^{\alpha}(d(x))\leq \ell^{\alpha}(h)$ for $x\in\Omega_i$ with $i\in\{0,N\}$, and arguing by  symmetry, we easily deduce that
 \begin{align*}
 \int_{\Omega_i}|(u-I_h u)(x)|^2\ell^{-1}(d(x))\,dx
  \leq \ell^a(h)\int_{\Omega_i}|(u-I_h u)(x)|^2\ell^{-1-a}(d(x))\,dx
@@ -1328,15 +1331,17 @@ For $i=1,\ldots,N$, this follows directly from \cite[Theorem 1.1]{CW19}, because
 
 Using Lemma \ref{lem:derivative:s:m} and an explicit computation of the stiffness matrix for the fractional Laplacian, one obtains the stiffness matrix $\mathcal A_{h}^{L}=(b_{ij})\in{\R^{(N+2)\times(N+2)}}$ of the logarithmic Laplacian. A detailed computation of these matrices can be found in the extended preprint of this paper, see \cite[Section 5]{HSJSS23}.
 
-Let
+For $j,k,N\in \mathbb N$, $k>2$, let
 \begin{align*} \notag
 \mathsf{l}_{\blue{j}}:= & \frac{-3 j^3 \log (j)+6 j^2 \log (j)+(j-2)^3 (-\log (j-2))+3
    (j-1)^2 (j-2) \log (j-1)+(j+1)^2 (j-2) \log (j+1)-2}{\blue{6}}, \\
    \mathsf{m}_{\blue N}:= & \frac{1}{\blue{6}}\left[2 (N-3) N^2 \log (N)-N-(N-1)^3 \log (N-1)-(N+1) ((N-4) N+1) \log (N+1)-3\right], \\
 \mathsf{p}:=&  -24\log(3) - 12\log(4) - 16\log(9) + 27\log(16) + \log(144), \\ \notag
-\mathsf{q}_k:=&-(-2 + k)^3\log(-2 + k) + 4(-1 + k)^3\log(-1 + k) - 6 k^3 \log(k) +4(1 + k)^3\log(1 + k) - (2 + k)^3\log(2 + k),
+\mathsf{q}_k:=&-(k-2)^3\log(k-2) + 4(k-1)^3\log(k-1) - 6 k^3 \log(k) +4(1 + k)^3\log(1 + k) - (2 + k)^3\log(2 + k).
 \end{align*}
-where $\psi$ is the digamma function and $\gamma=-\psi(1)$.  The coefficients $b_{ij}$ with $i,j\in\inter{0,N+1}$ and $j\geq 1$ are given by
+ Moreover, we use $\psi$ to denote the digamma function and $\gamma=-\psi(1)$.
+
+The coefficients $b_{ij}$ with $i,j\in\inter{0,N+1}$ and $j\geq 1$ are given by
 %
 \begin{equation}\label{stiff:LogLap}
 b_{ij}= h
@@ -1351,7 +1356,7 @@ b_{ij}= h
  & \parbox[t]{.3\columnwidth}{$i=0$, $j\in\inter{3,N}$,}\\
  \mathsf{m}_{\blue{N}}, &  \parbox[t]{.3\columnwidth}{$i=0$, $j=N+1$,}\\
 \displaystyle -\frac{\mathsf p}{3}, & \textnormal{$i,j\in\inter{1,N}$ and $j-i=2$,} \\
-\displaystyle \frac{\mathsf q_k}{6}, & \textnormal{$i,j\in\inter{1,N}$ and $\blue{k:=}j-i> 2$,} \\
+\displaystyle \frac{\mathsf q_{j-i}}{6}, & \textnormal{$i,j\in\inter{1,N}$ and $j-i> 2$,} \\
 \displaystyle -\frac{\gamma}{6} + \frac{11}{18} - \frac{\log(h)}{3}  + \frac{64\log(2) - 54\log(3)}{12} + \frac{\log(2)}{3}  + \frac{1}{6} \psi(\frac 12), & \textnormal{$i\in\inter{1,N-1}$ and $j=i+1$,} \\
 \displaystyle -\frac{2}{9}\left[6\log(h) + 3\gamma - 11 + \log(64) - 3\psi(\frac12)\right], & \textnormal{$i\in\inter{1,N}$ and $j=i$.}
 \end{cases}
