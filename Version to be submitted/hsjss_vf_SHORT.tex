@@ -895,13 +895,13 @@ Let $\alpha>0$, $i\in\inter{0,N}$, $v\in \weH{\alpha}$, then
 \end{align}
 \end{lemma}
 %
-
-The proof of \Cref{lem:stab_dif_interp_weight} is analogous to the one of \Cref{lem:stab_dif_interp} and few changes are needed. More precisely, $J_1$ can be directly estimated as 
+\begin{proof}
+ The proof is analogous to the one of \Cref{lem:stab_dif_interp}, where $J_1$ is estimated as
 \begin{equation}\label{eq:est_J1_weight}
-    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C\ell^{\alpha}(h)\int_{T_i}\int_{T_i}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
+    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C\ell^{\alpha}(h)\int_{T_i}\int_{T_i}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx
 \end{equation}
-and $J_2$ can be estimated with the help of \Cref{lem:poincare_type_weight}. For brevity, we skip the details. 
-
+and $J_2$ is estimated with \Cref{lem:poincare_type_weight}.
+\end{proof}
 
 
 %\begin{proof}
@@ -1043,52 +1043,59 @@ Unlike the case of the fractional Laplacian, we observe that the bilinear form $
 Assume that there exists a constant $\alpha_0>0$ uniform with respect to $h$ such that
 %
 \begin{equation}\label{eq:discr_inf_sup}
-    \sup_{v\in \mathcal V_h}\frac{\cE_{L}(u_h,v)}{\|v\|_{\mathbb H(\Omega)}}\geq \alpha_0\|u_h\|_{\mathbb H(\Omega)} \quad\text{ for all } u_h\in\mathcal V_h,
+    \sup_{v_h\in \mathcal V_h}\frac{\cE_{L}(z_h,v_h)}{\|v_h\|_{\mathbb H(\Omega)}}\geq \alpha_0\|z_h\|_{\mathbb H(\Omega)} \quad\text{ for all } z_h\in\mathcal V_h,
 \end{equation}
 %
 then there is a unique solution $u_h\in \mathcal V_h$ to \eqref{eq:discr_problem}. Moreover, this solution satisfies
 %
 \begin{equation}\label{eq:stability_cea}
-    \|u-u_h\|_{\mathbb H(\Omega)}\leq \left(1+\frac{C}{\alpha_0}\right)\inf_{w\in\mathcal V_h}\|u-w\|_{\mathbb H(\Omega)},
+    \|u-u_h\|_{\mathbb H(\Omega)}\leq \left(1+\frac{C}{\alpha_0}\right)\inf_{w_h\in\mathcal V_h}\|u-w_h\|_{\mathbb H(\Omega)},
 \end{equation}
 %
 where $C>0$ is uniform with respect to $h$.
 \end{lemma}
 %
 \begin{proof}
-Let $(e_i)_i\subset \mathcal V_h$ be a finite dimensional basis of $\mathcal V_h$ with $\dim(\mathcal V_h)=K$. Setting $u_h=\sum_{i\in\inter{1,K}}u_i e_i$ and $v_h=\sum_{i\in\inter{1,K}} v_i e_i$, we note that since $\cE_{L}(\cdot,\cdot)$ is a symmetric bilinear form, the discrete problem \eqref{eq:discr_problem} amounts to solve the linear system $A_h U = F_h,$ where $A_h\in\mathbb R^{K\times K}$ with entries $(A_h)_{ij}=\cE_L(e_i,e_j)$, $F\in\R^{K}$ with entries $(F)_i=\int_{\Omega}f e_i$, and $U=(u_1,\ldots, u_K)^T\in \R^{K}$.
+Let $(\varphi_i)_{i\in \inter{0,N+1}}\subset \mathcal V_h$ be the finite dimensional basis given in \eqref{eq:def_basis}, \eqref{eq:def_basis_ext} of $\mathcal V_h$ with $K:=N+2=\dim(\mathcal V_h)$. Setting $u_h=\sum_{i\in\inter{0,N+1}}u_i \varphi_i$ and $v_h=\sum_{i\in\inter{0,N+1}} v_i \varphi_i$, we note that since $\cE_{L}(\cdot,\cdot)$ is a symmetric bilinear form, the discrete problem \eqref{eq:discr_problem} amounts to solve the linear system $A_h U = F_h,$ where $A_h\in\mathbb R^{K\times K}$ with entries $(A_h)_{ij}=\cE_L(\varphi_i,\varphi_j)$, $F\in\R^{K}$ with entries $(F)_i=\int_{\Omega}f \varphi_i$, and $U=(u_1,\ldots, u_K)^T\in \R^{K}$.
 
-The discrete $\inf$-$\sup$ condition \eqref{eq:discr_inf_sup} readily ensures the non-singularity of the matrix $A_h$, thus $U$ can be uniquely determined and so $u_h$. On the other hand, since $\mathcal V_h\subset \mathbb H(\Omega)$ we can take $v\in \mathcal V_h$ in \eqref{eq:cont_problem} to obtain from \eqref{eq:discr_problem} that
+The discrete $\inf$-$\sup$ condition \eqref{eq:discr_inf_sup} readily ensures the non-singularity of the matrix $A_h$, thus $U$ can be uniquely determined and so $u_h$. On the other hand, by \eqref{eq:cont_problem} and \eqref{eq:discr_problem},
 %
 \begin{align}\label{eq:ort_cond}
-    \cE_{L}(u-u_h,v)=0 \quad\text{ for all } v\in\mathcal V_h.
+    \cE_{L}(u-u_h,v_h)=0 \quad\text{ for all } v_h\in\mathcal V_h.
 \end{align}
 %
-Let $w\in\mathcal V_h$ be an arbitrary function in $\mathcal V_h$. By \eqref{eq:discr_inf_sup} and \eqref{eq:ort_cond} we have
+Let $w_h\in\mathcal V_h$ be an arbitrary function in $\mathcal V_h$. By \eqref{eq:discr_inf_sup} and \eqref{eq:ort_cond} we have
 %
 \begin{equation*}
-    \alpha_0\|u_h-w\|_{\mathbb H(\Omega)} \leq \sup_{v\in\mathcal V_h}\frac{\cE_{L}(u_h-w,v)}{\|v\|_{\mathbb H}}=\sup_{v\in\mathcal V_h}\frac{\cE_{L}(u-w,v)}{\|v\|_{\mathbb H}}.
+    \alpha_0\|u_h-w_h\|_{\mathbb H(\Omega)} \leq \sup_{v_h\in\mathcal V_h}\frac{\cE_{L}(u_h-w_h,v_h)}{\|v_h\|_{\mathbb H}}=\sup_{v_h\in\mathcal V_h}\frac{\cE_{L}(u-w_h,v_h)}{\|v_h\|_{\mathbb H}}.
 \end{equation*}
 %
-Using \cite[Lemma 3.4]{HSS22} and the compact embedding $\mathbb H(\Omega)\hookrightarrow L^2(\Omega)$, we can see that there exists $C>0$ such that $|\cE_{L}(u-w,v)|\leq C\|u-w\|_{\mathbb H(\Omega)}\|v\|_{\mathbb H(\Omega)},$ whence
+Using \cite[Lemma 3.4]{HSS22} and the compact embedding $\mathbb H(\Omega)\hookrightarrow L^2(\Omega)$, we can see that there exists $C>0$ such that $|\cE_{L}(u-w_h,v_h)|\leq C\|u-w_h\|_{\mathbb H(\Omega)}\|v_h\|_{\mathbb H(\Omega)},$ whence
 %
 \begin{align}\label{eq:est_stab_w}
-    \alpha_0\|u_h-w\|_{\mathbb H(\Omega)} \leq C\|u-w\|_{\mathbb H(\Omega)} \quad\text{ for all } w\in\mathcal V_h.
+    \alpha_0\|u_h-w_h\|_{\mathbb H(\Omega)} \leq C\|u-w_h\|_{\mathbb H(\Omega)} \quad\text{ for all } w_h\in\mathcal V_h.
 \end{align}
-Finally, triangle inequality and \eqref{eq:est_stab_w} yield $\|u-u_h\|_{\mathbb H(\Omega)}\leq \|u-w\|_{\mathbb H(\Omega)}+\|w-u_h\|_{\mathbb H(\Omega)}\leq \left(1+\frac{C}{\alpha_0}\right)\|u-w\|_{\mathbb H(\Omega)}.$ Taking the infimum for $w\in \mathcal V_h$ yields the desired result.
+Finally, triangle inequality and \eqref{eq:est_stab_w} yield that
+\begin{align*}
+\|u-u_h\|_{\mathbb H(\Omega)}\leq \|u-w_h\|_{\mathbb H(\Omega)}+\|w_h-u_h\|_{\mathbb H(\Omega)}\leq \left(1+\frac{C}{\alpha_0}\right)\|u-w_h\|_{\mathbb H(\Omega)}.
+\end{align*}
+Taking the infimum for $w_h\in \mathcal V_h$ yields the desired result.
 \end{proof}
+
+Lemma \ref{lem:cea_mg} assumes a discrete inf-sup condition \eqref{eq:discr_inf_sup}, which is equivalent to the uniform well-posedness of the discrete problems.  The following lemma gives a sufficient condition for \eqref{eq:discr_inf_sup} to hold, which boils down to the well-posedness of the continuous problem and having a sufficiently fine partition.
+
 
 \begin{lemma}
 Assume that the problem $L_\Delta u=0$ in $\Omega$ with $u=0$ in $\R\backslash  \Omega$ only has the trivial solution.  Then, there are $h_0>0$ and $\alpha_0>0$ such that
 \begin{equation*}
-    \sup_{v\in \mathcal V_h}\frac{\cE_{L}(u,v)}{\|v\|_{\mathbb H(\Omega)}}\geq \alpha_0\|u\|_{\mathbb H(\Omega)} \quad\text{ for all } u\in\mathcal V_h \text{ and }h\in(0,h_0),
+    \sup_{v_h\in \mathcal V_h}\frac{\cE_{L}(u_h,v_h)}{\|v_h\|_{\mathbb H(\Omega)}}\geq \alpha_0\|u_h\|_{\mathbb H(\Omega)} \quad\text{ for all } u_h\in\mathcal V_h \text{ and }h\in(0,h_0),
 \end{equation*}
 where $\alpha_0$ is independent of $h$.
 \end{lemma}
 \begin{proof}
 We argue as in \cite[Theorem 4.2.1]{dem20}. Assume, by contradiction, that for every $n\in\N$ there are $h_n<\frac{1}{n}$ and a sequence $(u_n)_{n\in\N}\in \mathcal V_{h_n}$ such that $\|u_n\|_{\mathbb H(\Omega)}=1$ and
 \begin{equation}\label{ccea}
-    \sup_{v\in \mathcal V_{h_n}}\frac{\cE_{L}(u_n,v)}{\|v\|_{\mathbb H(\Omega)}}<\frac{1}{n}\qquad \text{ for all }n\in\N.
+    \sup_{v_n\in \mathcal V_{h_n}}\frac{\cE_{L}(u_n,v_n)}{\|v_n\|_{\mathbb H(\Omega)}}<\frac{1}{n}\qquad \text{ for all }n\in\N.
 \end{equation}
 Since $(u_n)$ is bounded in $\mathbb H(\Omega)$, then there is $u\in \mathbb H(\Omega)$ such that, passing to a subsequence, $u_n \rightharpoonup u$ weakly in $\mathbb H(\Omega)$. Moreover, since $\mathbb H(\Omega)$ is compactly embedded in $L^2(\Omega)$, then $u_n\to u$ in $L^2(\Omega)$ after passing to a subsequence.  Then,
 \begin{align}
@@ -1101,12 +1108,16 @@ where $B$ is given by \eqref{eq:bilinear_B}.  In particular, $B$ is a bilinear c
     &=\cE_L(u_n,u_n-\widetilde u_n)+\cE_L(u_n,\widetilde u_n-u)
     \leq \frac{\cE_L(u_n,u_n-\widetilde u_n)}{\|u_n-\widetilde u_n\|_{\mathbb H(\Omega)}}\|u_n-\widetilde u_n\|_{\mathbb H(\Omega)}+\cE_L(u_n,\widetilde u_n-u) \to 0
 \end{align*}
-as $n\to \infty$, by \eqref{ccea} and arguing as in \eqref{007}, because $(u_n-\widetilde u_n)_{n\in\N}$ and $(u_n)$ are bounded in $\mathbb H(\Omega)$.  As a consequence, $u_n\to u$ in $\mathbb H(\Omega)$ as $n\to\infty$. Then $\|u\|_{\mathbb H(\Omega)}=1$. Let $w\in \mathbb H(\Omega)\backslash \{0\}$ and let $(w_n)\subset \mathcal V_h$ such that $w_n\to w$ in $\mathbb H(\Omega)$ as $n\to \infty$ (see Theorem~\ref{density:thm}), then
+as $n\to \infty$, by \eqref{ccea} and arguing as in \eqref{007}, because $(u_n-\widetilde u_n)_{n\in\N}$ and $(u_n)$ are bounded in $\mathbb H(\Omega)$.  As a consequence, $u_n\to u$ in $\mathbb H(\Omega)$ as $n\to\infty$. Then $\|u\|_{\mathbb H(\Omega)}=1$. Let $w\in \mathbb H(\Omega)\backslash \{0\}$ and let $(w_n)\subset \mathcal V_{h_n}$ such that $w_n\to w$ in $\mathbb H(\Omega)$ as $n\to \infty$ (see Theorem~\ref{density:thm}), then
 \begin{align*}
-    \frac{\cE_{L}(u,w)}{\|w\|_{\mathbb H(\Omega)}}=\lim_{n\to\infty}\frac{\cE_{L}(u_n,w_n)}{\|w_n\|_{\mathbb H(\Omega)}}\leq \lim_{n\to\infty}\sup_{v\in \mathcal V_h}\frac{\cE_{L}(u_n,v)}{\|v\|_{\mathbb H(\Omega)}}\leq \lim_{n\to\infty}\frac{1}{n}=0.
+    \frac{\cE_{L}(u,w)}{\|w\|_{\mathbb H(\Omega)}}=\lim_{n\to\infty}\frac{\cE_{L}(u_n,w_n)}{\|w_n\|_{\mathbb H(\Omega)}}\leq \lim_{n\to\infty}\sup_{v_h\in \mathcal V_{h_n}}\frac{\cE_{L}(u_n,v_h)}{\|v_h\|_{\mathbb H(\Omega)}}\leq \lim_{n\to\infty}\frac{1}{n}=0.
 \end{align*}
 Since $w$ is arbitrary, this implies that $u$ is a nontrivial weak solution of $L_\Delta u=0$ in $\Omega$ with $u=0$ in $\R\backslash  \Omega$, but this contradicts our assumption and the claim follows. 
 \end{proof}
+
+\begin{remark}
+Note that the assumption that the problem $L_\Delta u=0$ in $\Omega$ with $u=0$ in $\R\backslash  \Omega$ only has the trivial solution is equivalent to i) in Theorem \ref{eq:regularity}.
+\end{remark}
 
 
 We are ready to show our main result, Theorem \ref{main:thm:intro}.
@@ -1903,20 +1914,20 @@ For the convergence, we cannot work with Theorem~\ref{main:thm:intro}, since it 
 \begin{proposition}\label{prop:eigen-approx}
 Let $N\in \mathbb N$ and $h:=\frac{L}{N+1}>0$. Then
 $$
-\lambda_{k,h}:=\inf_{\substack{M\subset \mathcal{V}_{h}\\ \dim(M)=k}} \max_{\substack{u\in M\setminus\{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u)\to \lambda_k\quad\text{as $h\to 0$.}
+\lambda_{k,h}:=\inf_{\substack{M_h\subset \mathcal{V}_{h}\\ \dim(M_h)=k}} \max_{\substack{u_h\in M_h\setminus\{0\}\\ \|u_h\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u_h,u_h)\to \lambda_k\quad\text{as $h\to 0$.}
 $$
 Here, $\lambda_{k,h}$ equals to the $k$-th eigenvalue of $\mathcal{A}^L_{h}$.
 \end{proposition}
 \begin{proof}
 By \eqref{CF}, 
 \begin{align}\label{1st}
-\lambda_k=\inf_{\substack{M\subset \mH(\Omega)\\ \dim(M)=k}} \max_{\substack{u\in M\setminus\{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u)\leq \inf_{\substack{M\subset \mathcal{V}_{h}\\ \dim(M)=k}} \max_{\substack{u\in M\setminus\{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u)=\lambda_{k,h}. 
+\lambda_k=\inf_{\substack{M\subset \mH(\Omega)\\ \dim(M)=k}} \max_{\substack{u\in M\setminus\{0\}\\ \|u_h\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u)\leq \inf_{\substack{M_h\subset \mathcal{V}_{h}\\ \dim(M_h)=k}} \max_{\substack{u_h\in M_h\setminus\{0\}\\ \|u_h\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u_h,u_h)=\lambda_{k,h}.
 \end{align}
  By \eqref{c:em}, there is $C=C(\Omega)>0$ such that $\|u\|_{L^2(\Omega)}\leq C\|u\|_{\mH(\Omega)}$ for all $u\in \mH(\Omega)$. Let  $\delta\in(0,1)$. Then there is a subspace $M_{\delta}\subset \mH(\Omega)$ with $\dim(M_{\delta})=k$ and some $m\in M_{\delta}$ with $\|m\|_{L^2(\Omega)}=1$ such that
 \begin{align}\label{delta:eq}
 \max_{\substack{ u\in M_{\delta}\setminus \{0\}\\ \|u\|_{L^2(\Omega)}=1}} \mathcal{E}_L(u,u)=\mathcal{E}_{L}(m,m)\leq \lambda_k+\frac{\delta}{2}. 
 \end{align}
-Using Theorem~\ref{density:thm} we find $h_0>0$ such that $\|m-m_h\|_{\mH(\Omega)}\leq \frac{\delta}{2C}$ for all $h\in(0,h_0)$ and for some $m_h\in {\mathcal V}_h$. Moreover, $0<\|m_h\|_{L^2(\Omega)}\leq \|m-m_H\|_{L^2(\Omega)}+1\leq \frac{\delta}{2}+1
+Using Theorem~\ref{density:thm} we find $h_0>0$ such that $\|m-m_h\|_{\mH(\Omega)}\leq \frac{\delta}{2C}$ for all $h\in(0,h_0)$ and for some $m_h\in {\mathcal V}_h$. Moreover, $0<\|m_h\|_{L^2(\Omega)}\leq \|m-m_h\|_{L^2(\Omega)}+1\leq \frac{\delta}{2}+1
 $. Then, using \eqref{1st} and \eqref{delta:eq},
 \begin{align}\notag 
 \lambda_{k}\leq \lambda_{k,h}&\leq \|m_h\|_{L^2(\Omega)}^2 \mathcal{E}_L(m_h,m_h)\leq \left( \frac{\delta}{2}+1\right)^2\Big(\mathcal{E}_L(m_h-m,m_h+m)+\mathcal{E}_L(m,m)\Big)\notag\\
@@ -1940,7 +1951,7 @@ $\|m_h\|_{\mH(\Omega)}\leq \|m\|_{\mH(\Omega)}+1$ by making $h_0$ smaller, if ne
 +
 \left( \frac{\delta}{2}+1\right)^2\big(\lambda_k+\delta\big).$ Sending $\delta\to 0$, the right-hand side converges to $\lambda_k$ and this shows the first part of the statement.
 
-For the last part, note that, since the $\phi_i$ ($i\in\inter{0,N+1}$) form a basis of $\mathcal{V}_h$, the dimension of $\mathcal{V}_{h}$ is $N+2$ and, for any $u\in \mathcal{V}_{h}$, we can find $r_k\in \R$ with $k\in \inter{0,N+1}$ such that $u=\sum_{k=0}^{N+1}r_k\phi_k$ and then $\mathcal{E}_L(u,u)=\sum_{k,i=0}^{N+1}r_kr_i\mathcal{E}_L(\phi_i,\phi_j)= \mathcal{A}^L_h r\cdot r.$ From here, it is easy to see that $\lambda_{k,h}$ denotes the $k$-the eigenvalue of $\mathcal{A}^L_{h}$.
+For the last part, note that, since the $\phi_i$ ($i\in\inter{0,N+1}$) form a basis of $\mathcal{V}_h$, the dimension of $\mathcal{V}_{h}$ is $N+2$ and, for any $u_h\in \mathcal{V}_{h}$, we can find $r_k\in \R$ with $k\in \inter{0,N+1}$ such that $u_h=\sum_{k=0}^{N+1}r_k\phi_k$ and then $\mathcal{E}_L(u_h,u_h)=\sum_{k,i=0}^{N+1}r_kr_i\mathcal{E}_L(\phi_i,\phi_j)= \mathcal{A}^L_h r\cdot r.$ From here, it is easy to see that $\lambda_{k,h}$ denotes the $k$-the eigenvalue of $\mathcal{A}^L_{h}$.
 \end{proof}
 
 

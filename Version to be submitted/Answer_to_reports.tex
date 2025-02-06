@@ -230,18 +230,31 @@ We also agree that there is enough reasonable doubt regarding the convergence ra
 
     \item[8.] \emph{The proof of Lemma 3.12 is almost the same than the proof of Lemma 3.6. The difference lies in the estimation of \(|b_{k}|\), namely, in whether using (3.22) or (3.32), and a very minor modification in the right-hand side of (3.30) with respect to (3.20). I suggest to shorten the proof of Lemma 3.12.}
 
-    {\color{red}To be answered, probably we should add this}
+ We agree with the referee. We have simplified the proof.
 
     \item[9.] \emph{I think the proofs of Lemmas 4.1 and Lemma 4.2 would become a little more clear if the authors made a few modifications.}
     \begin{itemize}
         \item \emph{Lemma 4.1 assumes a discrete inf-sup condition, which is clearly equivalent to the uniform well-posedness of the discrete problems, and Lemma 4.2 in turn gives a sufficient condition for such a hypothesis to hold. This is interesting, the sufficient condition boils down to the well-posedness of the continuous problem (which depends on the domain size) and having a sufficiently fine partition. I suggest to make this point explicit, adding a few lines between the two lemmas.}
-        \item \emph{I think it is convenient to use an \(h\) subindex to distinguish functions in \({\mathcal{V}}_{h}\) from arbitrary functions in \(\mathbb{H}(\Omega)\). The same comment applies to Proposition 7.2 as well.}
-        \item \emph{In formula (4.3) I would change \(u_{h}\mapsto v_{h}\) to avoid confusion with the solution of the discrete problem.}
-        \item \emph{In the first sentence of the proof of Lemma 4.1, I think there is no need to take an arbitrary basis of \({\mathcal{V}}_{h}\), as one can simply take the finite element basis already introduced (and which is the one actually employed in practice).}
-        \item \emph{Isn't the assumption in Lemma 4.2 equivalent with alternative i) in Theorem 1.1?}
-    \end{itemize}
 
-    {\color{red}To be answered, probably we should add this}
+        We agree and we have included this comment.
+
+        \item \emph{I think it is convenient to use an \(h\) subindex to distinguish functions in \({\mathcal{V}}_{h}\) from arbitrary functions in \(\mathbb{H}(\Omega)\). The same comment applies to Proposition 7.2 as well.}
+
+We agree with the referee and we have implemented the suggestion.
+
+        \item \emph{In formula (4.3) I would change \(u_{h}\mapsto v_{h}\) to avoid confusion with the solution of the discrete problem.}
+
+        We agree with the referee and we have implemented the suggestion.
+
+        \item \emph{In the first sentence of the proof of Lemma 4.1, I think there is no need to take an arbitrary basis of \({\mathcal{V}}_{h}\), as one can simply take the finite element basis already introduced (and which is the one actually employed in practice).}
+
+        We agree with the referee and we have implemented the suggestion.
+
+        \item \emph{Isn't the assumption in Lemma 4.2 equivalent with alternative i) in Theorem 1.1?}
+
+    Yes, it is equivalent. We have added a remark in this regard.
+
+    \end{itemize}
 
     \item[10.] \emph{Proposition 4.3 does not quite belong to Section 4, as it does not involve the stability of the error. I think the authors decided to have it there because it is instrumental for the proof of Theorem 1.2, but I think it should be moved to the Introduction, after Theorem 1.1. Even though it can be a little strange to have a result proven in the introduction, the point of the paper is not the regularity of solutions and readership of CAMWA already know that regularity of solutions is one of the basic ingredients needed to prove convergence rates.}
 
@@ -250,7 +263,23 @@ We also agree that there is enough reasonable doubt regarding the convergence ra
 
     \item[11.] \emph{Lemma 5.1 deals with the interesting fact that the stiffness matrices for the logarithmic Laplacian can be computed by differentiation with respect to \(s\) of the stiffness matrices for the fractional Laplacian. While in the paper the authors apply this result for a specific setting (intervals and uniform meshes) by direct differentiation, I think it would be interesting to consider its application in more general situations. In that sense, I wonder if the consistency error of replacing the derivative by a forward difference can be estimated. Namely, my question is what can be said about replacing \(L_{\Delta}\varphi_{i}\) by \(\frac{(-\Delta)^{s}\varphi_{i}-\varphi_{i}}{s}\) for small \(s\). I guess the error in \(L^{p}(\mathbb{R})\) should be linear in \(s\); is that correct?}
 
-        {\color{red}To be answered}
+    It is true that
+    \begin{align*}
+     \left\|\frac{(-\Delta)^{s}\varphi_{i}-\varphi_{i}}{s}-L_{\Delta}\varphi_{i}\right\|_{L^p}\leq Cs\qquad \text{ for }s\in (0,1)
+    \end{align*}
+    and some constant $C$ independent of $s$.  This follows, for instance, from Theorem 1.2 in \url{https://arxiv.org/pdf/2307.06198v4}.
+
+    We find this idea very nice.  If $u_s$ is a solution of
+    \begin{align*}
+     \frac{(-\Delta)^s u_s - u_s}{s}=f\quad \text{ in }\Omega,\qquad u_s=0\quad \text{ in }\R^N\backslash \Omega,
+    \end{align*}
+ is it true that $u_s$ converges to a solution $u$ of
+  \begin{align*}
+     L_\Delta u = f\quad \text{ in }\Omega,\qquad u=0\quad \text{ in }\R^N\backslash \Omega
+    \end{align*}
+whenever $u$ exists?     If so, how can we estimate $\|u_s-u\|$ in some good norm.  And then, is it possible to use this information together with the known convergence error rates for fractional problems to obtain better convergence rates for logarithmic problems?
+
+This idea is intriguing and so far unexplored.  Probably, an important drawback of this approach would be that the fractional error and regularity estimates must have an explicit dependence on $s$ (in particular, the $s$ dependence of the constants must be clear) to avoid degeneracy as $s\to 0$. This, however, is probably doable and we are looking forward to exploring more in this direction and to collaborating with anyone interested on these problems.
 
     \item[12.] \emph{I think the discussion along the setting of the experiment in Section 6.1 should be polished.}
     \begin{itemize}
