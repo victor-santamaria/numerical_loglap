@@ -1,7 +1,9 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=1/2;
+L=1;
+
+Lloc=0.95;
 
 %%% Number of discrete points, mesh and mesh size
 Nval=[50,100,200,400,800,1600,3200];
@@ -29,13 +31,14 @@ for N=Nval
     Alog=LoglapRigidity(L,N);
     mass = MassMatrix(xi,h);
 
-    M=1;
+    Mf=floor(Lloc/h);
+    Mc=ceil(Lloc/h);
 
-    mass_loc=mass(M+1:end-M,M+1:end-M);
+    mass_loc=mass(((N+2)/2)-Mf:((N+2)/2)+Mc,((N+2)/2)-Mf:((N+2)/2)+Mc);
 
 
 
-    tabname="./datos_sim/file"+num2str(N)+"_lambda0p5.txt";
+    tabname="./datos_sim/file"+num2str(N)+".txt";
 
     T=readtable(tabname);
     T=table2array(T);
@@ -55,7 +58,7 @@ for N=Nval
     err_L2=sqrt(temp_err'*mass*temp_err);
     %err_L2=norm(temp_err,2);
 
-    err_L2_loc=sqrt(temp_err(M+1:end-M)'*mass_loc*temp_err(M+1:end-M));
+    err_L2_loc=sqrt(temp_err(((N+2)/2)-Mf:((N+2)/2)+Mc)'*mass_loc*temp_err(((N+2)/2)-Mf:((N+2)/2)+Mc));
 
     dif_norm=[dif_norm;error_norm];
     dif_linfinity=[dif_linfinity;err_linf];
