@@ -1453,6 +1453,32 @@ v_h(x):=\sum_{i=0}^{N+1}\alpha_i \phi_i(x),
 \end{align}
 which is a way to approximate $u_h$ (defined in Theorem~\ref{main:thm:intro}), namely, $f_i\approx \int_{\Omega}L_{\Delta}u(x)\phi_i(x)dx$, see Figure~\ref{fig:2}. Since there is no closed formula for $L_{\Delta}u$ we compute $f_i$ with the aid of Mathematica 14.0, where \eqref{LL} is computed and approximated numerically on the mesh grid points $x_i$.
 
+
+%%%%%%%%%%%%%%%
+%%%%.        Figure       %%%
+%%%%%%%%%%%%%%%
+% DO NOT ERASE
+\begin{figure}[htb]
+\small
+	\centering
+	%
+	\begin{tikzpicture}[scale=0.7]
+	\begin{axis}[xlabel={$x$},xmin=-1.001,xmax=1.001,legend pos=outer north east,
+	legend plot pos=left, xtick={-1,0,1},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{lap_log_07-02-2025_13h23.org}\solutionfine           
+	      
+	\addplot[very thick,color=blue] table[x=xi,y=numsol] \solutionfine; %\label{cost}
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	\caption{The logarithmic laplacian of $u(x)$ defined in \eqref{udef}.}
+	\label{fig:2}
+\end{figure}
+
+
+
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
 %%%%%%%%%%%%%%%
@@ -1525,7 +1551,7 @@ We are particularly interested in exhibiting some evidence for the optimality of
 	legend plot pos=left,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{sol-log_convergence_data_06-02-2025_10h05.org}\solution      
+	\pgfplotstableread{sol-log_convergence_data_07-02-2025_12h47.org}\solution      
 	      
 	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=L2norm] \solution; %\label{cost}
 	
@@ -1539,7 +1565,7 @@ We are particularly interested in exhibiting some evidence for the optimality of
 	legend plot pos=left,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{sol-log_convergence_data_06-02-2025_10h05.org}\data      
+	\pgfplotstableread{sol-log_convergence_data_07-02-2025_12h47.org}\data      
 	      
 	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=L2locnorm] \data; %\label{cost}
 	
@@ -1553,7 +1579,7 @@ We are particularly interested in exhibiting some evidence for the optimality of
 	legend plot pos=left,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{sol-log_convergence_data_06-02-2025_10h05.org}\data      
+	\pgfplotstableread{sol-log_convergence_data_07-02-2025_12h47.org}\data      
 	      
 	\addplot[color=black,every mark/.append style={solid}, mark=square*] table[x=h,y=Linfnorm] \data; %\label{cost}
 		
@@ -1577,7 +1603,7 @@ The discussion above suggests that the optimal convergence rate for the logarith
 %\small
 \centering
 %
-\pgfplotstableread{sol-log_convergence_data_06-02-2025_10h05.org}\data
+\pgfplotstableread{sol-log_convergence_data_07-02-2025_12h47.org}\data
 %
 \pgfplotstableset{
 columns={N,h,L2norm,slopeL2,L2locnorm,slopeL2loc,Linfnorm,slopeinf},
@@ -1644,7 +1670,7 @@ after row=\bottomrule},
 %\small
 \centering
 %
-\pgfplotstableread{sol-log_convergence_data_06-02-2025_19h24.org}\data
+\pgfplotstableread{sol-log_convergence_data_07-02-2025_12h53.org}\data
 %
 \pgfplotstableset{
 columns={N,h,L2norm,slopeL2,L2locnorm,slopeL2loc,Linfnorm,slopeinf},

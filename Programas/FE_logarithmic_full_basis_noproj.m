@@ -3,10 +3,10 @@ clear
 %%% Size of the domain \Omega=(-L,L)
 L=1;
 
-Lloc=0.95;
+Lloc=0.9;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[50,100,200,400,800,1600,3200];
+Nval=[800];
 step=[];
 dif_norm=[];
 dif_L2=[];
@@ -44,7 +44,7 @@ for N=Nval
     T=table2array(T);
 
     f=T(:,2);
-    F=h*f;
+    F=mass*f;
     
     exsol=@(x) 1./sqrt(-log((L^2-x.^2)/(2*L^2)));
 
@@ -112,7 +112,7 @@ end
 
 
  %%% Write otput files
- write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
+ write_numsol_realsol(xi,f,exsol(xi),exsol,true);
  write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,false)
 
 
