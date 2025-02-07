@@ -275,19 +275,68 @@ We agree with the referee and we have implemented the suggestion.
     \end{align*}
  is it true that $u_s$ converges to a solution $u$ of
   \begin{align*}
-     L_\Delta u = f\quad \text{ in }\Omega,\qquad u=0\quad \text{ in }\R^N\backslash \Omega
+     L_\Delta u = f\quad \text{ in }\Omega,\qquad u=0\quad \text{ in }\R^N\backslash \Omega,
     \end{align*}
 whenever $u$ exists?     If so, how can we estimate $\|u_s-u\|$ in some good norm.  And then, is it possible to use this information together with the known convergence error rates for fractional problems to obtain better convergence rates for logarithmic problems?
 
-This idea is intriguing and so far unexplored.  Probably, an important drawback of this approach would be that the fractional error and regularity estimates must have an explicit dependence on $s$ (in particular, the $s$ dependence of the constants must be clear) to avoid degeneracy as $s\to 0$. This, however, is probably doable and we are looking forward to exploring more in this direction and to collaborating with anyone interested on these problems.
+This idea is intriguing and so far unexplored.  Probably, an important drawback of this approach would be that the fractional error and regularity estimates must have an explicit dependence on $s$ (in particular, the $s$-dependence of the constants) to avoid degeneracy as $s\to 0$. We are looking forward to exploring more in this direction and to collaborating with anyone interested on these problems.
 
     \item[12.] \emph{I think the discussion along the setting of the experiment in Section 6.1 should be polished.}
     \begin{itemize}
-        \item \emph{It seems the authors are considering \(v_{h}\) to be the finite element solution of a problem with right-hand side \(\tilde{f}:=\sum_{i=0}^{N+1}f_{i}\varphi_{i}\), where the coefficients \(f_{i}\) are computed numerically. I think it would be convenient to provide evidence on why setting \(f_{i}:=hL_{\Delta}u(x_{i})\) is a good choice: is \(f\) expected to be constant? A plot of the computed values of \(f_{i}\) would be helpful. If that is not the case, then I wonder why the authors chose \(f_{i}\) the way they did instead of using quadrature to approximate \(\int_{\Omega}L_{\Delta}u\varphi_{i}\). The midpoint rule for this quadrature would give \(2hL_{\Delta}u(x_{i})\), which may not be convenient if \(f\) was about constant. Additionally, I think it should not be too difficult to bound \(\|f-\tilde{f}\|_{L^{2}(\Omega)}\) and use the stability of the discrete problems to bound \(\|u_{h}-v_{h}\|\).
-        \item I find strange the choice of \(b_{h}\) on page 17. Leaving only the boundary-touching elements does not provide information about local convergence, as the domains in which the \(b_{h}\) are measured change as \(h\to 0\). I think it would be more illuminating to have \(b_{h}\) to be the \(L^{2}\) error on some fixed subdomain.}
+        \item \emph{It seems the authors are considering \(v_{h}\) to be the finite element solution of a problem with right-hand side \(\tilde{f}:=\sum_{i=0}^{N+1}f_{i}\varphi_{i}\), where the coefficients \(f_{i}\) are computed numerically. I think it would be convenient to provide evidence on why setting \(f_{i}:=hL_{\Delta}u(x_{i})\) is a good choice: is \(f\) expected to be constant? A plot of the computed values of \(f_{i}\) would be helpful. If that is not the case, then I wonder why the authors chose \(f_{i}\) the way they did instead of using quadrature to approximate \(\int_{\Omega}L_{\Delta}u\varphi_{i}\). The midpoint rule for this quadrature would give \(2hL_{\Delta}u(x_{i})\), which may not be convenient if \(f\) was about constant. Additionally, I think it should not be too difficult to bound \(\|f-\tilde{f}\|_{L^{2}(\Omega)}\) and use the stability of the discrete problems to bound \(\|u_{h}-v_{h}\|\).}
+
+
+        We agree with the referee. In this revised version, we use
+\begin{align*}
+ F = M  (L_\Delta u(x_i))_{i=0}^{N+1},
+\end{align*}
+where $M$ is the mass matrix.
+
+Indeed, in our numerical experiments, we are considering a solution $u$ of the problem
+        \begin{align*}
+         L_\Delta u = f\quad \text{ in }\Omega,\qquad u=0\quad \text{ in }\r\backslash \Omega.
+        \end{align*}
+        Here $u$ is explicit and it is given by
+        \begin{align}\label{udef}
+ u(x)=\frac{1}{\sqrt{-\ln\left(\frac{1-x^2}{2}\right)}} \chi_{\Omega}(x),
+\end{align}
+
+We cannot compute $f$ explicitly.  However, we do know that $f$ is bounded, continuous and, so, we approximate it with $\widetilde f$ given by
+\begin{align*}
+ \widetilde f (x) = \sum_{i=0}^{N+1} L_\Delta u(x_i)\varphi_i.
+ \end{align*}
+Here the coefficients $L_\Delta u(x_i)$ are obtained with Mathematica. Now, we consider the solution of
+\begin{align*}
+         L_\Delta \widetilde u = \widetilde f\quad \text{ in }\Omega,\qquad \widetilde u=0\quad \text{ in }\r\backslash \Omega
+        \end{align*}
+and the FEM approximation of $\widetilde u$ denoted $\widetilde u_h$. This requires a right hand side $F$ given by
+\begin{align*}
+ F_i
+ =\int_{\Omega} \widetilde f \varphi_i
+ = \int_{\Omega} \sum_{j=0}^{N+1} L_\Delta u(x_j)\varphi_j \varphi_i
+ =\sum_{j=0}^{N+1} L_\Delta u(x_j) \int_{\Omega} \varphi_j \varphi_i.
+ \end{align*}
+Hence,
+\begin{align*}
+ F = M  (L_\Delta u(x_i))_{i=0}^{N+1},
+\end{align*}
+where $M$ is the mass matrix.
+
+Regarding an estimate for \(\|f-\tilde{f}\|_{L^{2}(\Omega)}\), this is difficult since we do not know $f$ explicitly. But we can compute this with Mathematica, which suggests that this error has a polynomial decay, which would imply a polynomial decay of
+\begin{align*}
+\|u_{h}-\widetilde u_{h}\|_{L^2}
+\end{align*}
+due to the stability of discrete problems (as suggested by the referee).  Then, via triangle inequality,
+\begin{align*}
+ \|u-u_h\|_{L^2}
+ \leq \|u-\widetilde u_h\|_{L^2}+\|\widetilde u_h-u_h\|_{L^2}.
+\end{align*}
+The term $\|u-\widetilde u_h\|_{L^2}$ is computed numerically.  We included a remark about this in the revised version.
+
+        \item \emph{I find strange the choice of \(b_{h}\) on page 17. Leaving only the boundary-touching elements does not provide information about local convergence, as the domains in which the \(b_{h}\) are measured change as \(h\to 0\). I think it would be more illuminating to have \(b_{h}\) to be the \(L^{2}\) error on some fixed subdomain.}
     \end{itemize}
 
-    {\color{red}To be answered}
+    We agree and we have changed the definition of \(b_{h}\) to be the \(L^{2}\) error on some fixed subdomain.
 
     \item[13.] \emph{The first paragraph on page 18 mentions the use of graded meshes to enhance convergence rates. Given that one of the authors implemented these meshes numerically in their Master's thesis, I think it could be useful to expand the discussion on the topic a little and include some numerical results, even if they fall beyond the scope of the theory in the paper.}
 

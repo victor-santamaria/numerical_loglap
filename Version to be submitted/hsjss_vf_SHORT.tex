@@ -1413,7 +1413,7 @@ Because of this, we propose the following. Let $\Omega:=(-1,1)$ and consider the
 \end{align}
 where $\chi_{\Omega}$ denotes the characteristic function in the interval $(-1,1)$.  This choice is justified by the following facts
 \begin{itemize}
- \item $u$ has a uniformly bounded logarithmic Laplacian in $(-1,1)$ (as a direct calculation shows, see \cite[Theorem 2.4]{HSLRS23}). Nonetheless, we remark that $L_{\Delta} u$ does not have a closed formula;
+ \item $u$ has a uniformly bounded continuous logarithmic Laplacian in $(-1,1)$ (as direct calculations show, see \cite[Theorem 2.4]{HSLRS23}). Nonetheless, we remark that $L_{\Delta} u$ does not have a closed formula;
  \item $u$ has the optimal boundary regularity\footnote{This is needed to observe the optimal convergence rate. Indeed, solutions which are smoother typically yield better convergence rates, see, for instance, \cite[Section 5 and Table 2]{AB17} for the case of the fractional Laplacian.} for logarithmic Dirichlet problems (see \cite[Theorem 1.2]{HSLRS23}), namely, it behaves as $\ell^{1/2}(d(x))$.
 \end{itemize}
 
@@ -1446,12 +1446,14 @@ where $\chi_{\Omega}$ denotes the characteristic function in the interval $(-1,1
 % 	\label{fig:1}
 % \end{figure}
 
-Now, consider $h=\frac{1}{N+1}$ for $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$. Let $f_i:=h [L_\Delta u](x_i)$ for $i\in\inter{0,N+1}$, $F:=(f_i)$, and let $\alpha:=A_h^{-1}F$, 
+Now, consider $h=\frac{1}{N+1}$ for $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$. Let $f(x) := \sum_{i=0}^{N+1} [L_\Delta u](x_i)\varphi_i(x)$, $f_i:=\sum_{j=0}^{N+1}L_\Delta u(x_j)\int_\Omega \varphi_i\varphi_j\, dx$, $F=(f_i)$, and let $\alpha:=A_h^{-1}F$,
 where $A_h$ is the stiffness matrix for the logarithmic Laplacian given in \eqref{stiff:LogLap}. Let 
 \begin{align}\label{vdef}
 v_h(x):=\sum_{i=0}^{N+1}\alpha_i \phi_i(x), 
 \end{align}
-which is a way to approximate $u_h$ (defined in Theorem~\ref{main:thm:intro}), namely, $f_i\approx \int_{\Omega}L_{\Delta}u(x)\phi_i(x)dx$, see Figure~\ref{fig:2}. Since there is no closed formula for $L_{\Delta}u$ we compute $f_i$ with the aid of Mathematica 14.0, where \eqref{LL} is computed and approximated numerically on the mesh grid points $x_i$.
+which is a way to approximate\footnote{For instance, the norms $\|L_\Delta u-f\|_{L^2}$ and $\|u-v_h\|_{L^2}$ can be approximated numerically, this gives an estimate on $\|u_h-v_h\|_{L^2}$ due to the stability of discrete problems, and then
+$\|u-u_h\|_{L^2}\leq \|u-v_h\|_{L^2}+\|v_h-u_h\|_{L^2}.$
+} $u_h$ (defined in Theorem~\ref{main:thm:intro}), see Figure~\ref{fig:2}. Note that $f_i\approx \int_{\Omega}L_{\Delta}u(x)\phi_i(x)dx$. Since there is no closed formula for $L_{\Delta}u$ we compute $f_i$ with the aid of Mathematica 14.0, where \eqref{LL} is computed and approximated numerically on the mesh grid points $x_i$.
 
 
 %%%%%%%%%%%%%%%
