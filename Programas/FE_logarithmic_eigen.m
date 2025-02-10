@@ -1,7 +1,7 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=0.1;
+L=1;
 
 %%% Number of discrete points, mesh and mesh size
 Nval=[1200];
@@ -24,7 +24,7 @@ for N=Nval
 
     plotsol(xi, sol_log); %Plot solution taking into account the FE basis
 
-    [V,D] = eigs(Alog,mass,2,'smallestreal');
+    [V,D] = eigs(Alog,mass,6,'smallestreal');
     
 end
 

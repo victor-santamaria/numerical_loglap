@@ -1,10 +1,10 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=1;
+L=0.709;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[25,50,100,200,400,800,1600];
+Nval=[1600];
 %Nval=[100];
 step=[];
 dif_norm=[];
@@ -29,8 +29,8 @@ for N=Nval
     mass_loc=mass(M+1:end-M,M+1:end-M);
 
     %%% Right-hand side of the problem and projection over finite elements
-    %f = @(x) 1+0*x; %%% Torsion
-    f = @(x) (-3*x.^2+1)+(log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*(1-x.^2); %%% (1-x^2)
+    f = @(x) 1+0*x; %%% Torsion
+    %f = @(x) (-3*x.^2+1)+(log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*(1-x.^2); %%% (1-x^2)
     %f = @(x) log(1./(1^2-x.^2))+(2*log(2)+psi(1/2)+psi(1)); %%% characteristic
     %f = @(x)  (2+log(1./(1-x.^2))+(2*log(2)+psi(1/2)+psi(1))).*x; %%% x
 
