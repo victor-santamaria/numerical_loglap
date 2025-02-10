@@ -1,10 +1,10 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=1;
+L=0.699;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[1200];
+Nval=1000;
 
 for N=Nval
 
@@ -31,7 +31,7 @@ end
 V(:,1)=-1*V(:,1)/sqrt(V(:,1)'*mass*V(:,1));
 V(:,2)=-1*V(:,2)/sqrt(V(:,2)'*mass*V(:,2));
 
-write_sol(xi,V,true);
+write_sol_single(xi,sol_log,true);
 
 %%% Auxiliary functions
 
@@ -209,3 +209,25 @@ if flag==true
 end
 end
 
+function write_sol_single(xi,sol,flag)
+if flag==true
+    [dt,ht,mt]=obtain_date();
+
+    L=max(abs(xi));
+    h=xi(2)-xi(1);
+    N=2*L/h-1;
+
+    name_result = strcat('num_results/','eig-log_',...
+        dt,'_',ht,'h',mt,'.org');
+    file_result_temp=name_result;
+    outs_file_temp=fopen(file_result_temp,'w');
+
+    fprintf(outs_file_temp,'%s %s \n','#domain: ', ...
+        strcat('(-',num2str(L),',',num2str(L),')'));
+    fprintf(outs_file_temp,'%s %s \n','#N: ', num2str(N));
+    fprintf(outs_file_temp,'%s %4.4e \n','#h: ', 2*L/(N+1));
+
+    fprintf(outs_file_temp,'%4.4f %4.4e \n',[xi',sol].');
+    ST=fclose(outs_file_temp);
+end
+end

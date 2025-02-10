@@ -1986,54 +1986,7 @@ For the last part, note that, since the $\phi_i$ ($i\in\inter{0,N+1}$) form a ba
 We emphasize that the scaling of the logarithmic Laplacian behaves the same in all dimensions. Due to this, and by following the proof of Proposition~\ref{prop:eigen-approx} closely, the approach to estimate the eigenvalues of $L_{\Delta}$ in an arbitrary domain $\Omega\subset\R^N$ can be done in an equivalent way, once the stiffness matrix is calculated and Theorem~\ref{density:thm} is verified for the corresponding approximation space $\mathcal{V}_h$.
 \end{remark}
 
-We close this section with some explicit numerical approximations. In Figure~\ref{L vs condition} the condition of $\mathcal{A}^L_h$ is plotted for a fixed $N$ and varying $L$. The singularities then indicated the relevant areas in which $L$ can be chosen to have $0$ as an eigenvalue in $(-L,L)$. To approximate the exact values, using the \textit{``Golden-section search''} in certain intervals, we find $L_i$ for $i=1,\ldots,6$ as follows.
-
-%%
-%%
-% reference for the Golden-section search:
-%  book \emph{Numerical Recipes} by Press, William H., Teukolsky, Saul A., Vetterling, William T. and Flannery, Brian P. (2007)
-%
-%%
-%%
-
-\begin{center}
-\begin{tabular}{c|c|ccccccc}
-$L_i$ & interval & $N=2^4$ & $N=2^5$ & $N=2^6$ & $N=2^7$ & $N=2^8$ & $N=2^9$ & $N=2^{10}$\\
-\hline
-$L_1$ & $[0.6,0.8]$ & $0.7153$ &$0.7119 $ &$0.7103$ & $0.7095$ & $0.7092$ & $ 0.7090$ &$ 0.7090$\\
-$L_2$ & $[2.3,2.5]$ & $2.3982$ &$2.3906$ &$2.3844$ & $2.3811$ &$2.3796$ &$2.3790$&$2.3787$\\
-$L_3$ & $[3.8,4.0]$ & $3.9249  $ &$3.9279 $ &$3.9205 $ & $3.9153$ &$3.9127 $ &$3.9115$&$3.9110$\\
-$L_4$ & $[5.4,5.6]$ & $5.5053$ &$5.5272 $ &$5.5210$ & $5.5141 $ &$ 5.5103 $ &$5.5085$&$5.5077$\\
-$L_5$ & $[7.0,7.2]$ & $7.0338$ &$ 7.0772 $ &$7.0766 $ & $7.0690$ &$ 7.0642  $ &$7.0619$&$7.0608$\\
-$L_6$ & $[8.5,8.7]$ & $8.6133$ &$8.6573 $ &$8.6640$ & $8.6563$ &$8.6504$ &$8.6474$&$8.6461$
-\end{tabular} 
-\end{center}           
-
-\begin{proof}[Proof of Proposition~\ref{eigenvalue approximation}]
-This follows immediately from Proposition~\ref{eigenvalue approximation a}, the scaling properties of $L_{\Delta}$, and the above table.
-\end{proof}
-
-
-\begin{figure}[htbp]
-	\centering
-
-	\begin{tikzpicture}[scale=1]
-
-\node at (-4.1,0) {\includegraphics[scale=0.25]{overview_ri.eps}};
-
-\draw (-3.75,-3.1) node[circle,color=white,fill=white,minimum size=1cm,draw] (A) {};
-\node at (A) {$L$};
-
-\draw[draw=white,fill=white] (-9.4,-0.9) rectangle ++(0.8,2);
-
-\node[rotate=90] at (-9,0.1)   { $\textnormal{cond}\mathcal{A}^L_h$};
-
-	\end{tikzpicture}
-
-	\caption{The condition of $\mathcal{A}^L_h$ for $L\in(0.1,10)$ with $N=2000$.}
-	\label{L vs condition}
-\end{figure}
-
+We close this section with explicit numerical approximations. In \Cref{Fig:eigen}, we show the numerical approximation of the first and second eigenfunctions of \( L_{\Delta} \) for two different intervals. As noted in \cite[Theorem 1.4]{CW19} (see also \cite{FJW22}), the first eigenfunction is unique and can be chosen to be positive, which agrees with the experiment. On the other hand, very few properties are known for the second eigenfunction. From the figure, we observe that it also scales well across the intervals and changes sign, suggesting an interesting direction for further research.
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -2104,6 +2057,164 @@ This follows immediately from Proposition~\ref{eigenvalue approximation a}, the 
 \end{figure}
 
 
+
+
+
+
+In Figure~\ref{L vs condition} the condition of $\mathcal{A}^L_h$ is plotted for a fixed $N$ and varying $L$. The singularities then indicated the relevant areas in which $L$ can be chosen to have $0$ as an eigenvalue in $(-L,L)$. To approximate the exact values, using the \textit{``Golden-section search''} in certain intervals, we find $L_i$ for $i=1,\ldots,6$ as follows.
+
+%%
+%%
+% reference for the Golden-section search:
+%  book \emph{Numerical Recipes} by Press, William H., Teukolsky, Saul A., Vetterling, William T. and Flannery, Brian P. (2007)
+%
+%%
+%%
+
+\begin{center}
+\begin{tabular}{c|c|ccccccc}
+$L_i$ & interval & $N=2^4$ & $N=2^5$ & $N=2^6$ & $N=2^7$ & $N=2^8$ & $N=2^9$ & $N=2^{10}$\\
+\hline
+$L_1$ & $[0.6,0.8]$ & $0.7153$ &$0.7119 $ &$0.7103$ & $0.7095$ & $0.7092$ & $ 0.7090$ &$ 0.7090$\\
+$L_2$ & $[2.3,2.5]$ & $2.3982$ &$2.3906$ &$2.3844$ & $2.3811$ &$2.3796$ &$2.3790$&$2.3787$\\
+$L_3$ & $[3.8,4.0]$ & $3.9249  $ &$3.9279 $ &$3.9205 $ & $3.9153$ &$3.9127 $ &$3.9115$&$3.9110$\\
+$L_4$ & $[5.4,5.6]$ & $5.5053$ &$5.5272 $ &$5.5210$ & $5.5141 $ &$ 5.5103 $ &$5.5085$&$5.5077$\\
+$L_5$ & $[7.0,7.2]$ & $7.0338$ &$ 7.0772 $ &$7.0766 $ & $7.0690$ &$ 7.0642  $ &$7.0619$&$7.0608$\\
+$L_6$ & $[8.5,8.7]$ & $8.6133$ &$8.6573 $ &$8.6640$ & $8.6563$ &$8.6504$ &$8.6474$&$8.6461$
+\end{tabular} 
+\end{center}           
+
+\begin{proof}[Proof of Proposition~\ref{eigenvalue approximation}]
+This follows immediately from Proposition~\ref{eigenvalue approximation a}, the scaling properties of $L_{\Delta}$, and the above table.
+\end{proof}
+
+
+\begin{figure}[htbp]
+	\centering
+
+	\begin{tikzpicture}[scale=1]
+
+\node at (-4.1,0) {\includegraphics[scale=0.25]{overview_ri.eps}};
+
+\draw (-3.75,-3.1) node[circle,color=white,fill=white,minimum size=1cm,draw] (A) {};
+\node at (A) {$L$};
+
+\draw[draw=white,fill=white] (-9.4,-0.9) rectangle ++(0.8,2);
+
+\node[rotate=90] at (-9,0.1)   { $\textnormal{cond}\mathcal{A}^L_h$};
+
+	\end{tikzpicture}
+
+	\caption{The condition of $\mathcal{A}^L_h$ for $L\in(0.1,10)$ with $N=2000$.}
+	\label{L vs condition}
+\end{figure}
+
+Lastly, \Cref{Fig:blow} illustrates the behavior of the torsion function as \( L \to L_1 \). Since this corresponds to an eigenvalue approaching zero, we expect the function to blow up in this limit, which is indeed observed in the figure. Moreover, as \( L \to L_1^- \), the solution starts changing sign, reflecting the fact that the first eigenvalue becomes negative.
+
+
+%%%%%%%%%%%%%%%
+%%%%.        Figure       %%%
+%%%%%%%%%%%%%%%
+% DO NOT ERASE
+\begin{figure}[htb]
+	\centering
+	%
+	\subfloat[$L=0.699$]{
+	\begin{tikzpicture}[scale=0.4]
+	\begin{axis}[xlabel={$x$},xmin=-0.699,xmax=0.699,legend pos=outer north east, ymin=0,
+	legend plot pos=left, xtick={-0.699,0,0.699}, xticklabels={$-L$,0,$L$},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{sol-log_L_0699.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	} 
+	\subfloat[$L=0.7040$]{
+	\begin{tikzpicture}[scale=0.4]
+	\begin{axis}[xlabel={$x$},xmin=-0.704,xmax=0.704,legend pos=outer north east, ymin=0,
+	legend plot pos=left, xtick={-0.704,0,0.704}, xticklabels={$-L$,0,$L$},
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{sol-log_L_0704.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	} 
+	\subfloat[$L=0.7090$]{
+	\begin{tikzpicture}[scale=0.4]
+	\begin{axis}[xlabel={$x$},xmin=-0.709,xmax=0.709,legend pos=outer north east,
+	legend plot pos=left, xtick={-0.709,0,0.709}, xticklabels={$-L$,0,$L$}, ymax=0,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{sol_log_L_0709.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	} 
+	\subfloat[$L=0.714$]{
+	\begin{tikzpicture}[scale=0.4]
+	\begin{axis}[xlabel={$x$},xmin=-0.714,xmax=0.714,legend pos=outer north east,
+	legend plot pos=left, xtick={-0.714,0,0.714}, xticklabels={$-L$,0,$L$}, ymax=0,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{sol-log_L_0714.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	} 
+	\subfloat[$L=0.719$]{
+	\begin{tikzpicture}[scale=0.4]
+	\begin{axis}[xlabel={$x$},xmin=-0.719,xmax=0.719,legend pos=outer north east,
+	legend plot pos=left, xtick={-0.719,0,0.719}, xticklabels={$-L$,0,$L$}, ymax=0,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{sol-log_L_0719.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	} 
+%	 \\
+%	\subfloat[$L=0.719$]{
+%	\begin{tikzpicture}[scale=0.6]
+%	\begin{axis}[xlabel={$x$},xmin=-0.719,xmax=0.719,legend pos=outer north east,
+%	legend plot pos=left, xtick={-0.719,0,0.719}, xticklabels={$-L$,0,$L$},
+%	legend style={cells={anchor=west},draw=none}]
+%	%	
+%	\pgfplotstableread{sol-log_L_0699.org}\solu 
+%	\pgfplotstableread{sol-log_L_0704.org}\sold
+%	\pgfplotstableread{sol_log_L_0709.org}\solt 
+%	\pgfplotstableread{sol-log_L_0714.org}\solc    
+%	\pgfplotstableread{sol-log_L_0719.org}\solci     
+%	      
+%	\addplot[very thick,loosely dotted] table[x index=0, y index=1] \solu; %\label{cost}
+%	\addplot[very thick,dotted] table[x index=0, y index=1] \sold; %\label{cost}
+%	\addplot[very thick,solid] table[x index=0, y index=1] \solt; %\label{cost}
+%	\addplot[very thick,dashed] table[x index=0, y index=1] \solc; %\label{cost}
+%	\addplot[very thick,loosely dashed] table[x index=0, y index=1] \solci; %\label{cost}
+%	\end{axis}
+%	%	
+%	\end{tikzpicture}
+%	} 
+	\caption{Behavior of the torsion function for different intervals $(-L,L)$. In these experiments $N=2^{10}$. For $L=0.709$, the (numerical) first eigenvalue is $\lambda_1\approx -6.9497\times 10^{5}$, which agrees with the results of \Cref{eigenvalue approximation}.
+}
+	\label{Fig:blow}
+\end{figure}
 
 
  \appendix

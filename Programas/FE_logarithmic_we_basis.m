@@ -1,10 +1,10 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=0.709;
+L=0.7090;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=[1600];
+Nval=1600;
 %Nval=[100];
 step=[];
 dif_norm=[];
@@ -96,11 +96,11 @@ sl_quad=log(dif_L2_loc(1)/dif_L2_loc(end))/log(step(1)/step(end));
 legend("Slope: "+num2str(sl_quad)); title('error L^2_{loc}')
 
 %%% Descomentar si queremos guardar la solución
-write_sol(xi,sol_log,false);
+write_sol(xi,sol_log,true);
 
 write_numsol_realsol(xi,sol_log,exsol(xi),exsol,false);
 
-write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,true)
+write_convergence_data(xi,step,dif_L2,dif_L2_loc,dif_linfinity,slope_L2,slope_L2_loc,slope_inf,false)
 
 
 %%% Auxiliary functions
