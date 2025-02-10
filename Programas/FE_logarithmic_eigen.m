@@ -1,10 +1,10 @@
 clear
 
 %%% Size of the domain \Omega=(-L,L)
-L=0.699;
+L=0.7091;
 
 %%% Number of discrete points, mesh and mesh size
-Nval=1000;
+Nval=2^10;
 
 for N=Nval
 
