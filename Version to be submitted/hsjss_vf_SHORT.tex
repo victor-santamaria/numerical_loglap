@@ -1988,6 +1988,8 @@ We emphasize that the scaling of the logarithmic Laplacian behaves the same in a
 
 We close this section with explicit numerical approximations. In \Cref{Fig:eigen}, we show the numerical approximation of the first and second eigenfunctions of \( L_{\Delta} \) for two different intervals. As noted in \cite[Theorem 1.4]{CW19} (see also \cite{FJW22}), the first eigenfunction is unique and can be chosen to be positive, which agrees with the experiment. On the other hand, very few properties are known for the second eigenfunction. From the figure, we observe that it changes sign exactly once and it is antisymmetric, suggesting an interesting direction for further research.
 
+
+
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
 %%%%%%%%%%%%%%%
@@ -2109,7 +2111,7 @@ This follows immediately from Proposition~\ref{eigenvalue approximation a}, the 
 	\label{L vs condition}
 \end{figure}
 
-Lastly, \Cref{Fig:blow} illustrates the behavior of the torsion function as \( L \to L_1 \). Since this corresponds to an eigenvalue approaching zero, we expect the function to blow up in this limit, which is indeed observed in the figure. Moreover, as \( L \to L_1^- \), the solution changes sign, reflecting the fact that the first eigenvalue becomes negative.
+Lastly, \Cref{Fig:blow} illustrates the behavior of the torsion function as \( L \to L_1\sim 0.7090 \). Since this corresponds to an eigenvalue approaching zero, we expect the torsion function to uniformly blow up in this limit (due to nonexistence), which is indeed observed in Figure \ref{Fig:blow}. The torsion function is positive in the limit from the left and negative in the limit from the right.
 
 
 %%%%%%%%%%%%%%%
@@ -2211,7 +2213,7 @@ Lastly, \Cref{Fig:blow} illustrates the behavior of the torsion function as \( L
 %	%	
 %	\end{tikzpicture}
 %	} 
-	\caption{Behavior of the torsion function for different intervals $(-L,L)$. In these experiments $N=2^{10}$. For $L=0.709$, the (numerical) first eigenvalue is $\lambda_1\approx -6.9497\times 10^{5}$, which agrees with the results of \Cref{eigenvalue approximation}.
+	\caption{Blow up behavior of the torsion function as $L\to L_1\sim 0.7090$ from the left and from the right. In these experiments $N=2^{10}$.
 }
 	\label{Fig:blow}
 \end{figure}
