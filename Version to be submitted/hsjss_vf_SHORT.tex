@@ -2138,10 +2138,31 @@ l
 	\subfloat[$L=0.7089$]{
 	\begin{tikzpicture}[scale=0.4]
 	\begin{axis}[xlabel={$x$},xmin=-0.7089,xmax=0.7089,legend pos=outer north east,
+<<<<<<< HEAD
 	legend plot pos=left, xtick={-0.7089,0,0.7089}, xticklabels={$-L$,0,$L$}, ymax=0,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
 	\pgfplotstableread{sol-log_L_0789.org}\solution
+=======
+	legend plot pos=left, xtick={-0.7089,0,0.7089}, xticklabels={$-L$,0,$L$}, ymin=0,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{sol-log_L_0789.org}\solution      
+	      
+	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
+	
+	\end{axis}
+	%	
+	\end{tikzpicture}
+	} 
+	\subfloat[$L=0.7091$]{
+	\begin{tikzpicture}[scale=0.4]
+	\begin{axis}[xlabel={$x$},xmin=-0.7091,xmax=0.7091,legend pos=outer north east,
+	legend plot pos=left, xtick={-0.7091,0,0.7091}, xticklabels={$-L$,0,$L$}, ymax=0,
+	legend style={cells={anchor=west},draw=none}]
+	%	    
+	\pgfplotstableread{sol-log_L_0791.org}\solution      
+>>>>>>> origin/main
 	      
 	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
 	
@@ -2156,20 +2177,6 @@ l
 	legend style={cells={anchor=west},draw=none}]
 	%	    
 	\pgfplotstableread{sol-log_L_0714.org}\solution
-	      
-	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
-	
-	\end{axis}
-	%	
-	\end{tikzpicture}
-	} 
-	\subfloat[$L=0.719$]{
-	\begin{tikzpicture}[scale=0.4]
-	\begin{axis}[xlabel={$x$},xmin=-0.719,xmax=0.719,legend pos=outer north east,
-	legend plot pos=left, xtick={-0.719,0,0.719}, xticklabels={$-L$,0,$L$}, ymax=0,
-	legend style={cells={anchor=west},draw=none}]
-	%	    
-	\pgfplotstableread{sol-log_L_0719.org}\solution      
 	      
 	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
 	
