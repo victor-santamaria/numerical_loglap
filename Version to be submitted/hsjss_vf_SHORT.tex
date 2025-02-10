@@ -1986,7 +1986,7 @@ For the last part, note that, since the $\phi_i$ ($i\in\inter{0,N+1}$) form a ba
 We emphasize that the scaling of the logarithmic Laplacian behaves the same in all dimensions. Due to this, and by following the proof of Proposition~\ref{prop:eigen-approx} closely, the approach to estimate the eigenvalues of $L_{\Delta}$ in an arbitrary domain $\Omega\subset\R^N$ can be done in an equivalent way, once the stiffness matrix is calculated and Theorem~\ref{density:thm} is verified for the corresponding approximation space $\mathcal{V}_h$.
 \end{remark}
 
-We close this section with explicit numerical approximations. In \Cref{Fig:eigen}, we show the numerical approximation of the first and second eigenfunctions of \( L_{\Delta} \) for two different intervals. As noted in \cite[Theorem 1.4]{CW19} (see also \cite{FJW22}), the first eigenfunction is unique and can be chosen to be positive, which agrees with the experiment. On the other hand, very few properties are known for the second eigenfunction. From the figure, we observe that it also scales well across the intervals and changes sign, suggesting an interesting direction for further research.
+We close this section with explicit numerical approximations. In \Cref{Fig:eigen}, we show the numerical approximation of the first and second eigenfunctions of \( L_{\Delta} \) for two different intervals. As noted in \cite[Theorem 1.4]{CW19} (see also \cite{FJW22}), the first eigenfunction is unique and can be chosen to be positive, which agrees with the experiment. On the other hand, very few properties are known for the second eigenfunction. From the figure, we observe that it changes sign exactly once and it is antisymmetric, suggesting an interesting direction for further research.
 
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
@@ -2011,11 +2011,11 @@ We close this section with explicit numerical approximations. In \Cref{Fig:eigen
 	}\quad
 	\subfloat[Second eigenfunction]{
 	\begin{tikzpicture}[scale=0.5]
-	\begin{axis}[xlabel={$x$},xmin=-1,xmax=1,legend pos=outer north east,
-	legend plot pos=left, xtick={-1,0,1}, xticklabels={-1,0,1},
+	\begin{axis}[xlabel={$x$},xmin=-0.1,xmax=0.1,legend pos=outer north east,
+	legend plot pos=left, xtick={-0.1,0,0.1}, xticklabels={-0.1,0,0.1},
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{eig-log_05-02-2025_18h55.org}\solution      
+	\pgfplotstableread{eig-log_05-02-2025_20h04.org}\solution
 	      
 	\addplot[very thick,color=blue] table[x index=0, y index=2] \solution; %\label{cost}
 	
