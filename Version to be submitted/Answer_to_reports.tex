@@ -298,7 +298,7 @@ Indeed, in our numerical experiments, we are considering a solution $u$ of the p
         \end{align*}
         Here $u$ is explicit and it is given by
         \begin{align}\label{udef}
- u(x)=\frac{1}{\sqrt{-\ln\left(\frac{1-x^2}{2}\right)}} \chi_{\Omega}(x),
+ u(x)=\frac{1}{\sqrt{-\ln\left(\frac{1-x^2}{2}\right)}} \chi_{\Omega}(x).
 \end{align}
 
 We cannot compute $f$ explicitly.  However, we do know that $f$ is bounded, continuous and, so, we approximate it with $\widetilde f$ given by
@@ -307,7 +307,7 @@ We cannot compute $f$ explicitly.  However, we do know that $f$ is bounded, cont
  \end{align*}
 Here the coefficients $L_\Delta u(x_i)$ are obtained with Mathematica. Now, we consider the solution of
 \begin{align*}
-         L_\Delta \widetilde u = \widetilde f\quad \text{ in }\Omega,\qquad \widetilde u=0\quad \text{ in }\r\backslash \Omega
+         L_\Delta \widetilde u = \widetilde f\quad \text{ in }\Omega,\qquad \widetilde u=0\quad \text{ in }\r\backslash \Omega,
         \end{align*}
 and the FEM approximation of $\widetilde u$ denoted $\widetilde u_h$. This requires a right hand side $F$ given by
 \begin{align*}
@@ -320,9 +320,9 @@ Hence,
 \begin{align*}
  F = M  (L_\Delta u(x_i))_{i=0}^{N+1},
 \end{align*}
-where $M$ is the mass matrix.
+where $M$ is the mass matrix.  We computed again the error plots and tables. Moreover, in the discussion about the numerical evidence and the optimality (or not) of the convergence rates, we now mention that there might be a way to improve the convergence rate to a polynomial one, at least in the $L^2$ sense.
 
-Regarding an estimate for \(\|f-\tilde{f}\|_{L^{2}(\Omega)}\), this is difficult since we do not know $f$ explicitly. But we can compute this with Mathematica, which suggests that this error has a polynomial decay, which would imply a polynomial decay of
+Regarding an estimate for \(\|f-\tilde{f}\|_{L^{2}(\Omega)}\), this is difficult since we do not know $f$ explicitly. But we can compute this with Mathematica.  Our computations suggest that this error has a polynomial decay, which would imply a polynomial decay of
 \begin{align*}
 \|u_{h}-\widetilde u_{h}\|_{L^2}
 \end{align*}
@@ -331,9 +331,9 @@ due to the stability of discrete problems (as suggested by the referee).  Then, 
  \|u-u_h\|_{L^2}
  \leq \|u-\widetilde u_h\|_{L^2}+\|\widetilde u_h-u_h\|_{L^2}.
 \end{align*}
-The term $\|u-\widetilde u_h\|_{L^2}$ is computed numerically.
+With the numerical computation of $\|u-\widetilde u_h\|_{L^2}$ one can obtain a numerical bound from above for $\|u-u_h\|_{L^2}$.
 
-We included a remark about this in the revised version. Moreover, in the discussion about the numerical evidence and the optimality (or not) of the convergence rates, we now mention that there might be a way to improve the convergence rate to a polynomial one, at least in the $L^2$ sense.
+We included a remark about this in the revised version.
 
         \item \emph{I find strange the choice of \(b_{h}\) on page 17. Leaving only the boundary-touching elements does not provide information about local convergence, as the domains in which the \(b_{h}\) are measured change as \(h\to 0\). I think it would be more illuminating to have \(b_{h}\) to be the \(L^{2}\) error on some fixed subdomain.}
     \end{itemize}
