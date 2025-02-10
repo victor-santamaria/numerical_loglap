@@ -2113,7 +2113,7 @@ This follows immediately from Proposition~\ref{eigenvalue approximation a}, the 
 
 Lastly, \Cref{Fig:blow} illustrates the behavior of the torsion function as \( L \to L_1\sim 0.7090 \). Since this corresponds to an eigenvalue approaching zero, we expect the torsion function to uniformly blow up in this limit (due to nonexistence), which is indeed observed in Figure \ref{Fig:blow}. The torsion function is positive in the limit from the left and negative in the limit from the right.
 
-
+l
 %%%%%%%%%%%%%%%
 %%%%.        Figure       %%%
 %%%%%%%%%%%%%%%
@@ -2121,20 +2121,6 @@ Lastly, \Cref{Fig:blow} illustrates the behavior of the torsion function as \( L
 \begin{figure}[htb]
 	\centering
 	%
-	\subfloat[$L=0.699$]{
-	\begin{tikzpicture}[scale=0.4]
-	\begin{axis}[xlabel={$x$},xmin=-0.699,xmax=0.699,legend pos=outer north east, ymin=0,
-	legend plot pos=left, xtick={-0.699,0,0.699}, xticklabels={$-L$,0,$L$},
-	legend style={cells={anchor=west},draw=none}]
-	%	    
-	\pgfplotstableread{sol-log_L_0699.org}\solution      
-	      
-	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
-	
-	\end{axis}
-	%	
-	\end{tikzpicture}
-	} 
 	\subfloat[$L=0.7040$]{
 	\begin{tikzpicture}[scale=0.4]
 	\begin{axis}[xlabel={$x$},xmin=-0.704,xmax=0.704,legend pos=outer north east, ymin=0,
@@ -2149,13 +2135,13 @@ Lastly, \Cref{Fig:blow} illustrates the behavior of the torsion function as \( L
 	%	
 	\end{tikzpicture}
 	} 
-	\subfloat[$L=0.7090$]{
+	\subfloat[$L=0.7089$]{
 	\begin{tikzpicture}[scale=0.4]
-	\begin{axis}[xlabel={$x$},xmin=-0.709,xmax=0.709,legend pos=outer north east,
-	legend plot pos=left, xtick={-0.709,0,0.709}, xticklabels={$-L$,0,$L$}, ymax=0,
+	\begin{axis}[xlabel={$x$},xmin=-0.7089,xmax=0.7089,legend pos=outer north east,
+	legend plot pos=left, xtick={-0.7089,0,0.7089}, xticklabels={$-L$,0,$L$}, ymax=0,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{sol_log_L_0709.org}\solution      
+	\pgfplotstableread{sol-log_L_0789.org}\solution
 	      
 	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
 	
@@ -2169,7 +2155,7 @@ Lastly, \Cref{Fig:blow} illustrates the behavior of the torsion function as \( L
 	legend plot pos=left, xtick={-0.714,0,0.714}, xticklabels={$-L$,0,$L$}, ymax=0,
 	legend style={cells={anchor=west},draw=none}]
 	%	    
-	\pgfplotstableread{sol-log_L_0714.org}\solution      
+	\pgfplotstableread{sol-log_L_0714.org}\solution
 	      
 	\addplot[very thick,color=blue] table[x index=0, y index=1] \solution; %\label{cost}
 	
