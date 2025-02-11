@@ -348,6 +348,7 @@ We included a remark about this in the revised version.
 
     {\color{red}Ask Sven for help}
 
+    We also added some numerical approximations of eigenfunctions and of the torsion function as $L$ goes to the critical value $L_1.$
 
 \end{enumerate}
 
@@ -469,11 +470,11 @@ We included a remark about this in the revised version.
 The stiffness matrix for the logarithmic Laplacian in 1D can be obtained in three ways: with a computer, with direct computations, or with the derivative approach that we have explained in the paper. As expected, the stiffness matrix always coincides and we have checked this carefully during our studies. We decided to present the derivative approach because we believe that this is a new element in the FEM setting (whereas the other two were well known). It is a FEM analogue of the formula
 $(-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)$, and we found this connection interesting.  This is mostly of interest in 1D problems, where the stiffness matrix can be computed explicitly, but note that problems in other 1D domains could be considered with this approach (for instance, the union of two disjoint intervals), or perhaps one can consider other nonlocal boundary conditions, such as nonlocal Neumann.  Many interesting questions about the qualitative behavior of solutions are still open in these settings, where a numerical approximation of the solutions can be helpful.
 
-For higher dimensions, the most natural way to obtain the stiffness matrix would be to use a computer (as in the case of the fractional Laplacian).
+For higher dimensions, the most natural way to obtain the stiffness matrix would be to compute it numerically (as in the case of the fractional Laplacian).
 
     \item \emph{In the middle of page 4, there is a discussion about the need to introduce another interpolant due to the lack of traces. This is because the authors only consider the so-called Scott-Zhang interpolant with averages on faces. There are other versions of this interpolant, and other interpolants, that do not require traces for their definition. Did the authors consider any of these? How did these perform?}
 
-    We did not followed this direction in the present paper because we wanted to use the computations that were available for the 1D fractional Laplacian, seize the advantages mentioned above, and because the paper was already a bit long to include substantially more material.  But we do expect to explore these other research directions in future work.
+    We use a simple interpolator that satisfies three main properties: preserves constants, has localization bounds, has $L^\infty$-stability. Of course one can consider other interpolants that satisfy these properties, but we believe that a change in the interpolator will not improve the convergence rate without better regularity estimates.  Since this is the first numerical analysis for the logarithmic Laplacian, we prefer to keep the interpolator as simple as possible. In future works, specially in the higher-dimensional setting, we do expect to consider other interpolators.
 
     \item \emph{Formula (3.20) is not correct. The mere fact that the function \( v \) appears after the first \( \leq \) and reappears after the second one should be an obvious red flag.}
 
@@ -486,19 +487,19 @@ This change does not affect anything else in the proofs.
 
     \item \emph{The statement about the \( L^2 \) stability estimate is not correct. At the very least, the left-hand side is missing a square.}
 
-    There is a typo in Remark 3.7, where a square is missing. We have corrected this typo. Everything else is correct.
+    The missing square is a typo.  However, the Remark did have other issues.  We have removed this remark and included in the discussion the possibility that the $L^2$-norm may have a better convergence rate.
 
     \item \emph{Is Remark 3.9 about experimental observations? If so, this must be explicitly mentioned.}
 
-    Proposition 3.8 has been now been improved and now Remark 3.9 is not longer relevant.
+    Proposition 3.8 has been now been improved and now Remark 3.9 is not longer relevant, so it has been removed.
 
     \item \emph{Lemmas 4.1 and 4.2 are completely standard and unnecessary. In fact, the authors refer here to some unpublished lecture notes. A standard reference would have been preferred.}
 
-    We agree that these Lemmas are standard, but we prefer to include proofs for completeness.
+    We agree that these Lemmas are standard, but we prefer to include proofs for completeness, specially since the logarithmic variational setting is mostly new.
 
     \item \emph{As mentioned above, the content of Section 5 is specific to one dimension and, thus, of little general interest.}
 
-    We have explained in point 2 our interest in 1D problems and the relevance of Section 5.
+    We have explained in point 2 our interest in 1D problems and the relevance of Section 5.  If we were working with the usual Laplacian, then we agree that 1D problems are of little interest. But there are plenty of open questions for 1D problems with the logarithmic Laplacian, both in the linear and nonlinear setting.  We do not agree that this is of little general interest.  Specially since our approach can also be used for other logarithmic operators such as the logarithmic Schrödinger operator $\ln(-\Delta+I)$ and its fractional counterpart $\ln((-\Delta)^s+I)$.
 
     \item \emph{Formulas (1.2) and (1.3) are in one dimension, but the text before (1.3) speaks of a function in \( N \) dimensions.}
 
@@ -520,7 +521,7 @@ This change does not affect anything else in the proofs.
 
     \item \emph{What is the meaning of, for instance, \( |v|_{L^2(S_k)} \)? It is tradition to indicate norms with a double bar.}
 
-To avoid any confusion, we have out double bars in all of our norms.
+To avoid any confusion, we have put double bars in all of our norms.
 \end{enumerate}
 
 
