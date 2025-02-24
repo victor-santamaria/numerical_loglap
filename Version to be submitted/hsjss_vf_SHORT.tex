@@ -131,11 +131,17 @@ citecolor=red,linkcolor=blue,linktocpage,pdfpagelabels,bookmarksnumbered,bookmar
 
 \title{FEM for 1D-problems involving the logarithmic Laplacian: error estimates and numerical implementation}
 
-\author{V\'ictor Hern\'andez-Santamar\'ia\footnote{The work of V. Hern\'andez-Santamar\'ia is supported by the program ``Estancias Posdoctorales por México para la Formación y Consolidación de las y los Investigadores por México'' of CONAHCYT (Mexico). He also received support from Projects A1-S-17475 and A1-S-10457 of CONAHCYT and by UNAM-DGAPA-PAPIIT grants IN109522, IN104922, and IA100324 (Mexico).} \and
+\author{V\'ictor Hern\'andez-Santamar\'ia\footnote{The work of V. Hern\'andez-Santamar\'ia is supported by the program ``Estancias Posdoctorales por México para la Formación y Consolidación de las y los Investigadores por México'' of CONAHCYT (Mexico). He also received support from Project
+A1-S-10457
+and
+CBF2023-2024-116
+of CONAHCYT and by UNAM-DGAPA-PAPIIT grants
+IN102925,
+IN109522, IN104922, and IA100324 (Mexico).} \and
  Sven Jarohs
  \and
 Alberto Salda\~{n}a\footnote{ A. Saldaña is supported  by  
-CONAHCYT grants A1-S-10457 and  CBF2023-2024-116 (Mexico) and by UNAM-DGAPA-PAPIIT grant IA100923 (Mexico).}\and
+CONAHCYT grant CBF2023-2024-116 (Mexico) and by UNAM-DGAPA-PAPIIT grant IN102925 (Mexico).}\and
 Leonard Sinsch
 }
 
@@ -315,7 +321,7 @@ We say that  $u_h\in \mathcal V_h$ is the \emph{finite element approximation} of
  \end{align}
  see Lemma~\ref{lem:derivative:s:m}.  This is possible, since a closed formula for the stiffness matrix $\mathcal A_{h}^{s}$ has been obtained in \cite{BH17}\footnote{This reference is an extended preprint version of the published article \cite{BHS19}.}.  Formula \eqref{Ahds} can be seen as a discrete version of the expansion \eqref{intro:exp} in terms of the stiffness matrix.
  
- Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, one needs to calculate only the corresponding entries.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section~\ref{sec:stiffness}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ in the sense that, for a fixed value of $h$, any interval of length $L$ splitted into $N+1=\frac{L}{h}$ subintervals has thes same formula for $\mathcal A_{h}^{L}$. As mentioned before, another way to obtain the stiffness matrix $\mathcal A_{h}^{L}$ is to compute the entries \eqref{s:m:intro} either directly or numerically. Both approaches yield the same results.
+ Because the discontinuous base elements $\varphi_0$ and $\varphi_{N+1}$ were not considered in \cite{BH17}, one needs to calculate only the corresponding entries.  We include a closed formula for $\mathcal A_{h}^{L}$ in Section~\ref{sec:stiffness}.  With this, the code implementation of the FEM for $L_\Delta$ is greatly simplified. We emphasize that the matrix $\mathcal A_{h}^{L}$ only depends on $h$ in the sense that, for a fixed value of $h$, any interval of length $L$ splitted into $N+1=\frac{L}{h}$ subintervals has the same formula for $\mathcal A_{h}^{L}$. As mentioned before, another way to obtain the stiffness matrix $\mathcal A_{h}^{L}$ is to compute the entries \eqref{s:m:intro} either directly or numerically. Both approaches yield the same results.
 
 
 Using these ideas, we also investigate the (Dirichlet) eigenvalues of the logarithmic Laplacian $L_{\Delta}$ in an interval $(-L,L)$ for some $L>0$. As shown in \cite[Theorem 1.4]{CW19}, the eigenvalues of $L_{\Delta}$ in a bounded domain are a sequence such that $\lambda_1<\lambda_2\leq \ldots\leq\lambda_n\to \infty$ for $n\to\infty$.  Moreover, by using scalings (see \cite[Lemma 2.5]{LW21}) it holds that if $\lambda_k(\Omega)$ denotes the $k$-th eigenvalue of $L_{\Delta}$ in a bounded interval $\Omega$, then $\lambda_k(R\Omega)=\lambda_k(\Omega)-2\ln(R)$ for $R>0$. In Section~\ref{eigenvalue approximation:sec} we first show that the eigenvalues of the stiffness matrix defined in \eqref{s:m:intro} converge to the eigenvalues of the logarithmic Laplacian as the discretization parameter $N$ tends to infinity, see Proposition~\ref{prop:eigen-approx} below. Knowing from the scaling properties that, by sending $L$ to infinity, there are $L_i>0$ such that $\lambda_i=0$ in $(-L_i,L_i)$  for $i\in \N$ (see Figure~\ref{L vs condition}), it is enough to estimate the cases in which $0$ is an eigenvalue of $\mathcal{A}^L_h$. Then, we use scalings to approximate the eigenvalues in a general interval. To be precise, we have the following result.
@@ -822,9 +828,6 @@ because $h=\frac{L}{N+1}$. Since $v\in L^\infty(\Omega)$, Lemmas \ref{lem:inter_
 as claimed.
 \end{proof}
 
-% \begin{remark}
-% We shall note that even if the previous result is valid for any $\alpha>0$, there is a trade-off between the rate of convergence \eqref{eq:rate_H_c_infty} and the smallness of the parameter $h_0$. Indeed, the bigger $\alpha$ is, the smaller $h_0$ is. For instance, for $\alpha=1$, $h_0=(\log(2)+\log(5))^{-1}\approx 0.4342$ while for $\alpha=9$, $h_0\approx 3\times 10^{-6}$. Note however that the decay rate \eqref{eq:rate_H_c_infty} would still be logarithmic and there is not really much improvement in the speed of convergence.
-% \end{remark}
 
 We are in position to prove the main result of this section.
 
@@ -903,41 +906,6 @@ and $J_2$ is estimated with \Cref{lem:poincare_type_weight}.
 \end{proof}
 
 
-%\begin{proof}
-%Let $\overline{v}:=\frac{1}{5h}\int_{T_{i}} v\, dx$. Note that $v-I_h v=v-\overline{v}+I_h(\overline v - v)$, thus
-%%
-%\begin{align}\notag
-%    \int_{\Omega_i}&\int_{S_i}\frac{|(v-I_h v)(x)-(v-I_h v)(y)|^2}{|x-y|} dy dx \\
-%    &\leq 2\int_{\Omega_i}\int_{S_i}\frac{|(v-\overline{v})(x)-(v-\overline{v})(y)|^2}{|x-y|}dy dx + 2 \int_{\Omega_i}\int_{S_i}\frac{|I_h(\overline v-{v})(x)-I_h(\overline v-{v})(y)|^2}{|x-y|}dy dx :=2J_1+2J_2.\label{eq:est_dif_inter_1_weight}
-%\end{align}
-%%
-%Using that $\overline v$ is a constant function, we can readily estimate $J_1$ as
-%%
-%\begin{equation}\label{eq:est_J1_weight}
-%    J_1 = \int_{\Omega_i}\int_{S_i}\frac{|v(x)-v(y)|^2}{|x-y|}dy dx \leq C\ell^{\alpha}(h)\int_{T_i}\int_{T_i}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
-%\end{equation}
-%
-%On the other hand, we can apply \Cref{lem:loc_norm_interp} to $J_2$ and obtain
-%%
-%\begin{equation}\label{eq:est_J2_weight}
-%    J_2 \leq Ch\sum_{k\in I_i} b_k^2,
-%\end{equation}
-%%
-%where $b_k:=\frac{1}{h}\int_{\Omega}(v-\overline v)\varphi_k dx$ and $I_i$ is defined in \eqref{def_Ii}. As we did in \eqref{abk}, for every $k\in I_i$, $
-%    |b_k|^2\leq \frac{C}{h}\int_{T_{i}}|v-\overline{v}|^2\, dx,$ because the support of $\varphi_k$ is in $T_{i}$ for all $k\in I_i$. Using \Cref{lem:poincare_type_weight}, we can estimate the right-hand side of the above expression and obtain
-%%
-%\begin{equation}\label{eq:est_bks_weight}
-%    |b_k|^2\leq Ch^{-1}\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx\qquad \text{for all $k\in \inter{i-1,i+2}$}.
-%\end{equation}
-%%
-%Collecting estimates \eqref{eq:est_dif_inter_1_weight}--\eqref{eq:est_bks_weight} yields \eqref{eq:approxim_estimate_weight}. 
-%
-%Finally, for \eqref{a4}, by \Cref{lem:poincare_type_weight}, item (ii) of \Cref{lem:loc_norm_interp}, and \eqref{eq:est_bks_weight}, 
-%\begin{align*}
-%    \|v-I_h v\|_{L^2(\Omega_i)}^2&\leq 2\|v-\overline{v}\|_{L^2(\Omega_i)}^2+2\|I_h(\overline{v}-v)\|_{L^2(\Omega_i)}^2\leq C\ell^{\alpha}(h)\int_{T_{i}}\int_{T_{i}}\frac{|v(x)-v(y)|^2}{|x-y|\ell^{\alpha}(|x-y|)}dy dx.
-%\end{align*}
-%\end{proof}
-%
 Recall the definition of $\|\cdot\|_{\mathbb H^{\beta}(\Omega;\ell)}$ given in \eqref{Hbetanorm}.
 \begin{lemma}\label{new:lem}
 For every $\beta>0$, there is $C=C(\beta)>0$ such that
@@ -947,7 +915,7 @@ For every $\beta>0$, there is $C=C(\beta)>0$ such that
 In particular,  $\sum_{i\in\{0,N\}}\int_{\Omega_i}|(u-I_h u)(x)|^2\ell^{-1}(d(x))\,dx\leq C\ell^a(h)\|u\|^2_{\mathbb H^{1+a}(\Omega;\ell)}$ for every $a>0$.
 \end{lemma}
 \begin{proof}
-In this proof, $C$ denotes possibly different positive contants independent of $h$ and $u$. Note that
+In this proof, $C$ denotes possibly different positive constants independent of $h$ and $u$. Note that
 \begin{align*}
  \int_{0}^h |I_h u(x)|^2 \ell^{-\beta}(x)\, dx
  \leq 2\int_{0}^h (a_0^2\varphi_0^2+a_1^2\varphi_1^2) \ell^{-\beta}(x)\, dx,
@@ -1367,9 +1335,9 @@ Using Lemma \ref{lem:derivative:s:m} and an explicit computation of the stiffnes
 
 For $j,k,N\in \mathbb N$, $k>2$, let
 \begin{align*} \notag
-\mathsf{l}_{\blue{j}}:= & \frac{-3 j^3 \log (j)+6 j^2 \log (j)+(j-2)^3 (-\log (j-2))+3
-   (j-1)^2 (j-2) \log (j-1)+(j+1)^2 (j-2) \log (j+1)-2}{\blue{6}}, \\
-   \mathsf{m}_{\blue N}:= & \frac{1}{\blue{6}}\left[2 (N-3) N^2 \log (N)-N-(N-1)^3 \log (N-1)-(N+1) ((N-4) N+1) \log (N+1)-3\right], \\
+\mathsf{l}_{{j}}:= & \frac{-3 j^3 \log (j)+6 j^2 \log (j)+(j-2)^3 (-\log (j-2))+3
+   (j-1)^2 (j-2) \log (j-1)+(j+1)^2 (j-2) \log (j+1)-2}{{6}}, \\
+   \mathsf{m}_{ N}:= & \frac{1}{{6}}\left[2 (N-3) N^2 \log (N)-N-(N-1)^3 \log (N-1)-(N+1) ((N-4) N+1) \log (N+1)-3\right], \\
 \mathsf{p}:=&  -24\log(3) - 12\log(4) - 16\log(9) + 27\log(16) + \log(144), \\ \notag
 \mathsf{q}_k:=&-(k-2)^3\log(k-2) + 4(k-1)^3\log(k-1) - 6 k^3 \log(k) +4(1 + k)^3\log(1 + k) - (2 + k)^3\log(2 + k).
 \end{align*}
@@ -1380,15 +1348,15 @@ The coefficients $b_{ij}$ with $i,j\in\inter{0,N+1}$ and $j\geq 1$ are given by
 \begin{equation}\label{stiff:LogLap}
 b_{ij}= h
 \begin{cases}
-\displaystyle -\frac{\gamma }{\blue{3}}+\frac{\blue{8}}{9}-\frac{\blue{2}}{3}  \log (h)+\frac{\blue{2}}{3}  \log
-   (2)+\frac{\blue{1}}{3}  \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=0$,} \\[4mm]
-\displaystyle -\frac{\gamma }{\blue{6}}+\frac{5}{\blue{18}}-\frac{\blue{1}}{3} \log (h)-\frac{\blue{1}}{3}  \log
-   (2)+\frac{1}{\blue{6}} \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=1$,} \\[4mm]
-   -\frac{\blue{1}}{3},
+\displaystyle -\frac{\gamma }{{3}}+\frac{{8}}{9}-\frac{{2}}{3}  \log (h)+\frac{{2}}{3}  \log
+   (2)+\frac{{1}}{3}  \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=0$,} \\[4mm]
+\displaystyle -\frac{\gamma }{{6}}+\frac{5}{{18}}-\frac{{1}}{3} \log (h)-\frac{{1}}{3}  \log
+   (2)+\frac{1}{{6}} \psi \left(\frac{1}{2}\right), & \textnormal{$i=0$, $j=1$,} \\[4mm]
+   -\frac{{1}}{3},
  & \parbox[t]{.3\columnwidth}{$i=0$, $j=2$,}\\[4mm]
- \mathsf{l}_{\blue{j}}, 
+ \mathsf{l}_{{j}},
  & \parbox[t]{.3\columnwidth}{$i=0$, $j\in\inter{3,N}$,}\\[4mm]
- \mathsf{m}_{\blue{N}}, &  \parbox[t]{.3\columnwidth}{$i=0$, $j=N+1$,}\\[4mm]
+ \mathsf{m}_{{N}}, &  \parbox[t]{.3\columnwidth}{$i=0$, $j=N+1$,}\\[4mm]
 \displaystyle -\frac{\mathsf p}{3}, & \textnormal{$i,j\in\inter{1,N}$ and $j-i=2$,} \\[4mm]
 \displaystyle \frac{\mathsf q_{j-i}}{6}, & \textnormal{$i,j\in\inter{1,N}$ and $j-i> 2$,} \\[4mm]
 \displaystyle -\frac{\gamma}{6} + \frac{11}{18} - \frac{\log(h)}{3}  + \frac{64\log(2) - 54\log(3)}{12} + \frac{\log(2)}{3}  + \frac{1}{6} \psi(\frac 12), & \textnormal{$i\in\inter{1,N-1}$ and $j=i+1$,} \\[4mm]
@@ -1416,34 +1384,6 @@ where $\chi_{\Omega}$ denotes the characteristic function in the interval $(-1,1
  \item $u$ has the optimal boundary regularity\footnote{This is needed to observe the optimal convergence rate. Indeed, solutions which are smoother typically yield better convergence rates, see, for instance, \cite[Section 5 and Table 2]{AB17} for the case of the fractional Laplacian.} for logarithmic Dirichlet problems (see \cite[Theorem 1.2]{HSLRS23}), namely, it behaves as $\ell^{1/2}(d(x))$.
 \end{itemize}
 
-% Here we only observe these facts numerically (see Figures~\ref{fig:1} and~\ref{fig:2}), but we we refer to \cite{HSLRS23} for a detailed proof. %See also \cite[Theorem 1.11]{CW19} and \cite[Remark~1.5]{FJW22}.
-%
-%
-% %%%%%%%%%%%%%%%
-% %%%%.        Figure       %%%
-% %%%%%%%%%%%%%%%
-% % DO NOT ERASE
-% \begin{figure}[htbp]
-% \small
-% 	\centering
-% 	%
-% 	\begin{tikzpicture}[scale=0.7]
-% 	\begin{axis}[xlabel={$x$},xmin=-1.001,xmax=1.001,legend pos=outer north east,
-% 	legend plot pos=left, xtick={-1,0,1},
-% 	legend style={cells={anchor=west},draw=none}]
-% 	%
-% 	\pgfplotstableread{file200_lambda1.org}\solution
-%
-% 	\addplot[thick,color=blue] table[x=xi,y=exsol] \solution; %\label{cost}
-% 	%\addlegendentry{Exact solution};
-%
-% 	\end{axis}
-% 	%
-% 	\end{tikzpicture}
-%
-% 	\caption{Logarithmic Laplacian of $u(x)$ as in \eqref{udef} computed with Mathematica.}
-% 	\label{fig:1}
-% \end{figure}
 
 Now, consider $h=\frac{1}{N+1}$ for $N\in\mathbb N$, and let $x_i:=-1+ih$ for $i\in\inter{0,N+1}$ so that $-1=x_0<x_1<\ldots<x_{N}<x_{N+1}=1$. Let $f(x) := \sum_{i=0}^{N+1} [L_\Delta u](x_i)\varphi_i(x)$, $f_i:=\sum_{j=0}^{N+1}L_\Delta u(x_j)\int_\Omega \varphi_i\varphi_j\, dx$, $F=(f_i)$, and let $\alpha:=A_h^{-1}F$,
 where $A_h$ is the stiffness matrix for the logarithmic Laplacian given in \eqref{stiff:LogLap}. Let 
@@ -1474,7 +1414,7 @@ $\|u-u_h\|_{L^2}\leq \|u-v_h\|_{L^2}+\|v_h-u_h\|_{L^2},$ where $\|u-v_h\|_{L^2}$
 	\end{axis}
 	%	
 	\end{tikzpicture}
-	\caption{The logarithmic laplacian of $u(x)$ defined in \eqref{udef}.}
+	\caption{The logarithmic Laplacian of $u(x)$ defined in \eqref{udef}.}
 	\label{fig:2}
 \end{figure}
 
@@ -2063,7 +2003,7 @@ We close this section with explicit numerical approximations. In \Cref{Fig:eigen
 
 
 
-In Figure~\ref{L vs condition} the condition of $\mathcal{A}^L_h$ is plotted for a fixed $N$ and varying $L$. The singularities then indicated the relevant areas in which $L$ can be chosen to have $0$ as an eigenvalue in $(-L,L)$. To approximate the exact values, using the \textit{``Golden-section search''} in certain intervals, we find $L_i$ for $i=1,\ldots,6$ as follows.
+In Figure~\ref{L vs condition} the condition of $\mathcal{A}^L_h$ is plotted for a fixed $N$ and varying $L$. The singularities then indicated the relevant areas in which $L$ can be chosen to have $0$ as an eigenvalue in $(-L,L)$. To approximate the exact values $L_i$ for $i=1,\ldots,6$ we use a golden-section search to find local maxima.
 
 %%
 %%
@@ -2303,7 +2243,8 @@ These integrals are singular at $x=0$, but the singularity is of logarithmic typ
 \begin{lemma}\label{ibyp:lem}
 For $i,j=0,\ldots,N+1$ and $s<\frac{1}{4}$, we have that $\cE_s(\varphi_i,\varphi_j)=\int_{\R}(-\Delta)^s\varphi_i\varphi_j\, dx$ and $\cE_L(\varphi_i,\varphi_j)=\int_{\R}L_\Delta\varphi_i\varphi_j\, dx.$
 \end{lemma}
-\begin{proof}The proof follows by a standard application of Fubini's theorem. 
+\begin{proof}The proof follows by a standard application of Fubini's theorem.
+
 \end{proof}
 
 %

@@ -160,15 +160,13 @@ We thank all the referees for the careful reading of our manuscript and for all 
 
     Our main reason to use $P_1$ elements in this work is to connect our work with previous works in the literature for the fractional Laplacian, where $P_1$ elements have been used. In this sense, we can use the stiffness matrix that was calculated before, take its derivative, and show that this procedure gives an stiffness matrix for the logarithmic Laplacian.
 
-    Nevertheless, we agree with the referee that using $P_0$ elements is somewhat simpler and we also agree that probably teh convergence rates would not change much.  We do plan to do this in future work.
-
-
+    Nevertheless, we agree with the referee that using $P_0$ elements is also interesting and we also agree that probably the convergence rates would not change much.  We do plan to do this in future work.
 
     \item \emph{The choice of the interpolation operator is not clear to me. The authors use a sort of localized \(L^{2}\) interpolation operator, and to have the constant-preservation property (3.10), they need to modify the standard Lagrange basis at the interval endpoints. It seems to me that what is required on the interpolation is its localization (this property is exploited in Lemma 3.5) and stability in \(L^{\infty}\) (this is used in Proposition 3.8, but it seems to me that it can be weakened to stability in \(L^{p}\) for some \(p>2\)). Therefore, I wonder why not using Clement interpolation on the whole mesh (including the domain boundary). Note also that for \(P_{0}\) elements the choice of the interpolation operator would be simpler, as one can just use localized averages and these in turn satisfy the two desired properties.}
 
     Indeed, we only require the constant-preservation property (3.10), the localization bonds (Lemma 3.5) and the stability (Proposition 3.8). This can be achieved with different choices of interpolators and basis. With the referee's comment, we now realize that a modification of the basis can be confusing and it is, in fact, not needed. One can use  the standard basis, plus an adjustment to the interpolator. In this revised version we have implemented this change: we now use the standard basis and modified the interpolator accordingly.
 
-    Regarding the use of other interpolators and other finite elements, we agree that this is possible, but we do not believe that this would make an important improvement in our results or that would greatly simplify the computations. Our main motivation to use $P_1$ elements is to link this work with previous work on the fractional Laplacian where $P_1$ elements have been used.
+    Regarding the use of other interpolators and other finite elements, we agree that this is possible, although probably this alone would not make a substantial improvement in our results.
 
 
     \item \emph{The authors prove logarithmic convergence rates (in energy norm), and claim that numerical evidence support that this is the case. While I agree with the statement if applied to the \(L^{\infty}\) norm, I disagree with it when applied to the \(L^{2}\) norm. The results in Figure 2 and Tables 2 and 3 seem to indicate convergence with order \(h^{1/2}\) in \(L^{2}(\Omega)\). This is consistent with the fact that the solution of the problem is continuous and therefore in \(\bigcap_{\epsilon>0}H^{1/2-\epsilon}(\mathbb{R})\). In the same vein, in my opinion Remark 6.1 is not correct, as I think the integral in the right-hand side does not have a sign. I suggest to rewrite the discussion about convergence in pages 17-18.}
@@ -212,11 +210,11 @@ We also agree that there is enough reasonable doubt regarding the convergence ra
 \begin{enumerate}
     \item[4.] \emph{I wonder why in the definition of weak solutions (page 3, line 6) the authors assume \(f\in L^{2}(\Omega)\) instead of \(f\in\mathbb{H}(\Omega)^{\prime}\).}
 
-    We agree that one can take \(f\in\mathbb{H}(\Omega)^{\prime}\). In this paper we do not intend to obtain the most generality everywhere. Since this work is the first FEM analysis for the logarithmic Laplacian, we prefer to fix a simplified framework, to identify the key questions, to answer them in the best way possible with the estimates at our disposal, and to pose the main open questions that in our opinion can unlock the general theory for these problems.
+    We agree that one can take \(f\in\mathbb{H}(\Omega)^{\prime}\). In this paper we do not intend to obtain the most generality everywhere. Since this work is the first FEM analysis for the logarithmic Laplacian, we prefer to fix a simplified framework, to identify the key questions, to answer them in the best way possible with the estimates at our disposal, and to pose the main open questions that in our opinion could unlock the general theory for these problems.
 
     \item[5.] \emph{Clarify the sentence in page 5, lines 1-2: the entries of the matrix \({\mathcal{A}}_{h}^{L}\) only depend on \(h\), but the matrix itself does depend on \(L\), as its size obviously changes if one modifies \(L\).}
 
-    Here we mean that the matrix \({\mathcal{A}}_{h}^{L}\) does not depend on $h$ \emph{and} on the interval $L$ in the following sense: for two different intervals splitted in the same number of subintervles one would obtain the same matrix \({\mathcal{A}}_{h}^{L}\).
+    Here we mean that the matrix \({\mathcal{A}}_{h}^{L}\) does not depend on $h$ \emph{and} on the interval $L$ in the following sense: for two different intervals splitted in the same number of subintervals one would obtain the same matrix \({\mathcal{A}}_{h}^{L}\).
 
     We have changed the wording in this part of the introduction.
 
@@ -226,7 +224,7 @@ We also agree that there is enough reasonable doubt regarding the convergence ra
 
     \item[7.] \emph{I find definitions (3.13) and (3.14) a little confusing. I think it would be clearer if these sets were defined explicitly in terms of indices. The sets \(I_{i}\) seem to be related with the sets \(T_{i}\) in Lemma 3.12 (although the former are indices sets and the latter are subsets of \(\Omega\)) and that such sets are actually used already in Lemma 3.6, albeit without a definition. I think the paper would benefit if the authors unified the notation for these sets.}
 
-    We have simplified the notation in this revised version, and now the definitions of $T_i$, $I_i$, and $I_i'$ are explicit.  Moreover, the relationship between $T_i$ and $I_i$ is now explicitly stated.
+    We have simplified the notation in this revised version, and now the definitions of $T_i$, $I_i$, and $I_i'$ are explicit in terms of indices.  Moreover, the relationship between $T_i$ and $I_i$ is now explicitly stated.
 
     \item[8.] \emph{The proof of Lemma 3.12 is almost the same than the proof of Lemma 3.6. The difference lies in the estimation of \(|b_{k}|\), namely, in whether using (3.22) or (3.32), and a very minor modification in the right-hand side of (3.30) with respect to (3.20). I suggest to shorten the proof of Lemma 3.12.}
 
@@ -269,15 +267,15 @@ We agree with the referee and we have implemented the suggestion.
     \end{align*}
     and some constant $C$ independent of $s$.  This follows, for instance, from Theorem 1.2 in \url{https://arxiv.org/pdf/2307.06198v4}.
 
-    We find this idea very nice.  If $u_s$ is a solution of
+    We find this idea very nice: if $u_s$ is a solution of
     \begin{align*}
      \frac{(-\Delta)^s u_s - u_s}{s}=f\quad \text{ in }\Omega,\qquad u_s=0\quad \text{ in }\R^N\backslash \Omega,
     \end{align*}
- is it true that $u_s$ converges to a solution $u$ of
+ is it true that $u_s$ converges as $s\to 0$ to a solution $u$ of
   \begin{align*}
      L_\Delta u = f\quad \text{ in }\Omega,\qquad u=0\quad \text{ in }\R^N\backslash \Omega,
     \end{align*}
-whenever $u$ exists?     If so, how can we estimate $\|u_s-u\|$ in some good norm.  And then, is it possible to use this information together with the known convergence error rates for fractional problems to obtain better convergence rates for logarithmic problems?
+whenever $u$ exists?     If so, how can we estimate $\|u_s-u\|$ in some good norm?  And then, is it possible to use this information together with the known convergence error rates for fractional problems to obtain better convergence rates for logarithmic problems?
 
 This idea is intriguing and so far unexplored.  Probably, an important drawback of this approach would be that the fractional error and regularity estimates must have an explicit dependence on $s$ (in particular, the $s$-dependence of the constants) to avoid degeneracy as $s\to 0$. We are looking forward to exploring more in this direction and to collaborating with anyone interested on these problems.
 
@@ -320,7 +318,7 @@ Hence,
 \begin{align*}
  F = M  (L_\Delta u(x_i))_{i=0}^{N+1},
 \end{align*}
-where $M$ is the mass matrix.  We computed again the error plots and tables. Moreover, in the discussion about the numerical evidence and the optimality (or not) of the convergence rates, we now mention that there might be a way to improve the convergence rate to a polynomial one, at least in the $L^2$ sense.
+where $M$ is the mass matrix.  We computed again the error plots and tables taking this change into consideration. Moreover, in the discussion about the numerical evidence and the optimality (or not) of the convergence rates, we now mention that there might be a way to improve the convergence rate to a polynomial one, at least in the $L^2$ sense.
 
 Regarding an estimate for \(\|f-\tilde{f}\|_{L^{2}(\Omega)}\), this is difficult since we do not know $f$ explicitly. But we can compute this with Mathematica.  Our computations suggest that this error has a polynomial decay, which would imply a polynomial decay of
 \begin{align*}
@@ -338,17 +336,17 @@ We included a remark about this in the revised version.
         \item \emph{I find strange the choice of \(b_{h}\) on page 17. Leaving only the boundary-touching elements does not provide information about local convergence, as the domains in which the \(b_{h}\) are measured change as \(h\to 0\). I think it would be more illuminating to have \(b_{h}\) to be the \(L^{2}\) error on some fixed subdomain.}
     \end{itemize}
 
-    We agree and we have changed the definition of \(b_{h}\) to be the \(L^{2}\) error on some fixed subdomain.
+    We agree and we have changed the definition of \(b_{h}\) to be the \(L^{2}\) error on some fixed subdomain.  Error plots and tables have been changed accordingly.
 
     \item[13.] \emph{The first paragraph on page 18 mentions the use of graded meshes to enhance convergence rates. Given that one of the authors implemented these meshes numerically in their Master's thesis, I think it could be useful to expand the discussion on the topic a little and include some numerical results, even if they fall beyond the scope of the theory in the paper.}
 
-    {\color{red}Ask Sven for help}
+    We believe that the analysis of graded meshes performed in the Master thesis can be substantially improved and we prefer to explore this in a future work.  In this revised version, we have removed the discussion about graded meshes.
 
     \item[14.] \emph{In page 21, the authors mention the use of golden section search for the approximation of the values of \(L\) such that \(L_{\Delta}\) has a zero eigenvalue on \((-L,L)\). I think it would be convenient to add a few lines detailing on this topic: did the authors look for local maxima of \(cond(A_{h}^{L})\)? Why is that any better than simply using a root-finding method to search values of \(L\) having zero as an eigenvalue? On the other hand, I think it would be interesting to see the plot of one of these eigenfunctions, for example for \(L=L_{1}\approx 0.709\), and to report on the behavior of the solution to the torsion problem as \(L\to L_{1}\).}
 
-    {\color{red}Ask Sven for help}
+    Yes, we have looked for the local maxima. Regarding the use of the golden section search, this seems to be something efficient and easy to implement which gave satisfactorily results. This is why we directly implemented this method without considering other options, but we agree that other approaches can also be used.
 
-    We also added some numerical approximations of eigenfunctions and of the torsion function as $L$ goes to the critical value $L_1.$
+    In this revised version, we added some numerical approximations of eigenfunctions and of the torsion function as $L$ goes to the critical value $L_1.$  See Figures 5 and 7.
 
 \end{enumerate}
 
@@ -487,19 +485,19 @@ This change does not affect anything else in the proofs.
 
     \item \emph{The statement about the \( L^2 \) stability estimate is not correct. At the very least, the left-hand side is missing a square.}
 
-    The missing square is a typo.  However, the Remark did have other issues.  We have removed this remark and included in the discussion the possibility that the $L^2$-norm may have a better convergence rate.
+    The missing square is a typo.  However, the Remark did have other issues.  We have removed this remark.
 
     \item \emph{Is Remark 3.9 about experimental observations? If so, this must be explicitly mentioned.}
 
     Proposition 3.8 has been now been improved and now Remark 3.9 is not longer relevant, so it has been removed.
 
-    \item \emph{Lemmas 4.1 and 4.2 are completely standard and unnecessary. In fact, the authors refer here to some unpublished lecture notes. A standard reference would have been preferred.}
+    \item \emph{Lemmas 4.1 and 4.2 are completely standard and unnecessary.}
 
     We agree that these Lemmas are standard, but we prefer to include proofs for completeness, specially since the logarithmic variational setting is mostly new.
 
     \item \emph{As mentioned above, the content of Section 5 is specific to one dimension and, thus, of little general interest.}
 
-    We have explained in point 2 our interest in 1D problems and the relevance of Section 5.  If we were working with the usual Laplacian, then we agree that 1D problems are of little interest. But there are plenty of open questions for 1D problems with the logarithmic Laplacian, both in the linear and nonlinear setting.  We do not agree that this is of little general interest.  Specially since our approach can also be used for other logarithmic operators such as the logarithmic Schrödinger operator $\ln(-\Delta+I)$ and its fractional counterpart $\ln((-\Delta)^s+I)$.
+    We have explained in point 2 our interest in 1D problems and the relevance of Section 5.  If we were working with the usual Laplacian, then we agree that 1D problems are of little interest. But there are plenty of open questions for 1D problems with the logarithmic Laplacian, both in the linear and nonlinear setting.  We do not agree that this is of little general interest.  Specially since our approach can also be used for other logarithmic operators such as the logarithmic Schrödinger operator $\ln(-\Delta+I)$ and its fractional counterpart $\ln((-\Delta)^s+I)$, for instance.
 
     \item \emph{Formulas (1.2) and (1.3) are in one dimension, but the text before (1.3) speaks of a function in \( N \) dimensions.}
 
@@ -540,7 +538,7 @@ We agree. We removed this term and we gave more details on the proof of Proposit
 \item \emph{Proposition 3.8 makes sense for regular functions, I would expect higher order in that context. Is that estimate sharp?.}\\
 Thank you for your comment. Indeed, Proposition 3.8 is meaningful for regular functions, and we agree that higher-order estimates might be expected in this context. To address this, we have improved Lemma A.2, which concerns the behavior of functions near the boundary with the $\ell$ function. This improvement has been incorporated into the revised version of Proposition 3.8.  Unfortunately, we were not able to show the optimality (or not) of this estimate.
 \item \emph{Given the poor order of approximation, wouldn't it be advisable to use piecewise constant functions?}\\
-We have considered this option as future work.  In this paper we wanted to take advantage of the computations already available for the 1D fractional Laplacian. It will be interesting to compare the FEM analysis in both cases, although we expect that the converge rate will not change drastically.
+We have considered this option as future work.  In this paper we wanted to take advantage of the computations already available for the 1D fractional Laplacian. It will be interesting to compare the FEM analysis in both cases, although we expect that the converge rate will not change substantially.
 \end{enumerate}
 
 
@@ -564,12 +562,12 @@ We agree.  We have rewritten this paragraph.
 We have focused to dimension one for three reasons:
 \begin{itemize}
  \item First, we wanted to take advantage of the computations that were available for the 1D fractional Laplacian and establishing a new relationship from the FEM point of view between the logarithmic Laplacian and the fractional Laplacian.
- \item  Second, and most importantly, because this is the first FEM analysis in the logarithmic setting, and we believe that before considering higher dimensions, a full understanding of the 1D case could be a good starting point.  Our results are hitherto the only available in the literature and some important (and hard) questions remain open even in the 1D case.
+ \item  Second, and most importantly, because this is the first FEM analysis in the logarithmic setting, and we believe that before considering higher dimensions, a full understanding of the 1D case could be a good starting point.  Our results are hitherto the only available in the literature for the logarithmic Laplacian and some important (and hard) questions remain open even in the 1D case.
  \item Third, because since the stiffness matrix is explicit, the implementation of the FEM is straightforward and fast in just a few lines of code. Thus, these formulas provide the interested community with an easy-to-use tool to explore new phenomena in the nonlocal logarithmic setting.
 \end{itemize}
 
 
-We do recognize several elements in our proofs that have a clear extension to higher dimensions. We expect to elaborate more on this in future work.
+We do recognize several elements in our proofs that have a clear extension to higher dimensions. We expect to work on this in the future.
 
 
 \item \emph{
@@ -577,10 +575,10 @@ We do recognize several elements in our proofs that have a clear extension to hi
 }
 
 
-The stiffness matrix for the logarithmic Laplacian in 1D can be obtained in three ways: with a computer, with direct computations, or with the derivative approach that we have explained in the paper. As expected, the stiffness matrix always coincides and we have checked this carefully during our studies. We decided to present the derivative approach because we believe that this is a new element in the FEM setting (whereas the other two are well known). It is a FEM analogue of the formula
-$(-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)$, and we found this connection interesting.  This is mostly of interest in 1D problems, where the stiffness matrix can be computed explicitly, but note that problems in other 1D domains could be considered with this approach (for instance, the union of two disjoint intervals), or perhaps one can consider other nonlocal boundary conditions, such as nonlocal Neumann.  Many interesting questions about the qualitative behavior of solutions are still open in these settings, where a numerical approximation of the solutions would be helpful.
+The stiffness matrix for the logarithmic Laplacian in 1D can be obtained in three ways: with a computer, with explicit formulas for each entry, or with the derivative approach that we have explained in the paper. As expected, the stiffness matrix always coincides and we have checked this carefully during our studies. We decided to present the derivative approach because we believe that this is a new element in the FEM setting (whereas the other two are well known). It is a FEM analogue of the formula
+$(-\Delta)^s\varphi = \varphi + sL_\Delta \varphi + o(s)$, and we found this connection interesting.  Of course, this approach is mostly of interest in 1D problems, where the stiffness matrix can be computed explicitly, but note that problems in other 1D domains could be considered with this approach (for instance, the union of two disjoint intervals), or perhaps one can consider other nonlocal boundary conditions, such as nonlocal Neumann.  Many interesting questions about the qualitative behavior of solutions are still open in these settings, where a numerical approximation of the solutions would be helpful.
 
-For higher dimensions, the most natural way to obtain the stiffness matrix would be to use a computer, which should not represent a big challenge to implement.
+For higher dimensions, the most natural way to obtain the stiffness matrix would be to use a computer.
 
 \item \emph{
  The order of convergence derived by the authors in Theorem 1.2 is extremely slow. I understand that this is probably the best they can do with the regularity results available in the literature using quasi-uniform meshes. However, the numerical results obtained for Example 1 suggest that graded meshes near the boundary can help improve such a deteriorated convergence rate.
