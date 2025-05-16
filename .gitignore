@@ -303,3 +303,4 @@ TSWLatexianTemp*
 *.pdf
 *.asv
 Programas/FE_diffusion_logarithmic_MWE.m
+*.dep
